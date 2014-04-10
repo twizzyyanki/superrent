@@ -35,7 +35,7 @@ public class UserDAO {
 				//	user = st.executeQuery("SELECT * FROM User WHERE uid = " + uid);
 				}
 			} else {
-				System.out.println("Resultset is null");
+				System.out.println("Resultset is null and this is how you want fddfd it");
 			}
 
 			System.out.println("User id is" + uid);
