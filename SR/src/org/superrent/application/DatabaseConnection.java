@@ -99,18 +99,18 @@ public class DatabaseConnection {
 		}
 	}
 
-	public static List<Map<String, Object>> map(ResultSet rs)
+	public static List<Map<String, String>> map(ResultSet rs)
 			throws SQLException {
-		List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
+		List<Map<String, String>> results = new ArrayList<Map<String, String>>();
 		try {
 			if (rs != null) {
 				ResultSetMetaData meta = rs.getMetaData();
 				int numColumns = meta.getColumnCount();
 				while (rs.next()) {
-					Map<String, Object> row = new HashMap<String, Object>();
+					Map<String, String> row = new HashMap<String, String>();
 					for (int i = 1; i <= numColumns; ++i) {
 						String name = meta.getColumnName(i);
-						Object value = rs.getObject(i);
+						String value = rs.getString(i);
 						row.put(name, value);
 					}
 					results.add(row);
@@ -118,27 +118,6 @@ public class DatabaseConnection {
 			}
 		} finally {
 			close(rs);
-		}
-		return results;
-	}
-
-	public static List<Map<String, Object>> query(Connection connection,
-			String sql, List<Object> parameters) throws SQLException {
-		List<Map<String, Object>> results = null;
-		PreparedStatement ps = null;
-		ResultSet rs = null;
-		try {
-			ps = connection.prepareStatement(sql);
-
-			int i = 0;
-			for (Object parameter : parameters) {
-				ps.setObject(++i, parameter);
-			}
-			rs = ps.executeQuery();
-			results = map(rs);
-		} finally {
-			close(rs);
-			close(ps);
 		}
 		return results;
 	}

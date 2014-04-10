@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.superrent.application.DatabaseConnection;
 import org.superrent.entities.RegUser;
@@ -13,12 +14,13 @@ import org.superrent.entities.User;
 
 public class UserDAO {
 
-	public static List loginUser(String username, String password) {
+	public static List<Map<String, String>> loginUser(String username, String password) {
 		Connection connection = null;
 		ResultSet regUser, user = null;
 		User u = new User();
 		RegUser ru = new RegUser();
 		int uid = 0;
+		List<Map<String, String>> mm = null;
 		try {
 			connection = DatabaseConnection.createConnection();
 			System.out.println(connection.toString());
@@ -36,27 +38,42 @@ public class UserDAO {
 				}
 			} else {
 				System.out.println("Resultset is null and this is how you want fddfd it");
-			}
+			} 
 
 			System.out.println("User id is" + uid);
 
 		} catch (Exception e) {
-			// DatabaseConnection.rollback(connection);
+			DatabaseConnection.rollback(connection);
 			e.printStackTrace();
+		} finally {
+			DatabaseConnection.close(connection);
 		}
 
 		if (uid > 0) {
 			try {
-				return DatabaseConnection.map(user);
-			} catch (SQLException e) {
+				connection = DatabaseConnection.createConnection();
+				System.out.println(connection.toString());
+				Statement st = connection.createStatement();
+				String query = "SELECT * FROM User WHERE uid = " + uid;
+				System.out.println("query is: " + query);
+				user = st.executeQuery(query);
+
+				user = st.executeQuery("SELECT * FROM User WHERE uid = " + uid);
+				
+				System.out.println("Size of result set is " + user.getFetchSize());				
+				
+			    mm = DatabaseConnection.map(user);
+				
+			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} finally {
-				// DatabaseConnection.close(connection);
+				DatabaseConnection.close(connection);
 			}
+			
 		} else {
 			return null;
 		}
-		return null;
+		return mm;
 	}
 }

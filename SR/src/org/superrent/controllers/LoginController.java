@@ -12,6 +12,7 @@ import javax.swing.UIManager;
 
 import org.superrent.application.DatabaseConnection;
 import org.superrent.daos.UserDAO;
+import org.superrent.entities.User;
 import org.superrent.views.clubmember.ClubMember;
 import org.superrent.views.general.Login;
 
@@ -20,6 +21,18 @@ public class LoginController implements ActionListener {
 	private ClubMember c;
 	private Login l;
 	
+	public void login(String username, String password) {
+		Map<String, String> user = UserDAO.loginUser(username, password).get(0);	
+		if(user.size() > 0) {
+		
+		String privilege = user.get("type");
+		System.out.println( privilege);
+		} else {
+			System.out.println("Validation failed");
+		}			
+		
+	}
+	
 		
 	//@Override
 	public void actionPerformed(ActionEvent e) {
@@ -27,22 +40,7 @@ public class LoginController implements ActionListener {
 		if(e.getActionCommand().equals("Login")) {
 			String username = l.getUsername().getText();
 			String password = l.getPassword().getText();
-			
-			List<Map> user = UserDAO.loginUser(username, password);	
-			if(user.size() > 0) {
-			Map<Integer, String> u = user.get(0);
-			String privilege = u.get(5);
-			System.out.println(privilege);
-			} else {
-				System.out.println("Validation failed");
-			}
-			//Map<Integeer>
-		
-			
-			//Map<Integer, Object> m = user.get(0);
-			//int privilege = 
-		
-			
+			login(username, password);			
 		}
 		
 		if(e.getActionCommand().equals("Log Out")) {
