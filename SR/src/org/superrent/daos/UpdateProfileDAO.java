@@ -76,7 +76,11 @@ public class UpdateProfileDAO {
 		
 		return success;	
 	}
-	
+	/**
+	 * This method is used to update user's phone number
+	 * @param newPhoneNumber is the new phone number that the user wants to update
+	 * @return true if update success
+	 */
 	public boolean updatePhoneNumber(int newPhoneNumber){
 		boolean success = false;
 		PreparedStatement  ps;
@@ -88,11 +92,11 @@ public class UpdateProfileDAO {
 			int rowCount = ps.executeUpdate();
 			  if (rowCount == 1){
 				  success = true ;
-				  System.out.println("success!");
+				  
 			  }
 			  else {
 				  success = false;
-				  System.out.println("fail!");
+				  
 				  
 			  }
 			
@@ -109,5 +113,43 @@ public class UpdateProfileDAO {
 		
 		return success;	
 	}
+	/**
+	 * This method is used to update user's address
+	 * @param newAddress is the new address that the user wants to update
+	 * @return true if update success
+	 */
+	
+	public boolean updateAddress(String newAddress){
+		boolean success = false;
+		PreparedStatement  ps;
+		
+		try{
+			String query = "UPDATE User SET address = ? WHERE uid = ?";
+			ps = (PreparedStatement) connection.prepareStatement(query);
+			ps.setInt(2, uid);
+			ps.setString(1, newAddress);
+			int rowCount = ps.executeUpdate();
+			  if (rowCount == 1){
+				  success = true ;
+				  
+			  }
+			  else {
+				  success = false;
+				  
+			  }
+			
+			
+		}catch (Exception e) {
+			DatabaseConnection.rollback(connection);
+			e.printStackTrace();
+		} finally {
+			
+			DatabaseConnection.close(connection);
+			
+		}
+		
+		return success;	
+	}
+	
 	
 }
