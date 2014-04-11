@@ -13,6 +13,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
 import javax.swing.JButton;
+import javax.swing.text.JTextComponent;
 
 import org.superrent.controllers.SystemAdminController;
 
@@ -21,8 +22,8 @@ import java.awt.event.ActionEvent;
 
 public class SearchUserPanel extends JPanel {
 	private SystemAdminController sac;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField textFieldUserName;
+	private JTextField textFieldPhoneNumber;
 
 
 	/**
@@ -48,16 +49,16 @@ public class SearchUserPanel extends JPanel {
 		JLabel labelUserName = new JLabel("User Name");
 		add(labelUserName, "2, 4, fill, default");
 		
-		textField = new JTextField();
-		add(textField, "4, 4, left, default");
-		textField.setColumns(10);
+		textFieldUserName = new JTextField();
+		add(textFieldUserName, "4, 4, left, default");
+		textFieldUserName.setColumns(10);
 		
 		JLabel labelPhoneNumber = new JLabel("Phone Numer");
 		add(labelPhoneNumber, "2, 6, fill, default");
 		
-		textField_1 = new JTextField();
-		add(textField_1, "4, 6, left, default");
-		textField_1.setColumns(10);
+		textFieldPhoneNumber = new JTextField();
+		add(textFieldPhoneNumber, "4, 6, left, default");
+		textFieldPhoneNumber.setColumns(10);
 		
 		JButton btnConfirm = new JButton("Confirm");
 		btnConfirm.addActionListener(sac);
@@ -76,4 +77,20 @@ public class SearchUserPanel extends JPanel {
 				FormFactory.DEFAULT_ROWSPEC,}));
 	
 	}
+
+	public String getInputName(){
+		return textFieldUserName.getText();
+	}
+	
+	public String getInputPhone(){
+		return textFieldPhoneNumber.getText();
+	}
+	
+	public JTextField getTextFieldUserName() {
+		return textFieldUserName;
+	}
+	public JTextField getTextFieldPhoneNumber() {
+		return textFieldPhoneNumber;
+	}
+
 }

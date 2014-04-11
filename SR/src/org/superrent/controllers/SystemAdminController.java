@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
+import org.superrent.daos.SearchUserDAO;
 import org.superrent.views.superadmin.AddUserPanel;
 import org.superrent.views.superadmin.ChangePasswordPanel;
 import org.superrent.views.superadmin.SearchUserPanel;
@@ -22,6 +23,7 @@ import org.superrent.views.superadmin.SystemAdmin;
 public class SystemAdminController implements ActionListener {	
 	
 	private SystemAdmin sa;
+	private SearchUserDAO su_dao;
 	//private Login l;
 	//private SearchUserPanel sup;
 	
@@ -99,7 +101,11 @@ public class SystemAdminController implements ActionListener {
 		 * Search a user in the database
 		 */
 		if(e.getActionCommand().equals("Confirm")) {
+			final BorderLayout layout = (BorderLayout)sa.getContentPane().getLayout();
+			final SearchUserPanel sup = (SearchUserPanel) layout.getLayoutComponent(BorderLayout.CENTER);
 			System.out.println("You have made a search");
+			System.out.println("You have input "+sup.getInputName()+ " for User Name and "+sup.getInputPhone()+" for Phone Number");
+			this.su_dao = new SearchUserDAO(sup.getInputName(),sup.getInputPhone());
 		}
 		/**
 		 * Add a user in the database
