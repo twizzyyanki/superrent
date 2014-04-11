@@ -14,6 +14,7 @@ import org.superrent.entities.User;
 
 public class UserDAO {
 
+	
 	public static List<Map<String, String>> loginUser(String username, String password) {
 		Connection connection = null;
 		ResultSet regUser, user = null;
