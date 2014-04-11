@@ -7,10 +7,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
+import java.util.HashMap;
 import org.superrent.application.DatabaseConnection;
 import org.superrent.entities.RegUser;
 import org.superrent.entities.User;
+
 
 public class UserDAO {
 

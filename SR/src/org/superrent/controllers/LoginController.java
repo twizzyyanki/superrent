@@ -57,10 +57,10 @@ public class LoginController implements ActionListener {
 				
 			}
 			if(status == 3) {
-				m.setVisible(true);
+				new ManagerHome().setVisible(true);
 			}
 			if(status == 4) {
-				
+				new SystemAdmin().setVisible(true);
 			} }
 			else {
 				l.getLoginMessage().setText("Login failed. Please check your credentials");

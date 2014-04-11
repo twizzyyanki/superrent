@@ -37,7 +37,7 @@ public class ClubMemberController implements ActionListener {
 	 *@param e is the command which is received by the ActionListener
 	 */
 	public void actionPerformed(ActionEvent e) {
-		
+	
 		
 		if(e.getActionCommand().equals("View Points")) {
 			JViewPoints jV= new JViewPoints(this);
@@ -52,7 +52,7 @@ public class ClubMemberController implements ActionListener {
 			pointsLabel = jV.getPoints();
 			
 			// getMemberPoints() method to get points from DB
-			//totalPoints = getMemberPoints();
+			//totalPoints = clDao.getPoints();
 			pointsLabel.setText(totalPoints);
 		}
 		

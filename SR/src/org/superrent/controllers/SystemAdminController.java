@@ -38,7 +38,7 @@ public class SystemAdminController implements ActionListener {
 			sa.remove(sa.getPanelCenter());
 			sa.setPanelCenter(aup);
 			sa.getMainPanel().add(sa.getPanelCenter(), BorderLayout.CENTER);
-			//sa.revalidate();
+			sa.revalidate();
 			sa.repaint();
 			
 		/*	JFrame f = new JFrame("New Frame Opened");
@@ -53,7 +53,7 @@ public class SystemAdminController implements ActionListener {
 			sa.remove(sa.getPanelCenter());
 			sa.setPanelCenter(sup);
 			sa.getMainPanel().add(sa.getPanelCenter(), BorderLayout.CENTER);
-			//sa.revalidate();
+			sa.revalidate();
 			sa.repaint();
 		}
 		
@@ -62,7 +62,7 @@ public class SystemAdminController implements ActionListener {
 			sa.remove(sa.getPanelCenter());
 			sa.setPanelCenter(svp);
 			sa.getMainPanel().add(sa.getPanelCenter(), BorderLayout.CENTER);
-			//sa.revalidate();
+			sa.revalidate();
 			sa.repaint();
 		}
 	    
@@ -88,7 +88,7 @@ public class SystemAdminController implements ActionListener {
 			sa.remove(sa.getPanelCenter());
 			sa.setPanelCenter(cpp);
 			sa.getMainPanel().add(sa.getPanelCenter(), BorderLayout.CENTER);
-			//sa.revalidate();
+			sa.revalidate();
 			sa.repaint();
 		}
 	    
