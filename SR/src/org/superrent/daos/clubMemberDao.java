@@ -59,10 +59,5 @@ import org.superrent.application.DatabaseConnection;
 		
 	}
 	
-	public void connecToDatabase(int uid){
-		
-	
-		
-	}
 
 }
