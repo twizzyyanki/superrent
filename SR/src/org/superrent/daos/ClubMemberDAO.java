@@ -63,8 +63,8 @@ private final LoggedInUser lc;
 		return points;
 	
 	}
-/*	
-	*//**
+	
+/*	*//**
 	 * test main
 	 * @param args
 	 *//*

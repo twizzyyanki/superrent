@@ -95,4 +95,10 @@ public class JChangePassword extends JPanel {
 	public JLabel getWrongInput() {
 		return wrongInput;
 	}
+	public JTextField getTextNewPassword() {
+		return textNewPassword;
+	}
+	public JTextField getTextConfriPassword() {
+		return textConfriPassword;
+	}
 }

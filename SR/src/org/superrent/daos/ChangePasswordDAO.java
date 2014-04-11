@@ -110,10 +110,10 @@ public class ChangePasswordDAO {
 	}
 	
 	
-	/**
+/*	*//**
 	 * test main
 	 * @param args
-	 */
+	 *//*
 	public static void main(String[] args){
 		ChangePasswordDAO changePasswordDAO = new ChangePasswordDAO();
 		if(changePasswordDAO.setNewPassword("newPassword")){
@@ -121,5 +121,5 @@ public class ChangePasswordDAO {
 		}
 		
 	}
-
+*/
 }

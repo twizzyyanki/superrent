@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 
 import org.superrent.views.clubmember.*;
+import org.superrent.daos.ChangePasswordDAO;
 import org.superrent.daos.ClubMemberDAO;
 
 /**
@@ -82,18 +83,41 @@ public class ClubMemberController implements ActionListener {
 		
 		// confirm button in the JChangePassword panel
 		if(e.getActionCommand().equals("Confirm")) {
+			ChangePasswordDAO checkPassword = new ChangePasswordDAO();
 			jCPassword.getWrongInput().setText("");
 			String oldPassword = jCPassword.getTextCurrentPassword().getText();
 			Boolean inDatabase = false;
-			// checkPassword() method to check password in DB
-			//inDatabase = checkPassword(oldPassword);
-/*			if(inDatabase){
+			Boolean updateSucess = false;
+			// checkOldPassword method to check password in DB
+			inDatabase = checkPassword.checkOldPassword(oldPassword);
+			
+			if(inDatabase){
+				String newPassword = jCPassword.getTextNewPassword().getText();
+				String confirmPassword = jCPassword.getTextConfriPassword().getText();
+				if(newPassword.equals(confirmPassword)){
+					ChangePasswordDAO setPassword = new ChangePasswordDAO();
+					if(setPassword.setNewPassword(newPassword)){
+						jCPassword.getWrongInput().setForeground(Color.BLACK);
+						jCPassword.getWrongInput().setText("Update success");
+					}
+					else{
+						
+						jCPassword.getWrongInput().setForeground(Color.RED);
+						jCPassword.getWrongInput().setText("Update fail");
+					}
+					
+				}
+				else{
+					
+					jCPassword.getWrongInput().setForeground(Color.RED);
+					jCPassword.getWrongInput().setText("Confirm password does not match with new Password");			
+				}
 				
 			}
 			else{
 				jCPassword.getWrongInput().setForeground(Color.RED);
-				jCPassword.getWrongInput().setText("Wrong Password");
-			}*/
+				jCPassword.getWrongInput().setText("Current password does not match");
+			}
 			
 
 		}
