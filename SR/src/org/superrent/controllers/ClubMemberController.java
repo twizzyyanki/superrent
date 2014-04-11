@@ -13,7 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
-import org.superrent.daos.clubMemberDao;
+import org.superrent.daos.ClubMemberDao;
 import org.superrent.views.clubmember.*;
 
 /**
@@ -28,7 +28,7 @@ public class ClubMemberController implements ActionListener {
 	private ClubMember clubMemberView;
 	private JChangePassword jCPassword;
 	private JUpdateProfile jUProfile;
-	private clubMemberDao clDao;
+	private ClubMemberDao clDao;
 	
 	/**
 	 *This method will override the method in ActionListener to perform actions when the command is
@@ -38,7 +38,7 @@ public class ClubMemberController implements ActionListener {
 	 *@param e is the command which is received by the ActionListener
 	 */
 	public void actionPerformed(ActionEvent e) {
-		clDao = new clubMemberDao();
+		clDao = new ClubMemberDao();
 		
 		if(e.getActionCommand().equals("View Points")) {
 			JViewPoints jV= new JViewPoints(this);

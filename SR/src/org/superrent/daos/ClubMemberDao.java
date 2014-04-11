@@ -8,20 +8,19 @@ import java.sql.Statement;
 import org.superrent.application.DatabaseConnection;
 import org.superrent.application.LoggedInUser;
 	
-	public class clubMemberDao {
+	public class ClubMemberDao {
 	private Connection connection = null;
 	private int uid;
 	private final LoggedInUser lc; 
 	/**
 	 * This is the constructor for this class
 	 */
-	public clubMemberDao() {
+	public ClubMemberDao() {
 		this.lc = new LoggedInUser();
 		try {
 			String uidString;
 			uidString = lc.getUserId();
 			this.uid = Integer.parseInt("uidString");
-			double points = 0;
 			connection = DatabaseConnection.createConnection();
 			System.out.println(connection.toString());
 			
