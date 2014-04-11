@@ -47,7 +47,7 @@ public class ClubMemberController implements ActionListener {
 			
 			clubMemberView.remove(clubMemberView.getPanelCenter());
 			clubMemberView.setCenterPanel(jV);
-			//clubMemberView.revalidate();
+			clubMemberView.revalidate();
 			clubMemberView.repaint();
 			pointsLabel = jV.getPoints();
 			
@@ -63,7 +63,7 @@ public class ClubMemberController implements ActionListener {
 			
 			clubMemberView.remove(clubMemberView.getPanelCenter());
 			clubMemberView.setCenterPanel(jCPassword);
-			//clubMemberView.revalidate();
+			clubMemberView.revalidate();
 			clubMemberView.repaint();
 			
 		}
@@ -74,7 +74,7 @@ public class ClubMemberController implements ActionListener {
 			
 			clubMemberView.remove(clubMemberView.getPanelCenter());
 			clubMemberView.setCenterPanel(jUProfile);
-		//	clubMemberView.revalidate();
+			clubMemberView.revalidate();
 			clubMemberView.repaint();
 
 		}
