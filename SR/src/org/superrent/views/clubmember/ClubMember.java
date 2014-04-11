@@ -37,6 +37,7 @@ public class ClubMember extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					System.out.println("123");
 					ClubMember frame = new ClubMember();
 					frame.setVisible(true);
 				} catch (Exception e) {

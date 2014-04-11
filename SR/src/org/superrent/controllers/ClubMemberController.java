@@ -125,7 +125,7 @@ public class ClubMemberController implements ActionListener {
 		
 		// Update button in the JUpdateProfile panel
 		if(e.getActionCommand().equals("Update")) {
-			jUProfile.getTextName().setText("in update");
+			
 			// check if user enters text in name text area
 			if(jUProfile.getTextName().getText()!=null && 
 			   jUProfile.getTextName().getText().trim().length()!=0){
