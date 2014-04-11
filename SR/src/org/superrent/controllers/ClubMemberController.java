@@ -38,7 +38,7 @@ public class ClubMemberController implements ActionListener {
 	 *@param e is the command which is received by the ActionListener
 	 */
 	public void actionPerformed(ActionEvent e) {
-		
+		clDao = new clubMemberDao();
 		
 		if(e.getActionCommand().equals("View Points")) {
 			JViewPoints jV= new JViewPoints(this);

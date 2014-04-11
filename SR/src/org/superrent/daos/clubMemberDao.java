@@ -15,8 +15,8 @@ import org.superrent.application.LoggedInUser;
 	/**
 	 * This is the constructor for this class
 	 */
-	public clubMemberDao(LoggedInUser lc) {
-		this.lc = lc;
+	public clubMemberDao() {
+		this.lc = new LoggedInUser();
 		try {
 			String uidString;
 			uidString = lc.getUserId();
