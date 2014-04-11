@@ -6,18 +6,21 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import org.superrent.application.DatabaseConnection;
+import org.superrent.application.LoggedInUser;
 	
 	public class clubMemberDao {
 	private Connection connection = null;
 	private int uid;
-
+	private final LoggedInUser lc; 
 	/**
 	 * This is the constructor for this class
 	 */
-	public clubMemberDao(int uid) {
+	public clubMemberDao(LoggedInUser lc) {
+		this.lc = lc;
 		try {
-			this.uid = uid;
-			
+			String uidString;
+			uidString = lc.getUserId();
+			this.uid = Integer.parseInt("uidString");
 			double points = 0;
 			connection = DatabaseConnection.createConnection();
 			System.out.println(connection.toString());
