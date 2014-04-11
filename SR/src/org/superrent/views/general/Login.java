@@ -32,6 +32,7 @@ public class Login extends JFrame {
 	private JTextField username;
 	private JTextField password;
 	private final LoginController lc;
+	private JLabel loginMessage;
 
 	/**
 	 * Create the login frame with subTitle "SuperRent"
@@ -80,6 +81,9 @@ public class Login extends JFrame {
 		lblLoginToSuperrent.setFont(new Font("SansSerif", Font.PLAIN, 21));
 		panel.add(lblLoginToSuperrent, "5, 2, 4, 1");
 		
+		loginMessage = new JLabel("");
+		panel.add(loginMessage, "8, 4, left, default");
+		
 		JLabel lblUsername = new JLabel("Username:");
 		panel.add(lblUsername, "4, 6");
 		
@@ -107,4 +111,7 @@ public class Login extends JFrame {
 		return password;
 	}
 
+	public JLabel getLoginMessage() {
+		return loginMessage;
+	}
 }

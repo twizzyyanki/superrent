@@ -15,7 +15,7 @@ public class DatabaseConnection {
 	private static final String DEFAULT_USERNAME = "superrent";
 	private static final String DEFAULT_PASSWORD = "justdoit505";
 
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		long begTime = System.currentTimeMillis();
 
 		String driver = "com.mysql.jdbc.Driver";
@@ -39,7 +39,7 @@ public class DatabaseConnection {
 			long endTime = System.currentTimeMillis();
 			System.out.println("wall time: " + (endTime - begTime) + " ms");
 		}
-	}
+	} */
 
 	public static Connection createConnection() throws ClassNotFoundException,
 			SQLException {
