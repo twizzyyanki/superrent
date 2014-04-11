@@ -1,185 +1,257 @@
 package org.superrent.views.manager;
 
-import org.superrent.controllers.*;
-import org.superrent.application.MainApplicationWindow;
-
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import java.awt.Color;
+import javax.swing.GroupLayout;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.BoxLayout;
-import java.awt.GridLayout;
-import java.awt.Font;
-import java.awt.event.ActionListener;
-import javax.swing.JTextPane;
-import java.awt.event.ActionEvent;
-import javax.swing.JInternalFrame;
-import java.awt.Dimension;
-import javax.swing.JDesktopPane;
-import javax.swing.JMenuBar;
 import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.SwingConstants;
-import javax.swing.JList;
-import javax.swing.JPopupMenu;
-import java.awt.Component;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.Arrays;
-
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+
+import net.miginfocom.swing.MigLayout;
+
+import org.superrent.controllers.ManagerController;
 
 
-public final class ManagerHome extends JFrame {
+public class ManagerHome extends JFrame {
 
-	private JPanel contentPane;
-	private JPanel header;
-	private JLabel welcomeUser;
-	private JPanel left;
-	private JButton forRentVehiclesButton;
-	private JButton forSaleVehiclesButton;
-	private JButton globalRatesButton;
-	private JButton viewReportsButton;
-	private JPanel right;
-	private JPanel content;
-	private JPanel footer;
-	private JMenuBar menuBar;
-	private JMenu mnMyAccount;
-	private JMenuItem mntmManageAccount;
-	private JMenuItem mntmLogout;
-	private JLabel lblSuperrentManagerView;	
 	/**
-	 * Launch the application.
+	 * 
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ManagerHome frame = new ManagerHome();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	private JButton btnAddVehicle = new JButton("Add Vehicle");
+	JButton btnSearchVehicle = new JButton("Search Vehicle");
+	JButton btnSearch = new JButton("Search");
+	JButton btnChangeRates = new JButton("Change Rates");
+	JButton btnSellVehicle = new JButton("Sell Vehicle");
+	JComboBox<String> comboBox_1 = new JComboBox<String>();
+	private JMenuItem mntmLogout;
+	
+	
+	JScrollPane scrollPane = new JScrollPane();
+	JScrollPane sellScrollPane = new JScrollPane();
+	private JTable searchTable, sellTable;
+	ManagerController managerController = new ManagerController(this);
+	SellVehiclePanel sellVehicleListPanel = new SellVehiclePanel(managerController);
+	SearchVehiclePanel searchVehicleListPanel = new SearchVehiclePanel(managerController);
+	AddVehiclePanel addVehiclePanel = new AddVehiclePanel(managerController);
+	ManageRatesPanel manageRatesPanel = new ManageRatesPanel(managerController);
+	
 
 	/**
 	 * Create the frame.
 	 */
 	public ManagerHome() {
-		setTitle("SuperRent");
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 900, 600);		
+		setBounds(100, 100, 840, 448);
 
-		menuBar = new JMenuBar();
+		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 
-		mnMyAccount = new JMenu("My Account");
-		menuBar.add(mnMyAccount);
+		JMenuItem mntmNewMenuItem = new JMenuItem("Home");
+		menuBar.add(mntmNewMenuItem);
 
-		mntmManageAccount = new JMenuItem("Manage Account");
-		mnMyAccount.add(mntmManageAccount);
+		JMenu mnClerk = new JMenu("Clerk");
+		menuBar.add(mnClerk);
+
+		JMenuItem mntmNewMenuItem_1 = new JMenuItem("rent");
+		mnClerk.add(mntmNewMenuItem_1);
+
+		JMenuItem mntmReturn = new JMenuItem("return");
+		mnClerk.add(mntmReturn);
+
+		JMenuItem mntmAddClubMember = new JMenuItem("Add Club Member");
+		mnClerk.add(mntmAddClubMember);
+
+		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Search Reservation ");
+		mnClerk.add(mntmNewMenuItem_2);
+
+		JLabel lblWelcomeBackManager = new JLabel(
+				"                                                                                         Welcome Back Manager!!!!!!                                                                    ");
+		menuBar.add(lblWelcomeBackManager);
+
+		JMenu mnProfile = new JMenu("Profile");
+		menuBar.add(mnProfile);
+
+		JMenuItem mntmEdit = new JMenuItem("Edit");
+		mnProfile.add(mntmEdit);
+
+		JMenuItem mntmChangePassword = new JMenuItem("change Password");
+		mnProfile.add(mntmChangePassword);
 
 		mntmLogout = new JMenuItem("Logout");
-		mnMyAccount.add(mntmLogout);
+		mntmLogout.setHorizontalAlignment(SwingConstants.CENTER);
+		menuBar.add(mntmLogout);
+		mntmLogout.addActionListener(managerController );
+		
 		contentPane = new JPanel();
-		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
+		setContentPane(contentPane);
 
-		header = new JPanel();
-		contentPane.add(header, BorderLayout.NORTH);	
+		JPanel panel = new JPanel();
+		contentPane.add(panel, BorderLayout.WEST);
+		panel.setLayout(new MigLayout("", "[92px,grow]",
+				"[28px][][][][][][5.00]"));
 
-		lblSuperrentManagerView = new JLabel("SuperRent Manager View");
-		lblSuperrentManagerView.setFont(new Font("DejaVu Sans", Font.BOLD, 24));
-		header.add(lblSuperrentManagerView,
-				"cell 1 0,alignx center,aligny center");	
-
-		welcomeUser = new JLabel("Welcome Manager");
-		welcomeUser.setHorizontalAlignment(SwingConstants.RIGHT);
-		header.add(welcomeUser, "cell 2 1,growx");
-
-		left = new JPanel();
-		contentPane.add(left, BorderLayout.WEST);
 		
-		forRentVehiclesButton = new JButton("For Rent Vehicles");
-		forRentVehiclesButton.setPreferredSize(new Dimension(137, 40));
-		forRentVehiclesButton.setFont(new Font("DejaVu Sans", Font.BOLD, 15));
-		left.add(forRentVehiclesButton, "cell 0 1,grow");
-
-		forSaleVehiclesButton = new JButton("For Sale Vehicles");
-		forSaleVehiclesButton.setPreferredSize(new Dimension(135, 40));
-		forSaleVehiclesButton.setFont(new Font("DejaVu Sans", Font.BOLD, 15));
-		left.add(forSaleVehiclesButton, "cell 0 3,grow");
-
-		globalRatesButton = new JButton("Set Global Rates");
-		globalRatesButton.setPreferredSize(new Dimension(132, 40));
-		globalRatesButton.setFont(new Font("DejaVu Sans", Font.BOLD, 15));
-		left.add(globalRatesButton, "cell 0 5,grow");
-
-		viewReportsButton = new JButton("View Reports");
-		viewReportsButton.setPreferredSize(new Dimension(109, 40));
-		viewReportsButton.setFont(new Font("DejaVu Sans", Font.BOLD, 15));	
-		left.add(viewReportsButton, "cell 0 7,grow");	
-
-		right = new JPanel();
-		contentPane.add(right, BorderLayout.EAST);	
-
-		content = new JPanel();
-		contentPane.add(content, BorderLayout.CENTER);
+		// all panel buttons
+		panel.add(btnAddVehicle, "cell 0 2,growx,aligny top");
+		btnAddVehicle.addActionListener(managerController);
 		
+		panel.add(btnSellVehicle, "cell 0 3,grow");
+		btnSellVehicle.addActionListener(managerController);
+		
+		panel.add(btnSearchVehicle, "cell 0 4,growx");		
+		btnSearchVehicle.addActionListener(managerController);
+		
+		panel.add(btnChangeRates, "cell 0 5,growx");
+		btnChangeRates.addActionListener(managerController);
+		
+		//creating panel1
+		JPanel panel_1 = new JPanel();
+		contentPane.add(panel_1, BorderLayout.NORTH);
+		panel_1.setLayout(new MigLayout("", "[][][]", "[]"));
 
-		String[][] data = new String[2][3];
-		for (int i = 0; i < data.length; i++) {
-			Arrays.fill(data[i], "Yanki");
-		}
+		
+		
+		
+		
+		//adding panel5 and panel6 to panel2
+		JPanel panel_2 = new JPanel();
+		GroupLayout groupLayout = new GroupLayout(panel_2);
+		contentPane.add(panel_2, BorderLayout.CENTER);
+		panel_2.setLayout(groupLayout);
+		groupLayout.setHorizontalGroup(groupLayout
+				.createParallelGroup(GroupLayout.Alignment.LEADING)
+				.addComponent(searchVehicleListPanel).addComponent(addVehiclePanel).addComponent(sellVehicleListPanel).addComponent(manageRatesPanel));
+		groupLayout.setVerticalGroup(groupLayout
+				.createParallelGroup(GroupLayout.Alignment.LEADING)
+				.addComponent(searchVehicleListPanel).addComponent(addVehiclePanel).addComponent(sellVehicleListPanel).addComponent(manageRatesPanel));
+		
+		
+		managerController.getVehicle(this);
+		
+		//making the add vehicle panel invisible
+		addVehiclePanel.setEnabled(false);
+		addVehiclePanel.setVisible(false);
+		sellVehicleListPanel.setEnabled(false);
+		sellVehicleListPanel.setVisible(false);
+		
+		//creating two more panels
+		JPanel panel_3 = new JPanel();
+		contentPane.add(panel_3, BorderLayout.SOUTH);
+
+		JPanel panel_4 = new JPanel();
+		contentPane.add(panel_4, BorderLayout.EAST);
+
+	}	
+	
+	public SearchVehiclePanel getSearchVehicleListPanel() {
+		return searchVehicleListPanel;
 	}
 
-	public void addManageRatesActionListener(ManageRatesController listener) {
-		System.out.println("Getting here");
-		globalRatesButton.addActionListener(listener);
-
+	public void setSearchVehicleListPanel(SearchVehiclePanel searchVehicleListPanel) {
+		this.searchVehicleListPanel = searchVehicleListPanel;
 	}
 
-	public void addForRentVehiclesButtonActionListener(
-			ActionListener listener) {
-		forRentVehiclesButton.addActionListener(listener);
+	public SellVehiclePanel getSellVehicleListPanel() {
+		return sellVehicleListPanel;
 	}
 
-	public void addLogoutMenuActionListener(LoginController listener) {
-		mntmLogout.addActionListener(listener);
+	public void setSellVehicleListPanel(SellVehiclePanel sellVehicleListPanel) {
+		this.sellVehicleListPanel = sellVehicleListPanel;
 	}
 
-	public void setWelcomeUser(String text) {
-		welcomeUser.setText(text);
+	public JTable getSellTable() {
+		return sellTable;
 	}
 
-	private static void addPopup(Component component, final JPopupMenu popup) {
-		component.addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent e) {
-				if (e.isPopupTrigger()) {
-					showMenu(e);
-				}
-			}
-
-			public void mouseReleased(MouseEvent e) {
-				if (e.isPopupTrigger()) {
-					showMenu(e);
-				}
-			}
-
-			private void showMenu(MouseEvent e) {
-				popup.show(e.getComponent(), e.getX(), e.getY());
-			}
-		});
+	public void setSellTable(JTable sellTable) {
+		this.sellTable = sellTable;
 	}
+
+	//all setters and getters
+	public JComboBox<String> getComboBox_1() {
+		return comboBox_1;
+	}
+
+	public void setComboBox_1(JComboBox<String> comboBox_1) {
+		this.comboBox_1 = comboBox_1;
+	}
+	
+	public JTable getTable_1() {
+		return searchTable;
+	}
+
+	public void setTable_1(JTable table_1) {
+		this.searchTable = table_1;
+	}
+	
+	public JButton getBtnAddVehicle() {
+		return btnAddVehicle;
+	}
+
+	public void setBtnAddVehicle(JButton btnAddVehicle) {
+		this.btnAddVehicle = btnAddVehicle;
+	}
+
+	public JButton getBtnSearchVehicle() {
+		return btnSearchVehicle;
+	}
+
+	public void setBtnSearchVehicle(JButton btnSearchVehicle) {
+		this.btnSearchVehicle = btnSearchVehicle;
+	}
+
+	public JButton getBtnChangeRates() {
+		return btnChangeRates;
+	}
+
+	public void setBtnChangeRates(JButton btnChangeRates) {
+		this.btnChangeRates = btnChangeRates;
+	}
+
+	public JButton getBtnSellVehicle() {
+		return btnSellVehicle;
+	}
+
+	public void setBtnSellVehicle(JButton btnSellVehicle) {
+		this.btnSellVehicle = btnSellVehicle;
+	}
+
+	public AddVehiclePanel getAddVehiclePanel() {
+		return addVehiclePanel;
+	}
+
+	public void setAddVehiclePanel(AddVehiclePanel addVehiclePanel) {
+		this.addVehiclePanel = addVehiclePanel;
+	}
+
+	public ManageRatesPanel getManageRatesPanel() {
+		return manageRatesPanel;
+	}
+
+	public void setManageRatesPanel(ManageRatesPanel manageRatesPanel) {
+		this.manageRatesPanel = manageRatesPanel;
+	}
+
+	
+
+	
+
+	
+
+
+
 }

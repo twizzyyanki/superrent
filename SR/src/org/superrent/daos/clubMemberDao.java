@@ -6,37 +6,25 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import org.superrent.application.DatabaseConnection;
+import org.superrent.application.LoggedInUser;
 	
 	public class clubMemberDao {
 	private Connection connection = null;
 	private int uid;
-
+	private final LoggedInUser lc; 
 	/**
 	 * This is the constructor for this class
 	 */
-	public clubMemberDao() {
-		
-	}
-	
-	public double getPoints(){
-		double points = 0;
-		return points;
-	}
-	
-	public void connecToDatabase(int uid){
+	public clubMemberDao(LoggedInUser lc) {
+		this.lc = lc;
 		try {
-			this.uid = uid;
-			ResultSet rs;
+			String uidString;
+			uidString = lc.getUserId();
+			this.uid = Integer.parseInt("uidString");
 			double points = 0;
 			connection = DatabaseConnection.createConnection();
 			System.out.println(connection.toString());
-			Statement st = connection.createStatement();
-			String query = "SELECT points FROM ClubMember WHERE uid='" + uid +"'";
-			System.out.println("query is: " + query);
-			rs = st.executeQuery(query);
-			points = rs.getDouble("points");
-			System.out.println("points:"+points);
-			rs.close();
+			
 			
 
 		} catch (Exception e) {
@@ -45,7 +33,34 @@ import org.superrent.application.DatabaseConnection;
 		} finally {
 			DatabaseConnection.close(connection);
 		}
+	}
+	
+	public double getPoints(){
+		double points = 0;
+		try{
+			ResultSet rs;
+			
+			Statement st = connection.createStatement();
+			String query = "SELECT points FROM ClubMember WHERE uid='" + uid +"'";
+			System.out.println("query is: " + query);
+			rs = st.executeQuery(query);
+			points = rs.getDouble("points");
+			System.out.println("points:"+points);
+			rs.close();
+			
+			
+		}catch (Exception e) {
+			DatabaseConnection.rollback(connection);
+			e.printStackTrace();
+		} finally {
+			
+			DatabaseConnection.close(connection);
+			
+		}
+		
+		return points;
 		
 	}
+	
 
 }
