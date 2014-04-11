@@ -33,10 +33,10 @@ import org.superrent.application.DatabaseConnection;
 	}
 	
 	public double getPoints(){
-		
+		double points = 0;
 		try{
 			ResultSet rs;
-			double points = 0;
+			
 			Statement st = connection.createStatement();
 			String query = "SELECT points FROM ClubMember WHERE uid='" + uid +"'";
 			System.out.println("query is: " + query);
@@ -44,7 +44,7 @@ import org.superrent.application.DatabaseConnection;
 			points = rs.getDouble("points");
 			System.out.println("points:"+points);
 			rs.close();
-			return points;
+			
 			
 		}catch (Exception e) {
 			DatabaseConnection.rollback(connection);
@@ -55,7 +55,7 @@ import org.superrent.application.DatabaseConnection;
 			
 		}
 		
-		//return points;
+		return points;
 		
 	}
 	
