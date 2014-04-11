@@ -56,6 +56,7 @@ public class UpdateProfileDAO {
 			ps.setInt(2, uid);
 			ps.setString(1, newName);
 			int rowCount = ps.executeUpdate();
+			
 			  if (rowCount == 1){
 				  success = true ;
 			  }

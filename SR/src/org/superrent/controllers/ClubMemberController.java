@@ -125,11 +125,10 @@ public class ClubMemberController implements ActionListener {
 		
 		// Update button in the JUpdateProfile panel
 		if(e.getActionCommand().equals("Update")) {
-			System.out.println("test");
+			jUProfile.getTextName().setText("in update");
 			// check if user enters text in name text area
 			if(jUProfile.getTextName().getText()!=null && 
 			   jUProfile.getTextName().getText().trim().length()!=0){
-				
 				// check if text area is "Update Success" to prevent updating 
 				if(!jUProfile.getTextName().getText().equals("Update Success")){
 					UpdateProfileDAO updateNameDAO = new UpdateProfileDAO();
@@ -171,11 +170,11 @@ public class ClubMemberController implements ActionListener {
 				}
 			}
 			
-			
+				
 			// check if user enters text in address text area
 			if(jUProfile.getTextAddress().getText()!=null &&				
 			   jUProfile.getTextAddress().getText().trim().length()!=0){		
-					
+				
 					// check if text area is "Update Success" to prevent updating 
 					if(!jUProfile.getTextAddress().getText().equals("Update Success")){
 						UpdateProfileDAO updateAddressDAO = new UpdateProfileDAO();

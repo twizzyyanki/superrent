@@ -45,9 +45,9 @@ private final LoggedInUser lc;
 			String query = "SELECT points FROM ClubMember WHERE uid='" + uid +"'";
 			//System.out.println("query is: " + query);
 			rs = st.executeQuery(query);
-			while(rs.next()){
-				points = rs.getDouble("points");
-			}
+			rs.next();
+			points = rs.getDouble("points");
+			
 			
 			
 			
