@@ -22,7 +22,7 @@ private final LoggedInUser lc;
 				String uidString;
 				uidString = lc.getUserId();
 				// uidString = "1"; is just for test can delete after testing
-				//uidString ="1";
+				uidString ="1";
 				this.uid = Integer.parseInt(uidString);
 				connection = DatabaseConnection.createConnection();
 				

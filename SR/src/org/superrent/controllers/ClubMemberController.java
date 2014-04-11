@@ -16,6 +16,7 @@ import javax.swing.UIManager;
 import org.superrent.views.clubmember.*;
 import org.superrent.daos.ChangePasswordDAO;
 import org.superrent.daos.ClubMemberDAO;
+import org.superrent.daos.UpdateProfileDAO;
 
 /**
  * This class implements the ActionListener interface and 
@@ -125,7 +126,49 @@ public class ClubMemberController implements ActionListener {
 		// Update button in the JUpdateProfile panel
 		if(e.getActionCommand().equals("Update")) {
 			
+			// check if user enters text in name text area
+			if(jUProfile.getTextName().getText()!=null && jUProfile.getTextName().getText().length()!=0){
+				// check if text area is "Update Success" to prevent updating 
+				if(!jUProfile.getTextName().getText().equals("Update Success")){
+					UpdateProfileDAO updateNameDAO = new UpdateProfileDAO();
+					if(updateNameDAO.updateName(jUProfile.getTextName().getText())){
+						jUProfile.getTextName().setText("Update Success");
+					}
+					else{
+						jUProfile.getTextName().setForeground(Color.RED);
+						jUProfile.getTextName().setText("Update fail");
+					}
+					
+				}
+				else{
+					jUProfile.getTextName().setForeground(Color.black);
+					jUProfile.getTextName().setText("");
+				}
 
+			}
+			// check if user enters text in phone text area
+			if(jUProfile.getTextPhone().getText()!=null && jUProfile.getTextPhone().getText().length()!=0){
+				// check if text area is "Update Success" to prevent updating 
+				if(!jUProfile.getTextPhone().getText().equals("Update Success")){
+					UpdateProfileDAO updatePhoneDAO = new UpdateProfileDAO();
+					int newPhoneNumber = Integer.parseInt(jUProfile.getTextPhone().getText());
+					if(updatePhoneDAO.updatePhoneNumber(newPhoneNumber)){
+						jUProfile.getTextPhone().setText("Update Success");
+					}
+					else{
+						jUProfile.getTextPhone().setForeground(Color.RED);
+						jUProfile.getTextPhone().setText("Update fail");
+					}
+				}
+				else{
+					jUProfile.getTextPhone().setForeground(Color.black);
+					jUProfile.getTextPhone().setText("");
+				}
+			}
+			
+			if(!jUProfile.getTextAddress().equals("")){
+				
+			}
 
 		}
 	}

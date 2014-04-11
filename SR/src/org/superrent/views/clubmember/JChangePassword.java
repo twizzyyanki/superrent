@@ -34,7 +34,7 @@ public class JChangePassword extends JPanel {
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("default:grow"),
+				ColumnSpec.decode("max(106dlu;default):grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -53,7 +53,7 @@ public class JChangePassword extends JPanel {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
+				RowSpec.decode("max(56dlu;default)"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("default:grow"),}));
 		
@@ -83,7 +83,7 @@ public class JChangePassword extends JPanel {
 		add(Confirm, "4, 12");
 		
 		wrongInput = new JLabel("");
-		add(wrongInput, "6, 12, center, default");
+		add(wrongInput, "6, 14, center, default");
 		
 		this.setVisible(true);
 

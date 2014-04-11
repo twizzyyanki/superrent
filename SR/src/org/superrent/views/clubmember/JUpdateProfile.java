@@ -9,6 +9,7 @@ import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
 
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
@@ -21,8 +22,7 @@ public class JUpdateProfile extends JPanel {
 	private final ClubMemberController clubMemberController;
 	private JTextField textPhone;
 	private JTextField textName;
-	private JTextField textAddress1;
-	private JTextField textAddress2;
+	private JTextArea textAddress;
 	/**
 	 * Create the panel.
 	 */
@@ -47,7 +47,7 @@ public class JUpdateProfile extends JPanel {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
+				RowSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
@@ -74,20 +74,27 @@ public class JUpdateProfile extends JPanel {
 		JLabel address = new JLabel("Address");
 		add(address, "4, 8, center, default");
 		
-		textAddress1 = new JTextField();
-		add(textAddress1, "6, 8, fill, default");
-		textAddress1.setColumns(10);
-		
-		textAddress2 = new JTextField();
-		add(textAddress2, "6, 10, fill, default");
-		textAddress2.setColumns(10);
-		
 		JButton Update = new JButton("Update");
 		Update.addActionListener(clubMemberController);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		add(scrollPane, "6, 8, fill, fill");
+		
+		textAddress = new JTextArea();
+		scrollPane.setViewportView(textAddress);
 		add(Update, "4, 14");
 		
 		this.setVisible(true);
 
 	}
 
+	public JTextField getTextName() {
+		return textName;
+	}
+	public JTextField getTextPhone() {
+		return textPhone;
+	}
+	public JTextArea getTextAddress() {
+		return textAddress;
+	}
 }
