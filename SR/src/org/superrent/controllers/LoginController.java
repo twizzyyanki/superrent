@@ -17,12 +17,14 @@ import org.superrent.entities.User;
 import org.superrent.views.clubmember.ClubMember;
 import org.superrent.views.general.Login;
 import org.superrent.views.manager.ManagerHome;
+import org.superrent.views.superadmin.SystemAdmin;
 
 public class LoginController implements ActionListener {
 
 	private ClubMember c;
 	private ManagerHome m;
 	private Login l;
+	private SystemAdmin s;
 	LoggedInUser loggedInUser = new LoggedInUser();
 
 	public int login(String username, String password) {
@@ -114,6 +116,10 @@ public class LoginController implements ActionListener {
 	
 	public LoginController(ManagerHome m) {
 		this.m = m;
+	}
+
+	public LoginController(SystemAdmin systemAdmin) {
+		this.s = systemAdmin;
 	}
 
 	/**

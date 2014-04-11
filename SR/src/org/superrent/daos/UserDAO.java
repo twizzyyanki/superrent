@@ -31,7 +31,7 @@ public class UserDAO {
 			System.out.println("query is: " + query);
 			regUser = st.executeQuery(query);
 
-			System.out.println("Size of result set is "
+			System.out.println("Size of result dset is "
 					+ regUser.getFetchSize());
 
 			if (regUser != null) {
