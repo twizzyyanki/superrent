@@ -26,8 +26,8 @@ public class AddVehiclePanel extends JPanel implements ActionListener {
 	private JTextField brandTxt = new JTextField();
 	JLabel lblAddVehicle = new JLabel("Add Vehicle");
 	JLabel lblRegisternumber = new JLabel("RegisterNumber");
-	JComboBox categoryCombox = new JComboBox();
-	JComboBox typeCombox = new JComboBox();
+	JComboBox<String> categoryCombox = new JComboBox<String>();
+	JComboBox<String> typeCombox = new JComboBox<String>();
 	ManagerController managerController;
 	
 	JButton btnAddVehicle = new JButton("Add Vehicle");
@@ -90,7 +90,7 @@ public class AddVehiclePanel extends JPanel implements ActionListener {
 		add(lblCategory, "10, 14");
 		
 		
-		categoryCombox.setModel(new DefaultComboBoxModel(new String[] {"SELECT", "Car", "Truck"}));
+		categoryCombox.setModel(new DefaultComboBoxModel<String>(new String[] {"SELECT", "Car", "Truck"}));
 		add(categoryCombox, "14, 14, left, default");
 		
 		//  prevent action events from being fired when the up/down arrow keys are used
@@ -123,13 +123,13 @@ public class AddVehiclePanel extends JPanel implements ActionListener {
 		String item = (String)categoryCombox.getSelectedItem();
 		if(item.equalsIgnoreCase("CAR")){
 			typeCombox.setEnabled(true);
-			typeCombox.setModel(new DefaultComboBoxModel(new String[] {"SELECT","ECONOMY","COMPACT","MID-SIZE",
+			typeCombox.setModel(new DefaultComboBoxModel<String>(new String[] {"SELECT","ECONOMY","COMPACT","MID-SIZE",
 					  												   "STANDARD", "FULL-SIZE", "PREMIUM","LUXURY", "SUV",
 					  												   "VAN"}));
 		}
 		else if(item.equalsIgnoreCase("TRUCK")){
 			typeCombox.setEnabled(true);
-			typeCombox.setModel(new DefaultComboBoxModel(new String[] {"SELECT","24-FOOT", "15-FOOT", "12-FOOT", "BOX TRUCK", 
+			typeCombox.setModel(new DefaultComboBoxModel<String>(new String[] {"SELECT","24-FOOT", "15-FOOT", "12-FOOT", "BOX TRUCK", 
 					   "CARGO VAN"}));
 		}
 		
@@ -152,19 +152,19 @@ public class AddVehiclePanel extends JPanel implements ActionListener {
 		this.regNumberTxt = regNumberTxt;
 	}
 	
-	public JComboBox getCategoryCombox() {
+	public JComboBox<String> getCategoryCombox() {
 		return categoryCombox;
 	}
 
-	public void setCategoryCombox(JComboBox categoryCombox) {
+	public void setCategoryCombox(JComboBox<String> categoryCombox) {
 		this.categoryCombox = categoryCombox;
 	}
 
-	public JComboBox getTypeCombox() {
+	public JComboBox<String> getTypeCombox() {
 		return typeCombox;
 	}
 
-	public void setTypeCombox(JComboBox typeCombox) {
+	public void setTypeCombox(JComboBox<String> typeCombox) {
 		this.typeCombox = typeCombox;
 	}
 

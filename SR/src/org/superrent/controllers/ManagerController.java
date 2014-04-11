@@ -120,7 +120,7 @@ public class ManagerController implements ActionListener {
 	}
 
 
-	private void disablePanels() {
+	/*private void disablePanels() {
 		
 		managerFrame.getAddVehiclePanel().setEnabled(false);
 		managerFrame.getAddVehiclePanel().setVisible(false);
@@ -131,7 +131,7 @@ public class ManagerController implements ActionListener {
     	managerFrame.getManageRatesPanel().setEnabled(false);
     	managerFrame.getManageRatesPanel().setVisible(false);
 		
-	}
+	}*/
 
 	private void getVehicleForSelling(ManagerHome managerFrame2) {
 		// TODO Auto-generated method stub

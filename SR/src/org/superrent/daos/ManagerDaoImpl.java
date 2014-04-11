@@ -1,12 +1,9 @@
 package org.superrent.daos;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.List;
-import java.util.Map;
 
 import net.proteanit.sql.DbUtils;
 
@@ -16,10 +13,9 @@ import org.superrent.views.manager.ManagerHome;
 public class ManagerDaoImpl implements IManagerDao{
 	
 	
-	private static Connection con = null;
-	private static PreparedStatement statement = null;
+	
 	private static ResultSet resultSet = null;
-	private static List<Map<String, Object>> result;
+	
 	
 	
 	public void getAllVehicles(ManagerHome managerFrame) {

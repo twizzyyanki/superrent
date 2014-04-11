@@ -25,8 +25,8 @@ public class SearchVehiclePanel extends JPanel implements ActionListener{
 	 */
 	private static final long serialVersionUID = 1L;
 	private JTable searchtable = new JTable();
-	JComboBox categoryCombox = new JComboBox();
-	JComboBox typeCombox = new JComboBox();
+	JComboBox<String> categoryCombox = new JComboBox<String>();
+	JComboBox<String> typeCombox = new JComboBox<String>();
 
 	ManagerController managerController;
 	JButton btnAddForSale = new JButton("Add For Sale");
@@ -81,15 +81,15 @@ public class SearchVehiclePanel extends JPanel implements ActionListener{
 		JLabel lblLocation = new JLabel("Location");
 		add(lblLocation, "4, 4, right, default");
 		
-		JComboBox locationCombox = new JComboBox();
-		locationCombox.setModel(new DefaultComboBoxModel(new String[] {"All", "Vancouver"}));
+		JComboBox<String> locationCombox = new JComboBox<String>();
+		locationCombox.setModel(new DefaultComboBoxModel<String>(new String[] {"All", "Vancouver"}));
 		add(locationCombox, "6, 4, left, center");
 		
 		JLabel lblCategory = new JLabel("Category");
 		add(lblCategory, "8, 4, fill, default");
 		
 		
-		categoryCombox.setModel(new DefaultComboBoxModel(new String[] {"All", "Car", "Truck"}));
+		categoryCombox.setModel(new DefaultComboBoxModel<String>(new String[] {"All", "Car", "Truck"}));
 		add(categoryCombox, "10, 4, left, default");
 		
 	    //  prevent action events from being fired when the up/down arrow keys are used
@@ -99,7 +99,7 @@ public class SearchVehiclePanel extends JPanel implements ActionListener{
 		JLabel lblType = new JLabel("Type");
 		add(lblType, "12, 4, fill, default");
 		
-		typeCombox.setModel(new DefaultComboBoxModel(new String[] {"ALL", "ECONOMY","COMPACT","MID-SIZE",
+		typeCombox.setModel(new DefaultComboBoxModel<String>(new String[] {"ALL", "ECONOMY","COMPACT","MID-SIZE",
 																		  "STANDARD", "FULL-SIZE", "PREMIUM","LUXURY", "SUV",
 																		  "VAN", "24-FOOT", "15-FOOT", "12-FOOT", "BOX TRUCK", 
 																		  "CARGO VAN"}));
@@ -108,8 +108,8 @@ public class SearchVehiclePanel extends JPanel implements ActionListener{
 		JLabel lblPurchasedyear = new JLabel("PurchasedYear(LESS THAN)");
 		add(lblPurchasedyear, "16, 4, right, default");
 		
-		JComboBox yearCombox = new JComboBox();
-		yearCombox.setModel(new DefaultComboBoxModel(new String[] {"Current", "2013", "2012", "2011", "2010", "2009", "2008", "2007", "2006", "2005", "2004", "2003", "2002", "2001", "2000", ">2000"}));
+		JComboBox<String> yearCombox = new JComboBox<String>();
+		yearCombox.setModel(new DefaultComboBoxModel<String>(new String[] {"Current", "2013", "2012", "2011", "2010", "2009", "2008", "2007", "2006", "2005", "2004", "2003", "2002", "2001", "2000", ">2000"}));
 		add(yearCombox, "18, 4, fill, default");
 		
 		JButton btnSearch = new JButton("Search");
@@ -143,16 +143,16 @@ public class SearchVehiclePanel extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent arg0) {
 		String item = (String)categoryCombox.getSelectedItem();
 		if(item.equalsIgnoreCase("CAR")){
-			typeCombox.setModel(new DefaultComboBoxModel(new String[] { "All","ECONOMY","COMPACT","MID-SIZE",
+			typeCombox.setModel(new DefaultComboBoxModel<String>(new String[] { "All","ECONOMY","COMPACT","MID-SIZE",
 					  													"STANDARD", "FULL-SIZE", "PREMIUM","LUXURY", "SUV",
 					  													"VAN"}));
 		}
 		else if(item.equalsIgnoreCase("TRUCK")){
-			typeCombox.setModel(new DefaultComboBoxModel(new String[] {"All","24-FOOT", "15-FOOT", "12-FOOT", "BOX TRUCK", 
+			typeCombox.setModel(new DefaultComboBoxModel<String>(new String[] {"All","24-FOOT", "15-FOOT", "12-FOOT", "BOX TRUCK", 
 					  												   "CARGO VAN"}));
 		}
 		else if(item.equalsIgnoreCase("ALL")){
-			typeCombox.setModel(new DefaultComboBoxModel(new String[] {"ALL", "ECONOMY","COMPACT","MID-SIZE",
+			typeCombox.setModel(new DefaultComboBoxModel<String>(new String[] {"ALL", "ECONOMY","COMPACT","MID-SIZE",
 					  													"STANDARD", "FULL-SIZE", "PREMIUM","LUXURY", "SUV",
 					  													"VAN", "24-FOOT", "15-FOOT", "12-FOOT", "BOX TRUCK", 
 					  													"CARGO VAN"}));
@@ -169,19 +169,19 @@ public class SearchVehiclePanel extends JPanel implements ActionListener{
 		this.searchtable = searchtable;
 	}
 	
-	public JComboBox getCategoryCombox() {
+	public JComboBox<String> getCategoryCombox() {
 		return categoryCombox;
 	}
 
-	public void setCategoryCombox(JComboBox categoryCombox) {
+	public void setCategoryCombox(JComboBox<String> categoryCombox) {
 		this.categoryCombox = categoryCombox;
 	}
 
-	public JComboBox getTypeCombox() {
+	public JComboBox<String> getTypeCombox() {
 		return typeCombox;
 	}
 
-	public void setTypeCombox(JComboBox typeCombox) {
+	public void setTypeCombox(JComboBox<String> typeCombox) {
 		this.typeCombox = typeCombox;
 	}
 
