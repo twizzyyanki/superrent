@@ -52,7 +52,7 @@ public class ClubMemberController implements ActionListener {
 			clubMemberView.repaint();
 			pointsLabel = jV.getPoints();
 			
-			// getMemberPoints() method to get points from DB
+			// clubMemberDAO.getPoints() method to get points from DAO
 			totalPoints = Double.toString(clubMemberDAO.getPoints());
 			pointsLabel.setText(totalPoints);
 		}

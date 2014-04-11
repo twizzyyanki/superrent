@@ -23,9 +23,8 @@ private final LoggedInUser lc;
 				uidString = lc.getUserId();
 				uidString ="1";
 				this.uid = Integer.parseInt(uidString);
-				
 				connection = DatabaseConnection.createConnection();
-				System.out.println(connection.toString());
+				
 			
 			
 	
@@ -43,7 +42,7 @@ private final LoggedInUser lc;
 			
 			Statement st = connection.createStatement();
 			String query = "SELECT points FROM ClubMember WHERE uid='" + uid +"'";
-			System.out.println("query is: " + query);
+			//System.out.println("query is: " + query);
 			rs = st.executeQuery(query);
 			while(rs.next()){
 				points = rs.getDouble("points");
