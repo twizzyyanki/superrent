@@ -44,8 +44,8 @@ public class ClubMember extends JFrame {
 				}
 			}
 		});
-	}
-	*/
+	}*/
+	
 	/**
 	 * Create the frame.
 	 */

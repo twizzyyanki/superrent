@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 
 import org.superrent.views.clubmember.*;
+import org.superrent.daos.ClubMemberDAO;
 
 /**
  * This class implements the ActionListener interface and 
@@ -27,7 +28,7 @@ public class ClubMemberController implements ActionListener {
 	private ClubMember clubMemberView;
 	private JChangePassword jCPassword;
 	private JUpdateProfile jUProfile;
-	
+	private ClubMemberDAO clubMemberDAO;
 	
 	/**
 	 *This method will override the method in ActionListener to perform actions when the command is
@@ -38,7 +39,7 @@ public class ClubMemberController implements ActionListener {
 	 */
 	public void actionPerformed(ActionEvent e) {
 	
-		
+		ClubMemberDAO clubMemberDAO = new ClubMemberDAO();
 		if(e.getActionCommand().equals("View Points")) {
 			JViewPoints jV= new JViewPoints(this);
 			JLabel pointsLabel;
@@ -52,7 +53,7 @@ public class ClubMemberController implements ActionListener {
 			pointsLabel = jV.getPoints();
 			
 			// getMemberPoints() method to get points from DB
-			//totalPoints = clDao.getPoints();
+			totalPoints = Double.toString(clubMemberDAO.getPoints());
 			pointsLabel.setText(totalPoints);
 		}
 		
