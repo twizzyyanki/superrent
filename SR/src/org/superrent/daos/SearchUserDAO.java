@@ -45,7 +45,13 @@ public class SearchUserDAO {
 			System.out.println("query is: " + query);
 			rs = st.executeQuery(query);
 			if (rs.next()){
-					System.out.println("There is a user in the database");
+				System.out.println("In the database, the data associated wiht "+ name + " is as follows:");
+				System.out.print(rs.getString("name") + " "); 
+				System.out.print(rs.getString("email") + " "); 
+				System.out.print(rs.getString("phoneNumber") + " "); 
+				System.out.print(rs.getString("address") + " "); 
+				System.out.print(rs.getString("type") + " "); 
+				System.out.println(rs.getString("dateCreated"));
 			}
 			else {
 				System.out.println("The user does not exist");
