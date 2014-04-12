@@ -11,9 +11,9 @@ public interface IManagerDao {
 	
 	public void getVehiclesForSelling(ManagerHome managerFrame);
 	
-	public void addVehicle(VehicleVO vehicleVO);
+	public boolean addVehicle(VehicleVO vehicleVO);
 	
-	public void updateVehicle(VehicleVO vehicleVO);
+	public boolean updateVehicle(VehicleVO vehicleVO);
 	
-	public void sellVehicle(SellVehicleVO sellVehicleVO);
+	public boolean sellVehicle(SellVehicleVO sellVehicleVO);
 }

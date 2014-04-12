@@ -80,7 +80,8 @@ public class ManagerDaoImpl implements IManagerDao{
 	}
 
 	@Override
-	public void addVehicle(VehicleVO vehicleVO) {
+	public boolean addVehicle(VehicleVO vehicleVO) {
+		boolean result = true;
 		try {
 			con = DatabaseConnection.createConnection();
 			con.setAutoCommit(false);
@@ -99,6 +100,7 @@ public class ManagerDaoImpl implements IManagerDao{
 
 		}  catch (SQLException e) {
 			// TODO Auto-generated catch block
+			result = false;
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -107,10 +109,12 @@ public class ManagerDaoImpl implements IManagerDao{
 		finally {
 			DatabaseConnection.close(con);
 		}
+		return result;
 	}
 
 	@Override
-	public void updateVehicle(VehicleVO vehicleVO) {
+	public boolean updateVehicle(VehicleVO vehicleVO) {
+		boolean result = true;
 		try {
 			con = DatabaseConnection.createConnection();
 			con.setAutoCommit(false);
@@ -132,16 +136,19 @@ public class ManagerDaoImpl implements IManagerDao{
 			e.printStackTrace();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			result = false;
 			e.printStackTrace();
 		}
 		finally {
 			DatabaseConnection.close(con);
 		}
+		return result;
 		
 	}
 
 	@Override
-	public void sellVehicle(SellVehicleVO sellVehicleVO) {
+	public boolean sellVehicle(SellVehicleVO sellVehicleVO) {
+		boolean result = true;
 		try {
 			con = DatabaseConnection.createConnection();
 			con.setAutoCommit(false);
@@ -163,10 +170,12 @@ public class ManagerDaoImpl implements IManagerDao{
 			e.printStackTrace();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			result = false;
 			e.printStackTrace();
 		}
 		finally {
 			DatabaseConnection.close(con);
 		}
+		return result;
 	}
 }
