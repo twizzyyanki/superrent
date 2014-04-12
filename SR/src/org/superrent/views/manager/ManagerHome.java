@@ -16,6 +16,8 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
+import net.miginfocom.swing.MigLayout;
+
 import org.superrent.controllers.ManagerController;
 
 
@@ -51,7 +53,7 @@ public class ManagerHome extends JFrame {
 	public ManagerHome() {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 840, 448);
+		setBounds(100, 100, 874, 601);
 
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);

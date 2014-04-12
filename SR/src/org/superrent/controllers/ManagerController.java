@@ -2,9 +2,16 @@ package org.superrent.controllers;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import org.superrent.daos.IManagerDao;
 import org.superrent.daos.ManagerDaoImpl;
+import org.superrent.entities.VehicleVO;
+import org.superrent.views.manager.AddVehiclePanel;
 import org.superrent.views.manager.ManagerHome;
 
 public class ManagerController implements ActionListener {
@@ -18,6 +25,7 @@ public class ManagerController implements ActionListener {
 		
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -32,11 +40,23 @@ public class ManagerController implements ActionListener {
 		    	managerFrame.getSearchVehicleListPanel().setEnabled(false);
 		    	managerFrame.getSearchVehicleListPanel().setVisible(false);
 		    	
-		    	String str = managerFrame.getAddVehiclePanel().getRegNumberTxt();
-				System.out.println("add this register number to vehicle table" + str);
 		    	managerFrame.getAddVehiclePanel().setEnabled(true);
 				managerFrame.getAddVehiclePanel().setVisible(true);
 
+			}
+		    if (e.getActionCommand().equals("Add")) {
+		    	System.out.println("Getting here");
+		    							    	
+		    	VehicleVO vehicleVO = new VehicleVO();
+		    	vehicleVO.setRegNo(managerFrame.getAddVehiclePanel().getRegNumberTxt());
+		    	vehicleVO.setCategory((String) managerFrame.getAddVehiclePanel().getCategoryCombox().getSelectedItem());
+		    	vehicleVO.setType((String)managerFrame.getAddVehiclePanel().getTypeCombox().getSelectedItem());
+		    	vehicleVO.setBrand(managerFrame.getAddVehiclePanel().getBrandTxt());
+		    	Date purchaseDate =	managerFrame.getAddVehiclePanel().getCalendar().getDate();
+		    	java.sql.Date sqlDate = new java.sql.Date(purchaseDate.getTime());
+		    	vehicleVO.setPurchaseDate(sqlDate);
+		    	managerDao.addVehicle(vehicleVO);
+		    	managerFrame.getAddVehiclePanel().clearVehicleScreen();		    			    	
 			}
 		    else if(e.getActionCommand().equals("Search Vehicle")) {
 		    	
