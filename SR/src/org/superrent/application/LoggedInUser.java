@@ -21,15 +21,15 @@ public class LoggedInUser {
 	/**
 	 * @return the userId
 	 */
-	public String getUserId() {
+	public static String getUserId() {
 		return userId;
 	}
 
 	/**
 	 * @param userId the userId to set
 	 */
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public static void setUserId(String userIds) {
+		userId = userIds;
 	}
 	
 }

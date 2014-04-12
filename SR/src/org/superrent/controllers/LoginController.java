@@ -29,9 +29,7 @@ public class LoginController implements ActionListener {
 	private ClubMember c;
 	private SystemAdmin s;
 	RetrieveLoginDetails jd;
-	// private Clerk k;
-
-	LoggedInUser loggedInUser = new LoggedInUser();
+	// private Clerk k;	
 
 	public int login(String username, String password) {
 		Map<String, String> user = null;
@@ -40,7 +38,7 @@ public class LoginController implements ActionListener {
 			if (user != null) {
 				String privilege = user.get("type");
 				System.out.println(privilege);
-				loggedInUser.setUserId(privilege);
+				LoggedInUser.setPrivilege(Integer.parseInt(privilege));
 				return Integer.valueOf(privilege);
 			}
 		} catch (Exception e) {
