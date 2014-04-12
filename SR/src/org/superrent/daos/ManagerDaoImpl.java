@@ -122,7 +122,7 @@ public class ManagerDaoImpl implements IManagerDao{
 			
 			String query = "UPDATE Vehicle SET category = '" + vehicleVO.getCategory() + "', type ='"
 													+ vehicleVO.getType() +"',brand = '"+ vehicleVO.getBrand()+"', purchaseDate= '"+
-													vehicleVO.getPurchaseDate() + "'";
+													vehicleVO.getPurchaseDate() + "' WHERE regNo = " + vehicleVO.getRegNo();
 			System.out.println(query);
 			st.executeUpdate(query);
 			con.commit();
@@ -155,8 +155,8 @@ public class ManagerDaoImpl implements IManagerDao{
 			Statement st = con.createStatement();
 			
 			String query = "INSERT INTO ForSaleVehicles values (" + sellVehicleVO.getRegNo() +"," + sellVehicleVO.getPrice() + ","
-													+ null +","+ null +","+
-													sellVehicleVO.getForSaleFrom()+ ")";
+													+ null +","+ null +",'"+
+													sellVehicleVO.getForSaleFrom()+ "')";
 			System.out.println(query);
 			st.executeUpdate(query);
 			con.commit();

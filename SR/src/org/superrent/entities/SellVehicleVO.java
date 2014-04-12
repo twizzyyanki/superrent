@@ -4,27 +4,31 @@ import java.util.Date;
 
 public class SellVehicleVO {
 	
-	private int regNo;
-	private double price;
-	private double soldPrice;
+	private String regNo;
+	private String price;
+	private String soldPrice;
 	private Date soldDate;
 	private Date forSaleFrom;
-	public int getRegNo() {
+	
+	
+	
+	public String getRegNo() {
 		return regNo;
 	}
-	public void setRegNo(int regNo) {
+	public void setRegNo(String regNo) {
 		this.regNo = regNo;
 	}
-	public double getPrice() {
+	
+	public String getPrice() {
 		return price;
 	}
-	public void setPrice(double price) {
+	public void setPrice(String price) {
 		this.price = price;
 	}
-	public double getSoldPrice() {
+	public String getSoldPrice() {
 		return soldPrice;
 	}
-	public void setSoldPrice(double soldPrice) {
+	public void setSoldPrice(String soldPrice) {
 		this.soldPrice = soldPrice;
 	}
 	public Date getSoldDate() {

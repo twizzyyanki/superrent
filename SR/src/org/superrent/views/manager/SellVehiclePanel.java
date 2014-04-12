@@ -39,7 +39,15 @@ public class SellVehiclePanel extends JPanel{
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("default:grow"),
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,},
 			new RowSpec[] {
@@ -62,7 +70,7 @@ public class SellVehiclePanel extends JPanel{
 		add(label, "10, 6, center, default");
 		
 		JScrollPane scrollPane = new JScrollPane();
-		add(scrollPane, "2, 10, 9, 1, fill, fill");
+		add(scrollPane, "2, 10, 19, 1, fill, fill");
 		
 		sellTable = new JTable();
 		scrollPane.setViewportView(sellTable);
@@ -74,8 +82,14 @@ public class SellVehiclePanel extends JPanel{
 			}
 		));
 		
+		JButton btnEditSellingPrice = new JButton("Edit");
+		add(btnEditSellingPrice, "8, 12");
+		
 		
 		add(btnSellVehicle, "10, 12, center, default");
+		
+		JButton btnTorent = new JButton("To-Rent");
+		add(btnTorent, "12, 12");
 		
 		btnSellVehicle.addActionListener(managerController);
 

@@ -2,6 +2,10 @@ package org.superrent.views.manager;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -17,10 +21,7 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 import com.toedter.calendar.JCalendar;
-
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
+import java.awt.Component;
 
 public class AddVehiclePanel extends JPanel implements ActionListener {
 	/**
@@ -34,9 +35,9 @@ public class AddVehiclePanel extends JPanel implements ActionListener {
 	JComboBox<String> categoryCombox = new JComboBox<String>();
 	JComboBox<String> typeCombox = new JComboBox<String>();
 	ManagerController managerController;
-	
-	JButton btnAdd = new JButton("Add");
-	
+	JButton btnAdd = new JButton("Save");
+
+
 	private final JLabel lblPurchaseDate = new JLabel("Purchase Date");
 	private JCalendar calendar = new JCalendar();
 
@@ -63,7 +64,11 @@ public class AddVehiclePanel extends JPanel implements ActionListener {
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(101dlu;default)"),},
+				ColumnSpec.decode("max(104dlu;default)"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,},
 			new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
@@ -78,7 +83,7 @@ public class AddVehiclePanel extends JPanel implements ActionListener {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
+				RowSpec.decode("max(75dlu;default)"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
@@ -125,6 +130,8 @@ public class AddVehiclePanel extends JPanel implements ActionListener {
 		brandTxt.setColumns(10);
 		
 		add(lblPurchaseDate, "10, 14");
+		calendar.setAlignmentY(Component.TOP_ALIGNMENT);
+		calendar.setAlignmentX(Component.LEFT_ALIGNMENT);
 		calendar.setLocale(Locale.US);
 		
 		add(calendar, "14, 14, fill, fill");
@@ -132,7 +139,22 @@ public class AddVehiclePanel extends JPanel implements ActionListener {
 		
 		add(btnAdd, "12, 16");
 		btnAdd.addActionListener(managerController);
+		
+	}
 
+	public void setCalendar(String calendar) {
+		
+		String pattern = "yyyy-MM-dd HH:mm:ss";
+		Date date = null;
+		try {
+			date = (Date) new SimpleDateFormat(pattern).parse(calendar);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		this.calendar.setDate(date);
 	}
 
 	@Override
@@ -169,30 +191,48 @@ public class AddVehiclePanel extends JPanel implements ActionListener {
 		return brandTxt.getText();
 	}
 
-	public void setBrandTxt(JTextField brandTxt) {
-		this.brandTxt = brandTxt;
+	public void setBrandTxt(String brandTxt) {
+		this.brandTxt.setText(brandTxt);
 	}
 
-	public void setRegNumberTxt(JTextField regNumberTxt) {
-		this.regNumberTxt = regNumberTxt;
+	public void setRegNumberTxt(String regNumberTxt) {
+		this.regNumberTxt.setText(regNumberTxt);
 	}
 	
 	public JComboBox<String> getCategoryCombox() {
 		return categoryCombox;
 	}
 
-	public void setCategoryCombox(JComboBox<String> categoryCombox) {
-		this.categoryCombox = categoryCombox;
+	public void setCategoryCombox(String categoryCombox) {
+		this.categoryCombox.setSelectedItem(categoryCombox);
 	}
 
 	public JComboBox<String> getTypeCombox() {
 		return typeCombox;
 	}
 
-	public void setTypeCombox(JComboBox<String> typeCombox) {
-		this.typeCombox = typeCombox;
+	public void setTypeCombox(String typeCombox) {
+		this.typeCombox.setSelectedItem(typeCombox);
 	}
 
+	public JButton getBtnAdd() {
+		return btnAdd;
+	}
 
+	public JLabel getLblAddVehicle() {
+		return lblAddVehicle;
+	}
+
+	public void setLblAddVehicle(JLabel lblAddVehicle) {
+		this.lblAddVehicle = lblAddVehicle;
+	}
+
+	public void setBtnAdd(JButton btnAdd) {
+		this.btnAdd = btnAdd;
+	}
+	
+	public void disableRegNoTxt(){
+		regNumberTxt.setEnabled(false);
+	}
 
 }

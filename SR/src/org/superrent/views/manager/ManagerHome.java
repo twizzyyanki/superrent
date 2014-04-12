@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -45,7 +46,16 @@ public class ManagerHome extends JFrame {
 	SearchVehiclePanel searchVehicleListPanel = new SearchVehiclePanel(managerController);
 	AddVehiclePanel addVehiclePanel = new AddVehiclePanel(managerController);
 	ManageRatesPanel manageRatesPanel = new ManageRatesPanel(managerController);
-	
+	EditVehicleInfoDialog editVehicleInfoDialog = new EditVehicleInfoDialog(managerController);
+	SellingVehicleDialog sellingVehicleDialog = new SellingVehicleDialog(managerController);
+
+	public EditVehicleInfoDialog getEditVehicleInfoDialog() {
+		return editVehicleInfoDialog;
+	}
+
+	public void setEditVehicleInfoDialog(EditVehicleInfoDialog editVehicleInfoDialog) {
+		this.editVehicleInfoDialog = editVehicleInfoDialog;
+	}
 
 	/**
 	 * Create the frame.
@@ -124,7 +134,8 @@ public class ManagerHome extends JFrame {
 		panel_1.setLayout(new MigLayout("", "[][][]", "[]"));
 
 		
-		
+		editVehicleInfoDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		sellingVehicleDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		
 		
 		//adding panel5 and panel6 to panel2
@@ -157,6 +168,14 @@ public class ManagerHome extends JFrame {
 
 	}	
 	
+	public SellingVehicleDialog getSellingVehicleDialog() {
+		return sellingVehicleDialog;
+	}
+
+	public void setSellingVehicleDialog(SellingVehicleDialog sellingVehicleDialog) {
+		this.sellingVehicleDialog = sellingVehicleDialog;
+	}
+
 	public SearchVehiclePanel getSearchVehicleListPanel() {
 		return searchVehicleListPanel;
 	}
