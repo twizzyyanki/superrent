@@ -12,7 +12,6 @@ import org.superrent.application.DatabaseConnection;
 import org.superrent.entities.RegUser;
 import org.superrent.entities.User;
 
-
 public class UserDAO {
 
 	public static List<Map<String, String>> loginUser(String username,
@@ -63,16 +62,9 @@ public class UserDAO {
 				String query = "SELECT * FROM User WHERE uid = " + uid;
 				System.out.println("query is: " + query);
 				user = st.executeQuery(query);
-
 				user = st.executeQuery("SELECT * FROM User WHERE uid = " + uid);
-
-				System.out.println("Size of result set is "
-						+ user.getFetchSize());
-
 				mm = DatabaseConnection.map(user);
-
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} finally {
 				DatabaseConnection.close(connection);
@@ -82,5 +74,42 @@ public class UserDAO {
 			return null;
 		}
 		return mm;
+	}
+
+	public static User findUserByEmail(String email) {
+		Connection connection = null;
+		ResultSet user = null;
+		User u = new User();
+		try {
+			connection = DatabaseConnection.createConnection();
+			System.out.println(connection.toString());
+			Statement st = connection.createStatement();
+			String query = "SELECT * FROM User WHERE email='" + email + "'";
+			System.out.println("query is: " + query);
+			user = st.executeQuery(query);
+
+			if (user != null) {
+				while (user.next()) {
+					u.setUid(user.getInt("uid"));
+					u.setEmail(user.getString("email"));
+					u.setName(user.getString("name"));
+					// user = st.executeQuery("SELECT * FROM User WHERE uid = "
+					// + uid);
+				}
+			} else {
+				System.out
+						.println("Resultset is null and this is how you want fddfd it");
+			}
+		} catch (Exception e) {
+			// DatabaseConnection.rollback(connection);
+			e.printStackTrace();
+		} finally {
+			DatabaseConnection.close(connection);
+		}
+		if (user != null) {
+			return u;
+		} else {
+			return null;
+		}
 	}
 }
