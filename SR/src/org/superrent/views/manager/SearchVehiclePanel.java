@@ -18,6 +18,7 @@ import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
+import com.toedter.calendar.JYearChooser;
 
 public class SearchVehiclePanel extends JPanel implements ActionListener{
 	/**
@@ -54,7 +55,7 @@ public class SearchVehiclePanel extends JPanel implements ActionListener{
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("default:grow"),
+				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -65,9 +66,9 @@ public class SearchVehiclePanel extends JPanel implements ActionListener{
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
+				RowSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
+				RowSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_ROWSPEC,
@@ -105,12 +106,11 @@ public class SearchVehiclePanel extends JPanel implements ActionListener{
 																		  "CARGO VAN"}));
 		add(typeCombox, "14, 4, fill, default");
 		
-		JLabel lblPurchasedyear = new JLabel("PurchasedYear(LESS THAN)");
+		JLabel lblPurchasedyear = new JLabel("Year Purchased");
 		add(lblPurchasedyear, "16, 4, right, default");
 		
-		JComboBox<String> yearCombox = new JComboBox<String>();
-		yearCombox.setModel(new DefaultComboBoxModel<String>(new String[] {"Current", "2013", "2012", "2011", "2010", "2009", "2008", "2007", "2006", "2005", "2004", "2003", "2002", "2001", "2000", ">2000"}));
-		add(yearCombox, "18, 4, fill, default");
+		JYearChooser yearChooser = new JYearChooser();
+		add(yearChooser, "18, 4, left, fill");
 		
 		JButton btnSearch = new JButton("Search");
 		add(btnSearch, "20, 4, right, default");
@@ -132,6 +132,10 @@ public class SearchVehiclePanel extends JPanel implements ActionListener{
 			}
 		));
 		scrollPane.setViewportView(searchtable);
+		
+		JButton btnEdit = new JButton("Edit");
+		btnEdit.addActionListener(managerController);
+		add(btnEdit, "16, 10, center, fill");
 		
 		JButton btnAddForSale = new JButton("Add For Sale");
 		add(btnAddForSale, "18, 10, center, default");
