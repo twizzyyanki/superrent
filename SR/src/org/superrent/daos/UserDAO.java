@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import org.superrent.application.DatabaseConnection;
+import org.superrent.application.LoggedInUser;
 import org.superrent.entities.RegUser;
 import org.superrent.entities.User;
 
@@ -29,23 +30,24 @@ public class UserDAO {
 			String query = "SELECT * FROM RegUser WHERE username='" + username
 					+ "' AND password='" + password + "'";
 			System.out.println("query is: " + query);
-			regUser = st.executeQuery(query);
-
-			System.out.println("Size of result dset is "
-					+ regUser.getFetchSize());
+			regUser = st.executeQuery(query);		
 
 			if (regUser != null) {
 				while (regUser.next()) {
-					uid = regUser.getInt(1);
+					
+					uid = regUser.getInt("uid");
+					System.out.println("Setting uid to " + uid);
 					// user = st.executeQuery("SELECT * FROM User WHERE uid = "
 					// + uid);
 				}
+				LoggedInUser.setUserId(String.valueOf(uid));
+				System.out.println("User id is now set to" + LoggedInUser.getUserId());
 			} else {
 				System.out
 						.println("Resultset is null and this is how you want fddfd it");
 			}
 
-			System.out.println("User id is" + uid);
+			System.out.println("User id is " + uid);
 
 		} catch (Exception e) {
 			DatabaseConnection.rollback(connection);
@@ -69,7 +71,6 @@ public class UserDAO {
 			} finally {
 				DatabaseConnection.close(connection);
 			}
-
 		} else {
 			return null;
 		}
