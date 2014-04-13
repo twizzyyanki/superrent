@@ -28,8 +28,23 @@ public class ManagerDaoImpl implements IManagerDao{
 			Statement st = con.createStatement();
 			String category =(String)managerFrame.getSearchVehicleListPanel().getCategoryCombox().getSelectedItem();
 			String type =(String)managerFrame.getSearchVehicleListPanel().getTypeCombox().getSelectedItem();
-			String query = "SELECT * FROM Vehicle Where 1=1 " + (category.equalsIgnoreCase("All") ?(""):("and category = " + "'" + category.toUpperCase() + 
-					"'"))	+ (type.equalsIgnoreCase("All") ?(""):("and type = " + "'" + type.toUpperCase() + "'"));  
+			int year = managerFrame.getSearchVehicleListPanel().getYearChooser().getValue();
+			String status = (String)managerFrame.getSearchVehicleListPanel().getStatusCombox().getSelectedItem();
+			int inputStatus = 3;
+			
+			if(status.equalsIgnoreCase("Sold")){
+				inputStatus = 2;
+			}else if(status.equalsIgnoreCase("For-Rent")){
+				inputStatus = 0;
+			}else if(status.equalsIgnoreCase("For-Sale")){
+				inputStatus = 1;
+			}
+
+			System.out.println("inputStatus " + inputStatus + "status " + status);
+			String query = "SELECT regNo as RegisterNumber, category as Category, type as Type, brand as Brand,purchaseDate as PurchasedDate, CASE "
+								+ " WHEN status = 0 THEN 'FOR-RENT' WHEN status = 1 THEN 'FOR-SALE' WHEN status = 2 THEN 'SOLD'	END AS Status FROM Vehicle Where year(purchaseDate) <= " 
+								+ year + " "+ (category.equalsIgnoreCase("All") ?(""):("and category = " + "'" + category.toUpperCase() + 
+								"'"))	+ (type.equalsIgnoreCase("All") ?(""):("and type = " + "'" + type.toUpperCase() + "'" + status.equalsIgnoreCase("All"))) + (inputStatus == 3 ? "" : " and status = " + inputStatus);  
 			System.out.println(query);
 			
 			resultSet = st.executeQuery(query);
@@ -59,7 +74,7 @@ public class ManagerDaoImpl implements IManagerDao{
 			con.setAutoCommit(false);
 			Statement st = con.createStatement();
 			System.out.println( "------" + managerFrame.getComboBox_1().getSelectedItem());
-			String query = "SELECT * FROM ForSaleVehicles";
+			String query = "SELECT regNo as RegisterNumber, price as Price, dateMadeAvailableForSale as ForSaleFrom FROM ForSaleVehicles where soldDate is null";
 			resultSet = st.executeQuery(query);
 			System.out.println("In here");
 			managerFrame.getSellVehicleListPanel().getSellTable().setModel(DbUtils.resultSetToTableModel(resultSet));
@@ -155,14 +170,47 @@ public class ManagerDaoImpl implements IManagerDao{
 			Statement st = con.createStatement();
 			
 			String query = "INSERT INTO ForSaleVehicles values (" + sellVehicleVO.getRegNo() +"," + sellVehicleVO.getPrice() + ","
-													+ null +","+ null +",'"+
+													+ null +",'"+
 													sellVehicleVO.getForSaleFrom()+ "')";
 			System.out.println(query);
 			st.executeUpdate(query);
+			String changeStatus = "UPDATE Vehicle SET status = 1 where regNo =" + sellVehicleVO.getRegNo();
+			st.executeUpdate(changeStatus);
 			con.commit();
 			System.out.println("In here");
 			
 			System.out.println("Working");
+			//result = DatabaseConnection.map(resultSet);
+
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			result = false;
+			e.printStackTrace();
+		}
+		finally {
+			DatabaseConnection.close(con);
+		}
+		return result;
+	}
+
+	@Override
+	public boolean vehicleSold(SellVehicleVO sellVehicleVO) {
+		boolean result = true;
+		try {
+			con = DatabaseConnection.createConnection();
+			con.setAutoCommit(false);
+			Statement st = con.createStatement();
+			
+			String query = "UPDATE ForSaleVehicles SET soldDate = CURDATE() where regNo =" + sellVehicleVO.getRegNo();
+			System.out.println(query);
+			st.executeUpdate(query);
+			String changeStatus = "UPDATE Vehicle SET status = 2 where regNo =" + sellVehicleVO.getRegNo();
+			st.executeUpdate(changeStatus);
+			con.commit();
+			
 			//result = DatabaseConnection.map(resultSet);
 
 		} catch (ClassNotFoundException e) {

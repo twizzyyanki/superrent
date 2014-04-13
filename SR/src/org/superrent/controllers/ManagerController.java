@@ -169,16 +169,42 @@ public class ManagerController implements ActionListener {
 		
 		
 		else if (e.getActionCommand().equals("Sell")) {
-
+			SellVehicleVO sellVehicleVO = new SellVehicleVO();
 			int row = managerFrame.getSellVehicleListPanel().getSellTable()
 					.getSelectedRow();
 			if (row != -1) {
-				String regNumber = (String) managerFrame
+				sellVehicleVO.setRegNo(managerFrame
 						.getSellVehicleListPanel().getSellTable().getModel()
-						.getValueAt(row, 0);
-				System.out
-						.println("Delete entry in vehicle and vehicle for sale table"
-								+ row + "---" + regNumber);
+						.getValueAt(row, 0).toString());
+				boolean result = managerDao.vehicleSold(sellVehicleVO);
+				
+				if (result) {
+
+					SuccessDialog dialog = new SuccessDialog();
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setLocation(
+							(Toolkit.getDefaultToolkit().getScreenSize().width) / 2
+									- dialog.getWidth() / 2, (Toolkit
+									.getDefaultToolkit().getScreenSize().height)
+									/ 2 - dialog.getHeight() / 2);
+					getVehicle(managerFrame);
+					dialog.setVisible(true);
+					managerDao.getVehiclesForSelling(managerFrame);
+					
+
+				} else {
+
+					FailureDialog dialog = new FailureDialog();
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setLocation(
+							(Toolkit.getDefaultToolkit().getScreenSize().width) / 2
+									- dialog.getWidth() / 2, (Toolkit
+									.getDefaultToolkit().getScreenSize().height)
+									/ 2 - dialog.getHeight() / 2);
+					dialog.setVisible(true);
+
+				}
+				
 			}
 
 		} else if (e.getActionCommand().equals("Update")) {
