@@ -1,14 +1,7 @@
 package org.superrent.entities;
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 import java.io.Serializable;
 import java.util.Date;
-
-
 /**
  *
  * @author welcome
@@ -16,10 +9,13 @@ import java.util.Date;
 
 public class RegUser implements Serializable {
     private static final long serialVersionUID = 1L;
-   
-    private String username;   
-    private String password;   
-    private Date datecreated;    
+  
+    private String username;
+    
+    private String password;    
+    
+    private Date datecreated;
+    
     private User uid;
 
     public RegUser() {
@@ -89,7 +85,7 @@ public class RegUser implements Serializable {
 
     @Override
     public String toString() {
-        return "org.superrent.entities.RegUser[ username=" + username + " ]";
+        return "superrent.RegUser[ username=" + username + " ]";
     }
     
 }

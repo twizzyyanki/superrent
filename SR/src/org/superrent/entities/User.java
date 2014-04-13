@@ -1,40 +1,39 @@
-package org.superrent.entities;
-
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+package org.superrent.entities;
+
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
-
-import org.superrent.views.clubmember.ClubMember;
 
 /**
  *
  * @author welcome
  */
+
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
-    
+   
     private Integer uid;
    
     private String name;
-   
+    
     private String email;
     
-    private int phoneNumber;
+    private long phoneNumber;
    
     private Date dateCreated;
-   
-    private String type;
-   
+    
+    private int type;
+    
     private String address;
    
     private ClubMember clubMember;
    
- //   private Collection<MakeReservation> makeReservationCollection;
-   
+    private Collection<MakeReservation> makeReservationCollection;
+    
     private RegUser regUser;
 
     public User() {
@@ -44,7 +43,7 @@ public class User implements Serializable {
         this.uid = uid;
     }
 
-    public User(Integer uid, String name, String email, int phoneNumber, Date dateCreated, String type, String address) {
+    public User(Integer uid, String name, String email, long phoneNumber, Date dateCreated, int type, String address) {
         this.uid = uid;
         this.name = name;
         this.email = email;
@@ -78,11 +77,11 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public int getPhoneNumber() {
+    public long getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(long phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
@@ -94,11 +93,11 @@ public class User implements Serializable {
         this.dateCreated = dateCreated;
     }
 
-    public String getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(int type) {
         this.type = type;
     }
 
@@ -118,7 +117,6 @@ public class User implements Serializable {
         this.clubMember = clubMember;
     }
 
-   /*
     public Collection<MakeReservation> getMakeReservationCollection() {
         return makeReservationCollection;
     }
@@ -126,7 +124,6 @@ public class User implements Serializable {
     public void setMakeReservationCollection(Collection<MakeReservation> makeReservationCollection) {
         this.makeReservationCollection = makeReservationCollection;
     }
-    */
 
     public RegUser getRegUser() {
         return regUser;
@@ -158,7 +155,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "ugochukwu.agu.thoughtworks.User[ uid=" + uid + " ]";
+        return "superrent.User[ uid=" + uid + " ]";
     }
     
 }
