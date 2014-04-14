@@ -48,6 +48,7 @@ public class ManagerHome extends JFrame {
 	ManageRatesPanel manageRatesPanel = new ManageRatesPanel(managerController);
 	EditVehicleInfoDialog editVehicleInfoDialog = new EditVehicleInfoDialog(managerController);
 	SellingVehicleDialog sellingVehicleDialog = new SellingVehicleDialog(managerController);
+	EditForSalePrice editForSalePriceDialog = new EditForSalePrice(managerController);
 
 	public EditVehicleInfoDialog getEditVehicleInfoDialog() {
 		return editVehicleInfoDialog;
@@ -136,6 +137,7 @@ public class ManagerHome extends JFrame {
 		
 		editVehicleInfoDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		sellingVehicleDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		editForSalePriceDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		
 		
 		//adding panel5 and panel6 to panel2
@@ -263,6 +265,14 @@ public class ManagerHome extends JFrame {
 
 	public void setManageRatesPanel(ManageRatesPanel manageRatesPanel) {
 		this.manageRatesPanel = manageRatesPanel;
+	}
+
+	public EditForSalePrice getEditForSalePriceDialog() {
+		return editForSalePriceDialog;
+	}
+
+	public void setEditForSalePriceDialog(EditForSalePrice editForSalePriceDialog) {
+		this.editForSalePriceDialog = editForSalePriceDialog;
 	}
 
 	

@@ -160,7 +160,7 @@ public class ManagerDaoImpl implements IManagerDao{
 		return result;
 		
 	}
-
+	//have to add one more error message dialog 
 	@Override
 	public boolean sellVehicle(SellVehicleVO sellVehicleVO) {
 		boolean result = true;
@@ -225,5 +225,64 @@ public class ManagerDaoImpl implements IManagerDao{
 			DatabaseConnection.close(con);
 		}
 		return result;
+	}
+
+	@Override
+	public boolean updateSellingPrice(SellVehicleVO sellVehicleVO) {
+		boolean result = true;
+		try {
+			con = DatabaseConnection.createConnection();
+			con.setAutoCommit(false);
+			Statement st = con.createStatement();
+			
+			String query = "UPDATE ForSaleVehicles SET price = " + sellVehicleVO.getPrice() + " where regNo =" + sellVehicleVO.getRegNo();
+			System.out.println(query);
+			
+			st.executeUpdate(query);
+			con.commit();
+
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			result = false;
+			e.printStackTrace();
+		}
+		finally {
+			DatabaseConnection.close(con);
+		}
+		return result;
+	
+	}
+	
+	@Override
+	public boolean moveForRent(SellVehicleVO sellVehicleVO) {
+		boolean result = true;
+		try {
+			con = DatabaseConnection.createConnection();
+			con.setAutoCommit(false);
+			Statement st = con.createStatement();
+			
+			String query = "DELETE FROM ForSaleVehicles where regNo =" + sellVehicleVO.getRegNo();
+			System.out.println(query);
+			st.executeUpdate(query);
+			String changeStatus = "UPDATE Vehicle SET status = 0 where regNo =" + sellVehicleVO.getRegNo();
+			st.executeUpdate(changeStatus);
+			con.commit();
+
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			result = false;
+			e.printStackTrace();
+		}
+		finally {
+			DatabaseConnection.close(con);
+		}
+		return result;
+	
 	}
 }

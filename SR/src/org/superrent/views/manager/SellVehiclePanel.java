@@ -1,5 +1,7 @@
 package org.superrent.views.manager;
 
+import java.awt.Font;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -13,7 +15,6 @@ import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
-import java.awt.Font;
 
 public class SellVehiclePanel extends JPanel{
 	/**
@@ -98,8 +99,9 @@ public class SellVehiclePanel extends JPanel{
 		sellTable.getColumnModel().getColumn(0).setPreferredWidth(107);
 		sellTable.getColumnModel().getColumn(2).setPreferredWidth(88);
 		
-		JButton btnEditSellingPrice = new JButton("Edit");
+		JButton btnEditSellingPrice = new JButton("Change Price");
 		add(btnEditSellingPrice, "14, 12");
+		btnEditSellingPrice.addActionListener(managerController);
 		
 		
 		add(btnSellVehicle, "16, 12, center, default");
@@ -108,6 +110,7 @@ public class SellVehiclePanel extends JPanel{
 		
 		JButton btnTorent = new JButton("To-Rent");
 		add(btnTorent, "18, 12");
+		btnTorent.addActionListener(managerController);
 
 	}
 	
@@ -118,6 +121,7 @@ public class SellVehiclePanel extends JPanel{
 	public void setSellTable(JTable sellTable) {
 		this.sellTable = sellTable;
 	}
+
 
 	
 }

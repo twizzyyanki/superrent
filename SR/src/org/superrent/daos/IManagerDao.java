@@ -18,4 +18,8 @@ public interface IManagerDao {
 	public boolean sellVehicle(SellVehicleVO sellVehicleVO);
 	
 	public boolean vehicleSold(SellVehicleVO sellVehicleVO);
+
+	public boolean updateSellingPrice(SellVehicleVO sellVehicleVO);
+
+	boolean moveForRent(SellVehicleVO sellVehicleVO);
 }

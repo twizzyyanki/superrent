@@ -3,8 +3,6 @@ package org.superrent.controllers;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.JDialog;
@@ -275,9 +273,105 @@ public class ManagerController implements ActionListener {
 			}
 			
 		}
+		
+		else if (e.getActionCommand().equals("Change Price")) {
+			
+			
+			
+			//EditVehicleInfoDialog.getAddVehiclePanel().setRegNumberTxt(managerFrame.getSearchVehicleListPanel().getSearchtable().getSelectedRow());
+			int row =managerFrame.getSellVehicleListPanel().getSellTable().getSelectedRow();
+			if (row != -1) {
+				managerFrame.getEditForSalePriceDialog().setRegisterNumber((String) managerFrame
+						.getSellVehicleListPanel().getSellTable().getModel()
+						.getValueAt(row, 0).toString());
+				managerFrame.getEditForSalePriceDialog().setPrice((String) managerFrame
+						.getSellVehicleListPanel().getSellTable().getModel()
+						.getValueAt(row, 1).toString());
+				managerFrame.getEditForSalePriceDialog().setVisible(true);
+				
+			}
+			
+		} else if (e.getActionCommand().equals("Confirm Change")) {
+			SellVehicleVO sellVehicleVO = new SellVehicleVO();
+			sellVehicleVO.setRegNo(managerFrame.getEditForSalePriceDialog().getRegisterNumber());
+			sellVehicleVO.setPrice(managerFrame.getEditForSalePriceDialog().getPrice());
+			
+			boolean result = managerDao.updateSellingPrice(sellVehicleVO);
+			
+			if (result) {
 
+				SuccessDialog dialog = new SuccessDialog();
+				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+				dialog.setLocation(
+						(Toolkit.getDefaultToolkit().getScreenSize().width) / 2
+								- dialog.getWidth() / 2, (Toolkit
+								.getDefaultToolkit().getScreenSize().height)
+								/ 2 - dialog.getHeight() / 2);
+				getVehicle(managerFrame);
+				dialog.setVisible(true);
+				managerDao.getVehiclesForSelling(managerFrame);
+				managerFrame.getEditForSalePriceDialog().dispose();
+				
+
+			} else {
+
+				FailureDialog dialog = new FailureDialog();
+				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+				dialog.setLocation(
+						(Toolkit.getDefaultToolkit().getScreenSize().width) / 2
+								- dialog.getWidth() / 2, (Toolkit
+								.getDefaultToolkit().getScreenSize().height)
+								/ 2 - dialog.getHeight() / 2);
+				dialog.setVisible(true);
+
+			}
+			
+			
+		}
+		
+		else if (e.getActionCommand().equals("To-Rent")) {
+			
+			
+			SellVehicleVO sellVehicleVO = new SellVehicleVO();
+			
+			int row =managerFrame.getSellVehicleListPanel().getSellTable().getSelectedRow();
+			if (row != -1) {
+				sellVehicleVO.setRegNo((String) managerFrame
+						.getSellVehicleListPanel().getSellTable().getModel()
+						.getValueAt(row, 0).toString());
+				boolean result = managerDao.moveForRent(sellVehicleVO);
+				
+				if (result) {
+
+					SuccessDialog dialog = new SuccessDialog();
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setLocation(
+							(Toolkit.getDefaultToolkit().getScreenSize().width) / 2
+									- dialog.getWidth() / 2, (Toolkit
+									.getDefaultToolkit().getScreenSize().height)
+									/ 2 - dialog.getHeight() / 2);
+					getVehicle(managerFrame);
+					dialog.setVisible(true);
+					managerDao.getVehiclesForSelling(managerFrame);
+					
+					
+
+				} else {
+
+					FailureDialog dialog = new FailureDialog();
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setLocation(
+							(Toolkit.getDefaultToolkit().getScreenSize().width) / 2
+									- dialog.getWidth() / 2, (Toolkit
+									.getDefaultToolkit().getScreenSize().height)
+									/ 2 - dialog.getHeight() / 2);
+					dialog.setVisible(true);
+
+				}
+								
+			}
+		}	
 	}
-
 	private void disablePanels() {
 
 		managerFrame.getAddVehiclePanel().setEnabled(false);

@@ -128,7 +128,7 @@ public class SearchVehiclePanel extends JPanel implements ActionListener{
 		add(lblStatus, "20, 4, right, default");
 		
 		
-		statusCombox.setModel(new DefaultComboBoxModel(new String[] {"ALL", "FOR-RENT", "FOR-SALE", "SOLD"}));
+		statusCombox.setModel(new DefaultComboBoxModel<String>(new String[] {"ALL", "FOR-RENT", "FOR-SALE", "SOLD"}));
 		add(statusCombox, "22, 4, fill, default");
 		
 		JButton btnSearch = new JButton("Search");
@@ -136,7 +136,7 @@ public class SearchVehiclePanel extends JPanel implements ActionListener{
 		btnSearch.addActionListener(managerController);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		add(scrollPane, "2, 8, 27, 1, fill, fill");
+		add(scrollPane, "2, 8, 23, 1, fill, fill");
 		
 		searchtable = new JTable();
 		searchtable.setModel(new DefaultTableModel(
