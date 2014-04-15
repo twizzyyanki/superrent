@@ -160,7 +160,7 @@ public class ClubMember extends JFrame {
 				FormFactory.LINE_GAP_ROWSPEC,
 				RowSpec.decode("23px"),}));
 		
-		JButton Logout = new JButton("Log Out");
+		JButton Logout = new JButton("Logout");
 		Logout.addActionListener(lc);
 		panelNorth.add(Logout, "50, 2, right, top");
 		
