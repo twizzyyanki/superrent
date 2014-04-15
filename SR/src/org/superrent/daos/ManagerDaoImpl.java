@@ -94,7 +94,7 @@ public class ManagerDaoImpl implements IManagerDao{
 		
 	}
 
-	@Override
+	//@Override
 	public boolean addVehicle(VehicleVO vehicleVO) {
 		boolean result = true;
 		try {
@@ -127,7 +127,7 @@ public class ManagerDaoImpl implements IManagerDao{
 		return result;
 	}
 
-	@Override
+	//@Override
 	public boolean updateVehicle(VehicleVO vehicleVO) {
 		boolean result = true;
 		try {
@@ -161,7 +161,7 @@ public class ManagerDaoImpl implements IManagerDao{
 		
 	}
 	//have to add one more error message dialog 
-	@Override
+	//@Override
 	public boolean sellVehicle(SellVehicleVO sellVehicleVO) {
 		boolean result = true;
 		try {
@@ -196,7 +196,7 @@ public class ManagerDaoImpl implements IManagerDao{
 		return result;
 	}
 
-	@Override
+	//@Override
 	public boolean vehicleSold(SellVehicleVO sellVehicleVO) {
 		boolean result = true;
 		try {
@@ -227,7 +227,7 @@ public class ManagerDaoImpl implements IManagerDao{
 		return result;
 	}
 
-	@Override
+	//@Override
 	public boolean updateSellingPrice(SellVehicleVO sellVehicleVO) {
 		boolean result = true;
 		try {
@@ -256,7 +256,7 @@ public class ManagerDaoImpl implements IManagerDao{
 	
 	}
 	
-	@Override
+	//@Override
 	public boolean moveForRent(SellVehicleVO sellVehicleVO) {
 		boolean result = true;
 		try {

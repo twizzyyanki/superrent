@@ -3,9 +3,19 @@
 	<classpathentry kind="src" path="SR/src"/>
 	<classpathentry kind="lib" path="SR/forms-1.3.0.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+<<<<<<< HEAD
 	<classpathentry kind="lib" path="G:/eclipse/mysql-connector-java-5.0.8/mysql-connector-java-5.0.8/mysql-connector-java-5.0.8-bin.jar"/>
 	<classpathentry kind="lib" path="C:/Users/yi-man/Desktop/miglayout15-swing.jar"/>
 	<classpathentry kind="lib" path="C:/Users/yi-man/Desktop/rs2xml.jar"/>
 	<classpathentry kind="lib" path="C:/Users/yi-man/Desktop/javamail1_4_7/javamail-1.4.7/mail.jar"/>
+=======
+	<classpathentry kind="lib" path="C:/Users/Tianlai Dong/Desktop/mysql-connector-java-5.0.8/mail.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Tianlai Dong/Desktop/mysql-connector-java-5.0.8/mysql-connector-java-5.0.8-bin.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Tianlai Dong/Desktop/mysql-connector-java-5.0.8/rs2xml.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Tianlai Dong/Desktop/mysql-connector-java-5.0.8/jcalendar-1.4.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Tianlai Dong/Desktop/mysql-connector-java-5.0.8/joda-time-2.3-sources.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Tianlai Dong/Desktop/mysql-connector-java-5.0.8/miglayout15-swing.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Tianlai Dong/Desktop/mysql-connector-java-5.0.8/jstl-1.2.jar"/>
+>>>>>>> bd27c1b27298e3ca4a65681134296b998984602b
 	<classpathentry kind="output" path="SR/bin"/>
 </classpath>

@@ -155,7 +155,7 @@ public class AddVehiclePanel extends JPanel implements ActionListener {
 		this.calendar.setDate(date);
 	}
 
-	@Override
+	//@Override
 	public void actionPerformed(ActionEvent e) {
 		String item = (String)categoryCombox.getSelectedItem();
 		if(item.equalsIgnoreCase("CAR")){
