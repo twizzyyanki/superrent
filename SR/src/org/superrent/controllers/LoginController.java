@@ -4,15 +4,11 @@ import java.awt.EventQueue;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.SQLException;
-import java.util.List;
 import java.util.Map;
-
-import javax.swing.JDialog;
 import javax.swing.UIManager;
-
-import org.superrent.application.DatabaseConnection;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import org.netbeans.validation.api.Problem;
 import org.superrent.application.LoggedInUser;
 import org.superrent.application.SendMail;
 import org.superrent.daos.UserDAO;
@@ -23,14 +19,24 @@ import org.superrent.views.general.RetrieveLoginDetails;
 import org.superrent.views.manager.ManagerHome;
 import org.superrent.views.superadmin.SystemAdmin;
 
-public class LoginController implements ActionListener {
+/**
+ * @author welcome
+ * 
+ */
+public class LoginController implements ActionListener, DocumentListener {
 
 	private Login l;
 	private ClubMember c;
 	private SystemAdmin s;
 	RetrieveLoginDetails jd;
-	// private Clerk k;	
 
+	// private Clerk k;
+
+	/**
+	 * @param username
+	 * @param password
+	 * @return int
+	 */
 	public int login(String username, String password) {
 		Map<String, String> user = null;
 		try {
@@ -50,6 +56,10 @@ public class LoginController implements ActionListener {
 		return 0;
 	}
 
+	/**
+	 * @param email
+	 * @return boolean
+	 */
 	public boolean retriveUserDetails(String email) {
 
 		return false;
@@ -65,7 +75,7 @@ public class LoginController implements ActionListener {
 			if (status > 0) {
 				l.dispose();
 				if (status == 1) {
-					System.out.println("Hello there");
+					System.out.println("Club Member logging in");
 					ClubMember c = new ClubMember();
 					c.setLocationRelativeTo(null);
 					c.setVisible(true);
@@ -74,6 +84,7 @@ public class LoginController implements ActionListener {
 					System.out.println("Missing. We are waiting");
 				}
 				if (status == 3) {
+					System.out.println("Manager loggin in");
 					ManagerHome m = new ManagerHome();
 					m.setLocationRelativeTo(null);
 					m.setVisible(true);
@@ -140,14 +151,23 @@ public class LoginController implements ActionListener {
 		}
 	}
 
+	/**
+	 * @param l
+	 */
 	public LoginController(Login l) {
 		this.l = l;
 	}
 
+	/**
+	 * @param c
+	 */
 	public LoginController(ClubMember c) {
 		this.c = c;
 	}
 
+	/**
+	 * @param s
+	 */
 	public LoginController(SystemAdmin s) {
 		this.s = s;
 	}
@@ -177,6 +197,44 @@ public class LoginController implements ActionListener {
 			}
 		});
 
+	}
+
+	@Override
+	public void changedUpdate(DocumentEvent de) {
+		checkValidation();
+	}
+
+	@Override
+	public void insertUpdate(DocumentEvent de) {
+		checkValidation();
+	}
+
+	@Override
+	public void removeUpdate(DocumentEvent de) {
+		checkValidation();
+	}
+
+	private void checkValidation() {
+
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				Problem validateAll = l.getGroup().performValidation();
+				System.out.println("validate all is  " + validateAll);
+
+				if (validateAll == null) {
+					System.out.println("Getting to set button enabled");
+					l.getLogin().setEnabled(true);
+					l.revalidate();
+					l.repaint();
+					System.out.println("Getting here");
+				} else {
+					if (validateAll.isFatal()) {
+						l.getLogin().setEnabled(false);
+					}
+				}
+
+			}
+		});
 	}
 
 }
