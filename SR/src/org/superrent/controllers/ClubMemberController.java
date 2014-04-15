@@ -79,7 +79,7 @@ public class ClubMemberController implements ActionListener {
 			clubMemberView.setCenterPanel(jUProfile);
 			clubMemberView.revalidate();
 			clubMemberView.repaint();
-
+	
 		}
 		
 		// confirm button in the JChangePassword panel
@@ -155,13 +155,13 @@ public class ClubMemberController implements ActionListener {
 				// check if text area is "Update Success" to prevent updating 
 				if(!jUProfile.getTextPhone().getText().equals("Update Success")){
 					UpdateProfileDAO updatePhoneDAO = new UpdateProfileDAO();
-					int newPhoneNumber = Integer.parseInt(jUProfile.getTextPhone().getText());
+					String newPhoneNumber = jUProfile.getTextPhone().getText();
 					if(updatePhoneDAO.updatePhoneNumber(newPhoneNumber)){
 						jUProfile.getTextPhone().setText("Update Success");
 					}
 					else{
 						jUProfile.getTextPhone().setForeground(Color.RED);
-						jUProfile.getTextPhone().setText("Update fail");
+						jUProfile.getTextPhone().setText("Update fail,Please input number only");
 					}
 				}
 				else{

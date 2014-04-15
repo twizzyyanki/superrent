@@ -77,15 +77,20 @@ public class UpdateProfileDAO {
 		
 		return success;	
 	}
+	
+	
+	
 	/**
 	 * This method is used to update user's phone number
 	 * @param newPhoneNumber is the new phone number that the user wants to update
 	 * @return true if update success
 	 */
-	public boolean updatePhoneNumber(int newPhoneNumber){
+	public boolean updatePhoneNumber(String PhoneNumber){
+		
 		boolean success = false;
 		PreparedStatement  ps;
 		try{
+			int newPhoneNumber = Integer.parseInt(PhoneNumber);
 			String query = "UPDATE User SET phoneNumber = ? WHERE uid = ?";
 			ps = (PreparedStatement) connection.prepareStatement(query);
 			ps.setInt(2, uid);
@@ -102,6 +107,8 @@ public class UpdateProfileDAO {
 			  }
 			
 			
+		}catch(NumberFormatException e){
+			success = false;
 		}catch (Exception e) {
 			DatabaseConnection.rollback(connection);
 			e.printStackTrace();

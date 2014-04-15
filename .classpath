@@ -6,5 +6,6 @@
 	<classpathentry kind="lib" path="G:/eclipse/mysql-connector-java-5.0.8/mysql-connector-java-5.0.8/mysql-connector-java-5.0.8-bin.jar"/>
 	<classpathentry kind="lib" path="C:/Users/yi-man/Desktop/miglayout15-swing.jar"/>
 	<classpathentry kind="lib" path="C:/Users/yi-man/Desktop/rs2xml.jar"/>
+	<classpathentry kind="lib" path="C:/Users/yi-man/Desktop/javamail1_4_7/javamail-1.4.7/mail.jar"/>
 	<classpathentry kind="output" path="SR/bin"/>
 </classpath>
