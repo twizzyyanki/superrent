@@ -19,8 +19,8 @@ import javax.swing.border.EmptyBorder;
 
 import net.miginfocom.swing.MigLayout;
 
+import org.superrent.controllers.LoginController;
 import org.superrent.controllers.ManagerController;
-
 
 public class ManagerHome extends JFrame {
 
@@ -36,24 +36,28 @@ public class ManagerHome extends JFrame {
 	JButton btnSellVehicle = new JButton("Sell Vehicle");
 	JComboBox<String> comboBox_1 = new JComboBox<String>();
 	private JMenuItem mntmLogout;
-	
-	
+
 	JScrollPane scrollPane = new JScrollPane();
 	JScrollPane sellScrollPane = new JScrollPane();
 	private JTable searchTable, sellTable;
 	ManagerController managerController = new ManagerController(this);
-	SellVehiclePanel sellVehicleListPanel = new SellVehiclePanel(managerController);
-	SearchVehiclePanel searchVehicleListPanel = new SearchVehiclePanel(managerController);
+	SellVehiclePanel sellVehicleListPanel = new SellVehiclePanel(
+			managerController);
+	SearchVehiclePanel searchVehicleListPanel = new SearchVehiclePanel(
+			managerController);
 	AddVehiclePanel addVehiclePanel = new AddVehiclePanel(managerController);
 	ManageRatesPanel manageRatesPanel = new ManageRatesPanel(managerController);
-	EditVehicleInfoDialog editVehicleInfoDialog = new EditVehicleInfoDialog(managerController);
-	SellingVehicleDialog sellingVehicleDialog = new SellingVehicleDialog(managerController);
+	EditVehicleInfoDialog editVehicleInfoDialog = new EditVehicleInfoDialog(
+			managerController);
+	SellingVehicleDialog sellingVehicleDialog = new SellingVehicleDialog(
+			managerController);
 
 	public EditVehicleInfoDialog getEditVehicleInfoDialog() {
 		return editVehicleInfoDialog;
 	}
 
-	public void setEditVehicleInfoDialog(EditVehicleInfoDialog editVehicleInfoDialog) {
+	public void setEditVehicleInfoDialog(
+			EditVehicleInfoDialog editVehicleInfoDialog) {
 		this.editVehicleInfoDialog = editVehicleInfoDialog;
 	}
 
@@ -61,7 +65,7 @@ public class ManagerHome extends JFrame {
 	 * Create the frame.
 	 */
 	public ManagerHome() {
-		
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 874, 601);
 
@@ -100,10 +104,11 @@ public class ManagerHome extends JFrame {
 		mnProfile.add(mntmChangePassword);
 
 		mntmLogout = new JMenuItem("Logout");
+		mntmLogout.setActionCommand("Log Out");
 		mntmLogout.setHorizontalAlignment(SwingConstants.CENTER);
 		menuBar.add(mntmLogout);
-		mntmLogout.addActionListener(managerController );
-		
+		mntmLogout.addActionListener(new LoginController(this));
+
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -114,65 +119,69 @@ public class ManagerHome extends JFrame {
 		panel.setLayout(new MigLayout("", "[92px,grow]",
 				"[28px][][][][][][5.00]"));
 
-		
 		// all panel buttons
 		panel.add(btnAddVehicle, "cell 0 2,growx,aligny top");
 		btnAddVehicle.addActionListener(managerController);
-		
+
 		panel.add(btnSellVehicle, "cell 0 3,grow");
 		btnSellVehicle.addActionListener(managerController);
-		
-		panel.add(btnSearchVehicle, "cell 0 4,growx");		
+
+		panel.add(btnSearchVehicle, "cell 0 4,growx");
 		btnSearchVehicle.addActionListener(managerController);
-		
+
 		panel.add(btnChangeRates, "cell 0 5,growx");
 		btnChangeRates.addActionListener(managerController);
-		
-		//creating panel1
+
+		// creating panel1
 		JPanel panel_1 = new JPanel();
 		contentPane.add(panel_1, BorderLayout.NORTH);
 		panel_1.setLayout(new MigLayout("", "[][][]", "[]"));
 
-		
-		editVehicleInfoDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		editVehicleInfoDialog
+				.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		sellingVehicleDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-		
-		
-		//adding panel5 and panel6 to panel2
+
+		// adding panel5 and panel6 to panel2
 		JPanel panel_2 = new JPanel();
 		GroupLayout groupLayout = new GroupLayout(panel_2);
 		contentPane.add(panel_2, BorderLayout.CENTER);
 		panel_2.setLayout(groupLayout);
 		groupLayout.setHorizontalGroup(groupLayout
 				.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addComponent(searchVehicleListPanel).addComponent(addVehiclePanel).addComponent(sellVehicleListPanel).addComponent(manageRatesPanel));
+				.addComponent(searchVehicleListPanel)
+				.addComponent(addVehiclePanel)
+				.addComponent(sellVehicleListPanel)
+				.addComponent(manageRatesPanel));
 		groupLayout.setVerticalGroup(groupLayout
 				.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addComponent(searchVehicleListPanel).addComponent(addVehiclePanel).addComponent(sellVehicleListPanel).addComponent(manageRatesPanel));
-		
-		
+				.addComponent(searchVehicleListPanel)
+				.addComponent(addVehiclePanel)
+				.addComponent(sellVehicleListPanel)
+				.addComponent(manageRatesPanel));
+
 		managerController.getVehicle(this);
-		
-		//making the add vehicle panel invisible
+
+		// making the add vehicle panel invisible
 		addVehiclePanel.setEnabled(false);
 		addVehiclePanel.setVisible(false);
 		sellVehicleListPanel.setEnabled(false);
 		sellVehicleListPanel.setVisible(false);
-		
-		//creating two more panels
+
+		// creating two more panels
 		JPanel panel_3 = new JPanel();
 		contentPane.add(panel_3, BorderLayout.SOUTH);
 
 		JPanel panel_4 = new JPanel();
 		contentPane.add(panel_4, BorderLayout.EAST);
 
-	}	
-	
+	}
+
 	public SellingVehicleDialog getSellingVehicleDialog() {
 		return sellingVehicleDialog;
 	}
 
-	public void setSellingVehicleDialog(SellingVehicleDialog sellingVehicleDialog) {
+	public void setSellingVehicleDialog(
+			SellingVehicleDialog sellingVehicleDialog) {
 		this.sellingVehicleDialog = sellingVehicleDialog;
 	}
 
@@ -180,7 +189,8 @@ public class ManagerHome extends JFrame {
 		return searchVehicleListPanel;
 	}
 
-	public void setSearchVehicleListPanel(SearchVehiclePanel searchVehicleListPanel) {
+	public void setSearchVehicleListPanel(
+			SearchVehiclePanel searchVehicleListPanel) {
 		this.searchVehicleListPanel = searchVehicleListPanel;
 	}
 
@@ -200,7 +210,7 @@ public class ManagerHome extends JFrame {
 		this.sellTable = sellTable;
 	}
 
-	//all setters and getters
+	// all setters and getters
 	public JComboBox<String> getComboBox_1() {
 		return comboBox_1;
 	}
@@ -208,7 +218,7 @@ public class ManagerHome extends JFrame {
 	public void setComboBox_1(JComboBox<String> comboBox_1) {
 		this.comboBox_1 = comboBox_1;
 	}
-	
+
 	public JTable getTable_1() {
 		return searchTable;
 	}
@@ -216,7 +226,7 @@ public class ManagerHome extends JFrame {
 	public void setTable_1(JTable table_1) {
 		this.searchTable = table_1;
 	}
-	
+
 	public JButton getBtnAddVehicle() {
 		return btnAddVehicle;
 	}
@@ -264,13 +274,5 @@ public class ManagerHome extends JFrame {
 	public void setManageRatesPanel(ManageRatesPanel manageRatesPanel) {
 		this.manageRatesPanel = manageRatesPanel;
 	}
-
-	
-
-	
-
-	
-
-
 
 }

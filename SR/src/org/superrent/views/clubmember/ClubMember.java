@@ -161,6 +161,7 @@ public class ClubMember extends JFrame {
 				RowSpec.decode("23px"),}));
 		
 		JButton Logout = new JButton("Logout");
+		Logout.setActionCommand("Log Out");
 		Logout.addActionListener(lc);
 		panelNorth.add(Logout, "50, 2, right, top");
 		
@@ -171,10 +172,17 @@ public class ClubMember extends JFrame {
 	public JPanel getContentPane() {
 		return contentPane;
 	}
+	/**
+	 * @return
+	 */
 	public JPanel getPanelCenter() {
 		return panelCenter;
 	}
 	
+	/**
+	 * @param newPanel
+	 * @return
+	 */
 	public JPanel setCenterPanel(JPanel newPanel){
 		panelCenter = newPanel;
 		contentPane.add(panelCenter, BorderLayout.CENTER);

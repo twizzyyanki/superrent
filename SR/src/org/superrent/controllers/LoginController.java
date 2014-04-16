@@ -28,6 +28,7 @@ public class LoginController implements ActionListener, DocumentListener {
 	private Login l;
 	private ClubMember c;
 	private SystemAdmin s;
+	private ManagerHome m;
 	RetrieveLoginDetails jd;
 
 	// private Clerk k;
@@ -101,14 +102,14 @@ public class LoginController implements ActionListener, DocumentListener {
 		}
 
 		if (e.getActionCommand().equals("Forgot Login")) {
-			System.out.println("Getting here");
+			System.out.println("OPening forgot login JDialog");
 			jd = new RetrieveLoginDetails(this);
 			jd.setLocationRelativeTo(null);
 			jd.setVisible(true);
 		}
 
 		if (e.getActionCommand().equals("Cancel")) {
-			System.out.println("Getting here");
+			System.out.println("Cancelled the RetrieveLogin Dialog");
 			jd.dispose();
 		}
 
@@ -124,7 +125,7 @@ public class LoginController implements ActionListener, DocumentListener {
 							message);
 					jd.getMessage()
 							.setText(
-									"Your username and a new password has been sent to your mail");
+									"Your username/a new password has been sent to your mail");
 				} else {
 					jd.getMessage().setText(
 							"Email not found on our system. Please try again");
@@ -170,6 +171,13 @@ public class LoginController implements ActionListener, DocumentListener {
 	 */
 	public LoginController(SystemAdmin s) {
 		this.s = s;
+	}
+	
+	/**
+	 * @param m
+	 */
+	public LoginController(ManagerHome m) {
+		this.m = m;
 	}
 
 	/**
