@@ -91,7 +91,7 @@ public class ManagerHome extends JFrame {
 		mnClerk.add(mntmNewMenuItem_2);
 
 		JLabel lblWelcomeBackManager = new JLabel(
-				"                                                                                         Welcome Back Manager!!!!!!                                                                    ");
+				"                                                                  Welcome Back Manager!!!!!!                                             ");
 		menuBar.add(lblWelcomeBackManager);
 
 		JMenu mnProfile = new JMenu("Profile");
