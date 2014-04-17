@@ -8,6 +8,7 @@ import java.sql.Statement;
 import org.superrent.application.LoggedInUser;
 import org.superrent.application.DatabaseConnection;
 
+import sun.applet.Main;
 import sun.security.util.BigInt;
 
 import com.mysql.jdbc.PreparedStatement;
@@ -26,9 +27,9 @@ public class UpdateProfileDAO {
 		this.lc = new LoggedInUser();
 		try {
 			String uidString;
-			uidString = lc.getUserId();
+			//uidString = lc.getUserId();
 			// uidString = "1"; is just for test can delete after testing
-			uidString = "1";
+			uidString = "2";
 			this.uid = Integer.parseInt(uidString);
 			connection = DatabaseConnection.createConnection();
 			System.out.println(connection.toString());
@@ -152,5 +153,88 @@ public class UpdateProfileDAO {
 		return success;	
 	}
 	
+	/**
+	 * This method is used to get user's current name
+	 * @return user's name
+	 */
+	public String getName(){
+		String name ="";
+		try{
+			ResultSet rs;
+			Statement st = connection.createStatement();
+			String query = "SELECT name FROM User WHERE uid='" + uid +"'";
+			rs = st.executeQuery(query);
+			rs.next();
+			name = rs.getString("name");			
+			
+			
+		}catch (Exception e) {
+			DatabaseConnection.rollback(connection);
+			e.printStackTrace();
+		} finally {
+			
+			DatabaseConnection.close(connection);
+			
+		}
+		
+		return name;
+	}
+	
+	/**
+	 * This method is used to get user's phone number
+	 * @return user's phone number
+	 */
+	public long getPhoneNumber(){
+		long phoneNumber=0;
+		try{
+			ResultSet rs;
+			Statement st = connection.createStatement();
+			String query = "SELECT phoneNumber FROM User WHERE uid='" + uid +"'";
+			rs = st.executeQuery(query);
+			rs.next();
+			phoneNumber = rs.getLong("phoneNumber");			
+			
+			
+		}catch (Exception e) {
+			DatabaseConnection.rollback(connection);
+			e.printStackTrace();
+		} finally {
+			
+			DatabaseConnection.close(connection);
+			
+		}
+		
+		return phoneNumber;
+	}
+	
+	
+	/**
+	 * This method is used to get user'saddress
+	 * @return user's address
+	 */
+	public String getAddress(){
+		String address ="";
+		try{
+			ResultSet rs;
+			Statement st = connection.createStatement();
+			String query = "SELECT address FROM User WHERE uid='" + uid +"'";
+			rs = st.executeQuery(query);
+			rs.next();
+			address = rs.getString("address");			
+			
+			
+		}catch (Exception e) {
+			DatabaseConnection.rollback(connection);
+			e.printStackTrace();
+		} finally {
+			
+			DatabaseConnection.close(connection);
+			
+		}
+		
+		return address;
+	}
+	
+
 	
 }
