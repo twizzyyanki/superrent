@@ -13,6 +13,7 @@ import org.superrent.application.LoggedInUser;
 import org.superrent.application.SendMail;
 import org.superrent.daos.UserDAO;
 import org.superrent.entities.User;
+import org.superrent.views.clerk.ClerkHome;
 import org.superrent.views.clubmember.ClubMember;
 import org.superrent.views.general.Login;
 import org.superrent.views.general.RetrieveLoginDetails;
@@ -30,8 +31,7 @@ public class LoginController implements ActionListener, DocumentListener {
 	private SystemAdmin s;
 	private ManagerHome m;
 	RetrieveLoginDetails jd;
-
-	// private Clerk k;
+	private ClerkHome k;
 
 	/**
 	 * @param username
@@ -82,7 +82,10 @@ public class LoginController implements ActionListener, DocumentListener {
 					c.setVisible(true);
 				}
 				if (status == 2) {
-					System.out.println("Missing. We are waiting");
+					System.out.println("Clerk logging in");
+					ClerkHome k = new ClerkHome();
+					k.setLocationRelativeTo(null);
+					k.setVisible(true);
 				}
 				if (status == 3) {
 					System.out.println("Manager loggin in");
@@ -178,6 +181,13 @@ public class LoginController implements ActionListener, DocumentListener {
 	 */
 	public LoginController(ManagerHome m) {
 		this.m = m;
+	}
+	
+	/**
+	 * @param k
+	 */
+	public LoginController(ClerkHome k) {
+		this.k = k;
 	}
 
 	/**
