@@ -41,6 +41,7 @@ public class ClerkController implements ActionListener
 	public ClerkController(ClerkHome k)
 	{
 		this.clerkFrame = k;
+		//oldPanel=(JPanel) k.getContentPane();
 		clerkFrame.RefreshbtnActionListener(this);
 		clerkFrame.RentbtnActionListener(this);
 		clerkFrame.ReturnbtnActionListener(this);
@@ -73,11 +74,9 @@ public class ClerkController implements ActionListener
 		ret.redeemAdctionListener(this);
 		ret.addPointsActionListener(this);
 		ret.paymentActionListener(this);
-		
-		oldPanel=(JPanel) this.clerkFrame.getContentPane();
 	}
 	
-	@Override
+
 	public void actionPerformed(ActionEvent ae)
 	{
 		if(ae.getActionCommand()=="Refresh")
@@ -236,7 +235,7 @@ public class ClerkController implements ActionListener
 		if(ae.getActionCommand()=="GoBack to Home")
 		{
 			this.clerkFrame.getContentPane().setVisible(false);
-			this.clerkFrame.setContentPane(oldPanel);
+			this.clerkFrame.setContentPane(LoginController.oldpanel);
 			this.clerkFrame.getContentPane().setVisible(true);
 		}
 		

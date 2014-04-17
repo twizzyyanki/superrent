@@ -5,9 +5,12 @@ import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Map;
+
+import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+
 import org.netbeans.validation.api.Problem;
 import org.superrent.application.LoggedInUser;
 import org.superrent.application.SendMail;
@@ -32,6 +35,7 @@ public class LoginController implements ActionListener, DocumentListener {
 	private ManagerHome m;
 	RetrieveLoginDetails jd;
 	private ClerkHome k;
+	static JPanel oldpanel;
 
 	/**
 	 * @param username
@@ -84,6 +88,7 @@ public class LoginController implements ActionListener, DocumentListener {
 				if (status == 2) {
 					System.out.println("Clerk logging in");
 					ClerkHome k = new ClerkHome();
+					oldpanel=(JPanel) k.getContentPane();
 					k.setLocationRelativeTo(null);
 					k.setVisible(true);
 				}
@@ -217,17 +222,17 @@ public class LoginController implements ActionListener, DocumentListener {
 
 	}
 
-	@Override
+	//@Override
 	public void changedUpdate(DocumentEvent de) {
 		checkValidation();
 	}
 
-	@Override
+	//@Override
 	public void insertUpdate(DocumentEvent de) {
 		checkValidation();
 	}
 
-	@Override
+	//@Override
 	public void removeUpdate(DocumentEvent de) {
 		checkValidation();
 	}
