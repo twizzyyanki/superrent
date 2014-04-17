@@ -24,6 +24,7 @@ import org.netbeans.validation.api.ui.ValidationListener;
 
 import java.awt.Font;
 import javax.swing.JDialog;
+import javax.swing.ImageIcon;
 
 /**
  * This class is the login view. It contains two text fields: username and
@@ -107,6 +108,7 @@ public class Login extends JFrame {
 		password.setColumns(10);
 
 		login = new JButton("Login");
+		//login.setIcon(new ImageIcon(Login.class.getResource("/res/icons/addons/64/admin_lock_open.png")));
 		login.addActionListener(lc);
 		login.setEnabled(false);
 		panel.add(login, "7, 14, 2, 1, fill, default");

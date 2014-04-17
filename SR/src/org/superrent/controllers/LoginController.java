@@ -244,7 +244,6 @@ public class LoginController implements ActionListener, DocumentListener {
 				Problem validateAll = l.getGroup().performValidation();
 			//	System.out.println("validate all is  " + validateAll);
 				if (validateAll == null) {
-					System.out.println("Getting to set button enabled");
 					l.getLogin().setEnabled(true);
 					l.revalidate();
 					l.repaint();
