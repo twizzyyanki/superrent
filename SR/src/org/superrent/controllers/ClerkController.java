@@ -31,8 +31,7 @@ public class ClerkController implements ActionListener
 	private final AddCM cm=new AddCM();
 	private final MembershipNum mem=new MembershipNum();
 	private final UpdateProfile profile=new UpdateProfile();
-
-	private static JPanel oldPanel;  
+ 
 	private ClerkDao dao=new ClerkDao();
 	private RentalAgreement rental=new RentalAgreement(); 
 	private ManageReservation manage=new ManageReservation();
@@ -41,7 +40,6 @@ public class ClerkController implements ActionListener
 	public ClerkController(ClerkHome k)
 	{
 		this.clerkFrame = k;
-		//oldPanel=(JPanel) k.getContentPane();
 		clerkFrame.RefreshbtnActionListener(this);
 		clerkFrame.RentbtnActionListener(this);
 		clerkFrame.ReturnbtnActionListener(this);
@@ -98,6 +96,8 @@ public class ClerkController implements ActionListener
 			this.clerkFrame.setContentPane(rent);
 			this.clerkFrame.setSize(rent.getPreferredSize());
 			this.clerkFrame.getContentPane().setVisible(true);
+			this.clerkFrame.revalidate();
+			this.clerkFrame.repaint();
 		}
 		if(ae.getActionCommand()=="Return")
 		{
@@ -105,6 +105,8 @@ public class ClerkController implements ActionListener
 			this.clerkFrame.setContentPane(ret);
 			this.clerkFrame.setSize(ret.getPreferredSize());
 			this.clerkFrame.getContentPane().setVisible(true);
+			this.clerkFrame.revalidate();
+			this.clerkFrame.repaint();
 		}
 		if(ae.getActionCommand()=="Add ClubMember")
 		{
@@ -112,6 +114,8 @@ public class ClerkController implements ActionListener
 			this.clerkFrame.setContentPane(cm);
 			this.clerkFrame.setSize(cm.getPreferredSize());
 			this.clerkFrame.getContentPane().setVisible(true);
+			this.clerkFrame.revalidate();
+			this.clerkFrame.repaint();
 		}
 		
 		if(ae.getActionCommand()=="Add Member")
@@ -124,8 +128,8 @@ public class ClerkController implements ActionListener
 		{
 			try
 			{
-			String number=clerkFrame.getTextField().getText();
-			if(number.equals(""))
+			int number=Integer.parseInt((clerkFrame.getTextField().getText()));
+			if(number==0)
 			{
 				JOptionPane.showMessageDialog(clerkFrame, "Please provide a confirmation number");
 			}
@@ -133,11 +137,15 @@ public class ClerkController implements ActionListener
 			{
 			ResultSet rs=dao.DisplayReserveWithConfirmation(number);
 			clerkFrame.getTable().setModel(DbUtils.resultSetToTableModel(rs));
+			if(!rs.first())
+			{
+				JOptionPane.showMessageDialog(clerkFrame, "No reservation exists..!!");
+			}
 			}
 			}
 			catch(Exception e)
 			{
-				System.out.println(e);
+				JOptionPane.showMessageDialog(clerkFrame, "Please provide an interger value...!!");
 			}
 		}
 		
@@ -199,7 +207,6 @@ public class ClerkController implements ActionListener
 			this.clerkFrame.getContentPane().setVisible(false);
 			this.clerkFrame.setContentPane(rental);
 			this.clerkFrame.getContentPane().setVisible(true);
-		
 			String agreementNo=clerkFrame.getTextField().getText();
 			String[] values;
 			values=dao.displayRental(agreementNo);	
@@ -222,6 +229,8 @@ public class ClerkController implements ActionListener
 			this.clerkFrame.getContentPane().setVisible(false);
 			this.clerkFrame.setContentPane(manage);
 			this.clerkFrame.getContentPane().setVisible(true);
+			this.clerkFrame.revalidate();
+			this.clerkFrame.repaint();
 		}
 		
 		if(ae.getActionCommand()=="Update Profile")
@@ -230,6 +239,8 @@ public class ClerkController implements ActionListener
 			this.clerkFrame.setContentPane(profile);
 			this.clerkFrame.setSize(profile.getPreferredSize());
 			this.clerkFrame.getContentPane().setVisible(true);
+			this.clerkFrame.revalidate();
+			this.clerkFrame.repaint();
 		}
 		
 		if(ae.getActionCommand()=="GoBack to Home")
@@ -237,6 +248,8 @@ public class ClerkController implements ActionListener
 			this.clerkFrame.getContentPane().setVisible(false);
 			this.clerkFrame.setContentPane(LoginController.oldpanel);
 			this.clerkFrame.getContentPane().setVisible(true);
+			this.clerkFrame.revalidate();
+			this.clerkFrame.repaint();
 		}
 		
 		if(ae.getActionCommand()=="Create Rental Agreement")
@@ -249,7 +262,6 @@ public class ClerkController implements ActionListener
 			String ExpiryYear=rent.getTextField_11().getText();
 			String Odometer=rent.getTextField_8().getText();
 			String Fuel=rent.getTextField_9().getText();
-			
 			String Expiry=ExpiryMonth+ExpiryYear;
 			
 			if(rent.rdbtnYes.isSelected())

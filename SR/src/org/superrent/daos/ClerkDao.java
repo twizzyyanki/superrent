@@ -41,10 +41,11 @@ public class ClerkDao
 		return rs;
 	}
 	
-	public ResultSet DisplayReserveWithConfirmation(String number)
+	public ResultSet DisplayReserveWithConfirmation(int number)
 	{
 		ResultSet rs=null;
-		int confirmationno=Integer.parseInt(number);
+		
+		int confirmationno=number;
 		try
 		{
 			PreparedStatement ps=con.prepareStatement("select * from Reservation where confirmationNo=? and status =?");
