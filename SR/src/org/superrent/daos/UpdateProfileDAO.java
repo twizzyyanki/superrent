@@ -27,9 +27,9 @@ public class UpdateProfileDAO {
 		this.lc = new LoggedInUser();
 		try {
 			String uidString;
-			//uidString = lc.getUserId();
+			uidString = lc.getUserId();
 			// uidString = "1"; is just for test can delete after testing
-			uidString = "2";
+			//uidString = "2";
 			this.uid = Integer.parseInt(uidString);
 			connection = DatabaseConnection.createConnection();
 			System.out.println(connection.toString());
