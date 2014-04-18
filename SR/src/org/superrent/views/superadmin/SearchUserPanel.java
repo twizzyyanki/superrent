@@ -24,6 +24,7 @@ public class SearchUserPanel extends JPanel {
 	private JTextField textFieldUserName;
 	private JTextField textFieldPhoneNumber;
 	private JTable table;
+	private JScrollPane scrollPane;
 
 
 	/**
@@ -32,6 +33,8 @@ public class SearchUserPanel extends JPanel {
 	public SearchUserPanel(SystemAdminController sac) {
 		this.sac = sac;
 		setLayout(new FormLayout(new ColumnSpec[] {
+				ColumnSpec.decode("max(27dlu;default)"),
+				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("225px"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
@@ -46,54 +49,55 @@ public class SearchUserPanel extends JPanel {
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("86px"),},
 			new RowSpec[] {
-				RowSpec.decode("20px"),
+				RowSpec.decode("25px"),
 				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("20px"),
+				RowSpec.decode("25px"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("23px"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("166px"),
+				RowSpec.decode("82px"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
 		JLabel labelUserName = new JLabel("User Name");
-		add(labelUserName, "1, 1, fill, center");
+		add(labelUserName, "3, 1, fill, center");
 		
 		textFieldUserName = new JTextField();
-		add(textFieldUserName, "3, 1, left, top");
+		add(textFieldUserName, "5, 1, left, fill");
 		textFieldUserName.setColumns(10);
 		
 		JLabel labelPhoneNumber = new JLabel("Phone Numer");
-		add(labelPhoneNumber, "1, 3, fill, center");
+		add(labelPhoneNumber, "3, 3, fill, center");
 		
 		textFieldPhoneNumber = new JTextField();
-		add(textFieldPhoneNumber, "3, 3, left, top");
+		add(textFieldPhoneNumber, "5, 3, left, fill");
 		textFieldPhoneNumber.setColumns(10);
 		
 		JButton btnConfirm = new JButton("Confirm");
 		btnConfirm.addActionListener(sac);
 		
-			add(btnConfirm, "3, 5, left, top");
+			add(btnConfirm, "5, 5, left, top");
 		
-		JScrollPane scrollPane = new JScrollPane();
-		add(scrollPane, "1, 9, 13, 1, fill, fill");
-		
+		scrollPane = new JScrollPane();
+		add(scrollPane, "3, 9, 13, 1, fill, fill");
+		scrollPane.setVisible(false);
 		table = new JTable();
-		
 		table.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null, null, null},
-				{null, null, null, null, null},
 				{null, null, null, null, null},
 			},
 			new String[] {
 				"Name", "Email", "Phone Number", "Type", "Address"
 			}
 		));
+		table.getColumnModel().getColumn(0).setPreferredWidth(94);
+		table.getColumnModel().getColumn(1).setPreferredWidth(157);
+		table.getColumnModel().getColumn(2).setPreferredWidth(121);
+		table.getColumnModel().getColumn(3).setPreferredWidth(66);
+		table.getColumnModel().getColumn(4).setPreferredWidth(261);
 		scrollPane.setViewportView(table);
-		table.getColumnModel().getColumn(2).setPreferredWidth(94);
 		JPanel SearchUserPanel = new JPanel(); 
 		SearchUserPanel.setLayout(new FormLayout(new ColumnSpec[] {
 				ColumnSpec.decode("56px"),
@@ -129,5 +133,8 @@ public class SearchUserPanel extends JPanel {
 
 	public void setTable(JTable table) {
 		this.table = table;
+	}
+	public JScrollPane getScrollPane() {
+		return scrollPane;
 	}
 }

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import net.proteanit.sql.DbUtils;
@@ -20,13 +21,23 @@ public class SearchUserDAO {
 	private int uid;
 	private String name;
 	private long phone;
+	private JTable table;
+	private JScrollPane scrollPane;
 	
-	public SearchUserDAO (String name, String phone, JTable table) {
+	public SearchUserDAO (String name, String phone, JTable table, JScrollPane scrollPane) {
 		
 		/* Get data to search from search user panel view */
 		System.out.println("Now, you entered into search user DAO...");
 		this.name = name;
-		this.phone = Long.parseLong(phone);
+		if (isInteger(phone)) {
+			this.phone = Long.parseLong(phone);
+			/* How about the size of phone number */
+		}
+		else {
+			System.out.println("The phone number is not valid. Please try again");
+		}
+		this.table = table;
+		this.scrollPane = scrollPane;
 		
 		/* Connect to database */
 		try {
@@ -47,8 +58,13 @@ public class SearchUserDAO {
 			System.out.println("query is: " + query);
 			rs = st.executeQuery(query);
 			table.setModel(DbUtils.resultSetToTableModel(rs));
-
-			if (rs.next()){
+			scrollPane.setVisible(true);
+			table.setVisible(true);
+			
+			if (table.getModel().getRowCount()!= 0){
+				
+			
+				/*
 				System.out.println("In the database, the data associated wiht "+ name + " is as follows:");
 				System.out.print(rs.getString("name") + " "); 
 				System.out.print(rs.getString("email") + " "); 
@@ -56,17 +72,32 @@ public class SearchUserDAO {
 				System.out.print(rs.getString("address") + " "); 
 				//System.out.print(rs.getString("type") + " "); 
 				//System.out.println(rs.getString("dateCreated"));
+				 * 
+				 */
+				
 			}
 			else {
 				System.out.println("The user does not exist");
+				scrollPane.setVisible(false);
+				table.setVisible(false);
 			}
 			
-			table.setVisible(true);
+			
 		}catch (Exception e) {
 			//DatabaseConnection.rollback(connection);
 			e.printStackTrace();
 		} finally {
 			DatabaseConnection.close(connection);
 		}
+	}
+	
+	public static boolean isInteger(String s) {
+	    try { 
+	        Integer.parseInt(s); 
+	    } catch(NumberFormatException e) { 
+	        return false; 
+	    }
+	    // only got here if we didn't return false
+	    return true;
 	}
 }
