@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
+import org.superrent.daos.AddUserDAO;
 import org.superrent.daos.SearchUserDAO;
 import org.superrent.views.superadmin.AddUserPanel;
 import org.superrent.views.superadmin.ChangePasswordPanel;
@@ -23,7 +24,9 @@ import org.superrent.views.superadmin.SystemAdmin;
 public class SystemAdminController implements ActionListener {	
 	
 	private SystemAdmin sa;
-	
+	//private Login l;
+	private SearchUserPanel sup;
+	private AddUserDAO au_dao;
 	private SearchUserDAO su_dao;
 	//private Login l;
 	//private SearchUserPanel sup;
@@ -111,7 +114,15 @@ public class SystemAdminController implements ActionListener {
 		 * Add a user in the database
 		 */
 		if(e.getActionCommand().equals("Add")) {
-			System.out.println("You add a user");
+			final BorderLayout layout = (BorderLayout)sa.getContentPane().getLayout();
+			final AddUserPanel aup = (AddUserPanel) layout.getLayoutComponent(BorderLayout.CENTER);
+			System.out.println("You add a user and the informaiton about the user is as follows");
+			System.out.print("User type: "+aup.getInputType()+" ");
+			System.out.print("User Name: "+aup.getInputName()+" ");
+			System.out.print("Phone Number: "+aup.getInputPhone()+" ");
+			System.out.print("Address: "+aup.getInputAddress()+" ");
+			System.out.println("Email: "+aup.getInputEmail()+" ");
+			this.au_dao = new AddUserDAO(aup.getInputType(),aup.getInputName(),aup.getInputPhone(),aup.getInputAddress(),aup.getInputEmail());
 		}
 		/**
 		 * Search a vehicle in the database

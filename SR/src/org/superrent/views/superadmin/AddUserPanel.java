@@ -118,4 +118,30 @@ public class AddUserPanel extends JPanel {
 		lblMembershipNumber.setVisible(bl);
 		textFieldMembershipNum.setVisible(bl);
 	}
+	
+	public int getInputType(){
+		return comboBox.getSelectedIndex();
+	}
+	
+	public String getInputName(){
+		return textFieldUserName.getText();
+	}
+	
+	public String getInputPhone(){
+		return textFieldPhoneNumber.getText();
+	}
+	
+	public String getInputAddress(){
+		return textFieldAddress.getText();
+	}
+	
+	public String getInputEmail(){
+		return textFieldEmail.getText();
+	}
+	
+	public String getMembershipNo(){
+		return textFieldMembershipNum.getText();
+	}
+	
+	
 }
