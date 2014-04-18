@@ -49,7 +49,7 @@ public class SystemAdmin extends JFrame {
 		setTitle("System Administrator");
 		sac = new SystemAdminController(this);
 		lc = new LoginController(this);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 798, 514);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
