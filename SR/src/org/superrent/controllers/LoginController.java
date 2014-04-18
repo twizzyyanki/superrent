@@ -217,17 +217,17 @@ public class LoginController implements ActionListener, DocumentListener {
 
 	}
 
-	@Override
+	//@Override
 	public void changedUpdate(DocumentEvent de) {
 		checkValidation();
 	}
 
-	@Override
+	//@Override
 	public void insertUpdate(DocumentEvent de) {
 		checkValidation();
 	}
 
-	@Override
+	//@Override
 	public void removeUpdate(DocumentEvent de) {
 		checkValidation();
 	}

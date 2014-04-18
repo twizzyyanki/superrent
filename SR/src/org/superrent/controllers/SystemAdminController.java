@@ -23,6 +23,7 @@ import org.superrent.views.superadmin.SystemAdmin;
 public class SystemAdminController implements ActionListener {	
 	
 	private SystemAdmin sa;
+	
 	private SearchUserDAO su_dao;
 	//private Login l;
 	//private SearchUserPanel sup;
@@ -34,7 +35,6 @@ public class SystemAdminController implements ActionListener {
 		 * Switch center panel
 		 */
 		if(e.getActionCommand().equals("Add User")) {
-			
 			AddUserPanel aup = new AddUserPanel(this);
 			//System.out.println("You add a user");
 			sa.remove(sa.getPanelCenter());
@@ -105,7 +105,7 @@ public class SystemAdminController implements ActionListener {
 			final SearchUserPanel sup = (SearchUserPanel) layout.getLayoutComponent(BorderLayout.CENTER);
 			System.out.println("You have made a search");
 			System.out.println("You have input "+sup.getInputName()+ " for User Name and "+sup.getInputPhone()+" for Phone Number");
-			this.su_dao = new SearchUserDAO(sup.getInputName(),sup.getInputPhone());
+			this.su_dao = new SearchUserDAO(sup.getInputName(),sup.getInputPhone(),sup.getTable());
 		}
 		/**
 		 * Add a user in the database

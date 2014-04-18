@@ -79,7 +79,7 @@ public class ManagerDaoImpl implements IManagerDao{
 		
 	}
 
-	@Override
+	//@Override
 	public boolean addVehicle(VehicleVO vehicleVO) {
 		boolean result = true;
 		try {
@@ -112,7 +112,7 @@ public class ManagerDaoImpl implements IManagerDao{
 		return result;
 	}
 
-	@Override
+	//@Override
 	public boolean updateVehicle(VehicleVO vehicleVO) {
 		boolean result = true;
 		try {
@@ -146,7 +146,7 @@ public class ManagerDaoImpl implements IManagerDao{
 		
 	}
 
-	@Override
+	//@Override
 	public boolean sellVehicle(SellVehicleVO sellVehicleVO) {
 		boolean result = true;
 		try {

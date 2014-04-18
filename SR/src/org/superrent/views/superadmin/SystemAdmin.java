@@ -38,6 +38,7 @@ public class SystemAdmin extends JFrame {
 
 	private JPanel contentPane;
 	private JPanel panelCenter;
+	private SearchUserPanel sup;
 	private final SystemAdminController sac;
 	private final LoginController lc;
 
@@ -142,6 +143,8 @@ public class SystemAdmin extends JFrame {
 		
 		panelCenter = new SearchUserPanel(sac);
 		contentPane.add(panelCenter, BorderLayout.CENTER);
+		
+		sup = new SearchUserPanel(sac);
 	}
     public JPanel getMainPanel(){
     	return contentPane;
@@ -153,5 +156,11 @@ public class SystemAdmin extends JFrame {
 	
 	public void setPanelCenter(JPanel newJpanel) {
 		panelCenter = newJpanel;
+	}
+	public SearchUserPanel getSup() {
+		return sup;
+	}
+	public void setSup(SearchUserPanel sup) {
+		this.sup = sup;
 	}
 }
