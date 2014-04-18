@@ -15,6 +15,8 @@ import javax.swing.UIManager;
 
 import org.superrent.daos.AddUserDAO;
 import org.superrent.daos.SearchUserDAO;
+import org.superrent.views.clerk.ClerkHome;
+import org.superrent.views.manager.ManagerHome;
 import org.superrent.views.superadmin.AddUserPanel;
 import org.superrent.views.superadmin.ChangePasswordPanel;
 import org.superrent.views.superadmin.SearchUserPanel;
@@ -28,6 +30,7 @@ public class SystemAdminController implements ActionListener {
 	private SearchUserPanel sup;
 	private AddUserDAO au_dao;
 	private SearchUserDAO su_dao;
+	static JPanel oldpanel;
 	//private Login l;
 	//private SearchUserPanel sup;
 	
@@ -135,6 +138,25 @@ public class SystemAdminController implements ActionListener {
 		 */
 		if(e.getActionCommand().equals("ConfirmPassword")) {
 			System.out.println("You have changed your password");
+		}
+		/**
+		 * Run as Manager
+		 */
+		if(e.getActionCommand().equals("As Manager")) {
+			System.out.println("You are now running the program as a Manager");
+			ManagerHome m = new ManagerHome();
+			m.setLocationRelativeTo(null);
+			m.setVisible(true);
+		}
+		/**
+		 * Run as Clerk
+		 */
+		if(e.getActionCommand().equals("As Clerk")) {
+			System.out.println("You are now running the program as a Clerk");
+			ClerkHome k = new ClerkHome();
+			oldpanel=(JPanel) k.getContentPane();
+			k.setLocationRelativeTo(null);
+			k.setVisible(true);
 		}
 	}
 	

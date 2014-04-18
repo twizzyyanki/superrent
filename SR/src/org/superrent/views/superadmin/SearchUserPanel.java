@@ -53,7 +53,7 @@ public class SearchUserPanel extends JPanel {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("25px"),
 				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("23px"),
+				RowSpec.decode("25px"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
@@ -78,7 +78,7 @@ public class SearchUserPanel extends JPanel {
 		JButton btnConfirm = new JButton("Confirm");
 		btnConfirm.addActionListener(sac);
 		
-			add(btnConfirm, "5, 5, left, top");
+			add(btnConfirm, "5, 5, left, fill");
 		
 		scrollPane = new JScrollPane();
 		add(scrollPane, "3, 9, 13, 1, fill, fill");
