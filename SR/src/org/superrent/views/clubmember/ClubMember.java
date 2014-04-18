@@ -103,6 +103,10 @@ public class ClubMember extends JFrame {
 		changePassword.addActionListener(clubMemberController);
 		panelWest.add(changePassword, "2, 8");
 		
+		JButton checkReservation = new JButton("Check Reservation");
+		checkReservation.addActionListener(clubMemberController);
+		panelWest.add(checkReservation, "2, 10");
+		
 		JPanel panelNorth = new JPanel();
 		contentPane.add(panelNorth, BorderLayout.NORTH);
 		panelNorth.setLayout(new FormLayout(new ColumnSpec[] {

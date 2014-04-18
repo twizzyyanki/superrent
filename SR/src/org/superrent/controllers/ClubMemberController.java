@@ -30,6 +30,7 @@ public class ClubMemberController implements ActionListener {
 	private ClubMember clubMemberView;
 	private JChangePassword jCPassword;
 	private JUpdateProfile jUProfile;
+	private JCheckReservation jCheckReservation;
 	private ClubMemberDAO clubMemberDAO;
 	
 	/**
@@ -91,6 +92,15 @@ public class ClubMemberController implements ActionListener {
 			jUProfile.getTextPhone().setText(phone);
 			jUProfile.getTextAddress().setText(address);;
 
+		}
+		
+		if(e.getActionCommand().equals("Check Reservation")) {
+			jCheckReservation= new JCheckReservation(this);
+			
+			clubMemberView.remove(clubMemberView.getPanelCenter());
+			clubMemberView.setCenterPanel(jCheckReservation);
+			clubMemberView.revalidate();
+			clubMemberView.repaint();
 		}
 		
 		// confirm button in the JChangePassword panel
