@@ -74,11 +74,7 @@ public class ClerkController implements ActionListener
 		ret.paymentActionListener(this);
 	}
 	
-<<<<<<< HEAD
-	//@Override
-=======
 
->>>>>>> 4ef49783df7a13a8fec38a508d0f3583e7d2c631
 	public void actionPerformed(ActionEvent ae)
 	{
 		if(ae.getActionCommand()=="Refresh")
