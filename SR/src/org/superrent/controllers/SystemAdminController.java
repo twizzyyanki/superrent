@@ -7,6 +7,7 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -172,21 +173,21 @@ public class SystemAdminController implements ActionListener {
 			System.out.println("You have changed your password");
 			ChangePasswordDAO checkPassword = new ChangePasswordDAO();
 			cpp.getWrongInput().setText("");
-			String oldPassword = cpp.getCurrentPass().getText();
+			char[] oldPassword = cpp.getCurrentPass().getPassword();
+			String oldPass = new String (oldPassword);
 			Boolean inDatabase = false;
 			Boolean updateSucess = false;
 			// checkOldPassword method to check password in DB
-			inDatabase = checkPassword.checkOldPassword(oldPassword);
+			inDatabase = checkPassword.checkOldPassword(oldPass);
 			
 			if(inDatabase){
-				String newPassword = cpp.getNewPass().getText();
-				System.out.println("New pass is "+newPassword);
-				String confirmPassword = cpp.getConfirmNewPass().getText();
-				String confirmPass = confirmPassword + "";
-				System.out.println("Confirmd pass is "+ confirmPassword);
-				if(newPassword.equals(confirmPassword)){
+				char[] newPassword = cpp.getNewPass().getPassword();
+				String newPass = new String (newPassword);
+				char[] confirmPassword = cpp.getConfirmNewPass().getPassword();
+				String confirmPass = new String (confirmPassword);
+				if(Arrays.equals(newPassword, confirmPassword)){
 					ChangePasswordDAO setPassword = new ChangePasswordDAO();
-					if(setPassword.setNewPassword(newPassword)){
+					if(setPassword.setNewPassword(newPass)){
 						cpp.getWrongInput().setForeground(Color.BLACK);
 						cpp.getWrongInput().setText("Update success");
 					}
