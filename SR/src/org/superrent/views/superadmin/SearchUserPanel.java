@@ -19,7 +19,7 @@ public class SearchUserPanel extends JPanel {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
+	//private static final long serialVersionUID = 1L;
 	private SystemAdminController sac;
 	private JTextField textFieldUserName;
 	private JTextField textFieldPhoneNumber;

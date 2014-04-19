@@ -88,6 +88,8 @@ public class JUpdateProfile extends JPanel {
 
 	}
 
+	
+	
 	public JTextField getTextName() {
 		return textName;
 	}

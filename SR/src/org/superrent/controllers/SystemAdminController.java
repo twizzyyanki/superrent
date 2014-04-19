@@ -1,6 +1,7 @@
 package org.superrent.controllers;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
@@ -15,13 +16,16 @@ import javax.swing.UIManager;
 
 import org.superrent.daos.AddUserDAO;
 import org.superrent.daos.SearchUserDAO;
+import org.superrent.daos.UpdateProfileDAO;
 import org.superrent.views.clerk.ClerkHome;
+import org.superrent.views.superadmin.UpdateProfile;
 import org.superrent.views.manager.ManagerHome;
 import org.superrent.views.superadmin.AddUserPanel;
 import org.superrent.views.superadmin.ChangePasswordPanel;
 import org.superrent.views.superadmin.SearchUserPanel;
 import org.superrent.views.superadmin.SearchVehiclePanel;
 import org.superrent.views.superadmin.SystemAdmin;
+
 
 public class SystemAdminController implements ActionListener {	
 	
@@ -31,6 +35,7 @@ public class SystemAdminController implements ActionListener {
 	private AddUserDAO au_dao;
 	private SearchUserDAO su_dao;
 	static JPanel oldpanel;
+	private UpdateProfile updateProfile;
 	//private Login l;
 	//private SearchUserPanel sup;
 	
@@ -73,6 +78,30 @@ public class SystemAdminController implements ActionListener {
 			sa.revalidate();
 			sa.repaint();
 		}
+	    
+	    if(e.getActionCommand().equals("Update Profile")) {
+	    	System.out.println("You are updating system administrator's profile");
+	    	updateProfile= new UpdateProfile(this);
+			
+			sa.remove(sa.getPanelCenter());
+			sa.setPanelCenter(updateProfile);
+			sa.getMainPanel().add(sa.getPanelCenter(), BorderLayout.CENTER);
+			sa.revalidate();
+			sa.repaint();
+			
+			UpdateProfileDAO nameDAO = new UpdateProfileDAO();
+			UpdateProfileDAO phoneDAO = new UpdateProfileDAO();
+			UpdateProfileDAO addressDAO = new UpdateProfileDAO();
+			String name = nameDAO.getName();
+			String phone = String.valueOf(phoneDAO.getPhoneNumber());
+			String address = addressDAO.getAddress();
+			
+			updateProfile.getTextName().setText(name);
+			updateProfile.getTextPhone().setText(phone);
+			updateProfile.getTextAddress().setText(address);;
+
+		}
+		
 	    
 	    if(e.getActionCommand().equals("comboBoxChanged")) {
 			System.out.println("ComboBox is changed");
@@ -157,6 +186,81 @@ public class SystemAdminController implements ActionListener {
 			oldpanel=(JPanel) k.getContentPane();
 			k.setLocationRelativeTo(null);
 			k.setVisible(true);
+		}
+		
+		/** Update button in the JUpdateProfile panel
+		 * 
+		 */
+		if(e.getActionCommand().equals("Update")) {
+			final BorderLayout layout = (BorderLayout)sa.getContentPane().getLayout();
+			final UpdateProfile updateProfile = (UpdateProfile) layout.getLayoutComponent(BorderLayout.CENTER);
+			// check if user enters text in name text area
+			if(updateProfile.getTextName().getText()!=null && 
+					updateProfile.getTextName().getText().trim().length()!=0){
+				// check if text area is "Update Success" to prevent updating 
+				if(!updateProfile.getTextName().getText().equals("Update Success")){
+					UpdateProfileDAO updateNameDAO = new UpdateProfileDAO();
+					if(updateNameDAO.updateName(updateProfile.getTextName().getText())){
+						updateProfile.getTextName().setText("Update Success");
+					}
+					else{
+						updateProfile.getTextName().setForeground(Color.RED);
+						updateProfile.getTextName().setText("Update fail");
+					}
+					
+				}
+				else{
+					updateProfile.getTextName().setForeground(Color.black);
+					updateProfile.getTextName().setText("");
+				}
+
+			}
+			
+			// check if user enters text in phone text area
+			if(updateProfile.getTextPhone().getText()!=null && 
+				updateProfile.getTextPhone().getText().trim().length()!=0){		
+				
+				// check if text area is "Update Success" to prevent updating 
+				if(!updateProfile.getTextPhone().getText().equals("Update Success")){
+					UpdateProfileDAO updatePhoneDAO = new UpdateProfileDAO();
+					int newPhoneNumber = Integer.parseInt(updateProfile.getTextPhone().getText());
+					if(updatePhoneDAO.updatePhoneNumber(newPhoneNumber)){
+						updateProfile.getTextPhone().setText("Update Success");
+					}
+					else{
+						updateProfile.getTextPhone().setForeground(Color.RED);
+						updateProfile.getTextPhone().setText("Update fail");
+					}
+				}
+				else{
+					updateProfile.getTextPhone().setForeground(Color.black);
+					updateProfile.getTextPhone().setText("");
+				}
+			}
+			
+				
+			// check if user enters text in address text area
+			if(updateProfile.getTextAddress().getText()!=null &&				
+				updateProfile.getTextAddress().getText().trim().length()!=0){		
+				
+					// check if text area is "Update Success" to prevent updating 
+					if(!updateProfile.getTextAddress().getText().equals("Update Success")){
+						UpdateProfileDAO updateAddressDAO = new UpdateProfileDAO();
+						String newAddress = updateProfile.getTextAddress().getText();
+						if(updateAddressDAO.updateAddress(newAddress)){
+							updateProfile.getTextAddress().setText("Update Success");
+						}
+						else{
+							updateProfile.getTextAddress().setForeground(Color.RED);
+							updateProfile.getTextAddress().setText("Update fail");
+						}
+					}
+					else{
+						updateProfile.getTextAddress().setForeground(Color.black);
+						updateProfile.getTextAddress().setText("");
+					}
+			}
+
 		}
 	}
 	
