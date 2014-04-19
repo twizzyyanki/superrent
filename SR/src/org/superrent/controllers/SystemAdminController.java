@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.UIManager;
 
 import org.superrent.daos.AddUserDAO;
+import org.superrent.daos.ChangePasswordDAO;
 import org.superrent.daos.SearchUserDAO;
 import org.superrent.daos.UpdateProfileDAO;
 import org.superrent.views.clerk.ClerkHome;
@@ -166,7 +167,49 @@ public class SystemAdminController implements ActionListener {
 		 * Change the password of a system administrator 
 		 */
 		if(e.getActionCommand().equals("ConfirmPassword")) {
+			final BorderLayout layout = (BorderLayout)sa.getContentPane().getLayout();
+			final ChangePasswordPanel cpp = (ChangePasswordPanel) layout.getLayoutComponent(BorderLayout.CENTER);
 			System.out.println("You have changed your password");
+			ChangePasswordDAO checkPassword = new ChangePasswordDAO();
+			cpp.getWrongInput().setText("");
+			String oldPassword = cpp.getCurrentPass().getText();
+			Boolean inDatabase = false;
+			Boolean updateSucess = false;
+			// checkOldPassword method to check password in DB
+			inDatabase = checkPassword.checkOldPassword(oldPassword);
+			
+			if(inDatabase){
+				String newPassword = cpp.getNewPass().getText();
+				System.out.println("New pass is "+newPassword);
+				String confirmPassword = cpp.getConfirmNewPass().getText();
+				String confirmPass = confirmPassword + "";
+				System.out.println("Confirmd pass is "+ confirmPassword);
+				if(newPassword.equals(confirmPassword)){
+					ChangePasswordDAO setPassword = new ChangePasswordDAO();
+					if(setPassword.setNewPassword(newPassword)){
+						cpp.getWrongInput().setForeground(Color.BLACK);
+						cpp.getWrongInput().setText("Update success");
+					}
+					else{
+						
+						cpp.getWrongInput().setForeground(Color.RED);
+						cpp.getWrongInput().setText("Update fail");
+					}
+					
+				}
+				else{
+					
+					cpp.getWrongInput().setForeground(Color.RED);
+					cpp.getWrongInput().setText("Confirm password does not match with new Password");			
+				}
+				
+			}
+			else{
+				cpp.getWrongInput().setForeground(Color.RED);
+				cpp.getWrongInput().setText("Current password does not match");
+			}
+			
+
 		}
 		/**
 		 * Run as Manager
