@@ -7,6 +7,12 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+
+import net.proteanit.sql.DbUtils;
+
+import org.joda.time.DateTime;
 import org.superrent.application.DatabaseConnection;
 import org.superrent.application.LoggedInUser;
 import org.superrent.entities.Reservation;
@@ -68,20 +74,23 @@ private final LoggedInUser lc;
 	
 	}
 	
-	public ArrayList<Vector> getReservation(){
-		ArrayList <Vector> reseratvionRecords = new ArrayList<Vector>();
+	public boolean getReservation(java.sql.Date fromDate, java.sql.Date toDate, JTable table, JScrollPane scrollPane){
 		
+		boolean success = false;
 		
 		try{
 			ResultSet rs;
 			connection.setAutoCommit(false);
 			Statement st = connection.createStatement();
 			String query = "SELECT MakeReservation.confirmationNo ,pickDate,dropDate FROM MakeReservation ,Reservation WHERE uid='" 
-							+ uid +"'" + "AND MakeReservation.confirmationNo = Reservation.confirmationNo";
+							+ uid +"'" + "AND MakeReservation.confirmationNo = Reservation.confirmationNo AND Reservation.pickDate BETWEEN '"
+							+fromDate +"' AND '"+toDate+"'"  ;
 			//System.out.println("query is: " + query);
 			rs = st.executeQuery(query);
-			
-			while(rs.next())
+			table.setModel(DbUtils.resultSetToTableModel(rs));
+			scrollPane.setVisible(true);
+			table.setVisible(true);
+/*			while(rs.next())
 			{
 				Vector recordsPerRow = new Vector();
 				
@@ -91,7 +100,7 @@ private final LoggedInUser lc;
 				reseratvionRecords.add(recordsPerRow);
 			
 				
-			}
+			}*/
 			connection.commit(); 
 			
 		}catch (Exception e) {
@@ -103,14 +112,14 @@ private final LoggedInUser lc;
 			
 		}
 		
+		return success;
 		
-		return reseratvionRecords;
 	}
 	/**
 	 * test main
 	 * @param args
 	 */
-	public static void main(String[] args){
+/*	public static void main(String[] args){
 		ClubMemberDAO cDao = new ClubMemberDAO();
 		ArrayList testV = cDao.getReservation();
 		System.out.println("size"+testV.size());
@@ -119,7 +128,7 @@ private final LoggedInUser lc;
 
 
 		
-	}
+	}*/
 
 
 }

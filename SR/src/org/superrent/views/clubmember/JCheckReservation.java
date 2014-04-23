@@ -24,6 +24,7 @@ public class JCheckReservation extends JPanel {
 	private JTable table;
 	private JDateChooser fromDate;
 	private JDateChooser toDate;
+	private JScrollPane scrollPane;
 
 	/**
 	 * This panel is for clubmember to check reservation
@@ -66,7 +67,7 @@ public class JCheckReservation extends JPanel {
 		searchButton.addActionListener(clubMemberController);
 		add(searchButton, "10, 2");
 		
-		JScrollPane scrollPane = new JScrollPane();
+		scrollPane = new JScrollPane();
 		add(scrollPane, "4, 4, 7, 1, default, fill");
 		
 		table = new JTable();
@@ -99,5 +100,8 @@ public class JCheckReservation extends JPanel {
 	}
 	public JDateChooser getToDate() {
 		return toDate;
+	}
+	public JScrollPane getScrollPane() {
+		return scrollPane;
 	}
 }

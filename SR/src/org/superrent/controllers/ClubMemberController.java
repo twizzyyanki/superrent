@@ -22,6 +22,7 @@ import org.superrent.views.clubmember.*;
 import org.superrent.daos.ChangePasswordDAO;
 import org.superrent.daos.ClubMemberDAO;
 import org.superrent.daos.UpdateProfileDAO;
+import org.joda.time.DateTime;
 
 /**
  * This class implements the ActionListener interface and 
@@ -106,28 +107,23 @@ public class ClubMemberController implements ActionListener {
 			clubMemberView.setCenterPanel(jCheckReservation);
 			clubMemberView.revalidate();
 			clubMemberView.repaint();
+		
 		}
 		
 		//search button in Check Reservation view
 		if(e.getActionCommand().equals("Search")) {
+			
+			// change jDateChooser to util.Data and
+			// change util.Date to sql.Date
+			java.util.Date utilFromDate = jCheckReservation.getFromDate().getDate();
+			java.sql.Date dateFromDate = new java.sql.Date(utilFromDate.getTime());
+			java.util.Date utilToDate = jCheckReservation.getToDate().getDate();
+			java.sql.Date dateToDate = new java.sql.Date(utilToDate.getTime());
+			System.out.println(dateFromDate);
+			
 			ClubMemberDAO reocrdsDAO = new ClubMemberDAO();
+			reocrdsDAO.getReservation(dateFromDate, dateToDate, jCheckReservation.getTable(), jCheckReservation.getScrollPane());
 			
-			DefaultTableModel model = (DefaultTableModel) jCheckReservation.getTable().getModel();
-			model.setRowCount(0); // clean the JTable
-			
-			ArrayList reservations = reocrdsDAO.getReservation();
-			Vector insertRow = new Vector();
-			for(int i=0; i<reservations.size(); i++){
-				insertRow.addElement(reservations.get(i));
-			}
-			
-			insertRow.addElement("2014/01/02");
-			insertRow.addElement("2014/01/03");
-			
-			model.addRow(insertRow);
-			
-			//Date dateFromDateChooser = jCheckReservation.getFromDate().getDateFormatString();
-			//System.out.println();
 		}
 		
 		// confirm button in the JChangePassword panel
