@@ -84,6 +84,7 @@ public class ChangePasswordDAO {
 		PreparedStatement  ps;
 		
 		try{
+			
 			String query = "UPDATE RegUser SET password = ? WHERE uid = ?";
 			ps = (PreparedStatement) connection.prepareStatement(query);
 			ps.setInt(2, uid);

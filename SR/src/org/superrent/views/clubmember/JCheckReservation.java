@@ -22,6 +22,8 @@ import org.superrent.controllers.ClubMemberController;
 /*test*/
 public class JCheckReservation extends JPanel {
 	private JTable table;
+	private JDateChooser fromDate;
+	private JDateChooser toDate;
 
 	/**
 	 * This panel is for clubmember to check reservation
@@ -51,16 +53,17 @@ public class JCheckReservation extends JPanel {
 		JLabel lblFrom = new JLabel("From:");
 		add(lblFrom, "2, 2");
 		
-		JDateChooser dateChooser = new JDateChooser();
-		add(dateChooser, "4, 2, fill, fill");
+		fromDate = new JDateChooser();
+		add(fromDate, "4, 2, fill, fill");
 		
 		JLabel lblTo = new JLabel("To:");
 		add(lblTo, "6, 2");
 		
-		JDateChooser dateChooser_1 = new JDateChooser();
-		add(dateChooser_1, "8, 2, fill, fill");
+		toDate = new JDateChooser();
+		add(toDate, "8, 2, fill, fill");
 		
 		JButton searchButton = new JButton("Search");
+		searchButton.addActionListener(clubMemberController);
 		add(searchButton, "10, 2");
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -75,7 +78,7 @@ public class JCheckReservation extends JPanel {
 			}
 		) {
 			Class[] columnTypes = new Class[] {
-				Integer.class, Object.class, Object.class
+				Integer.class, String.class, String.class
 			};
 			public Class getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
@@ -88,4 +91,13 @@ public class JCheckReservation extends JPanel {
 
 	}
 
+	public JTable getTable() {
+		return table;
+	}
+	public JDateChooser getFromDate() {
+		return fromDate;
+	}
+	public JDateChooser getToDate() {
+		return toDate;
+	}
 }
