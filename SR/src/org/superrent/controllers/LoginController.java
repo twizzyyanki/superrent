@@ -72,7 +72,7 @@ public class LoginController implements ActionListener, DocumentListener {
 	 * to the user's email
 	 * 
 	 * @param emailaddress
-	 *            of the user
+	 *        of the user
 	 * @return true if the email address is found and false if the email address
 	 *         is not found
 	 */
