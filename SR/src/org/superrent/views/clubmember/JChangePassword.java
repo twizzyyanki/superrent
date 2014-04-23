@@ -15,13 +15,14 @@ import javax.swing.JTextField;
 import org.superrent.controllers.ClubMemberController;
 
 import java.awt.Color;
+import javax.swing.JPasswordField;
 
 public class JChangePassword extends JPanel {
-	private JTextField textCurrentPassword;
-	private JTextField textNewPassword;
-	private JTextField textConfriPassword;
 	private ClubMemberController clubMemberController;
 	private JLabel wrongInput;
+	private JPasswordField textCurrentPassword;
+	private JPasswordField textNewPassword;
+	private JPasswordField textConfriPassword;
 	
 	/**
 	 * Create the panel.
@@ -60,26 +61,23 @@ public class JChangePassword extends JPanel {
 		JLabel lblCurrent = new JLabel("Current Password:");
 		add(lblCurrent, "4, 4, right, default");
 		
-		textCurrentPassword = new JTextField();
+		textCurrentPassword = new JPasswordField();
 		add(textCurrentPassword, "6, 4, fill, default");
-		textCurrentPassword.setColumns(10);
 		
 		JLabel lblNewPassword = new JLabel("New Password:");
 		add(lblNewPassword, "4, 6, right, default");
 		
-		textNewPassword = new JTextField();
+		textNewPassword = new JPasswordField();
 		add(textNewPassword, "6, 6, fill, default");
-		textNewPassword.setColumns(10);
 		
 		JLabel lblConfirmPassword = new JLabel("Confirm Password:");
 		add(lblConfirmPassword, "4, 8, right, default");
 		
-		textConfriPassword = new JTextField();
-		add(textConfriPassword, "6, 8, fill, default");
-		textConfriPassword.setColumns(10);
-		
 		JButton Confirm = new JButton("Confirm");
 		Confirm.addActionListener(clubMemberController);
+		
+		textConfriPassword = new JPasswordField();
+		add(textConfriPassword, "6, 8, fill, default");
 		add(Confirm, "4, 12");
 		
 		wrongInput = new JLabel("");

@@ -119,7 +119,6 @@ public class ClubMemberController implements ActionListener {
 			java.sql.Date dateFromDate = new java.sql.Date(utilFromDate.getTime());
 			java.util.Date utilToDate = jCheckReservation.getToDate().getDate();
 			java.sql.Date dateToDate = new java.sql.Date(utilToDate.getTime());
-			System.out.println(dateFromDate);
 			
 			ClubMemberDAO reocrdsDAO = new ClubMemberDAO();
 			reocrdsDAO.getReservation(dateFromDate, dateToDate, jCheckReservation.getTable(), jCheckReservation.getScrollPane());

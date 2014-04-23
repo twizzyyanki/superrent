@@ -54,12 +54,10 @@ private final LoggedInUser lc;
 			String query = "SELECT points FROM ClubMember WHERE uid='" + uid +"'";
 			//System.out.println("query is: " + query);
 			rs = st.executeQuery(query);
-			rs.next();
-			points = rs.getDouble("points");
-			
-			
-			
-			
+			if(rs.next())
+			{
+				points = rs.getDouble("points");
+			}
 			
 		}catch (Exception e) {
 			DatabaseConnection.rollback(connection);

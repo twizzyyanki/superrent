@@ -30,9 +30,9 @@ public class ClubMember extends JFrame {
 	private final ClubMemberController clubMemberController;
 	private JPanel panelCenter;
 
-	/**
+/*	*//**
 	 * Launch the application.
-	 */
+	 *//*
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -45,7 +45,7 @@ public class ClubMember extends JFrame {
 				}
 			}
 		});
-	}
+	}*/
 	
 	/**
 	 * Create the frame.

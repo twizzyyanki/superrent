@@ -28,7 +28,6 @@ public class ChangePasswordDAO {
 			//uidString = "1";
 			this.uid = Integer.parseInt(uidString);
 			connection = DatabaseConnection.createConnection();
-			System.out.println(connection.toString());
 
 		} catch (Exception e) {
 			DatabaseConnection.rollback(connection);
