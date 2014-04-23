@@ -49,7 +49,7 @@ public class SystemAdmin extends JFrame {
 		setTitle("System Administrator");
 		sac = new SystemAdminController(this);
 		lc = new LoginController(this);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 798, 514);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -134,6 +134,14 @@ public class SystemAdmin extends JFrame {
 		JButton btnChangePassword = new JButton("Change Password");
 		panelWest.add(btnChangePassword, "1, 9, fill, fill");
 		btnChangePassword.addActionListener(sac);
+		
+		JButton btnAsClerk = new JButton("As Clerk");
+		panelWest.add(btnAsClerk, "1, 11");
+		btnAsClerk.addActionListener(sac);
+		
+		JButton btnAsManager = new JButton("As Manager");
+		panelWest.add(btnAsManager, "1, 13");
+		btnAsManager.addActionListener(sac);
 		
 		JPanel panelSouth = new JPanel();
 		contentPane.add(panelSouth, BorderLayout.SOUTH);

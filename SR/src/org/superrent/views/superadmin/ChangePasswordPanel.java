@@ -18,9 +18,11 @@ import java.awt.Dimension;
 
 public class ChangePasswordPanel extends JPanel {
 	private SystemAdminController sac;
-	private JPasswordField passwordField;
-	private JPasswordField passwordField_1;
-	private JPasswordField passwordField_2;
+	private JPasswordField currentPass;
+	private JPasswordField newPass;
+	private JPasswordField confirmNewPass;
+	private JLabel wrongInput;
+
 	/**
 	 * Create the panel.
 	 */
@@ -32,7 +34,7 @@ public class ChangePasswordPanel extends JPanel {
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(102dlu;default)"),
+				ColumnSpec.decode("max(131dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("default:grow"),},
 			new RowSpec[] {
@@ -45,33 +47,53 @@ public class ChangePasswordPanel extends JPanel {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,}));
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("max(66dlu;default)"),}));
 		
 		JLabel lblCurrentPassword = new JLabel("Current Password");
 		add(lblCurrentPassword, "4, 4, right, default");
 		
-		passwordField = new JPasswordField();
-		passwordField.setMaximumSize(new Dimension(5, 10));
-		passwordField.setMinimumSize(new Dimension(5, 10));
-		add(passwordField, "6, 4");
+		currentPass = new JPasswordField();
+		currentPass.setMaximumSize(new Dimension(5, 10));
+		currentPass.setMinimumSize(new Dimension(5, 10));
+		add(currentPass, "6, 4");
 		
 		JLabel lblNewPassword = new JLabel("New Password");
 		add(lblNewPassword, "4, 6, right, default");
 		
-		passwordField_1 = new JPasswordField();
-		add(passwordField_1, "6, 6, fill, default");
+		newPass = new JPasswordField();
+		add(newPass, "6, 6, fill, default");
 		
 		JLabel lblConfirmNewPassword = new JLabel("Confirm New Password");
 		add(lblConfirmNewPassword, "4, 8, right, default");
 		
+		confirmNewPass = new JPasswordField();
+		add(confirmNewPass, "6, 8");
+		
 		JButton btnConfirm = new JButton("Confirm");
 		btnConfirm.setActionCommand("ConfirmPassword");
 		btnConfirm.addActionListener(sac);
+		add(btnConfirm, "6, 12, left, default");
 		
-		passwordField_2 = new JPasswordField();
-		add(passwordField_2, "6, 8");
-		add(btnConfirm, "6, 10, left, default");
+		wrongInput = new JLabel("");
+		add(wrongInput, "6, 14, fill, fill");
+		
 
 	}
 
+	public JPasswordField getCurrentPass() {
+		return currentPass;
+	}
+	public JPasswordField getNewPass() {
+		return newPass;
+	}
+	public JPasswordField getConfirmNewPass() {
+		return confirmNewPass;
+	}
+	public JLabel getWrongInput() {
+		return wrongInput;
+	}
 }

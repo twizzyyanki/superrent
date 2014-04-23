@@ -24,7 +24,7 @@ import org.superrent.views.manager.ManagerHome;
 import org.superrent.views.superadmin.SystemAdmin;
 
 /**
- * @author welcome
+ * @author 
  * 
  */
 public class LoginController implements ActionListener, DocumentListener {
@@ -38,9 +38,15 @@ public class LoginController implements ActionListener, DocumentListener {
 	static JPanel oldpanel;
 
 	/**
+	 * Returns the privilege of the user that wants to login if the login is
+	 * successful
+	 * 
 	 * @param username
+	 *            username of the user
 	 * @param password
-	 * @return int
+	 *            password of the user
+	 * @return privilege of the user that wants to login. Returns -1 if login is
+	 *         unsuccessful
 	 */
 	public int login(String username, String password) {
 		Map<String, String> user = null;
@@ -62,8 +68,13 @@ public class LoginController implements ActionListener, DocumentListener {
 	}
 
 	/**
-	 * @param email
-	 * @return boolean
+	 * Resets the password of the user and sends the username and new password
+	 * to the user's email
+	 * 
+	 * @param emailaddress
+	 *            of the user
+	 * @return true if the email address is found and false if the email address
+	 *         is not found
 	 */
 	public boolean retriveUserDetails(String email) {
 
@@ -88,7 +99,7 @@ public class LoginController implements ActionListener, DocumentListener {
 				if (status == 2) {
 					System.out.println("Clerk logging in");
 					ClerkHome k = new ClerkHome();
-					oldpanel=(JPanel) k.getContentPane();
+					oldpanel = (JPanel) k.getContentPane();
 					k.setLocationRelativeTo(null);
 					k.setVisible(true);
 				}
@@ -161,7 +172,11 @@ public class LoginController implements ActionListener, DocumentListener {
 	}
 
 	/**
-	 * @param l
+	 * constructor that accepts the Login view in order to manage the events on
+	 * it
+	 * 
+	 * @param login view
+	 *            instance of the Login window
 	 */
 	public LoginController(Login l) {
 		this.l = l;
@@ -175,19 +190,23 @@ public class LoginController implements ActionListener, DocumentListener {
 	}
 
 	/**
-	 * @param s
+	 * constructor that accepts the System Administrator view in order to manage
+	 * the events on it
+	 * 
+	 * @param instance
+	 *            of the SystemAdmin window
 	 */
 	public LoginController(SystemAdmin s) {
 		this.s = s;
 	}
-	
+
 	/**
 	 * @param m
 	 */
 	public LoginController(ManagerHome m) {
 		this.m = m;
 	}
-	
+
 	/**
 	 * @param k
 	 */
@@ -222,17 +241,17 @@ public class LoginController implements ActionListener, DocumentListener {
 
 	}
 
-	//@Override
+	// @Override
 	public void changedUpdate(DocumentEvent de) {
 		checkValidation();
 	}
 
-	//@Override
+	// @Override
 	public void insertUpdate(DocumentEvent de) {
 		checkValidation();
 	}
 
-	//@Override
+	// @Override
 	public void removeUpdate(DocumentEvent de) {
 		checkValidation();
 	}
@@ -242,12 +261,12 @@ public class LoginController implements ActionListener, DocumentListener {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				Problem validateAll = l.getGroup().performValidation();
-			//	System.out.println("validate all is  " + validateAll);
+				// System.out.println("validate all is  " + validateAll);
 				if (validateAll == null) {
 					l.getLogin().setEnabled(true);
 					l.revalidate();
 					l.repaint();
-				//	System.out.println("Getting here");
+					// System.out.println("Getting here");
 				} else {
 					if (validateAll.isFatal()) {
 						l.getLogin().setEnabled(false);
