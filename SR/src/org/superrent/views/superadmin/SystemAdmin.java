@@ -38,7 +38,7 @@ public class SystemAdmin extends JFrame {
 
 	private JPanel contentPane;
 	private JPanel panelCenter;
-	private static SearchUserPanel sup;
+	private SearchUserPanel sup;
 	private final SystemAdminController sac;
 	private final LoginController lc;
 

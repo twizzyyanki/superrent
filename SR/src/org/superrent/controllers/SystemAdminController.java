@@ -67,8 +67,8 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 		}
 		
 		if(e.getActionCommand().equals("Search User")) {
-			
-			SearchUserPanel sup = new SearchUserPanel(this);
+			sa.setSup(new SearchUserPanel(this));
+			SearchUserPanel sup = sa.getSup();
 			sa.remove(sa.getPanelCenter());
 			sa.setPanelCenter(sup.getValidationPanel());
 			sa.getMainPanel().add(sa.getPanelCenter(), BorderLayout.CENTER);
@@ -141,8 +141,6 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 		 * Search a user in the database
 		 */
 		if(e.getActionCommand().equals("Confirm")) {
-			//final BorderLayout layout = (BorderLayout)sa.getContentPane().getLayout();
-			//final SearchUserPanel sup = (SearchUserPanel) layout.getLayoutComponent(BorderLayout.CENTER);
 		    SearchUserPanel sup = sa.getSup();
 			System.out.println("You have made a search");
 			System.out.println("You have input "+sup.getInputName()+ " for User Name and "+sup.getInputPhone()+" for Phone Number");
