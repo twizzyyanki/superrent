@@ -340,7 +340,7 @@ public class ClerkDao
 		{
 			fuel=Double.parseDouble(rs.getString("fuelLevel"));
 		}
-		if(currentfuel!=fuel)
+		if(currentfuel<fuel)
 		{
 			PreparedStatement ps1=con.prepareStatement("Select fuelRate from SuperRent");
 			rs1=ps1.executeQuery();
