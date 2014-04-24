@@ -42,7 +42,7 @@ public class ChangePasswordDAO {
 	 * @return true if the password match the currentPassword in the database
 	 */
 	public boolean checkOldPassword(String password){
-		
+		password = org.apache.commons.codec.digest.DigestUtils.md5Hex(password);
 		boolean exist = false;
 		String currentPassword;
 		
@@ -87,7 +87,7 @@ public class ChangePasswordDAO {
 			String query = "UPDATE RegUser SET password = ? WHERE uid = ?";
 			ps = (PreparedStatement) connection.prepareStatement(query);
 			ps.setInt(2, uid);
-			ps.setString(1, newPassword);
+			ps.setString(1, org.apache.commons.codec.digest.DigestUtils.md5Hex(newPassword));
 			int rowCount = ps.executeUpdate();
 			  if (rowCount == 0){
 				  success = false ;
