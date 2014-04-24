@@ -80,8 +80,9 @@ public class ReservationPanel extends JPanel {
 		passwordField = new JPasswordField();
 		add(passwordField, "6, 8, fill, default");
 		
-		JButton btnNewButton = new JButton("Clubmember Reserve");
-		add(btnNewButton, "6, 10, fill, default");
+		JButton btnClubmember = new JButton("Clubmember Reserve");
+		btnClubmember.addActionListener(mrc);
+		add(btnClubmember, "6, 10, fill, default");
 		
 		
 		JLabel lblInformation = new JLabel("Please enter the following information to reserve as a guest");
@@ -117,8 +118,9 @@ public class ReservationPanel extends JPanel {
 		add(emailTextField, "6, 20, fill, default");
 		emailTextField.setColumns(10);
 		
-		JButton btnNewButton_1 = new JButton("Guest Reserve");
-		add(btnNewButton_1, "6, 22, fill, default");
+		JButton btnGuest = new JButton("Guest Reserve");
+		btnGuest.addActionListener(mrc);
+		add(btnGuest, "6, 22, fill, default");
 
 	}
 

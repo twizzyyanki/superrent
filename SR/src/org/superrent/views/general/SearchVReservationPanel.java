@@ -23,10 +23,17 @@ import javax.swing.table.DefaultTableModel;
 
 import org.superrent.controllers.MakeReservationController;
 
-public class SearchVReservationPanel extends JPanel implements ActionListener {
+public class SearchVReservationPanel extends JPanel implements ActionListener{
 	private JTable searchTable;
 	private MakeReservationController mrc;
-
+	private JComboBox<String> categoryCombox_1;
+	private JComboBox<String> typeCombox_1;
+	private JComboBox<String> equipComboBox_1;
+	private JButton btnSearch;
+	private JDateChooser dateChooserPick;
+	private JDateChooser dateChooserReturn;
+	private JLabel lblAmount;
+	
 	/**
 	 * Create the panel.
 	 */
@@ -77,30 +84,30 @@ public class SearchVReservationPanel extends JPanel implements ActionListener {
 		JLabel lblPickUpDate = new JLabel("Pick up Date");
 		add(lblPickUpDate, "4, 4, center, default");
 		
-		JDateChooser dateChooserPick = new JDateChooser();
+		dateChooserPick = new JDateChooser();
 		add(dateChooserPick, "6, 4, fill, fill");
 		
 		JLabel lblReturnDate = new JLabel("Return Date");
 		add(lblReturnDate, "10, 4, center, default");
 		
-		JDateChooser dateChooserReturn = new JDateChooser();
+		dateChooserReturn = new JDateChooser();
 		add(dateChooserReturn, "12, 4, fill, fill");
 		
 		JLabel lblCategory = new JLabel("Category");
 		add(lblCategory, "4, 6, center, default");
 		
-		JComboBox<String> categoryBox = new JComboBox<String>();
-		categoryBox.setModel(new DefaultComboBoxModel(new String[] {"All", "Car", "Truck"}));
-		categoryBox.addActionListener(this);
-		add(categoryBox, "6, 6, fill, default");
+		categoryCombox_1 = new JComboBox<String>();
+		categoryCombox_1.setModel(new DefaultComboBoxModel(new String[] {"All", "Car", "Truck"}));
+		categoryCombox_1.addActionListener(this);
+		add(categoryCombox_1, "6, 6, fill, default");
 		
 		JLabel lblType = new JLabel("Type");
 		add(lblType, "10, 6, center, default");
 		
-		JComboBox<String> typeBox = new JComboBox<String>();
-		typeBox.setModel(new DefaultComboBoxModel(new String[] {"ALL", "ECONOMY", "COMPACT", "MID-SIZE", "STANDARD", "FULL-SIZE", "PREMIUM", "LUXURY", "SUV", "VAN", "24-FOOT", "15-FOOT", "12-FOOT", "BOX TRUCK", "CARGO VAN"}));
-		typeBox.addActionListener(this);
-		add(typeBox, "12, 6, fill, default");
+		typeCombox_1 = new JComboBox<String>();
+		typeCombox_1.setModel(new DefaultComboBoxModel(new String[] {"ALL", "ECONOMY", "COMPACT", "MID-SIZE", "STANDARD", "FULL-SIZE", "PREMIUM", "LUXURY", "SUV", "VAN", "24-FOOT", "15-FOOT", "12-FOOT", "BOX TRUCK", "CARGO VAN"}));
+		typeCombox_1.addActionListener(this);
+		add(typeCombox_1, "12, 6, fill, default");
 		
 		JLabel lblLocation = new JLabel("Location");
 		add(lblLocation, "4, 8, center, default");
@@ -109,7 +116,8 @@ public class SearchVReservationPanel extends JPanel implements ActionListener {
 		LocationBox.setModel(new DefaultComboBoxModel(new String[] {"All", "Vancouver"}));
 		add(LocationBox, "6, 8, fill, default");
 		
-		JButton btnSearch = new JButton("Search");
+		btnSearch = new JButton("Search");
+		btnSearch.addActionListener(mrc);
 		add(btnSearch, "12, 8");
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -136,25 +144,68 @@ public class SearchVReservationPanel extends JPanel implements ActionListener {
 		
 		add(lblEquip, "4, 14");
 		
-		JComboBox equipComboBox = new JComboBox();
-		equipComboBox.setToolTipText("Please select vehicle first");
-		equipComboBox.setModel(new DefaultComboBoxModel(new String[] {"None"}));
-		add(equipComboBox, "6, 14, fill, default");
+		equipComboBox_1 = new JComboBox();
+		equipComboBox_1.setToolTipText("Please select vehicle first");
+		equipComboBox_1.setModel(new DefaultComboBoxModel(new String[] {"None"}));
+		equipComboBox_1.addActionListener(this);
+		add(equipComboBox_1, "6, 14, fill, default");
 		
 		JLabel lblEstamited = new JLabel("Estimated cost:");
 		add(lblEstamited, "4, 16");
 		
-		JLabel lblAmount = new JLabel("amount");
+		lblAmount = new JLabel("amount");
 		add(lblAmount, "6, 16");
 		add(btnReserve, "12, 18, center, default");
 
 	}
 
 	//Just for combo box actions
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
+	//@Override
+	public void actionPerformed(ActionEvent arg0) {
+		String item = (String)categoryCombox_1.getSelectedItem();
+		if(item.equalsIgnoreCase("CAR")){
+			typeCombox_1.setModel(new DefaultComboBoxModel<String>(new String[] { "All","ECONOMY","COMPACT","MID-SIZE",
+					  													"STANDARD", "FULL-SIZE", "PREMIUM","LUXURY", "SUV",
+					  													"VAN"}));
+			
+			equipComboBox_1.setModel(new DefaultComboBoxModel<String>(new String[] { "None","Child seat"}));
+		}
+		else if(item.equalsIgnoreCase("TRUCK")){
+			typeCombox_1.setModel(new DefaultComboBoxModel<String>(new String[] {"All","24-FOOT", "15-FOOT", "12-FOOT", "BOX TRUCK", 
+					  												   "CARGO VAN"}));
+		}
+		else if(item.equalsIgnoreCase("ALL")){
+			typeCombox_1.setModel(new DefaultComboBoxModel<String>(new String[] {"ALL", "ECONOMY","COMPACT","MID-SIZE",
+					  													"STANDARD", "FULL-SIZE", "PREMIUM","LUXURY", "SUV",
+					  													"VAN", "24-FOOT", "15-FOOT", "12-FOOT", "BOX TRUCK", 
+					  													"CARGO VAN"}));
+		}
+
 		
 	}
 
+	public JComboBox getCategoryCombox() {
+		return categoryCombox_1;
+	}
+	public JComboBox getTypeCombox() {
+		return typeCombox_1;
+	}
+	public JButton getBtnSearch() {
+		return btnSearch;
+	}
+	public JDateChooser getDateChooserPick() {
+		return dateChooserPick;
+	}
+	public JDateChooser getDateChooserReturn() {
+		return dateChooserReturn;
+	}
+	public JTable getSearchTable() {
+		return searchTable;
+	}
+	public JComboBox getEquipComboBox() {
+		return equipComboBox_1;
+	}
+	public JLabel getLblAmount() {
+		return lblAmount;
+	}
 }

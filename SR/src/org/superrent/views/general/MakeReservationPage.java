@@ -102,7 +102,7 @@ public class MakeReservationPage extends JFrame {
 		
 		JButton searchVbtn = new JButton("Home Page");
 		panelNorth.add(searchVbtn, "2, 2");
-		searchVbtn.setActionCommand("Search Vehicle");
+		searchVbtn.setActionCommand("Home Page");
 		
 		JButton btnLoginPage = new JButton("Login Page");
 		panelNorth.add(btnLoginPage, "4, 2");
