@@ -208,13 +208,12 @@ public class ClerkDao
 			values[3]=rs.getString("vehicleDescription");
 			ConfNo=rs.getInt("confirmationNo");
 		}
-		
-		
+		if(rs!=null)
+		{
 		PreparedStatement ps1=con.prepareStatement("select dropDate,pickDate,charges from Reservation where confirmationNo=? and status =?");
 		ps1.setInt(1, ConfNo);
 		ps1.setString(2,"0");
 		rs1=ps1.executeQuery();
-		
 		while(rs1.next())
 		{
 			values[4]=rs1.getString(1);
@@ -245,6 +244,7 @@ public class ClerkDao
 			values[9]=rs3.getString("equipmentName");
 		}
 		}
+		}
 		catch(Exception e)
 		{
 			DatabaseConnection.rollback(con);
@@ -252,14 +252,15 @@ public class ClerkDao
 		return values;
 	}
 
-	public Double calculateOdometerCost(Double currentReading,int agreementNo) 
+	public String calculateOdometerCost(Double currentReading,int agreementNo) 
 	{
 		ResultSet rs=null;
 		ResultSet rs1=null;
 		ResultSet rs2=null;
 		ResultSet rs3=null;
 		Double  limit=0.0;
-		Double cost=0.0;
+		String cost=null;
+		double cost1=0.0;
 		String type=null;
 		String category=null;
 		Double reading=0.0;
@@ -268,21 +269,21 @@ public class ClerkDao
 		{	
 		PreparedStatement ps=con.prepareStatement("Select kmLimit from SuperRent");
 		rs=ps.executeQuery();
-		
 		while(rs.next())
 		{
 			limit=rs.getDouble("kmLimit");
 		}
 		
-		
 		PreparedStatement ps1=con.prepareStatement("select odometer from RentAgreement where agreementNo=?");
 		ps1.setInt(1,agreementNo);
 		rs1=ps1.executeQuery();
-		while(rs1.next())
-		{
-			reading = rs1.getDouble("odometer");
-		}
 		
+		if(rs1.next())
+		{
+			while(rs1.next())
+			{
+				reading = rs1.getDouble("odometer");
+			}
 		if((currentReading-reading)>limit)
 		{
 			PreparedStatement vehicleType=con.prepareStatement("select type,category from Vehicle v where regNo=(select regNo from MakeReservation where confirmationNo=(select confirmationNo from GeneratedAgreements where agreementNo=?))");
@@ -293,7 +294,6 @@ public class ClerkDao
 				type=rs2.getString("type");
 				category=rs2.getString("category");
 			}
-			
 			PreparedStatement ps2=con.prepareStatement("select costPerKM from SuperRentInsuranceRate where type=? and category=?");
 			ps2.setString(1, type);
 			ps2.setString(2,category);
@@ -303,11 +303,18 @@ public class ClerkDao
 			{
 				rate=rs3.getDouble("costPerKM");
 			}	
-			cost=((currentReading-reading)-limit)*rate;
+			cost1=((currentReading-reading)-limit)*rate;
+			cost=String.valueOf(cost1);
 		}
 		else
 		{
-			cost=(double) 0;
+			cost1=(double) 0;
+			cost=String.valueOf(cost1);
+		}
+		}
+		else
+		{
+			cost="Rental agreement is not valid, odometer cannot be calculated!!";
 		}
 		}
 		catch(Exception e)

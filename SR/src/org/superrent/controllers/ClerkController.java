@@ -1,18 +1,19 @@
 package org.superrent.controllers;
 
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.text.DecimalFormat;
 
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 import org.superrent.daos.ClerkDao;
 import org.superrent.views.clerk.AddCM;
 import org.superrent.views.clerk.ClerkHome;
 import org.superrent.views.clerk.ManageReservation;
 import org.superrent.views.clerk.MembershipNum;
+import org.superrent.views.clerk.PayPal;
 import org.superrent.views.clerk.Rent;
 import org.superrent.views.clerk.RentalAgreement;
 import org.superrent.views.clerk.Return;
@@ -28,10 +29,11 @@ public class ClerkController implements ActionListener
 	private final AddCM cm=new AddCM();
 	private final MembershipNum mem=new MembershipNum();
 	private final UpdateProfile profile=new UpdateProfile();
- 
+	private final PayPal paypal=new PayPal();
 	private ClerkDao dao=new ClerkDao();
 	private RentalAgreement rental=new RentalAgreement(); 
 	private ManageReservation manage=new ManageReservation();
+	static JPanel oldreturn;
 	
 	
 	public ClerkController(ClerkHome k)
@@ -68,6 +70,8 @@ public class ClerkController implements ActionListener
 		ret.redeemAdctionListener(this);
 		ret.addPointsActionListener(this);
 		ret.paymentActionListener(this);
+		paypal.returnPageActionListener(this);
+		paypal.processPaymentActionListener(this);
 	}
 	
 
@@ -103,6 +107,7 @@ public class ClerkController implements ActionListener
 			this.clerkFrame.getContentPane().setVisible(true);
 			this.clerkFrame.revalidate();
 			this.clerkFrame.repaint();
+			oldreturn = (JPanel) this.clerkFrame.getContentPane();
 		}
 		if(ae.getActionCommand()=="Add ClubMember")
 		{
@@ -274,7 +279,7 @@ public class ClerkController implements ActionListener
 			this.clerkFrame.revalidate();
 			this.clerkFrame.repaint();
 		}
-		
+	
 		if(ae.getActionCommand()=="Create Rental Agreement")
 		{
 			try
@@ -321,10 +326,17 @@ public class ClerkController implements ActionListener
 		
 		if(ae.getActionCommand()=="Check Details")
 		{
+			try
+			{
 			String[] values;
 			int agreementNo=Integer.parseInt(ret.getTextField().getText());
 			values=dao.DisplayRentalAgreementwhileReturn(agreementNo);
-			
+			if(values[0]==null)
+			{
+				JOptionPane.showMessageDialog(ret,"agreement Number Does not exist");
+			}
+			else
+			{
 			if(values[0].equals("1"))
 			{
 				ret.rdbtnYes.setSelected(true);
@@ -335,26 +347,54 @@ public class ClerkController implements ActionListener
 				ret.rdbtnYes.setSelected(false);
 				ret.rdbtnNo.setSelected(true);
 			}
-			
 			ret.getTextField_5().setText(values[1]);
 			ret.getTextField_6().setText(values[2]);
 			ret.textArea.setText(values[3]);
 			ret.getTextField_3().setText(values[4]);
 			ret.getTextField_4().setText(values[5]);
-			ret.getTextField_7().setText(values[6]);
-			
+			ret.getTextField_7().setText(values[6]);	
 			ret.getTextField_1().setText(values[7]);
 			ret.getTextField_2().setText(values[8]);
 			ret.getTextField_14().setText(values[9]);
+			}
+			}
+			catch(Exception e)
+			{
+				JOptionPane.showMessageDialog(ret, "Enter Integer value for a rental agreement number");
+			}
 		}
 		
 		if(ae.getActionCommand()=="Odometer Cost")
 		{
-			Double currentReading=Double.parseDouble(ret.textField_9.getText());
-			String cost=null;
-			int agreementNo=Integer.parseInt(ret.getTextField().getText());
-			cost=String.valueOf(dao.calculateOdometerCost(currentReading,agreementNo));	
-			ret.textField_8.setText(cost);
+			try
+			{
+				if(ret.getTextField().getText().isEmpty())
+				{
+					JOptionPane.showMessageDialog(ret, "Please provide a rental agreement to proceed");
+				}
+				else if(ret.textField_9.getText().isEmpty())
+				{
+					JOptionPane.showMessageDialog(ret, "Please provide the current reading");
+				}
+				else
+				{
+					int agreementNo=Integer.parseInt(ret.getTextField().getText());	
+					Double currentReading=Double.parseDouble(ret.textField_9.getText());
+					String cost=dao.calculateOdometerCost(currentReading,agreementNo);
+					if(cost.length()>10)
+					{
+						JOptionPane.showMessageDialog(ret,cost);
+					}
+					else
+					{
+					ret.textField_8.setText(cost);
+					}
+				}
+			}
+			catch(Exception e)
+			{
+				JOptionPane.showMessageDialog(ret, "enter valid values please");
+			}
 		}
 		
 		if(ae.getActionCommand()=="Fuel Cost")
@@ -434,6 +474,8 @@ public class ClerkController implements ActionListener
 		
 		if(ae.getActionCommand()=="Add Tax Cost")
 		{
+			try
+			{
 			if(ret.textField_15.getText().isEmpty())
 			{
 				JOptionPane.showMessageDialog(ret, "Total cost is not calculated Please calculate it first!!");
@@ -447,16 +489,21 @@ public class ClerkController implements ActionListener
 			Double totalcost= Cost+Double.parseDouble(ret.getTextField_15().getText());
 			ret.textField_11.setText(String.valueOf((new DecimalFormat("#.##").format(totalcost))));
 			}
+			}
+			catch(Exception e)
+			{
+				JOptionPane.showMessageDialog(ret, "Invalid entries are present ");
+			}
 		}
 		
-		if(ae.getActionCommand()=="Proceed To Payment")
+		if(ae.getActionCommand()=="Process Payment")
 		{
-			int agreementNo=Integer.parseInt(ret.getTextField().getText());
-			Double totalCost=Double.valueOf(ret.getTextField_18().getText());
+			try
+			{
+			int agreementNo=Integer.parseInt(paypal.getTextField_9().getText());
+			Double totalCost=Double.valueOf(paypal.getTextField_8().getText());
 			String description=ret.textArea_1.getText();
-			
 			int[] status=dao.createPayment(agreementNo,description,totalCost);
-			
 			if(status[0] ==1)
 			{
 				JOptionPane.showMessageDialog(ret, "Payment done with ReceiptId"+status[1]);
@@ -464,6 +511,11 @@ public class ClerkController implements ActionListener
 			else
 			{
 				JOptionPane.showMessageDialog(manage, "Payment could not be done");
+			}
+			}
+			catch(Exception e)
+			{
+				JOptionPane.showMessageDialog(ret, "Please enter valid details");
 			}
 		}
 		
@@ -485,6 +537,26 @@ public class ClerkController implements ActionListener
 		
 		if(ae.getActionCommand()=="Calculate Total Cost")
 		{
+			try
+			{
+			if(ret.textField_8.getText().isEmpty())
+			{
+				JOptionPane.showMessageDialog(ret, "Please calculate the odometer cost first");
+			}
+			else if(ret.textField_19.getText().isEmpty())
+			{
+				JOptionPane.showMessageDialog(ret, "Please calculate the fuel cost");
+			}
+			else if(ret.textField_20.getText().isEmpty())
+			{
+				JOptionPane.showMessageDialog(ret, "Please calculate the insurance cost");
+			}
+			else if(ret.getTextField_7().getText().isEmpty())
+			{
+				JOptionPane.showMessageDialog(ret, "Please calculate the total cost ");
+			}
+			else
+			{
 			if(ret.getTextField().getText().equals(""))
 			{
 				JOptionPane.showMessageDialog(ret, "Please provide a rental Agreement Number and calculate the Odometer cost and fuel Cost");
@@ -499,6 +571,12 @@ public class ClerkController implements ActionListener
 				Double charges=Double.parseDouble(ret.getTextField_7().getText());
 				String totalCost=String.valueOf(odometerCost+fuelCost+overdueCost+damageCost+insuranceCost+charges);
 				ret.textField_15.setText(totalCost);
+			}
+			}
+			}
+			catch(Exception e)
+			{
+				JOptionPane.showMessageDialog(ret,"please enter valid values");
 			}
 		}
 		
@@ -542,8 +620,30 @@ public class ClerkController implements ActionListener
 				}
 			}
 		}
+		
+		if(ae.getActionCommand()=="Proceed To PayPal")
+		{
+			String bill=ret.getTextField_18().getText();
+			String agreementNo=ret.getTextField().getText(); 
+			this.clerkFrame.getContentPane().setVisible(false);
+			paypal.getTextField_8().setText(bill);
+			paypal.getTextField_9().setText(agreementNo);
+			this.clerkFrame.setContentPane(paypal);
+			this.clerkFrame.getContentPane().setVisible(true);
+			this.clerkFrame.revalidate();
+			this.clerkFrame.repaint();
+		}
+		
+		if(ae.getActionCommand()=="GoBack to ReturnPage")
+		{
+			this.clerkFrame.getContentPane().setVisible(false);
+			this.clerkFrame.setContentPane(oldreturn);
+			this.clerkFrame.getContentPane().setVisible(true);
+			this.clerkFrame.revalidate();
+			this.clerkFrame.repaint();
+		}
 	}
-
+	
 	public void displayConnectionLost(Exception e) 
 	{	
 		JOptionPane.showMessageDialog(clerkFrame, e);

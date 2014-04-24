@@ -309,7 +309,7 @@ public class Return extends JPanel
 		
 		
 		
-		btnProceedToPayment = new JButton("Proceed To Payment");
+		btnProceedToPayment = new JButton("Proceed To PayPal");
 		btnProceedToPayment.setBackground(Color.GRAY);
 		
 		btnAddPoints = new JButton("Add Points");
