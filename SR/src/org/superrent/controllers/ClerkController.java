@@ -1,15 +1,11 @@
 package org.superrent.controllers;
 
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.text.DecimalFormat;
 
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.UIManager;
-import javax.swing.text.JTextComponent;
 
 import org.superrent.daos.ClerkDao;
 import org.superrent.views.clerk.AddCM;
