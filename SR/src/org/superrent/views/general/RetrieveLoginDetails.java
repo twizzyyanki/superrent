@@ -15,14 +15,21 @@ import com.jgoodies.forms.factories.FormFactory;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 
+import org.netbeans.validation.api.builtin.stringvalidation.StringValidators;
+import org.netbeans.validation.api.ui.ValidationGroup;
+import org.netbeans.validation.api.ui.swing.ValidationPanel;
 import org.superrent.controllers.LoginController;
+import org.superrent.controllers.ValidateRetrieveLoginDetails;
 
 public class RetrieveLoginDetails extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField emailField;
+	private JButton okButton;
 	private LoginController lc;
 	private JLabel message;
+	private ValidationPanel xPanel = new ValidationPanel();
+	private ValidationGroup group;
 
 	public JLabel getMessage() {
 		return message;
@@ -35,7 +42,7 @@ public class RetrieveLoginDetails extends JDialog {
 		setTitle("Get Login Details");
 		setType(Type.POPUP);
 		setModal(true);
-		setBounds(100, 100, 450, 152);
+		setBounds(100, 100, 500, 170);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -63,6 +70,8 @@ public class RetrieveLoginDetails extends JDialog {
 		}
 		{
 			emailField = new JTextField();
+			emailField.setName("Email Address Field");
+			emailField.getDocument().addDocumentListener(new ValidateRetrieveLoginDetails(this));
 			contentPanel.add(emailField, "6, 4, fill, fill");
 			emailField.setColumns(10);
 		}
@@ -71,9 +80,10 @@ public class RetrieveLoginDetails extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("Get Login Details");
+				okButton = new JButton("Get Login Details");
 				okButton.setActionCommand("OK");
 				okButton.addActionListener(lc);
+				okButton.setEnabled(false);
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
@@ -85,9 +95,26 @@ public class RetrieveLoginDetails extends JDialog {
 			}
 		}
 		this.lc = lc;
+		
+		xPanel.setInnerComponent(contentPanel);
+		group = xPanel.getValidationGroup();
+		group.add(emailField, StringValidators.REQUIRE_NON_EMPTY_STRING,
+				StringValidators.NO_WHITESPACE, StringValidators.EMAIL_ADDRESS);
+		add(xPanel);
 	}
 
 	public JTextField getEmailField() {
 		return emailField;
+	}
+	
+	public JButton getOkButton() {
+		return okButton;
+	}
+	
+	/**
+	 * @return
+	 */
+	public ValidationGroup getGroup() {
+		return group;
 	}
 }

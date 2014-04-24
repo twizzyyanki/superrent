@@ -86,7 +86,7 @@ public class LoginController implements ActionListener, DocumentListener {
 
 		if (e.getActionCommand().equals("Login")) {
 			String username = l.getUsername().getText();
-			String password = l.getPassword().getText();
+			String password = org.apache.commons.codec.digest.DigestUtils.md5Hex(l.getPassword().getText());
 			int status = login(username, password);
 			if (status > 0) {
 				l.dispose();
@@ -139,7 +139,8 @@ public class LoginController implements ActionListener, DocumentListener {
 				User u = UserDAO.findUserByEmail(email);
 				System.out.println(u);
 				if (u.getUid() != null) {
-					String message = "Your new password is 34399034";
+					String newPass = UserDAO.changePassword(u);
+					String message = "Your username is " + u.getRegUser().getUsername() + ". Your new password is " + newPass;
 					SendMail sm = new SendMail(u.getEmail(), "Account Details",
 							message);
 					jd.getMessage()

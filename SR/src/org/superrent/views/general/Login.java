@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import com.jgoodies.forms.layout.FormLayout;
@@ -36,7 +37,7 @@ public class Login extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField username;
-	private JTextField password;
+	private JPasswordField password;
 	private final LoginController lc;
 	private JLabel loginMessage;
 	private JButton login;
@@ -100,7 +101,7 @@ public class Login extends JFrame {
 		JLabel lblPassword = new JLabel("Password:");
 		panel.add(lblPassword, "4, 10");
 
-		password = new JTextField();
+		password = new JPasswordField();
 		password.setName("Password");
 		password.getDocument().addDocumentListener(lc);
 		password.setPreferredSize(new Dimension(12, 35));
