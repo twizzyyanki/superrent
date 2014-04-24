@@ -16,6 +16,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 
 import org.superrent.controllers.ClubMemberController;
+import com.jgoodies.forms.factories.DefaultComponentFactory;
 
 public class JUpdateProfile extends JPanel {
 
@@ -23,6 +24,7 @@ public class JUpdateProfile extends JPanel {
 	private JTextField textPhone;
 	private JTextField textName;
 	private JTextArea textAddress;
+	private JLabel updateInfo;
 	/**
 	 * Create the panel.
 	 */
@@ -49,13 +51,15 @@ public class JUpdateProfile extends JPanel {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
+				RowSpec.decode("max(14dlu;default)"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
+				RowSpec.decode("max(40dlu;default)"),
 				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("default:grow"),}));
+				RowSpec.decode("max(11dlu;default)"),
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("max(13dlu;default):grow"),}));
 		
 		JLabel name = new JLabel("Name");
 		add(name, "4, 4, center, default");
@@ -74,15 +78,18 @@ public class JUpdateProfile extends JPanel {
 		JLabel address = new JLabel("Address");
 		add(address, "4, 8, center, default");
 		
-		JButton Update = new JButton("Update");
-		Update.addActionListener(clubMemberController);
-		
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane, "6, 8, fill, fill");
 		
 		textAddress = new JTextArea();
 		scrollPane.setViewportView(textAddress);
-		add(Update, "4, 14");
+		
+		JButton Update = new JButton("Update");
+		Update.addActionListener(clubMemberController);
+		add(Update, "4, 12");
+		
+		updateInfo = new JLabel("");
+		add(updateInfo, "6, 14");
 		
 		this.setVisible(true);
 
@@ -98,5 +105,9 @@ public class JUpdateProfile extends JPanel {
 	}
 	public JTextArea getTextAddress() {
 		return textAddress;
+	}
+
+	public JLabel getUpdateInfo() {
+		return updateInfo;
 	}
 }

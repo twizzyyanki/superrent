@@ -19,12 +19,14 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 
 import org.superrent.controllers.ClubMemberController;
+import java.awt.Color;
 /*test*/
 public class JCheckReservation extends JPanel {
 	private JTable table;
 	private JDateChooser fromDate;
 	private JDateChooser toDate;
 	private JScrollPane scrollPane;
+	private JLabel errorInfo;
 
 	/**
 	 * This panel is for clubmember to check reservation
@@ -36,11 +38,11 @@ public class JCheckReservation extends JPanel {
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(56dlu;default):grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(15dlu;default)"),
+				ColumnSpec.decode("max(19dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(56dlu;default):grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(36dlu;default)"),
+				ColumnSpec.decode("max(31dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("default:grow"),},
 			new RowSpec[] {
@@ -48,6 +50,8 @@ public class JCheckReservation extends JPanel {
 				RowSpec.decode("max(18dlu;pref)"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("max(160dlu;default)"),
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("default:grow"),}));
 		
@@ -89,6 +93,10 @@ public class JCheckReservation extends JPanel {
 		table.getColumnModel().getColumn(1).setPreferredWidth(90);
 		table.getColumnModel().getColumn(2).setPreferredWidth(90);
 		scrollPane.setViewportView(table);
+		
+		errorInfo = new JLabel("");
+		errorInfo.setForeground(Color.BLACK);
+		add(errorInfo, "4, 6");
 
 	}
 
@@ -103,5 +111,8 @@ public class JCheckReservation extends JPanel {
 	}
 	public JScrollPane getScrollPane() {
 		return scrollPane;
+	}
+	public JLabel getErrorInfo() {
+		return errorInfo;
 	}
 }

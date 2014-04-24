@@ -88,29 +88,20 @@ private final LoggedInUser lc;
 			table.setModel(DbUtils.resultSetToTableModel(rs));
 			scrollPane.setVisible(true);
 			table.setVisible(true);
-/*			while(rs.next())
-			{
-				Vector recordsPerRow = new Vector();
-				
-				recordsPerRow.add(rs.getInt("MakeReservation.confirmationNo"));
-				recordsPerRow.add(rs.getDate("pickDate"));
-				recordsPerRow.add(rs.getDate("dropDate"));
-				reseratvionRecords.add(recordsPerRow);
-			
-				
-			}*/
+			success = true;
 			connection.commit(); 
 			
 		}catch (Exception e) {
 			DatabaseConnection.rollback(connection);
+			
 			e.printStackTrace();
 		} finally {
 			
 			DatabaseConnection.close(connection);
-			
+			return success;
 		}
 		
-		return success;
+		
 		
 	}
 	/**

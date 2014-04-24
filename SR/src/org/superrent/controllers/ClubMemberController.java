@@ -115,13 +115,27 @@ public class ClubMemberController implements ActionListener {
 			
 			// change jDateChooser to util.Data and
 			// change util.Date to sql.Date
-			java.util.Date utilFromDate = jCheckReservation.getFromDate().getDate();
-			java.sql.Date dateFromDate = new java.sql.Date(utilFromDate.getTime());
-			java.util.Date utilToDate = jCheckReservation.getToDate().getDate();
-			java.sql.Date dateToDate = new java.sql.Date(utilToDate.getTime());
+			jCheckReservation.getErrorInfo().setForeground(Color.black);
+			jCheckReservation.getErrorInfo().setText("");
 			
-			ClubMemberDAO reocrdsDAO = new ClubMemberDAO();
-			reocrdsDAO.getReservation(dateFromDate, dateToDate, jCheckReservation.getTable(), jCheckReservation.getScrollPane());
+			if(jCheckReservation.getFromDate().getDate() != null || jCheckReservation.getToDate().getDate() != null ){
+				java.util.Date utilFromDate = jCheckReservation.getFromDate().getDate();
+				java.sql.Date dateFromDate = new java.sql.Date(utilFromDate.getTime());
+				java.util.Date utilToDate = jCheckReservation.getToDate().getDate();
+				java.sql.Date dateToDate = new java.sql.Date(utilToDate.getTime());
+				
+				ClubMemberDAO reocrdsDAO = new ClubMemberDAO();
+				reocrdsDAO.getReservation(dateFromDate, dateToDate, jCheckReservation.getTable(), 
+										  jCheckReservation.getScrollPane());
+				
+			}
+			else{
+				jCheckReservation.getErrorInfo().setForeground(Color.RED);
+				jCheckReservation.getErrorInfo().setText("date fields cannot be empty");
+			}
+
+			
+		
 			
 		}
 		
@@ -168,6 +182,12 @@ public class ClubMemberController implements ActionListener {
 		
 		// Update button in the JUpdateProfile panel
 		if(e.getActionCommand().equals("Update")) {
+			int nameSuccess = 1;
+			int phoneSuccess = 1;
+			int addressSucess = 1;
+			String updateInfosString="";
+			jUProfile.getTextPhone().setForeground(Color.black);
+			jUProfile.getUpdateInfo().setText("");
 			
 			// check if user enters text in name text area
 			if(jUProfile.getTextName().getText()!=null && 
@@ -176,11 +196,12 @@ public class ClubMemberController implements ActionListener {
 				if(!jUProfile.getTextName().getText().equals("Update Success")){
 					UpdateProfileDAO updateNameDAO = new UpdateProfileDAO();
 					if(updateNameDAO.updateName(jUProfile.getTextName().getText())){
-						jUProfile.getTextName().setText("Update Success");
+						nameSuccess = 1;
+						updateInfosString = updateInfosString + "Update name success<br>";
 					}
-					else{
-						jUProfile.getTextName().setForeground(Color.RED);
-						jUProfile.getTextName().setText("Update fail");
+					else {
+						nameSuccess = 0;
+						updateInfosString = updateInfosString + "Update name fail<br>";
 					}
 					
 				}
@@ -198,13 +219,15 @@ public class ClubMemberController implements ActionListener {
 				// check if text area is "Update Success" to prevent updating 
 				if(!jUProfile.getTextPhone().getText().equals("Update Success")){
 					UpdateProfileDAO updatePhoneDAO = new UpdateProfileDAO();
-					int newPhoneNumber = Integer.parseInt(jUProfile.getTextPhone().getText());
+					String newPhoneNumber = jUProfile.getTextPhone().getText();
 					if(updatePhoneDAO.updatePhoneNumber(newPhoneNumber)){
-						jUProfile.getTextPhone().setText("Update Success");
+						phoneSuccess = 1;
+						updateInfosString = updateInfosString + "Update phone number success<br>";
+						
 					}
 					else{
-						jUProfile.getTextPhone().setForeground(Color.RED);
-						jUProfile.getTextPhone().setText("Update fail");
+						phoneSuccess = 0;
+						updateInfosString = updateInfosString + "phone number is not vaild<br>";
 					}
 				}
 				else{
@@ -223,11 +246,12 @@ public class ClubMemberController implements ActionListener {
 						UpdateProfileDAO updateAddressDAO = new UpdateProfileDAO();
 						String newAddress = jUProfile.getTextAddress().getText();
 						if(updateAddressDAO.updateAddress(newAddress)){
-							jUProfile.getTextAddress().setText("Update Success");
+							addressSucess = 1;
+							updateInfosString = updateInfosString + "Update address success<br>";
 						}
 						else{
-							jUProfile.getTextAddress().setForeground(Color.RED);
-							jUProfile.getTextAddress().setText("Update fail");
+							addressSucess = 0;
+							updateInfosString = updateInfosString + "Address is not valid<br>";
 						}
 					}
 					else{
@@ -236,6 +260,16 @@ public class ClubMemberController implements ActionListener {
 					}
 			}
 			
+			if(nameSuccess+phoneSuccess+addressSucess!=3){
+				jUProfile.getTextPhone().setForeground(Color.red);
+				updateInfosString = "<html>"+ updateInfosString + "</html>";
+				jUProfile.getUpdateInfo().setText(updateInfosString);
+			}
+			else{
+				updateInfosString = "<html>"+ updateInfosString + "</html>";
+				jUProfile.getUpdateInfo().setText(updateInfosString);
+			}
+		
 
 		}
 	}

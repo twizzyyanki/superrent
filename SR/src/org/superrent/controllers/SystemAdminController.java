@@ -267,7 +267,7 @@ public class SystemAdminController implements ActionListener {
 				// check if text area is "Update Success" to prevent updating 
 				if(!updateProfile.getTextPhone().getText().equals("Update Success")){
 					UpdateProfileDAO updatePhoneDAO = new UpdateProfileDAO();
-					int newPhoneNumber = Integer.parseInt(updateProfile.getTextPhone().getText());
+					String newPhoneNumber = updateProfile.getTextPhone().getText();
 					if(updatePhoneDAO.updatePhoneNumber(newPhoneNumber)){
 						updateProfile.getTextPhone().setText("Update Success");
 					}
