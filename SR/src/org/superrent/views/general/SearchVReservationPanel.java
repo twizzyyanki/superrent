@@ -62,46 +62,45 @@ public class SearchVReservationPanel extends JPanel {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
-		JLabel lblNewLabel = new JLabel("Pick up Date");
-		add(lblNewLabel, "4, 4, center, default");
+		JLabel lblPickUpDate = new JLabel("Pick up Date");
+		add(lblPickUpDate, "4, 4, center, default");
 		
-		JDateChooser dateChooser = new JDateChooser();
-		add(dateChooser, "6, 4, fill, fill");
+		JDateChooser dateChooserPick = new JDateChooser();
+		add(dateChooserPick, "6, 4, fill, fill");
 		
-		JLabel lblNewLabel_1 = new JLabel("Return Date");
-		add(lblNewLabel_1, "10, 4, center, default");
+		JLabel lblReturnDate = new JLabel("Return Date");
+		add(lblReturnDate, "10, 4, center, default");
 		
-		JDateChooser dateChooser_1 = new JDateChooser();
-		add(dateChooser_1, "12, 4, fill, fill");
+		JDateChooser dateChooserReturn = new JDateChooser();
+		add(dateChooserReturn, "12, 4, fill, fill");
 		
 		JLabel lblCategory = new JLabel("Category");
 		add(lblCategory, "4, 6, center, default");
 		
-		JComboBox<String> comboBox_1 = new JComboBox<String>();
-		comboBox_1.setModel(new DefaultComboBoxModel(new String[] {"All", "Car", "Truck"}));
-		add(comboBox_1, "6, 6, fill, default");
+		JComboBox<String> categoryBox = new JComboBox<String>();
+		categoryBox.setModel(new DefaultComboBoxModel(new String[] {"All", "Car", "Truck"}));
+		add(categoryBox, "6, 6, fill, default");
 		
 		JLabel lblType = new JLabel("Type");
 		add(lblType, "10, 6, center, default");
 		
-		JComboBox<String> comboBox_2 = new JComboBox<String>();
-		comboBox_2.setModel(new DefaultComboBoxModel(new String[] {"ALL", "ECONOMY", "COMPACT", "MID-SIZE", "STANDARD", "FULL-SIZE", "PREMIUM", "LUXURY", "SUV", "VAN", "24-FOOT", "15-FOOT", "12-FOOT", "BOX TRUCK", "CARGO VAN"}));
-		add(comboBox_2, "12, 6, fill, default");
+		JComboBox<String> TypeBox = new JComboBox<String>();
+		TypeBox.setModel(new DefaultComboBoxModel(new String[] {"ALL", "ECONOMY", "COMPACT", "MID-SIZE", "STANDARD", "FULL-SIZE", "PREMIUM", "LUXURY", "SUV", "VAN", "24-FOOT", "15-FOOT", "12-FOOT", "BOX TRUCK", "CARGO VAN"}));
+		add(TypeBox, "12, 6, fill, default");
 		
 		JLabel lblLocation = new JLabel("Location");
 		add(lblLocation, "4, 8, center, default");
 		
-		JComboBox<String> comboBox = new JComboBox<String>();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"All", "Vancouver"}));
-		add(comboBox, "6, 8, fill, default");
+		JComboBox<String> LocationBox = new JComboBox<String>();
+		LocationBox.setModel(new DefaultComboBoxModel(new String[] {"All", "Vancouver"}));
+		add(LocationBox, "6, 8, fill, default");
 		
 		JButton btnSearch = new JButton("Search");
 		add(btnSearch, "12, 8");
-		
-		JButton btnNewButton = new JButton("Reserve");
-		add(btnNewButton, "4, 10, center, default");
 		
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane, "4, 12, 13, 1, fill, fill");
@@ -113,10 +112,19 @@ public class SearchVReservationPanel extends JPanel {
 				{null, null, null, null},
 			},
 			new String[] {
-				"Location", "Category", "Type", "Price"
+				"Location", "Category", "Type", "Rate"
 			}
 		));
 		scrollPane.setViewportView(searchTable);
+		
+		JLabel lblEstimatedCost = new JLabel("Estimated Cost:");
+		add(lblEstimatedCost, "4, 14, center, default");
+		
+		JLabel lblCost = new JLabel("E.g. 90");
+		add(lblCost, "6, 14");
+		
+		JButton btnReserve = new JButton("Reserve");
+		add(btnReserve, "8, 14, center, default");
 
 	}
 

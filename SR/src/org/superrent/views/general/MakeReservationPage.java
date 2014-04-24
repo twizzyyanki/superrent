@@ -63,7 +63,7 @@ public class MakeReservationPage extends JFrame {
 		contentPane.add(panelWest, BorderLayout.WEST);
 		panelWest.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
-				ColumnSpec.decode("134px:grow"),},
+				ColumnSpec.decode("128px:grow"),},
 			new RowSpec[] {
 				FormFactory.LINE_GAP_ROWSPEC,
 				RowSpec.decode("23px"),
@@ -80,11 +80,13 @@ public class MakeReservationPage extends JFrame {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,}));
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("default:grow"),}));
 		
 		JButton btnSearchVehicel = new JButton("Search Vehicle");
 		btnSearchVehicel.addActionListener(mrc);
-		panelWest.add(btnSearchVehicel, "2, 16");
+		panelWest.add(btnSearchVehicel, "2, 6");
 		
 		JPanel panelNorth = new JPanel();
 		contentPane.add(panelNorth, BorderLayout.NORTH);
