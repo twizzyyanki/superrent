@@ -57,6 +57,7 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 		
 		if(e.getActionCommand().equals("Add User")) {
 			AddUserPanel aup = new AddUserPanel(this);
+			//new ValidateAddUser(aup);
 			//System.out.println("You add a user");
 			sa.remove(sa.getPanelCenter());
 			sa.setPanelCenter(aup);
