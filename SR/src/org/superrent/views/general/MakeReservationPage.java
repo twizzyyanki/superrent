@@ -62,8 +62,8 @@ public class MakeReservationPage extends JFrame {
 		JPanel panelWest = new JPanel();
 		contentPane.add(panelWest, BorderLayout.WEST);
 		panelWest.setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
-				ColumnSpec.decode("128px:grow"),},
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,},
 			new RowSpec[] {
 				FormFactory.LINE_GAP_ROWSPEC,
 				RowSpec.decode("23px"),
@@ -84,12 +84,26 @@ public class MakeReservationPage extends JFrame {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("default:grow"),}));
 		
-		JButton btnSearchVehicel = new JButton("Search Vehicle");
-		btnSearchVehicel.addActionListener(mrc);
-		panelWest.add(btnSearchVehicel, "2, 6");
-		
 		JPanel panelNorth = new JPanel();
 		contentPane.add(panelNorth, BorderLayout.NORTH);
+		panelNorth.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("130px"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,},
+			new RowSpec[] {
+				FormFactory.LINE_GAP_ROWSPEC,
+				RowSpec.decode("23px"),}));
+		
+		JButton searchVbtn = new JButton("Home Page");
+		panelNorth.add(searchVbtn, "2, 2");
+		searchVbtn.setActionCommand("Search Vehicle");
+		
+		JButton btnLoginPage = new JButton("Login Page");
+		panelNorth.add(btnLoginPage, "4, 2");
+		searchVbtn.addActionListener(mrc);
 		
 		JPanel panelEast = new JPanel();
 		contentPane.add(panelEast, BorderLayout.EAST);

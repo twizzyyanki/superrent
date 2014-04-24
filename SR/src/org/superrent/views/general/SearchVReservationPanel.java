@@ -28,24 +28,25 @@ public class SearchVReservationPanel extends JPanel {
 	 * Create the panel.
 	 */
 	public SearchVReservationPanel(MakeReservationController mrc) {
+		
 		this.mrc = mrc;
 		setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(17dlu;default)"),
+				ColumnSpec.decode("max(17dlu;default):grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(37dlu;default):grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.BUTTON_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.GROWING_BUTTON_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.BUTTON_COLSPEC,
+				ColumnSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.GROWING_BUTTON_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
+				ColumnSpec.decode("default:grow"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,},
 			new RowSpec[] {
@@ -61,6 +62,10 @@ public class SearchVReservationPanel extends JPanel {
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("default:grow"),
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
@@ -106,6 +111,7 @@ public class SearchVReservationPanel extends JPanel {
 		add(scrollPane, "4, 12, 13, 1, fill, fill");
 		
 		searchTable = new JTable();
+		searchTable.setToolTipText("");
 		searchTable.setModel(new DefaultTableModel(
 			new Object[][] {
 				{null, null, null, null},
@@ -117,14 +123,25 @@ public class SearchVReservationPanel extends JPanel {
 		));
 		scrollPane.setViewportView(searchTable);
 		
-		JLabel lblEstimatedCost = new JLabel("Estimated Cost:");
-		add(lblEstimatedCost, "4, 14, center, default");
-		
-		JLabel lblCost = new JLabel("E.g. 90");
-		add(lblCost, "6, 14");
-		
 		JButton btnReserve = new JButton("Reserve");
-		add(btnReserve, "8, 14, center, default");
+		btnReserve.addActionListener(mrc);
+		
+		JLabel lblEquip = new JLabel("Add additional equipment");
+		lblEquip.setToolTipText("Please select vehicle first");
+		
+		add(lblEquip, "4, 14");
+		
+		JComboBox equipComboBox = new JComboBox();
+		equipComboBox.setToolTipText("Please select vehicle first");
+		equipComboBox.setModel(new DefaultComboBoxModel(new String[] {"None"}));
+		add(equipComboBox, "6, 14, fill, default");
+		
+		JLabel lblEstamited = new JLabel("Estimated cost:");
+		add(lblEstamited, "4, 16");
+		
+		JLabel lblAmount = new JLabel("amount");
+		add(lblAmount, "6, 16");
+		add(btnReserve, "12, 18, center, default");
 
 	}
 
