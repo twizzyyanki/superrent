@@ -105,7 +105,6 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 			updateProfile.getTextName().setText(name);
 			updateProfile.getTextPhone().setText(phone);
 			updateProfile.getTextAddress().setText(address);;
-
 		}
 		
 	    
@@ -144,7 +143,7 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 		if(e.getActionCommand().equals("Confirm")) {
 			//final BorderLayout layout = (BorderLayout)sa.getContentPane().getLayout();
 			//final SearchUserPanel sup = (SearchUserPanel) layout.getLayoutComponent(BorderLayout.CENTER);
-			final SearchUserPanel sup = sa.getSup();
+		    SearchUserPanel sup = sa.getSup();
 			System.out.println("You have made a search");
 			System.out.println("You have input "+sup.getInputName()+ " for User Name and "+sup.getInputPhone()+" for Phone Number");
 			this.su_dao = new SearchUserDAO(sup.getInputName(),sup.getInputPhone(),sup.getTable(),sup.getScrollPane());
