@@ -15,6 +15,7 @@ import org.netbeans.validation.api.Problem;
 import org.superrent.application.LoggedInUser;
 import org.superrent.application.SendMail;
 import org.superrent.daos.UserDAO;
+import org.superrent.entities.MakeReservation;
 import org.superrent.entities.User;
 import org.superrent.views.clerk.ClerkHome;
 import org.superrent.views.clubmember.ClubMember;
@@ -214,6 +215,7 @@ public class LoginController implements ActionListener, DocumentListener {
 	public LoginController(ClerkHome k) {
 		this.k = k;
 	}
+
 
 	/**
 	 * @param args

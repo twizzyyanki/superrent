@@ -83,14 +83,14 @@ public class SearchVehiclePanel extends JPanel implements ActionListener{
 		add(lblLocation, "4, 4, right, default");
 		
 		JComboBox<String> locationCombox = new JComboBox<String>();
-		locationCombox.setModel(new DefaultComboBoxModel<String>(new String[] {"All", "Vancouver"}));
+		locationCombox.setModel(new DefaultComboBoxModel(new String[] {"All", "Vancouver"}));
 		add(locationCombox, "6, 4, left, center");
 		
 		JLabel lblCategory = new JLabel("Category");
 		add(lblCategory, "8, 4, fill, default");
 		
 		
-		categoryCombox.setModel(new DefaultComboBoxModel<String>(new String[] {"All", "Car", "Truck"}));
+		categoryCombox.setModel(new DefaultComboBoxModel(new String[] {"All", "Car", "Truck"}));
 		add(categoryCombox, "10, 4, left, default");
 		
 	    //  prevent action events from being fired when the up/down arrow keys are used
