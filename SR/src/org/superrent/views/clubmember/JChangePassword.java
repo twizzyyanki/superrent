@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 
 import org.superrent.controllers.ClubMemberController;
+import org.superrent.controllers.ValidateJChangePassword;
 
 import java.awt.Color;
 import javax.swing.JPasswordField;
@@ -23,6 +24,7 @@ public class JChangePassword extends JPanel {
 	private JPasswordField textCurrentPassword;
 	private JPasswordField textNewPassword;
 	private JPasswordField textConfriPassword;
+	private JButton Confirm;
 	
 	/**
 	 * Create the panel.
@@ -62,21 +64,28 @@ public class JChangePassword extends JPanel {
 		add(lblCurrent, "4, 4, right, default");
 		
 		textCurrentPassword = new JPasswordField();
+		textCurrentPassword.setName("Current Password");
+		textCurrentPassword.getDocument().addDocumentListener(new ValidateJChangePassword(this));
 		add(textCurrentPassword, "6, 4, fill, default");
 		
 		JLabel lblNewPassword = new JLabel("New Password:");
 		add(lblNewPassword, "4, 6, right, default");
 		
 		textNewPassword = new JPasswordField();
+		textNewPassword.setName("New Password");
+		textNewPassword.getDocument().addDocumentListener(new ValidateJChangePassword(this));
 		add(textNewPassword, "6, 6, fill, default");
 		
 		JLabel lblConfirmPassword = new JLabel("Confirm Password:");
 		add(lblConfirmPassword, "4, 8, right, default");
 		
-		JButton Confirm = new JButton("Confirm");
+		Confirm = new JButton("Confirm");
+		Confirm.setEnabled(false);
 		Confirm.addActionListener(clubMemberController);
 		
 		textConfriPassword = new JPasswordField();
+		textConfriPassword.setName("Confirm Password");
+		textConfriPassword.getDocument().addDocumentListener(new ValidateJChangePassword(this));
 		add(textConfriPassword, "6, 8, fill, default");
 		add(Confirm, "4, 12");
 		
@@ -98,5 +107,8 @@ public class JChangePassword extends JPanel {
 	}
 	public JTextField getTextConfriPassword() {
 		return textConfriPassword;
+	}
+	public JButton getConfirmButton() {
+		return Confirm;
 	}
 }
