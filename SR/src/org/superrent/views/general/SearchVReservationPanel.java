@@ -160,10 +160,10 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 	}
 
 	//Just for combo box actions
-<<<<<<< HEAD
+
 	//@Override
 	public void actionPerformed(ActionEvent arg0) {
-		String item = (String)categoryCombox_1.getSelectedItem();
+	/*	String item = (String)categoryCombox_1.getSelectedItem();
 		if(item.equalsIgnoreCase("CAR")){
 			typeCombox_1.setModel(new DefaultComboBoxModel<String>(new String[] { "All","ECONOMY","COMPACT","MID-SIZE",
 					  													"STANDARD", "FULL-SIZE", "PREMIUM","LUXURY", "SUV",
@@ -180,14 +180,9 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 					  													"STANDARD", "FULL-SIZE", "PREMIUM","LUXURY", "SUV",
 					  													"VAN", "24-FOOT", "15-FOOT", "12-FOOT", "BOX TRUCK", 
 					  													"CARGO VAN"}));
-		}
+		}*/
 
-=======
-	// @Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
->>>>>>> 5838d56506645000bc993ee34abaf4d7cfb5fdf3
-		
+
 	}
 
 	public JComboBox getCategoryCombox() {
