@@ -33,6 +33,7 @@ public class SearchUserPanel extends JPanel {
 	private JScrollPane scrollPane;
 	private ValidationGroup group;
 	private ValidationPanel xpanel;
+	private JButton btnConfirm;
 
 
 	/**
@@ -89,8 +90,10 @@ public class SearchUserPanel extends JPanel {
 		textFieldPhoneNumber.getDocument().addDocumentListener(sac);
 		
 	
-		JButton btnConfirm = new JButton("Confirm");
+		btnConfirm = new JButton("Confirm");
 		btnConfirm.addActionListener(sac);
+		btnConfirm.setEnabled(false);
+	
 
 		xpanel = new ValidationPanel();
 		xpanel.setInnerComponent(this);
@@ -165,5 +168,11 @@ public class SearchUserPanel extends JPanel {
 		return xpanel;
 	}
 
+	public ValidationGroup getGroup() {
+		return group;
+	}
 	
+	public JButton getBtnConfirm() {
+		return btnConfirm;
+	}
 }

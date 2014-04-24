@@ -149,7 +149,7 @@ public class SystemAdmin extends JFrame {
 		JPanel panelEast = new JPanel();
 		contentPane.add(panelEast, BorderLayout.EAST);
 		
-		sup = new SearchUserPanel(sac);
+		setSup(new SearchUserPanel(sac));
 		panelCenter = sup.getValidationPanel();
 		contentPane.add(panelCenter, BorderLayout.CENTER);
 		
