@@ -17,6 +17,7 @@ import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import org.netbeans.validation.api.Problem;
 import org.netbeans.validation.api.builtin.stringvalidation.StringValidators;
 import org.netbeans.validation.api.ui.swing.ValidationPanel;
 import org.superrent.daos.AddUserDAO;
@@ -68,7 +69,8 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 		
 		if(e.getActionCommand().equals("Search User")) {
 			sa.setSup(new SearchUserPanel(this));
-			SearchUserPanel sup = sa.getSup();
+			sup = sa.getSup();
+			sup.getBtnConfirm().setEnabled(false);
 			sa.remove(sa.getPanelCenter());
 			sa.setPanelCenter(sup.getValidationPanel());
 			sa.getMainPanel().add(sa.getPanelCenter(), BorderLayout.CENTER);
@@ -141,7 +143,7 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 		 * Search a user in the database
 		 */
 		if(e.getActionCommand().equals("Confirm")) {
-		    SearchUserPanel sup = sa.getSup();
+		    sup = sa.getSup();
 			System.out.println("You have made a search");
 			System.out.println("You have input "+sup.getInputName()+ " for User Name and "+sup.getInputPhone()+" for Phone Number");
 			this.su_dao = new SearchUserDAO(sup.getInputName(),sup.getInputPhone(),sup.getTable(),sup.getScrollPane());
@@ -315,17 +317,37 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 	}
 
 	public void changedUpdate(DocumentEvent arg0) {
-		// TODO Auto-generated method stub
+		checkValidation();
 		
 	}
 
 	public void insertUpdate(DocumentEvent arg0) {
-		// TODO Auto-generated method stub
+		checkValidation();
 		
 	}
 
 	public void removeUpdate(DocumentEvent arg0) {
-		// TODO Auto-generated method stub
-		
+		checkValidation();
+	}
+	
+	private void checkValidation() {
+
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				Problem validateAll = sup.getGroup().performValidation();
+				// System.out.println("validate all is  " + validateAll);
+				if (validateAll == null) {
+					sup.getBtnConfirm().setEnabled(true);
+					sup.revalidate();
+					sup.repaint();
+					// System.out.println("Getting here");
+				} else {
+					if (validateAll.isFatal()) {
+						sup.getBtnConfirm().setEnabled(false);
+					}
+				}
+
+			}
+		});
 	}
 }
