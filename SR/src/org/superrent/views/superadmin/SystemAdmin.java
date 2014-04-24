@@ -122,25 +122,20 @@ public class SystemAdmin extends JFrame {
 		btnAddUser.addActionListener(sac);
 		panelWest.add(btnAddUser, "1, 3, fill, fill");
 		
-		
-		JButton btnSearchVehicle = new JButton("Search Vehicle");
-		panelWest.add(btnSearchVehicle, "1, 5, fill, fill");
-		btnSearchVehicle.addActionListener(sac);
-		
 		JButton btnUpdateProfile = new JButton("Update Profile");
-		panelWest.add(btnUpdateProfile, "1, 7, fill, fill");
+		panelWest.add(btnUpdateProfile, "1, 5, fill, fill");
 		btnUpdateProfile.addActionListener(sac);
 		
 		JButton btnChangePassword = new JButton("Change Password");
-		panelWest.add(btnChangePassword, "1, 9, fill, fill");
+		panelWest.add(btnChangePassword, "1, 7, fill, fill");
 		btnChangePassword.addActionListener(sac);
 		
 		JButton btnAsClerk = new JButton("As Clerk");
-		panelWest.add(btnAsClerk, "1, 11");
+		panelWest.add(btnAsClerk, "1, 9");
 		btnAsClerk.addActionListener(sac);
 		
 		JButton btnAsManager = new JButton("As Manager");
-		panelWest.add(btnAsManager, "1, 13");
+		panelWest.add(btnAsManager, "1, 11");
 		btnAsManager.addActionListener(sac);
 		
 		JPanel panelSouth = new JPanel();
