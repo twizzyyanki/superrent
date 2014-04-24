@@ -38,11 +38,12 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 	
 	private SystemAdmin sa;
 	//private Login l;
-	private SearchUserPanel sup;
+	private SearchUserPanel sup = new SearchUserPanel(this);
 	private AddUserDAO au_dao;
 	private SearchUserDAO su_dao;
 	static JPanel oldpanel;
 	private UpdateProfile updateProfile;
+	boolean firstTime = true;
 	//private Login l;
 	//private SearchUserPanel sup;
 	
@@ -52,6 +53,8 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 		/**
 		 * Switch center panel
 		 */
+		
+		
 		if(e.getActionCommand().equals("Add User")) {
 			AddUserPanel aup = new AddUserPanel(this);
 			//System.out.println("You add a user");
@@ -70,7 +73,7 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 		if(e.getActionCommand().equals("Search User")) {
 			sa.setSup(new SearchUserPanel(this));
 			sup = sa.getSup();
-			sup.getBtnConfirm().setEnabled(false);
+			//sup.getBtnConfirm().setEnabled(false);
 			sa.remove(sa.getPanelCenter());
 			sa.setPanelCenter(sup.getValidationPanel());
 			sa.getMainPanel().add(sa.getPanelCenter(), BorderLayout.CENTER);
@@ -331,9 +334,14 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 	}
 	
 	private void checkValidation() {
-
+		/* If the system enters the system for the first time */
+		if (firstTime){
+			sup = sa.getSup();
+		}
+		firstTime = false;
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
+				System.out.println(sup.getGroup());
 				Problem validateAll = sup.getGroup().performValidation();
 				// System.out.println("validate all is  " + validateAll);
 				if (validateAll == null) {
