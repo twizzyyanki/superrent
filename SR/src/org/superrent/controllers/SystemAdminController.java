@@ -149,7 +149,7 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 		    sup = sa.getSup();
 			System.out.println("You have made a search");
 			System.out.println("You have input "+sup.getInputName()+ " for User Name and "+sup.getInputPhone()+" for Phone Number");
-			this.su_dao = new SearchUserDAO(sup.getInputName(),sup.getInputPhone(),sup.getTable(),sup.getScrollPane());
+			this.su_dao = new SearchUserDAO(sup);
 		}
 		/**
 		 * Add a user in the database

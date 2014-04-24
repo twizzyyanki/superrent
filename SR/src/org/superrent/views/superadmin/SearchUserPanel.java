@@ -34,6 +34,7 @@ public class SearchUserPanel extends JPanel {
 	private ValidationGroup group;
 	private ValidationPanel xpanel;
 	private JButton btnConfirm;
+	private JLabel searchUserMessage;
 
 
 	/**
@@ -107,6 +108,9 @@ public class SearchUserPanel extends JPanel {
 		/**
 		 * The following part is to construct a table to display the contents of the user searched 
 		 */
+		
+		searchUserMessage = new JLabel("");
+		add(searchUserMessage, "3, 7, 3, 1");
 		scrollPane = new JScrollPane();
 		add(scrollPane, "3, 9, 13, 1, fill, fill");
 		scrollPane.setVisible(false);
@@ -120,7 +124,7 @@ public class SearchUserPanel extends JPanel {
 			}
 		));
 		table.getColumnModel().getColumn(0).setPreferredWidth(94);
-		table.getColumnModel().getColumn(1).setPreferredWidth(157);
+		table.getColumnModel().getColumn(1).setPreferredWidth(185);
 		table.getColumnModel().getColumn(2).setPreferredWidth(121);
 		table.getColumnModel().getColumn(3).setPreferredWidth(66);
 		table.getColumnModel().getColumn(4).setPreferredWidth(261);
@@ -174,5 +178,8 @@ public class SearchUserPanel extends JPanel {
 	
 	public JButton getBtnConfirm() {
 		return btnConfirm;
+	}
+	public JLabel getSearchUserMessage() {
+		return searchUserMessage;
 	}
 }

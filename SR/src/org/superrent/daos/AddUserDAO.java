@@ -20,6 +20,7 @@ public class AddUserDAO {
 	private long phone;
 	private String address;
 	private String email;
+	boolean isValid = true;
 	
 	public AddUserDAO (int type, String name, String phone, String address, String email) {
 		
@@ -58,10 +59,13 @@ public class AddUserDAO {
 			st.executeUpdate(query);
 			connection.commit();
 		}catch (Exception e) {
+			isValid = false;
 			DatabaseConnection.rollback(connection);
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		} finally {
 			DatabaseConnection.close(connection);
 		}
+		if (isValid)
+			System.out.println("Successful");
 	}
 }

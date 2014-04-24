@@ -10,6 +10,7 @@ import javax.swing.JTable;
 import net.proteanit.sql.DbUtils;
 
 import org.superrent.application.DatabaseConnection;
+import org.superrent.views.superadmin.SearchUserPanel;
 
 /**
  * 
@@ -23,21 +24,22 @@ public class SearchUserDAO {
 	private long phone;
 	private JTable table;
 	private JScrollPane scrollPane;
+	private SearchUserPanel sup;
 	
-	public SearchUserDAO (String name, String phone, JTable table, JScrollPane scrollPane) {
-		
+	public SearchUserDAO (SearchUserPanel sup) {
+		this.sup = sup;
 		/* Get data to search from search user panel view */
 		System.out.println("Now, you entered into search user DAO...");
-		this.name = name;
-		if (isInteger(phone)) {
-			this.phone = Long.parseLong(phone);
+		name = sup.getInputName();
+		if (isInteger(sup.getInputPhone())) {
+			phone = Long.parseLong(sup.getInputPhone());
 			/* How about the size of phone number */
 		}
 		else {
 			System.out.println("The phone number is not valid. Please try again");
 		}
-		this.table = table;
-		this.scrollPane = scrollPane;
+		table = sup.getTable();
+		scrollPane = sup.getScrollPane();
 		
 		/* Connect to database */
 		try {
@@ -62,22 +64,14 @@ public class SearchUserDAO {
 			table.setVisible(true);
 			
 			if (table.getModel().getRowCount()!= 0){
-				
-			
-				/*
-				System.out.println("In the database, the data associated wiht "+ name + " is as follows:");
-				System.out.print(rs.getString("name") + " "); 
-				System.out.print(rs.getString("email") + " "); 
-				System.out.print(rs.getString("phoneNumber") + " "); 
-				System.out.print(rs.getString("address") + " "); 
-				//System.out.print(rs.getString("type") + " "); 
-				//System.out.println(rs.getString("dateCreated"));
-				 * 
-				 */
-				
+				System.out.println("Successful");
+				sup.getSearchUserMessage().setText(
+						"User information is shown below:");
 			}
 			else {
 				System.out.println("The user does not exist");
+				sup.getSearchUserMessage().setText(
+						"Search failed, wrong user name or phone number");
 				scrollPane.setVisible(false);
 				table.setVisible(false);
 			}
