@@ -38,7 +38,7 @@ public class SystemAdmin extends JFrame {
 
 	private JPanel contentPane;
 	private JPanel panelCenter;
-	private SearchUserPanel sup;
+	private static SearchUserPanel sup;
 	private final SystemAdminController sac;
 	private final LoginController lc;
 
@@ -149,10 +149,11 @@ public class SystemAdmin extends JFrame {
 		JPanel panelEast = new JPanel();
 		contentPane.add(panelEast, BorderLayout.EAST);
 		
-		panelCenter = new SearchUserPanel(sac);
+		sup = new SearchUserPanel(sac);
+		panelCenter = sup.getValidationPanel();
 		contentPane.add(panelCenter, BorderLayout.CENTER);
 		
-		sup = new SearchUserPanel(sac);
+	
 	}
     public JPanel getMainPanel(){
     	return contentPane;

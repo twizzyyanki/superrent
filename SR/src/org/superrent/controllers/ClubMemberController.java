@@ -284,10 +284,4 @@ public class ClubMemberController implements ActionListener {
 		this.clubMemberView = clubMemberView;
 	
 	}
-	
-	
-
-
-
-
 }
