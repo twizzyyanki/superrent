@@ -181,12 +181,6 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 					  													"CARGO VAN"}));
 		}
 
-=======
-	// @Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
->>>>>>> 5838d56506645000bc993ee34abaf4d7cfb5fdf3
-		
 	}
 
 	public JComboBox getCategoryCombox() {
