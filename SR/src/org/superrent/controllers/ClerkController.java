@@ -1,5 +1,6 @@
 package org.superrent.controllers;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
@@ -41,7 +42,6 @@ public class ClerkController implements ActionListener
 		clerkFrame.ReturnbtnActionListener(this);
 		clerkFrame.AddClubMemberbtnActionListener(this);
 		clerkFrame.SearchReservationbtnActionListener(this);
-		clerkFrame.ViewRentalAgreemenetActionListener(this);
 		rent.confirmationbtnActionListener(this);
 		clerkFrame.AddClubMemberbtnActionListener(this);
 		clerkFrame.UpdateProfileActionListener(this);
@@ -124,20 +124,27 @@ public class ClerkController implements ActionListener
 		{
 			try
 			{
-			int number=Integer.parseInt((clerkFrame.getTextField().getText()));
-			if(number==0)
-			{
-				JOptionPane.showMessageDialog(clerkFrame, "Please provide a confirmation number");
-			}
-			else
-			{
-			ResultSet rs=dao.DisplayReserveWithConfirmation(number);
-			clerkFrame.getTable().setModel(DbUtils.resultSetToTableModel(rs));
-			if(!rs.first())
-			{
-				JOptionPane.showMessageDialog(clerkFrame, "No reservation exists..!!");
-			}
-			}
+				if(clerkFrame.getTextField().getText().isEmpty())
+				{
+					JOptionPane.showMessageDialog(clerkFrame, "Please provide a confirmation Number");
+				}
+				else
+				{
+				int number=Integer.parseInt((clerkFrame.getTextField().getText()));
+					if(number==0)
+					{
+						JOptionPane.showMessageDialog(clerkFrame, "Please provide a confirmation number");
+					}
+					else
+					{
+						ResultSet rs=dao.DisplayReserveWithConfirmation(number);
+						clerkFrame.getTable().setModel(DbUtils.resultSetToTableModel(rs));
+						if(!rs.first())
+						{
+							JOptionPane.showMessageDialog(clerkFrame, "No reservation exists..!!");
+						}
+					}
+				}
 			}
 			catch(Exception e)
 			{
@@ -152,25 +159,32 @@ public class ClerkController implements ActionListener
 			String[] values=new String[5];
 			if(rent.getTextField().getText().isEmpty())
 			{
-				Long phnumber=new Long(rent.getTextField_1().getText());
-				if(phnumber.equals(""))
+				if(rent.getTextField_1().getText().isEmpty())
 				{
-					JOptionPane.showMessageDialog(rent, "Please provide a Phone Number or the Confirmation Number");
+					JOptionPane.showMessageDialog(rent, "Please enter a confirmation Numeber or a Phone number");
 				}
 				else
 				{
-				values=dao.DisplayRentingDetailsWithPhNo(phnumber);
-				if(values[3]==null)
-				{
-					JOptionPane.showMessageDialog(rent, "No Reservation Exists with the given Phone Number");
-				}
-				else
-				{
-				rent.getTextField_2().setText(values[0]);
-				rent.getTextField_3().setText(values[1]);
-				rent.getTextField_4().setText(values[2]);
-				rent.getTextField_10().setText(values[3]);
-				rent.getTextField_12().setText(values[4]);
+					Long phnumber=new Long(rent.getTextField_1().getText());
+					if(phnumber.equals(""))
+					{
+						JOptionPane.showMessageDialog(rent, "Please provide a Phone Number or the Confirmation Number");
+					}
+					else
+					{
+						values=dao.DisplayRentingDetailsWithPhNo(phnumber);
+						if(values[3]==null)
+						{
+							JOptionPane.showMessageDialog(rent, "No Reservation Exists with the given Phone Number");
+						}
+						else
+						{
+							rent.getTextField_2().setText(values[0]);
+							rent.getTextField_3().setText(values[1]);
+							rent.getTextField_4().setText(values[2]);
+							rent.getTextField_10().setText(values[3]);
+							rent.getTextField_12().setText(values[4]);
+					}
 				}
 				}
 			}
@@ -200,29 +214,36 @@ public class ClerkController implements ActionListener
 		
 		if(ae.getActionCommand()=="View Rental Agreement")
 		{
-			if(clerkFrame.getTextField().getText().equals(""))
+			if(clerkFrame.getTextField().getText().isEmpty())
 			{
 				JOptionPane.showMessageDialog(clerkFrame, "Rental agreement Not Provided....!!!");
 			}
 			else
 			{
-			this.clerkFrame.getContentPane().setVisible(false);
-			this.clerkFrame.setContentPane(rental);
-			this.clerkFrame.getContentPane().setVisible(true);
-			String agreementNo=clerkFrame.getTextField().getText();
-			String[] values;
-			values=dao.displayRental(agreementNo);	
-			rental.getTextField().setText(values[0]);
-			rental.getTextField_1().setText(values[5]);
-			rental.getTextField_2().setText(values[6]);
-			rental.getTextField_3().setText(values[1]);
-			rental.getTextField_4().setText(values[10]);
-			rental.getTextField_5().setText(values[7]);
-			rental.getTextField_6().setText(values[3]);
-			rental.getTextField_7().setText(values[2]);
-			rental.getTextField_8().setText(values[4]);
-			rental.getTextField_9().setText(values[8]);
-			rental.getTextField_10().setText(values[9]);
+				String agreementNo=clerkFrame.getTextField().getText();
+				String[] values;
+				values=dao.displayRental(agreementNo);
+				if(values[0]==null)
+				{
+					JOptionPane.showMessageDialog(clerkFrame, "No rental Agreement available");
+				}
+				else
+				{
+				this.clerkFrame.getContentPane().setVisible(false);
+				this.clerkFrame.setContentPane(rental);
+				this.clerkFrame.getContentPane().setVisible(true);
+				rental.getTextField().setText(values[0]);
+				rental.getTextField_1().setText(values[5]);
+				rental.getTextField_2().setText(values[6]);
+				rental.getTextField_3().setText(values[1]);
+				rental.getTextField_4().setText(values[10]);
+				rental.getTextField_5().setText(values[7]);
+				rental.getTextField_6().setText(values[3]);
+				rental.getTextField_7().setText(values[2]);
+				rental.getTextField_8().setText(values[4]);
+				rental.getTextField_9().setText(values[8]);
+				rental.getTextField_10().setText(values[9]);
+				}
 			}
 		}
 		
@@ -338,11 +359,29 @@ public class ClerkController implements ActionListener
 		
 		if(ae.getActionCommand()=="Fuel Cost")
 		{
+			try
+			{
+			if(ret.getTextField().getText().isEmpty())
+			{
+				JOptionPane.showMessageDialog(ret, "Please enter the agreement number to proceed");
+			}
+			else if(ret.getTextField_10().getText().isEmpty())
+			{
+				JOptionPane.showMessageDialog(ret, "Please enter the current fuel reading");
+			}
+			else
+			{
 			int agreementNo=Integer.parseInt(ret.getTextField().getText());
 			String cost=null;
 			Double fuel=Double.parseDouble(ret.textField_10.getText());
 			cost=String.valueOf(dao.displayFuelCost(fuel,agreementNo));
 			ret.textField_19.setText(cost);
+			}
+			}
+			catch(Exception e)
+			{
+				JOptionPane.showMessageDialog(ret, "Please enter the valid values");
+			}
 		}
 		
 		if(ae.getActionCommand()=="Update")
@@ -361,40 +400,53 @@ public class ClerkController implements ActionListener
 		
 		if(ae.getActionCommand()=="Inc Cost")
 		{
-			String[] values;
-			String agreementNo=ret.getTextField().getText();
-			values=dao.displayInsuranceCost(agreementNo);
-			Double cost=0.0;
-			Double days=Double.parseDouble(values[3]);
-			//Double hourlyrate=Double.parseDouble(values[0]);
-			Double dailyrate=Double.parseDouble(values[1]);
-			Double weeklyrate=Double.parseDouble(values[2]);
-			int totalweeks=0;
-			int totaldays=0;
-			if(days>7)
+			if(ret.getTextField().getText().equals(""))
 			{
-				totalweeks=(int) (days/7);
-				totaldays=(int) (days%7);
-				cost=totalweeks*weeklyrate;
-				cost=cost+(totaldays*dailyrate);
+				JOptionPane.showMessageDialog(rent, "Please enter a rental agreement and check the details");
 			}
-			else if(days<7 && days>1)
+			else
 			{
-				cost=days*dailyrate;
+				String[] values;
+				String agreementNo=ret.getTextField().getText();
+				values=dao.displayInsuranceCost(agreementNo);
+				Double cost=0.0;
+				Double days=Double.parseDouble(values[3]);
+				//Double hourlyrate=Double.parseDouble(values[0]);
+				Double dailyrate=Double.parseDouble(values[1]);
+				Double weeklyrate=Double.parseDouble(values[2]);
+				int totalweeks=0;
+				int totaldays=0;
+				if(days>7)
+				{
+					totalweeks=(int) (days/7);
+					totaldays=(int) (days%7);
+					cost=totalweeks*weeklyrate;
+					cost=cost+(totaldays*dailyrate);
+				}
+				else if(days<7 && days>1)
+				{
+					cost=days*dailyrate;
+				}
+				String finalCost=String.valueOf(cost);
+				ret.getTextField_20().setText(finalCost);
 			}
-			String finalCost=String.valueOf(cost);
-			
-			ret.getTextField_20().setText(finalCost);
 		}
 		
 		if(ae.getActionCommand()=="Add Tax Cost")
 		{
+			if(ret.textField_15.getText().isEmpty())
+			{
+				JOptionPane.showMessageDialog(ret, "Total cost is not calculated Please calculate it first!!");
+			}
+			else
+			{
 			String rate;
 			rate=dao.displayTaxRate();
 			Double tax=Double.parseDouble(rate);
 			Double Cost= Double.parseDouble(ret.getTextField_15().getText())*(tax/100);
 			Double totalcost= Cost+Double.parseDouble(ret.getTextField_15().getText());
 			ret.textField_11.setText(String.valueOf((new DecimalFormat("#.##").format(totalcost))));
+			}
 		}
 		
 		if(ae.getActionCommand()=="Proceed To Payment")

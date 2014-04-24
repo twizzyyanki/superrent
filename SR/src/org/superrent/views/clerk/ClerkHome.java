@@ -59,7 +59,7 @@ public class ClerkHome extends JFrame
 		c = new ClerkController(this);
 
 		setTitle("Clerk Home");
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 863, 481);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -184,11 +184,6 @@ public class ClerkHome extends JFrame
 	public void UpdateProfileActionListener(ClerkController clerk)
 	{
 		btnUpdateProfile.addActionListener(clerk);
-	}
-	
-	public void ViewRentalAgreemenetActionListener(ClerkController clerk)
-	{
-		btnViewRentalAgreement.addActionListener(clerk);
 	}
 	
 	public void ManageReservationActionListener(ClerkController clerk)

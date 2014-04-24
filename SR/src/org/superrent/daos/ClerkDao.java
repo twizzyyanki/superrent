@@ -105,7 +105,6 @@ public class ClerkDao
 		String[] values=new String[5];
 		try
 		{
-			//long phnum=new Long(phNum);
 			PreparedStatement ps=con.prepareStatement("SELECT dropDate, pickDate, charges,confirmationNo FROM Reservation r where confirmationNo="
 					+ "(select confirmationNo from MakeReservation WHERE uid="
 					+ "(select uid from User where PhoneNumber=?)) and status=?");
@@ -469,6 +468,12 @@ public class ClerkDao
 				confirmnum=rs.getInt("confirmationNo");
 			}
 			
+			if(values[0]==null)
+			{
+				
+			}
+			else
+			{
 			PreparedStatement ps1=con.prepareStatement("Select * from MakeReservation where confirmationno="
 					+ "(select confirmationNo from Reservation where confirmationNo=? and status=?)");
 			ps1.setInt(1,confirmnum);
@@ -508,7 +513,6 @@ public class ClerkDao
 				values[8]=rs4.getString("pickDate");
 				values[9]=rs4.getString("dropDate");
 			}
-			
 			PreparedStatement ps5=con.prepareStatement("select equipmentName from RequireAdditionalEquipment where confirmationNo="
 					+ "(select confirmationNo from Reservation where confirmationNo=? and status=?)");
 			ps5.setInt(1,confirmnum);
@@ -518,7 +522,7 @@ public class ClerkDao
 			{
 				values[10]=rs5.getString("equipmentName");
 			}
-			
+			}
 		}
 		catch(Exception e)
 		{
