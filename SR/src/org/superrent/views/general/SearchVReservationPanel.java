@@ -1,5 +1,8 @@
 package org.superrent.views.general;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JPanel;
 
 import com.jgoodies.forms.layout.FormLayout;
@@ -20,7 +23,7 @@ import javax.swing.table.DefaultTableModel;
 
 import org.superrent.controllers.MakeReservationController;
 
-public class SearchVReservationPanel extends JPanel {
+public class SearchVReservationPanel extends JPanel implements ActionListener {
 	private JTable searchTable;
 	private MakeReservationController mrc;
 
@@ -88,14 +91,16 @@ public class SearchVReservationPanel extends JPanel {
 		
 		JComboBox<String> categoryBox = new JComboBox<String>();
 		categoryBox.setModel(new DefaultComboBoxModel(new String[] {"All", "Car", "Truck"}));
+		categoryBox.addActionListener(this);
 		add(categoryBox, "6, 6, fill, default");
 		
 		JLabel lblType = new JLabel("Type");
 		add(lblType, "10, 6, center, default");
 		
-		JComboBox<String> TypeBox = new JComboBox<String>();
-		TypeBox.setModel(new DefaultComboBoxModel(new String[] {"ALL", "ECONOMY", "COMPACT", "MID-SIZE", "STANDARD", "FULL-SIZE", "PREMIUM", "LUXURY", "SUV", "VAN", "24-FOOT", "15-FOOT", "12-FOOT", "BOX TRUCK", "CARGO VAN"}));
-		add(TypeBox, "12, 6, fill, default");
+		JComboBox<String> typeBox = new JComboBox<String>();
+		typeBox.setModel(new DefaultComboBoxModel(new String[] {"ALL", "ECONOMY", "COMPACT", "MID-SIZE", "STANDARD", "FULL-SIZE", "PREMIUM", "LUXURY", "SUV", "VAN", "24-FOOT", "15-FOOT", "12-FOOT", "BOX TRUCK", "CARGO VAN"}));
+		typeBox.addActionListener(this);
+		add(typeBox, "12, 6, fill, default");
 		
 		JLabel lblLocation = new JLabel("Location");
 		add(lblLocation, "4, 8, center, default");
@@ -143,6 +148,13 @@ public class SearchVReservationPanel extends JPanel {
 		add(lblAmount, "6, 16");
 		add(btnReserve, "12, 18, center, default");
 
+	}
+
+	//Just for combo box actions
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

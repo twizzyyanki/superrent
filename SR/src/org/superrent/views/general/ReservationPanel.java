@@ -80,7 +80,7 @@ public class ReservationPanel extends JPanel {
 		passwordField = new JPasswordField();
 		add(passwordField, "6, 8, fill, default");
 		
-		JButton btnNewButton = new JButton("Clubmember reserve");
+		JButton btnNewButton = new JButton("Clubmember Reserve");
 		add(btnNewButton, "6, 10, fill, default");
 		
 		

@@ -19,8 +19,11 @@ import org.superrent.controllers.LoginController;
 import org.superrent.controllers.MakeReservationController;
 
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+
 import com.jgoodies.forms.factories.FormFactory;
 
 public class MakeReservationPage extends JFrame {
@@ -115,6 +118,10 @@ public class MakeReservationPage extends JFrame {
 		contentPane.add(panelCenter, BorderLayout.CENTER);
 	}
 	
+
+	
+	
+	
 	public JPanel getContentPane() {
 		return contentPane;
 	}
@@ -130,4 +137,6 @@ public class MakeReservationPage extends JFrame {
 		contentPane.add(panelCenter, BorderLayout.CENTER);
 		return panelCenter;
 	}
+
+
 }
