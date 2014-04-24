@@ -1,5 +1,7 @@
 package org.superrent.views.superadmin;
 
+import java.awt.BorderLayout;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -7,12 +9,16 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import org.netbeans.validation.api.builtin.stringvalidation.StringValidators;
+import org.netbeans.validation.api.ui.ValidationGroup;
+import org.netbeans.validation.api.ui.swing.ValidationPanel;
 import org.superrent.controllers.SystemAdminController;
 
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
+
 import javax.swing.JScrollPane;
 
 public class SearchUserPanel extends JPanel {
@@ -25,6 +31,8 @@ public class SearchUserPanel extends JPanel {
 	private JTextField textFieldPhoneNumber;
 	private JTable table;
 	private JScrollPane scrollPane;
+	private ValidationGroup group;
+	private ValidationPanel xpanel;
 
 
 	/**
@@ -64,9 +72,12 @@ public class SearchUserPanel extends JPanel {
 		JLabel labelUserName = new JLabel("User Name");
 		add(labelUserName, "3, 1, fill, center");
 		
+		
 		textFieldUserName = new JTextField();
 		add(textFieldUserName, "5, 1, left, fill");
 		textFieldUserName.setColumns(10);
+		textFieldUserName.setName("Username");
+		textFieldUserName.getDocument().addDocumentListener(sac);
 		
 		JLabel labelPhoneNumber = new JLabel("Phone Numer");
 		add(labelPhoneNumber, "3, 3, fill, center");
@@ -74,12 +85,25 @@ public class SearchUserPanel extends JPanel {
 		textFieldPhoneNumber = new JTextField();
 		add(textFieldPhoneNumber, "5, 3, left, fill");
 		textFieldPhoneNumber.setColumns(10);
+		textFieldPhoneNumber.setName("Phone Number");
+		textFieldPhoneNumber.getDocument().addDocumentListener(sac);
 		
+	
 		JButton btnConfirm = new JButton("Confirm");
 		btnConfirm.addActionListener(sac);
+
+		xpanel = new ValidationPanel();
+		xpanel.setInnerComponent(this);
+		group = xpanel.getValidationGroup();
+		group.add(this.getTextFieldUserName(), StringValidators.REQUIRE_NON_EMPTY_STRING,
+				StringValidators.NO_WHITESPACE);
+		group.add(this.getTextFieldPhoneNumber(), StringValidators.REQUIRE_NON_EMPTY_STRING);
+		xpanel.add(this);
 		
 			add(btnConfirm, "5, 5, left, fill");
-		
+		/**
+		 * The following part is to construct a table to display the contents of the user searched 
+		 */
 		scrollPane = new JScrollPane();
 		add(scrollPane, "3, 9, 13, 1, fill, fill");
 		scrollPane.setVisible(false);
@@ -137,4 +161,9 @@ public class SearchUserPanel extends JPanel {
 	public JScrollPane getScrollPane() {
 		return scrollPane;
 	}
+	public JPanel getValidationPanel() {
+		return xpanel;
+	}
+
+	
 }

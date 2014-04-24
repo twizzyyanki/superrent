@@ -14,7 +14,11 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
+import org.netbeans.validation.api.builtin.stringvalidation.StringValidators;
+import org.netbeans.validation.api.ui.swing.ValidationPanel;
 import org.superrent.daos.AddUserDAO;
 import org.superrent.daos.ChangePasswordDAO;
 import org.superrent.daos.SearchUserDAO;
@@ -29,7 +33,7 @@ import org.superrent.views.superadmin.SearchVehiclePanel;
 import org.superrent.views.superadmin.SystemAdmin;
 
 
-public class SystemAdminController implements ActionListener {	
+public class SystemAdminController implements ActionListener, DocumentListener {	
 	
 	private SystemAdmin sa;
 	//private Login l;
@@ -66,7 +70,7 @@ public class SystemAdminController implements ActionListener {
 			
 			SearchUserPanel sup = new SearchUserPanel(this);
 			sa.remove(sa.getPanelCenter());
-			sa.setPanelCenter(sup);
+			sa.setPanelCenter(sup.getValidationPanel());
 			sa.getMainPanel().add(sa.getPanelCenter(), BorderLayout.CENTER);
 			sa.revalidate();
 			sa.repaint();
@@ -310,5 +314,20 @@ public class SystemAdminController implements ActionListener {
 	
 	public SystemAdminController(SystemAdmin sa) {	
 		this.sa = sa;		
+	}
+
+	public void changedUpdate(DocumentEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void insertUpdate(DocumentEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void removeUpdate(DocumentEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }
