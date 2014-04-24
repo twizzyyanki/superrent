@@ -48,7 +48,7 @@ public class Rent extends JPanel
 	public JFormattedTextField datefield=new JFormattedTextField(new SimpleDateFormat("yyyy/MM/dd"));
 	private JTextField textField_11;
 	private JTextField textField_12;
-	
+	private JLabel lblInvalidEntries;
 	/**
 	 * Create the panel.
 	 */
@@ -131,18 +131,21 @@ public class Rent extends JPanel
 		
 		JLabel lblMonthyear = new JLabel("Month/year");
 		
+		setLblInvalidEntries(new JLabel("Invalid Entries"));
+		getLblInvalidEntries().setForeground(Color.RED);
+		getLblInvalidEntries().setVisible(false);
+		
 		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
 		gl_panel_1.setHorizontalGroup(
 			gl_panel_1.createParallelGroup(Alignment.CENTER)
 				.addGroup(gl_panel_1.createSequentialGroup()
+					.addGap(10)
 					.addGroup(gl_panel_1.createParallelGroup(Alignment.CENTER)
-						.addGroup(gl_panel_1.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(lblEnterCurrentDetails))
+						.addComponent(lblEnterCurrentDetails)
 						.addGroup(gl_panel_1.createSequentialGroup()
 							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING, false)
 								.addGroup(gl_panel_1.createSequentialGroup()
-									.addContainerGap()
+									.addPreferredGap(ComponentPlacement.RELATED)
 									.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
 										.addComponent(lblVehicleCondition)
 										.addGroup(gl_panel_1.createSequentialGroup()
@@ -168,26 +171,30 @@ public class Rent extends JPanel
 									.addComponent(lblCreditCardNumber)
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addComponent(textField_6, GroupLayout.PREFERRED_SIZE, 159, GroupLayout.PREFERRED_SIZE)))
-							.addGap(24)
 							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_panel_1.createSequentialGroup()
-									.addComponent(lblRoadStar)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(rdbtnYes)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(rdbtnNo))
-								.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
-									.addComponent(lblMonthyear)
-									.addGroup(gl_panel_1.createSequentialGroup()
-										.addComponent(lblExpiryDate)
-										.addPreferredGap(ComponentPlacement.UNRELATED)
-										.addComponent(textField_7, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(label_1, GroupLayout.PREFERRED_SIZE, 10, GroupLayout.PREFERRED_SIZE)
-										.addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(textField_11, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))))
-							.addGap(70)))
-					.addContainerGap(14, Short.MAX_VALUE))
+									.addGap(24)
+									.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_panel_1.createSequentialGroup()
+											.addComponent(lblRoadStar)
+											.addPreferredGap(ComponentPlacement.UNRELATED)
+											.addComponent(rdbtnYes)
+											.addPreferredGap(ComponentPlacement.UNRELATED)
+											.addComponent(rdbtnNo))
+										.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
+											.addComponent(lblMonthyear)
+											.addGroup(gl_panel_1.createSequentialGroup()
+												.addComponent(lblExpiryDate)
+												.addPreferredGap(ComponentPlacement.UNRELATED)
+												.addComponent(textField_7, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+												.addPreferredGap(ComponentPlacement.RELATED)
+												.addComponent(label_1, GroupLayout.PREFERRED_SIZE, 10, GroupLayout.PREFERRED_SIZE)
+												.addPreferredGap(ComponentPlacement.RELATED)
+												.addComponent(textField_11, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)))))
+								.addGroup(gl_panel_1.createSequentialGroup()
+									.addGap(89)
+									.addComponent(getLblInvalidEntries())))))
+					.addContainerGap(84, Short.MAX_VALUE))
 		);
 		gl_panel_1.setVerticalGroup(
 			gl_panel_1.createParallelGroup(Alignment.LEADING)
@@ -217,11 +224,17 @@ public class Rent extends JPanel
 						.addComponent(lblRoadStar)
 						.addComponent(rdbtnYes)
 						.addComponent(rdbtnNo))
-					.addGap(18)
-					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
-						.addComponent(textArea, GroupLayout.PREFERRED_SIZE, 58, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblVehicleDescription))
-					.addContainerGap(20, Short.MAX_VALUE))
+					.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addGap(18)
+							.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
+								.addComponent(textArea, GroupLayout.PREFERRED_SIZE, 58, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblVehicleDescription))
+							.addContainerGap(20, Short.MAX_VALUE))
+						.addGroup(gl_panel_1.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(getLblInvalidEntries())
+							.addContainerGap())))
 		);
 		panel_1.setLayout(gl_panel_1);
 		
@@ -500,5 +513,13 @@ public class Rent extends JPanel
 
 	public void setTextField_12(JTextField textField_12) {
 		this.textField_12 = textField_12;
+	}
+
+	public JLabel getLblInvalidEntries() {
+		return lblInvalidEntries;
+	}
+
+	public void setLblInvalidEntries(JLabel lblInvalidEntries) {
+		this.lblInvalidEntries = lblInvalidEntries;
 	}
 }

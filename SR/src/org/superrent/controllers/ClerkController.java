@@ -151,10 +151,12 @@ public class ClerkController implements ActionListener
 		
 		if(ae.getActionCommand()=="Submit")
 		{
+			try
+			{
 			String[] values=new String[5];
 			if(rent.getTextField().getText().isEmpty())
 			{
-				String phnumber=rent.getTextField_1().getText();
+				Long phnumber=new Long(rent.getTextField_1().getText());
 				if(phnumber.equals(""))
 				{
 					JOptionPane.showMessageDialog(rent, "Please provide a Phone Number or the Confirmation Number");
@@ -178,9 +180,8 @@ public class ClerkController implements ActionListener
 			}
 			else
 			{
-				String number=rent.getTextField().getText();
+				int number=Integer.parseInt(rent.getTextField().getText());
 				values=dao.DisplayRentingDetails(number);
-				
 				if(values[3]==null)
 				{
 					JOptionPane.showMessageDialog(rent, "No Reservation Exists with the given Confirmation Number");
@@ -193,6 +194,11 @@ public class ClerkController implements ActionListener
 				rent.getTextField_10().setText(values[3]);
 				rent.getTextField_12().setText(values[4]);
 				}
+			}
+			}
+			catch(Exception e)
+			{
+				JOptionPane.showMessageDialog(ret, "Enter an integer Values");
 			}
 		}
 		
@@ -254,13 +260,15 @@ public class ClerkController implements ActionListener
 		
 		if(ae.getActionCommand()=="Create Rental Agreement")
 		{
+			try
+			{
 			int[] values=new int[4];
 			int roadstar=0;
 			String LicenseNo=rent.getTextField_5().getText();
-			String Creditcard=rent.getTextField_6().getText();
+			Long Creditcard=new Long(rent.getTextField_6().getText());
 			String ExpiryMonth=rent.getTextField_7().getText();
 			String ExpiryYear=rent.getTextField_11().getText();
-			String Odometer=rent.getTextField_8().getText();
+			Double Odometer=Double.valueOf(rent.getTextField_8().getText());
 			String Fuel=rent.getTextField_9().getText();
 			String Expiry=ExpiryMonth+ExpiryYear;
 			
@@ -268,19 +276,29 @@ public class ClerkController implements ActionListener
 			{
 				roadstar=1;
 			}
-			
 			else if(rent.rdbtnNo.isSelected())
 			{
 				roadstar=0;
 			}
-	
 			String Description=rent.textArea.getText();
-			String ConfirmNo=rent.getTextField_10().getText();
-			values=dao.createRentalAgreement(LicenseNo,Creditcard,Expiry,Odometer,Fuel,roadstar,Description,ConfirmNo);
+			int ConfirmNo=Integer.parseInt(rent.getTextField_10().getText());
 			
-			if(values[0]==1 && values[1]==1 &&values[0]==1)
+			if(ExpiryYear.length()>2 || ExpiryYear.length()<2 ||ExpiryMonth.length()<2 || ExpiryMonth.length()>2)
+			{
+				JOptionPane.showMessageDialog(rent, "Invalid Month and year, Valid Pattern: 04/16");
+			}
+			else
+			{
+			values=dao.createRentalAgreement(LicenseNo,Creditcard,Expiry,Odometer,Fuel,roadstar,Description,ConfirmNo);
+			}
+			if(values[0]==1 && values[1]==1 &&values[2]==1)
 			{
 				JOptionPane.showMessageDialog(rent, "Rental agreement created...and the remianing tables updated...!! with rental agreement Number"+values[3]+"");
+			}
+			}
+			catch(Exception e)
+			{
+				rent.getLblInvalidEntries().setVisible(true);
 			}
 		}
 		

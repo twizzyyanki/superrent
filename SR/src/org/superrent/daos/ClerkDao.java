@@ -44,7 +44,6 @@ public class ClerkDao
 	public ResultSet DisplayReserveWithConfirmation(int number)
 	{
 		ResultSet rs=null;
-		
 		int confirmationno=number;
 		try
 		{
@@ -52,7 +51,6 @@ public class ClerkDao
 			ps.setInt(1, confirmationno);
 			ps.setString(2, "0");
 			rs=ps.executeQuery();
-			
 		}
 		catch(Exception e)
 		{
@@ -61,7 +59,7 @@ public class ClerkDao
 		return rs;
 	}
 	
-	public String[] DisplayRentingDetails(String number)
+	public String[] DisplayRentingDetails(int number)
 	{
 		ResultSet rs=null;
 		ResultSet rs1=null;
@@ -70,7 +68,7 @@ public class ClerkDao
 		{
 		values=new String[5];
 		PreparedStatement ps=con.prepareStatement("select * from Reservation where confirmationNo=? and status=?");
-		ps.setString(1, number);
+		ps.setInt(1, number);
 		ps.setString(2,"0");
 		rs=ps.executeQuery();
 		
@@ -85,7 +83,7 @@ public class ClerkDao
 		PreparedStatement ps2=con.prepareStatement("select equipmentName from RequireAdditionalEquipment where category="
 				+ "(select category from Vehicle where regNo=(select regNo from MakeReservation where confirmationNo="
 				+ "(select confirmationNo from Reservation where confirmationNo=? and status=?)))");
-		ps2.setString(1,number);
+		ps2.setInt(1,number);
 		ps2.setString(2, "0");
 		rs1=ps2.executeQuery();
 		while(rs1.next())
@@ -100,18 +98,18 @@ public class ClerkDao
 		return values;
 	}
 	
-	public String[] DisplayRentingDetailsWithPhNo(String phNum)
+	public String[] DisplayRentingDetailsWithPhNo(long phNum)
 	{
 		ResultSet rs=null;
 		ResultSet rs1=null;
 		String[] values=new String[5];
 		try
 		{
-			long phnum=new Long(phNum);
+			//long phnum=new Long(phNum);
 			PreparedStatement ps=con.prepareStatement("SELECT dropDate, pickDate, charges,confirmationNo FROM Reservation r where confirmationNo="
 					+ "(select confirmationNo from MakeReservation WHERE uid="
 					+ "(select uid from User where PhoneNumber=?)) and status=?");
-			ps.setLong(1,phnum);
+			ps.setLong(1,phNum);
 			ps.setString(2, "0");
 			rs=ps.executeQuery();
 			while(rs.next())
@@ -141,7 +139,7 @@ public class ClerkDao
 		return values;
 	}
 
-	public int[] createRentalAgreement(String licenseNo, String creditcard, String expiry, String odometer, String fuel, int roadstar,String description, String confirmNo)
+	public int[] createRentalAgreement(String licenseNo, Long creditcard, String expiry, Double odometer, String fuel, int roadstar,String description, int confirmNo)
 	{
 		int[] values=new int[4];
 		int number=0;
@@ -149,19 +147,18 @@ public class ClerkDao
 		{
 			PreparedStatement ps1=con.prepareStatement("INSERT INTO RentAgreement(`driverLicenseNo`, `odometer`, `fuelLevel`, `roadstar`, `vehicleDescription`, `dateCreated`, `confirmationNo`) VALUES ( ?,?,?,?,?,?,?)");
 			ps1.setString(1,licenseNo);
-			ps1.setDouble(2,new Double(odometer));
+			ps1.setDouble(2,odometer);
 			ps1.setString(3,fuel);
 			ps1.setInt(4,roadstar);
 			ps1.setString(5,description);
 			java.sql.Timestamp current_timestamp =new java.sql.Timestamp(new java.util.Date().getTime());
 			ps1.setTimestamp(6,current_timestamp);
-			ps1.setString(7,confirmNo);
+			ps1.setInt(7,confirmNo);
 			
 			values[0]=ps1.executeUpdate();
 			
-			int Number=Integer.parseInt(confirmNo);
 			PreparedStatement ps2=con.prepareStatement("INSERT INTO GeneratedAgreements VALUES (?,?)");
-			ps2.setInt(1,Number);
+			ps2.setInt(1,confirmNo);
 			String sql="SELECT max(agreementNo) FROM RentAgreement";
 			PreparedStatement agreement=con.prepareStatement(sql);
 			ResultSet no=agreement.executeQuery();
@@ -177,7 +174,7 @@ public class ClerkDao
 			PreparedStatement carddetails=con.prepareStatement("insert into CreditCard values(?,?,?)");
 			
 			carddetails.setInt(1,number);
-			carddetails.setLong(2,new Long(creditcard));
+			carddetails.setLong(2,creditcard);
 			carddetails.setString(3,expiry);	
 			values[2]=carddetails.executeUpdate();
 			values[3]=number;
