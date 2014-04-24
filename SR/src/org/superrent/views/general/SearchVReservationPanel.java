@@ -160,7 +160,6 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 	}
 
 	//Just for combo box actions
-<<<<<<< HEAD
 	//@Override
 	public void actionPerformed(ActionEvent arg0) {
 		String item = (String)categoryCombox_1.getSelectedItem();

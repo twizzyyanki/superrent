@@ -30,7 +30,6 @@ import org.superrent.views.manager.ManagerHome;
 import org.superrent.views.superadmin.AddUserPanel;
 import org.superrent.views.superadmin.ChangePasswordPanel;
 import org.superrent.views.superadmin.SearchUserPanel;
-import org.superrent.views.superadmin.SearchVehiclePanel;
 import org.superrent.views.superadmin.SystemAdmin;
 
 
@@ -82,14 +81,7 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 			sa.repaint();
 		}
 		
-	    if(e.getActionCommand().equals("Search Vehicle")) {
-			SearchVehiclePanel svp = new SearchVehiclePanel(this);
-			sa.remove(sa.getPanelCenter());
-			sa.setPanelCenter(svp);
-			sa.getMainPanel().add(sa.getPanelCenter(), BorderLayout.CENTER);
-			sa.revalidate();
-			sa.repaint();
-		}
+
 	    
 	    if(e.getActionCommand().equals("Update Profile")) {
 	    	System.out.println("You are updating system administrator's profile");
