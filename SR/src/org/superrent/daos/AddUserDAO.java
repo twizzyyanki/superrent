@@ -7,6 +7,7 @@ import java.sql.Statement;
 
 import org.superrent.application.DatabaseConnection;
 import org.superrent.application.LoggedInUser;
+import org.superrent.views.superadmin.AddUserPanel;
 
 /**
  * 
@@ -20,17 +21,19 @@ public class AddUserDAO {
 	private long phone;
 	private String address;
 	private String email;
+	private AddUserPanel aup;
 	boolean isValid = true;
 	
-	public AddUserDAO (int type, String name, String phone, String address, String email) {
-		
+	
+	public AddUserDAO (AddUserPanel aup) {
+		this.aup = aup;
 		/* Get data to search from search user panel view */
 		System.out.println("Now, you entered into add user DAO...");
-		this.type = type;
-		this.name = name;
-		this.phone = Long.parseLong(phone);
-		this.address = address;
-		this.email = email;
+		type = aup.getInputType();
+		name = aup.getInputName();
+		phone = Long.parseLong(aup.getInputPhone());
+		address = aup.getInputAddress();
+		email = aup.getInputEmail();
 		
 		/* Connect to database */
 		try {
@@ -62,6 +65,8 @@ public class AddUserDAO {
 			isValid = false;
 			DatabaseConnection.rollback(connection);
 			System.out.println(e.getMessage());
+			aup.getAddUserMessage().setText(
+					"Operation failed.  "+e.getMessage());
 		} finally {
 			DatabaseConnection.close(connection);
 		}

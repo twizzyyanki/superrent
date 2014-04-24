@@ -25,6 +25,7 @@ public class AddUserPanel extends JPanel {
 	private JTextField textFieldMembershipNum;
 	private JComboBox comboBox;
 	private JLabel lblMembershipNumber;
+	private JLabel addUserMessage;
 	/**
 	 * Create the panel.
 	 */
@@ -38,6 +39,8 @@ public class AddUserPanel extends JPanel {
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("default:grow"),},
 			new RowSpec[] {
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
@@ -105,6 +108,9 @@ public class AddUserPanel extends JPanel {
 		textFieldMembershipNum.setColumns(10);
 		add(textFieldMembershipNum, "4, 14, left, default");
 		add(btnAdd, "4, 16, left, default");
+		
+		addUserMessage = new JLabel("");
+		add(addUserMessage, "2, 18, 3, 1");
 	}
 
 	public JComboBox getComboBox() {
@@ -144,4 +150,7 @@ public class AddUserPanel extends JPanel {
 	}
 	
 	
+	public JLabel getAddUserMessage() {
+		return addUserMessage;
+	}
 }

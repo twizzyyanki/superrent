@@ -163,7 +163,7 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 			System.out.print("Phone Number: "+aup.getInputPhone()+" ");
 			System.out.print("Address: "+aup.getInputAddress()+" ");
 			System.out.println("Email: "+aup.getInputEmail()+" ");
-			this.au_dao = new AddUserDAO(aup.getInputType(),aup.getInputName(),aup.getInputPhone(),aup.getInputAddress(),aup.getInputEmail());
+			this.au_dao = new AddUserDAO(aup);
 		}
 		/**
 		 * Search a vehicle in the database
