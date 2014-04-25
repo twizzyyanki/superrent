@@ -2,21 +2,21 @@ package org.superrent.controllers;
 
 import java.awt.EventQueue;
 
-import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import org.netbeans.validation.api.Problem;
-import org.superrent.views.clubmember.ClubMember;
-import org.superrent.views.clubmember.JChangePassword;
 import org.superrent.views.superadmin.AddUserPanel;
 
-public class ValidateAddUser implements DocumentListener {
+public class ValidateAddUserR implements DocumentListener {
+
 	private AddUserPanel aup;
+	private ValidateAddUser va;
 	private boolean isValid;
 	
-	public ValidateAddUser(AddUserPanel aup) {
+	public ValidateAddUserR(AddUserPanel aup, ValidateAddUser va) {
 		this.aup = aup;
+		this.va = va;
 	} 
 	
 	public void changedUpdate(DocumentEvent arg0) {
@@ -39,10 +39,10 @@ public class ValidateAddUser implements DocumentListener {
 	private void checkValidation() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				System.out.println(aup.getGroup());
-				Problem validateAll = aup.getGroup().performValidation();
+				System.out.println(aup.getGroupR());
+				Problem validateAll = aup.getGroupR().performValidation();
 				// System.out.println("validate all is  " + validateAll);
-				if (validateAll == null) {
+				if (validateAll == null && va.AddUserValid()) {
 					isValid = true;
 					aup.getBtnAdd().setEnabled(true);
 					aup.revalidate();
@@ -58,11 +58,12 @@ public class ValidateAddUser implements DocumentListener {
 			}
 		});
 	}
-	public boolean AddUserValid() {
+	
+	public boolean AddUserValidR() {
 		return isValid;
 	}
-	
-	public void setAddUserValid(boolean bl){
+
+	public void setUserValidR(boolean bl){
 		isValid = bl;
 	}
 }

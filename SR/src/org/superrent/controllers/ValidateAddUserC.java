@@ -2,21 +2,21 @@ package org.superrent.controllers;
 
 import java.awt.EventQueue;
 
-import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import org.netbeans.validation.api.Problem;
-import org.superrent.views.clubmember.ClubMember;
-import org.superrent.views.clubmember.JChangePassword;
 import org.superrent.views.superadmin.AddUserPanel;
 
-public class ValidateAddUser implements DocumentListener {
+public class ValidateAddUserC implements DocumentListener {
 	private AddUserPanel aup;
-	private boolean isValid;
+	private ValidateAddUserR vaR;
+	private ValidateAddUser va;
 	
-	public ValidateAddUser(AddUserPanel aup) {
+	public ValidateAddUserC(AddUserPanel aup, ValidateAddUser va, ValidateAddUserR vaR) {
 		this.aup = aup;
+		this.va = va;
+		this.vaR = vaR;
 	} 
 	
 	public void changedUpdate(DocumentEvent arg0) {
@@ -39,18 +39,16 @@ public class ValidateAddUser implements DocumentListener {
 	private void checkValidation() {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				System.out.println(aup.getGroup());
-				Problem validateAll = aup.getGroup().performValidation();
+				System.out.println(aup.getGroupCM());
+				Problem validateAll = aup.getGroupCM().performValidation();
 				// System.out.println("validate all is  " + validateAll);
-				if (validateAll == null) {
-					isValid = true;
+				if (validateAll == null && va.AddUserValid() && vaR.AddUserValidR()) {
 					aup.getBtnAdd().setEnabled(true);
 					aup.revalidate();
 					aup.repaint();
 					// System.out.println("Getting here");
 				} else {
 					if (validateAll.isFatal()) {
-						isValid = false;
 						aup.getBtnAdd().setEnabled(false);
 					}
 				}
@@ -58,11 +56,5 @@ public class ValidateAddUser implements DocumentListener {
 			}
 		});
 	}
-	public boolean AddUserValid() {
-		return isValid;
-	}
-	
-	public void setAddUserValid(boolean bl){
-		isValid = bl;
-	}
+	 
 }

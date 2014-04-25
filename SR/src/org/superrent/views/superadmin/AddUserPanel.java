@@ -250,4 +250,10 @@ public class AddUserPanel extends JPanel {
 	public JTextField getTextFieldUserName() {
 		return textFieldUserName;
 	}
+	/*
+	public ValidateAddUser getValidateAU() {
+		
+	}
+	public ValidateAddUserR vaR;
+	public ValidateAddUserC vaC; */
 }
