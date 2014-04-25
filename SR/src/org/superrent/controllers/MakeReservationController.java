@@ -29,6 +29,8 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 	private SearchVReservationPanel  sVRPanel;
 	private ReservationPanel reservationPanel;
 	private ReservationSuccessDialog dialog;
+	// charge for the reservation
+	private String charge;
 	
 	public MakeReservationController(MakeReservationPage reservationPage){
 		this.reservationPage = reservationPage;
@@ -68,16 +70,20 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 				java.sql.Date datePickUpDate = new java.sql.Date(utilPickUpDate.getTime());
 				java.util.Date utilReturnDate = sVRPanel.getDateChooserReturn().getDate();
 				java.sql.Date dateReturnDate = new java.sql.Date(utilReturnDate.getTime());
+						
+				String category = (String) sVRPanel.getCategoryCombox().getSelectedItem();
+				String type = (String) sVRPanel.getTypeCombox().getSelectedItem();
+				String equipment = (String)sVRPanel.getEquipComboBox().getSelectedItem();
+				
+				// Need DAO to search available vehicles
+				// SET Jtable according to DAO's return value
 			}
 			else{
 				sVRPanel.getLblSearchInfo().setForeground(Color.RED);
 				sVRPanel.getLblSearchInfo().setText("Date field is invalid or empty");
 			}
 
-			
-			String category = (String) sVRPanel.getCategoryCombox().getSelectedItem();
-			String type = (String) sVRPanel.getTypeCombox().getSelectedItem();
-			String equipment = (String)sVRPanel.getEquipComboBox().getSelectedItem();
+
 			
 			
 		}
@@ -194,6 +200,11 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 			reservationPage.dispose();
 		}
 		
+		//calcuated estimated cost for vehicle and equipment
+/*		if(e.getSource() == sVRPanel.getEquipComboBox()){
+			
+		}*/
+		
 	}
 
 
@@ -203,6 +214,13 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 			sVRPanel.getBtnReserve().setEnabled(true);
 			int i = sVRPanel.getSearchTable().getSelectedRow();
 			System.out.println(sVRPanel.getSearchTable().getValueAt(i, 0));
+			sVRPanel.getEquipComboBox().setEnabled(true);
+			
+			//NEED DAO to calculate estimated cost and return to charge
+			charge = "20";
+			sVRPanel.getLblAmount().setText(charge);
+			
+			
 		}
 		
 	}
