@@ -105,6 +105,7 @@ public class MakeReservationPage extends JFrame {
 		searchVbtn.setActionCommand("Home Page");
 		searchVbtn.addActionListener(mrc);
 		
+		
 		JButton btnLoginPage = new JButton("Login Page");
 		panelNorth.add(btnLoginPage, "4, 2");
 		btnLoginPage.addActionListener(mrc);
@@ -117,12 +118,11 @@ public class MakeReservationPage extends JFrame {
 		
 		panelCenter = new JPanel();
 		contentPane.add(panelCenter, BorderLayout.CENTER);
-	}
 	
+		searchVbtn.doClick();
 
-	
-	
-	
+	}
+		
 	public JPanel getContentPane() {
 		return contentPane;
 	}

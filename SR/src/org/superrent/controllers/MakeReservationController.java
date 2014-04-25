@@ -34,7 +34,6 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 
 	// @Override
 	public void actionPerformed(ActionEvent e) {
-		
 		if(e.getActionCommand().equals("Home Page")){
 			sVRPanel = new SearchVReservationPanel(this);
 			reservationPage.remove(reservationPage.getPanelCenter());
