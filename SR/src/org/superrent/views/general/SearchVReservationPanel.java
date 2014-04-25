@@ -126,7 +126,6 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 		add(scrollPane, "4, 12, 13, 1, fill, fill");
 		
 		searchTable = new JTable();
-		searchTable.setEnabled(false);
 		searchTable.setToolTipText("");
 		searchTable.setModel(new DefaultTableModel(
 			new Object[][] {
@@ -142,7 +141,7 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 		
 		btnReserve = new JButton("Reserve");
 		btnReserve.addActionListener(mrc);
-		
+		btnReserve.setEnabled(false);
 		JLabel lblEquip = new JLabel("Add additional equipment");
 		lblEquip.setToolTipText("Please select vehicle first");
 		
