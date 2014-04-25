@@ -19,6 +19,8 @@ import org.netbeans.validation.api.ui.ValidationGroup;
 import org.netbeans.validation.api.ui.swing.ValidationPanel;
 import org.superrent.controllers.SystemAdminController;
 import org.superrent.controllers.ValidateAddUser;
+import org.superrent.controllers.ValidateAddUserC;
+import org.superrent.controllers.ValidateAddUserR;
 
 public class AddUserPanel extends JPanel {
 	private SystemAdminController sac;
@@ -31,9 +33,13 @@ public class AddUserPanel extends JPanel {
 	private JLabel lblMembershipNumber;
 	private JLabel addUserMessage;
 	private ValidationGroup group;
+	private ValidationGroup groupR;
+	private ValidationGroup groupCM;
 	private ValidationPanel xpanel;
 	private JButton btnAdd;
 	private ValidateAddUser va;
+	private ValidateAddUserR vaR;
+	private ValidateAddUserC vaC;
 	private JLabel lblUserName;
 	private JTextField textFieldUserName;
 	/**
@@ -42,6 +48,8 @@ public class AddUserPanel extends JPanel {
 	public AddUserPanel(SystemAdminController sac) {
 		this.sac = sac;
 		va = new ValidateAddUser(this);
+		vaR = new ValidateAddUserR(this, va);
+		vaC = new ValidateAddUserC(this, va, vaR);
 		setLayout(new FormLayout(new ColumnSpec[] {
 				ColumnSpec.decode("40px"),
 				FormFactory.DEFAULT_COLSPEC,
@@ -90,7 +98,7 @@ public class AddUserPanel extends JPanel {
 		textFieldMembershipNum.setColumns(10);
 		textFieldMembershipNum.setName("Membership Number");
 		add(textFieldMembershipNum, "4, 6, left, default");
-		textFieldMembershipNum.getDocument().addDocumentListener(va);
+		textFieldMembershipNum.getDocument().addDocumentListener(vaC);
 		
 		lblUserName = new JLabel("Username");
 		lblUserName.setVisible(false);
@@ -101,7 +109,7 @@ public class AddUserPanel extends JPanel {
 		textFieldUserName.setVisible(false);
 		textFieldUserName.setColumns(10);
 		textFieldUserName.setName("User Name");
-		textFieldUserName.getDocument().addDocumentListener(va);
+		textFieldUserName.getDocument().addDocumentListener(vaR);
 		
 		
 		
@@ -151,13 +159,25 @@ public class AddUserPanel extends JPanel {
 		
 		xpanel = new ValidationPanel();
 		xpanel.setInnerComponent(this);
+		
+		/* Validation group for customer */
 		group = xpanel.getValidationGroup();
 		group.add(textFieldName, StringValidators.REQUIRE_NON_EMPTY_STRING,
 				StringValidators.NO_WHITESPACE);
 		group.add(textFieldPhoneNumber, StringValidators.REQUIRE_NON_EMPTY_STRING, StringValidators.REQUIRE_VALID_NUMBER);
 		group.add(textFieldAddress, StringValidators.REQUIRE_NON_EMPTY_STRING);
 		group.add(textFieldEmail, StringValidators.REQUIRE_NON_EMPTY_STRING,StringValidators.EMAIL_ADDRESS);
-		//xpanel.add(this);
+		
+		/* Validation group for manager and clerk */
+		groupR = xpanel.getValidationGroup();
+		groupR.add(textFieldUserName, StringValidators.REQUIRE_NON_EMPTY_STRING,
+				StringValidators.NO_WHITESPACE);
+		
+		/* Validation group for club member */
+		groupCM = xpanel.getValidationGroup();
+		//groupCM.add(groupR);
+		group.add(textFieldMembershipNum, StringValidators.REQUIRE_NON_EMPTY_STRING, StringValidators.REQUIRE_VALID_NUMBER);
+		
 	}
 
 	public JComboBox getComboBox() {
@@ -209,6 +229,15 @@ public class AddUserPanel extends JPanel {
 	public ValidationGroup getGroup() {
 		return group;
 	}
+	
+	public ValidationGroup getGroupR() {
+		return groupR;
+	}
+	
+	public ValidationGroup getGroupCM() {
+		return groupCM;
+	}
+	
 	public JButton getBtnAdd() {
 		return btnAdd;
 	}

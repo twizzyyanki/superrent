@@ -117,8 +117,8 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 			aup.setUserName(true);
 			aup.setMembershipNumber(true);
 			if (check == 1) {
-				aup.getGroup().add(aup.getTextFieldMembershipNum(), StringValidators.REQUIRE_NON_EMPTY_STRING);
-				aup.getGroup().add(aup.getTextFieldUserName(), StringValidators.REQUIRE_NON_EMPTY_STRING);
+				//aup.getGroup().add(aup.getTextFieldMembershipNum(), StringValidators.REQUIRE_NON_EMPTY_STRING);
+				//aup.getGroup().add(aup.getTextFieldUserName(), StringValidators.REQUIRE_NON_EMPTY_STRING);
 				System.out.println("You selected club member");
 			}
 			else if (check == 0) {
@@ -127,7 +127,7 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 				aup.setMembershipNumber(false);
 			}
 			else {
-				aup.getGroup().add(aup.getTextFieldUserName(), StringValidators.REQUIRE_NON_EMPTY_STRING);
+				//aup.getGroup().add(aup.getTextFieldUserName(), StringValidators.REQUIRE_NON_EMPTY_STRING);
 				System.out.println("You selected a manager or clerk");
 				aup.setMembershipNumber(false);
 			}
