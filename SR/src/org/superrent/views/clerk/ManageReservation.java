@@ -22,7 +22,6 @@ public class ManageReservation extends JPanel {
 	 */
 	private static final long serialVersionUID = 1L;
 	public JTextField textField_1;
-	public JButton btnGobackToHome;
 	JButton btnCancelReservation = new JButton("Cancel Reservation");
 	JButton btnUpdate;
 	public JFormattedTextField dateField = new JFormattedTextField(new SimpleDateFormat("yyy/MM/dd"));
@@ -84,16 +83,8 @@ public class ManageReservation extends JPanel {
 		
 		add(btnCancelReservation, "10, 6, center, default");
 		
-		btnGobackToHome = new JButton("GoBack to Home");
-		add(btnGobackToHome, "12, 8, center, default");
 		
 		
-		
-	}
-
-	public void GoBackHomeActionListener(ClerkController clerk)
-	{
-		btnGobackToHome.addActionListener(clerk);
 	}
 	
 	public void cancelReservActionListener(ClerkController clerk)

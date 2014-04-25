@@ -1,220 +1,268 @@
 package org.superrent.views.clerk;
 
+import java.awt.BorderLayout;
+import java.awt.EventQueue;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.JButton;
-
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JScrollPane;
-import javax.swing.JTextField;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JTable;
 
 import org.superrent.controllers.ClerkController;
 
-public class ClerkHome extends JFrame 
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.factories.FormFactory;
+import com.jgoodies.forms.layout.RowSpec;
+import javax.swing.JLabel;
+import javax.swing.JTable;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.JScrollPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
+
+public class ClerkHome extends JFrame
 {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	public JPanel contentPane;
-	private JTextField textField;
-	private JTable table;
-
-	JButton btnRefresh = new JButton("Refresh");
-	
-	JScrollPane scrollPane = new JScrollPane();
-	
+	private JPanel contentPane;
 	JButton btnRent = new JButton("Rent");
-	
 	JButton btnReturn = new JButton("Return");
-	
 	JButton btnManageReservation = new JButton("Manage Reservation");
 	
-	JButton btnAddClubmember = new JButton("Add ClubMember");
 	
-	JButton btnUpdateProfile = new JButton("Update Profile");
-	
-	JButton btnChangePassword = new JButton("Change Password");
-	
-	JButton btnLogout = new JButton("Logout");
-	
-	public JPanel panel = new JPanel();
-	
-	JButton btnSearchReservation = new JButton("Search Reservation");
-	
-	JButton btnViewRentalAgreement = new JButton("View Rental Agreement");
-	
+	JPanel panel = new JPanel();
+	JPanel panel_1 = new JPanel();
+	private JPanel panel_2 = new JPanel();
+	JPanel panel_3 = new JPanel();
+	JPanel panel_4 = new JPanel();
+	private final JScrollPane scrollPane = new JScrollPane();
+	private final JTable table = new JTable();
+	private final JButton btnAddClubMember = new JButton("Add ClubMember");
+	private final JButton btnViewRentalAgreement = new JButton("View Rental Agreement");
+	private final JButton btnHome = new JButton("Home");
+	private final JButton btnUpdateProfile = new JButton("Update Profile");
+	private final JButton btnChangePassword = new JButton("Change Password");
+	private final JButton btnLogout = new JButton("Logout");
+	private final JButton btnSearchReservation = new JButton("Search Reservation");
+	private JTextField textField;
+	public JButton btnRefresh = new JButton("Refresh");
 	ClerkController c;
 	/**
 	 * Create the frame.
 	 */
 	public ClerkHome() 
 	{
-		c = new ClerkController(this);
-
-		setTitle("Clerk Home");
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 863, 481);
+		c=new ClerkController(this);
+		setTitle("ClerkHome");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 828, 453);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+		
+		
+		contentPane.add(panel, BorderLayout.WEST);
+		panel.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
+				ColumnSpec.decode("159px"),},
+			new RowSpec[] {
+				FormFactory.LINE_GAP_ROWSPEC,
+				RowSpec.decode("23px"),
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,}));
+		
+		
+		panel.add(btnRent, "2, 4, center, top");
+		
+		
+		panel.add(btnReturn, "2, 8, center, default");
+		
+		
+		panel.add(btnManageReservation, "2, 12, center, center");
+		
+		panel.add(btnAddClubMember, "2, 16, center, default");
+		
+		panel.add(btnViewRentalAgreement, "2, 20, center, default");
+		
+		contentPane.add(panel_1, BorderLayout.NORTH);
+		panel_1.setLayout(new FormLayout(new ColumnSpec[] {
+				ColumnSpec.decode("97px"),
+				ColumnSpec.decode("89px"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,},
+			new RowSpec[] {
+				FormFactory.LINE_GAP_ROWSPEC,
+				RowSpec.decode("56px"),}));
+		panel_1.add(btnHome, "4, 2, left, top");
+		
+		panel_1.add(btnUpdateProfile, "8, 2, default, top");
+		
+		panel_1.add(btnChangePassword, "12, 2, default, top");
+		
+		panel_1.add(btnLogout, "16, 2, default, top");
+		
+		contentPane.add(getPanel_2(), BorderLayout.CENTER);
 		
 		setTextField(new JTextField());
 		getTextField().setColumns(10);
 		
-		
-		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addContainerGap()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_contentPane.createSequentialGroup()
-									.addComponent(btnRent)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(btnReturn)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(btnManageReservation)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(btnAddClubmember)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(btnViewRentalAgreement))
-								.addComponent(panel, GroupLayout.DEFAULT_SIZE, 817, Short.MAX_VALUE)))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(135)
-							.addComponent(btnUpdateProfile)
-							.addGap(66)
-							.addComponent(btnChangePassword)
-							.addGap(66)
-							.addComponent(btnLogout)))
-					.addContainerGap())
-		);
-		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnRent)
-						.addComponent(btnReturn)
-						.addComponent(btnManageReservation)
-						.addComponent(btnAddClubmember)
-						.addComponent(btnViewRentalAgreement))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 320, GroupLayout.PREFERRED_SIZE)
-					.addGap(50)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnUpdateProfile)
-						.addComponent(btnChangePassword)
-						.addComponent(btnLogout)))
-		);
-		GroupLayout gl_panel = new GroupLayout(getPanel());
-		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.CENTER)
-				.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+		GroupLayout gl_panel_2 = new GroupLayout(getPanel_2());
+		gl_panel_2.setHorizontalGroup(
+			gl_panel_2.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_2.createSequentialGroup()
+					.addGap(161)
+					.addComponent(btnSearchReservation)
+					.addGap(18)
+					.addComponent(textField, GroupLayout.PREFERRED_SIZE, 118, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(204, Short.MAX_VALUE))
+				.addGroup(gl_panel_2.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 740, Short.MAX_VALUE)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(btnSearchReservation)
-							.addGap(18)
-							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 147, GroupLayout.PREFERRED_SIZE))
-						.addComponent(btnRefresh))
-					.addContainerGap())
+					.addComponent(btnRefresh)
+					.addContainerGap(547, Short.MAX_VALUE))
+				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 628, Short.MAX_VALUE)
 		);
-		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.CENTER)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addGap(11)
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+		gl_panel_2.setVerticalGroup(
+			gl_panel_2.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_2.createSequentialGroup()
+					.addGap(28)
+					.addGroup(gl_panel_2.createParallelGroup(Alignment.BASELINE)
 						.addComponent(btnSearchReservation)
 						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(35)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 183, GroupLayout.PREFERRED_SIZE)
-					.addGap(29)
-					.addComponent(btnRefresh))
+					.addGap(30)
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 177, GroupLayout.PREFERRED_SIZE)
+					.addGap(28)
+					.addComponent(btnRefresh)
+					.addContainerGap(47, Short.MAX_VALUE))
 		);
 		
-		setTable(new JTable());
-		scrollPane.setViewportView(getTable());
-		getPanel().setLayout(gl_panel);
-		
-		contentPane.setLayout(gl_contentPane);
 		
 		getTable().setModel(new DefaultTableModel(
 				new Object[][] {
 					{null, null, null, null, null, null},
 				},
 				new String[] {
-					"Confirmation Number", "pickDate","dropDate","charges"}
+					"Confirmation Number", "pickDate","dropDate","charges","status"}
 			));
+		
+		scrollPane.setViewportView(getTable());
+		getPanel_2().setLayout(gl_panel_2);
+		
+		
+		contentPane.add(panel_3, BorderLayout.EAST);
+		
+		contentPane.add(panel_4, BorderLayout.SOUTH);
 	}
-	
-	public void RefreshbtnActionListener(ClerkController clerk)
+
+
+	public void SearchReservationbtnActionListener(ClerkController clerkController) 
 	{
-		btnRefresh.addActionListener(clerk);
+		btnSearchReservation.addActionListener(clerkController);
 	}
-	
-	public void RentbtnActionListener(ClerkController clerk)
+
+
+	public void RentbtnActionListener(ClerkController clerkController)
 	{
-		btnRent.addActionListener(clerk);
+		btnRent.addActionListener(clerkController);
 	}
-	
-	public void ReturnbtnActionListener(ClerkController clerk)
+
+	public void AddClubMemberbtnActionListener(ClerkController clerkController)
 	{
-		btnReturn.addActionListener(clerk);
+		btnAddClubMember.addActionListener(clerkController);	
 	}
 	
-	public void AddClubMemberbtnActionListener(ClerkController clerk)
+	public void RefreshbtnActionListener(ClerkController clerkController) 
 	{
-		btnAddClubmember.addActionListener(clerk);
+		btnRefresh.addActionListener(clerkController);
 	}
-	
-	public void SearchReservationbtnActionListener(ClerkController clerk)
+
+
+	public void HomebtnActionListener(ClerkController clerkController) 
 	{
-		btnSearchReservation.addActionListener(clerk);
+		btnHome.addActionListener(clerkController);
 	}
-	
-	public void UpdateProfileActionListener(ClerkController clerk)
+
+
+	public void ReturnbtnActionListener(ClerkController clerkController)
 	{
-		btnUpdateProfile.addActionListener(clerk);
+		btnReturn.addActionListener(clerkController);
 	}
-	
-	public void ManageReservationActionListener(ClerkController clerk)
+
+
+	public void UpdateProfileActionListener(ClerkController clerkController) 
 	{
-		btnManageReservation.addActionListener(clerk);
+		btnUpdateProfile.addActionListener(clerkController);
+		
 	}
-	
-	public void ViewRentalAgreementActionListener(ClerkController clerk)
+
+
+	public void ViewRentalAgreementActionListener(ClerkController clerkController) 
 	{
-		btnViewRentalAgreement.addActionListener(clerk);
+		btnViewRentalAgreement.addActionListener(clerkController);
 	}
-	
+
+
+	public void ManageReservationActionListener(ClerkController clerkController) 
+	{
+		btnManageReservation.addActionListener(clerkController);
+	}
+
+
+	public JPanel getPanel_2() {
+		return panel_2;
+	}
+
+
+	public void setPanel_2(JPanel panel_2) {
+		this.panel_2 = panel_2;
+	}
+
+	public JPanel setCenterPanel(JPanel newPanel)
+	{
+		panel_2=newPanel;
+		contentPane.add(panel_2, BorderLayout.CENTER);
+		return panel_2;
+	}
+
 	public JTable getTable() {
 		return table;
 	}
 
-	public void setTable(JTable table) {
-		this.table = table;
-	}
 
-	public JPanel getPanel() {
-		return panel;
-	}
-
-	public void setPanel(JPanel panel) {
-		this.panel = panel;
-	}
-	
 	public JTextField getTextField() {
 		return textField;
 	}
+
 
 	public void setTextField(JTextField textField) {
 		this.textField = textField;

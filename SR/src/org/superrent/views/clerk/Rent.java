@@ -20,6 +20,10 @@ import javax.swing.JRadioButton;
 import org.superrent.controllers.ClerkController;
 import java.awt.Color;
 import javax.swing.SwingConstants;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.factories.FormFactory;
+import com.jgoodies.forms.layout.RowSpec;
 
 public class Rent extends JPanel
 {
@@ -38,7 +42,6 @@ public class Rent extends JPanel
 	private JTextField textField_9;
 	private JTextField textField_3;
 	JButton btnSubmit;
-	JButton btnGobackToHome;
 	JButton btnCreateRentalAgreement;
 	public ButtonGroup bG;
 	public JTextArea textArea;
@@ -135,112 +138,6 @@ public class Rent extends JPanel
 		getLblInvalidEntries().setForeground(Color.RED);
 		getLblInvalidEntries().setVisible(false);
 		
-		GroupLayout gl_panel_1 = new GroupLayout(panel_1);
-		gl_panel_1.setHorizontalGroup(
-			gl_panel_1.createParallelGroup(Alignment.CENTER)
-				.addGroup(gl_panel_1.createSequentialGroup()
-					.addGap(10)
-					.addGroup(gl_panel_1.createParallelGroup(Alignment.CENTER)
-						.addComponent(lblEnterCurrentDetails)
-						.addGroup(gl_panel_1.createSequentialGroup()
-							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING, false)
-								.addGroup(gl_panel_1.createSequentialGroup()
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-										.addComponent(lblVehicleCondition)
-										.addGroup(gl_panel_1.createSequentialGroup()
-											.addGap(10)
-											.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-												.addComponent(lblOdometerReading)
-												.addComponent(lblVehicleDescription))
-											.addGap(27)
-											.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING, false)
-												.addGroup(gl_panel_1.createSequentialGroup()
-													.addComponent(textField_8, GroupLayout.PREFERRED_SIZE, 95, GroupLayout.PREFERRED_SIZE)
-													.addGap(59)
-													.addComponent(lblFuelPercentage)
-													.addGap(18)
-													.addComponent(textField_9, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE))
-												.addComponent(textArea)))))
-								.addGroup(gl_panel_1.createSequentialGroup()
-									.addGap(25)
-									.addComponent(lblNewLabel)
-									.addGap(33)
-									.addComponent(textField_5, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE)
-									.addGap(18)
-									.addComponent(lblCreditCardNumber)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(textField_6, GroupLayout.PREFERRED_SIZE, 159, GroupLayout.PREFERRED_SIZE)))
-							.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_panel_1.createSequentialGroup()
-									.addGap(24)
-									.addGroup(gl_panel_1.createParallelGroup(Alignment.LEADING)
-										.addGroup(gl_panel_1.createSequentialGroup()
-											.addComponent(lblRoadStar)
-											.addPreferredGap(ComponentPlacement.UNRELATED)
-											.addComponent(rdbtnYes)
-											.addPreferredGap(ComponentPlacement.UNRELATED)
-											.addComponent(rdbtnNo))
-										.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
-											.addComponent(lblMonthyear)
-											.addGroup(gl_panel_1.createSequentialGroup()
-												.addComponent(lblExpiryDate)
-												.addPreferredGap(ComponentPlacement.UNRELATED)
-												.addComponent(textField_7, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
-												.addPreferredGap(ComponentPlacement.RELATED)
-												.addComponent(label_1, GroupLayout.PREFERRED_SIZE, 10, GroupLayout.PREFERRED_SIZE)
-												.addPreferredGap(ComponentPlacement.RELATED)
-												.addComponent(textField_11, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE)))))
-								.addGroup(gl_panel_1.createSequentialGroup()
-									.addGap(89)
-									.addComponent(lblInvalidEntries)))))
-					.addContainerGap(74, Short.MAX_VALUE))
-		);
-		gl_panel_1.setVerticalGroup(
-			gl_panel_1.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel_1.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblEnterCurrentDetails)
-					.addGap(18)
-					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
-						.addComponent(textField_5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblNewLabel)
-						.addComponent(lblCreditCardNumber)
-						.addComponent(textField_6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(label_1)
-						.addComponent(lblExpiryDate)
-						.addComponent(textField_7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField_11, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblMonthyear)
-					.addGap(7)
-					.addComponent(lblVehicleCondition)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblOdometerReading)
-						.addComponent(textField_8, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblFuelPercentage)
-						.addComponent(textField_9, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblRoadStar)
-						.addComponent(rdbtnYes)
-						.addComponent(rdbtnNo))
-					.addGroup(gl_panel_1.createParallelGroup(Alignment.TRAILING)
-						.addGroup(gl_panel_1.createSequentialGroup()
-							.addGap(18)
-							.addGroup(gl_panel_1.createParallelGroup(Alignment.BASELINE)
-								.addComponent(textArea, GroupLayout.PREFERRED_SIZE, 58, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblVehicleDescription))
-							.addPreferredGap(ComponentPlacement.RELATED, 20, Short.MAX_VALUE))
-						.addGroup(gl_panel_1.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(lblInvalidEntries)
-							.addPreferredGap(ComponentPlacement.RELATED)))
-					.addGap(73))
-		);
-		panel_1.setLayout(gl_panel_1);
-		
-		btnGobackToHome = new JButton("GoBack to Home");
-		
 		btnCreateRentalAgreement = new JButton("Create Rental Agreement");
 		
 		GroupLayout groupLayout = new GroupLayout(this);
@@ -251,8 +148,8 @@ public class Rent extends JPanel
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(20)
 							.addGroup(groupLayout.createParallelGroup(Alignment.CENTER)
-								.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 807, GroupLayout.PREFERRED_SIZE)
-								.addComponent(panel, GroupLayout.PREFERRED_SIZE, 805, GroupLayout.PREFERRED_SIZE)
+								.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 844, GroupLayout.PREFERRED_SIZE)
+								.addComponent(panel, GroupLayout.PREFERRED_SIZE, 842, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblOr)
 								.addComponent(btnCreateRentalAgreement)
 								.addComponent(btnSubmit)))
@@ -266,10 +163,6 @@ public class Rent extends JPanel
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 135, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap(27, Short.MAX_VALUE))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(713)
-					.addComponent(btnGobackToHome)
-					.addContainerGap(30, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.CENTER)
@@ -289,10 +182,74 @@ public class Rent extends JPanel
 					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 233, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
 					.addComponent(btnCreateRentalAgreement)
-					.addGap(4)
-					.addComponent(btnGobackToHome)
-					.addContainerGap(114, Short.MAX_VALUE))
+					.addContainerGap(38, Short.MAX_VALUE))
 		);
+		panel_1.setLayout(new FormLayout(new ColumnSpec[] {
+				ColumnSpec.decode("1px"),
+				FormFactory.UNRELATED_GAP_COLSPEC,
+				ColumnSpec.decode("100px"),
+				ColumnSpec.decode("27px"),
+				ColumnSpec.decode("12px"),
+				ColumnSpec.decode("33px"),
+				ColumnSpec.decode("50px"),
+				ColumnSpec.decode("59px"),
+				ColumnSpec.decode("31px"),
+				FormFactory.UNRELATED_GAP_COLSPEC,
+				ColumnSpec.decode("35px"),
+				ColumnSpec.decode("18px"),
+				ColumnSpec.decode("48px"),
+				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
+				ColumnSpec.decode("159px"),
+				ColumnSpec.decode("24px"),
+				ColumnSpec.decode("48px"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("2px"),
+				FormFactory.UNRELATED_GAP_COLSPEC,
+				ColumnSpec.decode("24px"),
+				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
+				ColumnSpec.decode("4px"),
+				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
+				ColumnSpec.decode("4px"),
+				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
+				ColumnSpec.decode("31px"),},
+			new RowSpec[] {
+				RowSpec.decode("1px"),
+				FormFactory.UNRELATED_GAP_ROWSPEC,
+				RowSpec.decode("14px"),
+				FormFactory.PARAGRAPH_GAP_ROWSPEC,
+				RowSpec.decode("20px"),
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("14px"),
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("14px"),
+				FormFactory.UNRELATED_GAP_ROWSPEC,
+				RowSpec.decode("23px"),
+				FormFactory.PARAGRAPH_GAP_ROWSPEC,
+				RowSpec.decode("19px"),
+				RowSpec.decode("25px"),
+				RowSpec.decode("14px"),}));
+		panel_1.add(datefield, "1, 1, fill, fill");
+		panel_1.add(lblEnterCurrentDetails, "11, 3, 3, 1, left, top");
+		panel_1.add(lblVehicleCondition, "3, 9, left, top");
+		panel_1.add(lblOdometerReading, "3, 11, right, center");
+		panel_1.add(lblVehicleDescription, "3, 13, right, bottom");
+		panel_1.add(textField_8, "5, 11, 3, 1, fill, center");
+		panel_1.add(lblFuelPercentage, "9, 11, 3, 1, left, center");
+		panel_1.add(textField_9, "13, 11, 3, 1, left, center");
+		panel_1.add(textArea, "5, 13, 11, 3, fill, fill");
+		panel_1.add(lblNewLabel, "3, 5, 3, 1, right, center");
+		panel_1.add(textField_5, "7, 5, 3, 1, fill, top");
+		panel_1.add(lblCreditCardNumber, "11, 5, 3, 1, right, center");
+		panel_1.add(textField_6, "15, 5, fill, top");
+		panel_1.add(lblRoadStar, "17, 11, left, center");
+		panel_1.add(rdbtnYes, "19, 11, 5, 1, left, top");
+		panel_1.add(rdbtnNo, "25, 11, 3, 1, left, top");
+		panel_1.add(lblMonthyear, "21, 7, 7, 1, center, top");
+		panel_1.add(lblExpiryDate, "17, 5, 3, 1, left, center");
+		panel_1.add(textField_7, "21, 5, fill, top");
+		panel_1.add(label_1, "23, 5, 3, 1, fill, center");
+		panel_1.add(textField_11, "27, 5, fill, top");
+		panel_1.add(lblInvalidEntries, "21, 15, 7, 1, left, top");
 		
 		JLabel lblReservationDetails = new JLabel("Reservation Details");
 		
@@ -310,72 +267,53 @@ public class Rent extends JPanel
 		
 		setTextField_3(new JTextField());
 		getTextField_3().setColumns(10);
+		panel.setLayout(new FormLayout(new ColumnSpec[] {
+				ColumnSpec.decode("33px"),
+				ColumnSpec.decode("58px"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("55px"),
+				ColumnSpec.decode("26px"),
+				ColumnSpec.decode("51px"),
+				ColumnSpec.decode("18px"),
+				ColumnSpec.decode("17px"),
+				FormFactory.UNRELATED_GAP_COLSPEC,
+				ColumnSpec.decode("22px"),
+				ColumnSpec.decode("18px"),
+				ColumnSpec.decode("53px"),
+				ColumnSpec.decode("66px"),
+				ColumnSpec.decode("42px"),
+				ColumnSpec.decode("18px"),
+				ColumnSpec.decode("40px"),
+				ColumnSpec.decode("18px"),
+				ColumnSpec.decode("119px"),},
+			new RowSpec[] {
+				FormFactory.UNRELATED_GAP_ROWSPEC,
+				RowSpec.decode("14px"),
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("20px"),
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("20px"),}));
+		panel.add(lblReservationDetails, "10, 2, 3, 1, left, top");
 		
 		JLabel lblConfirmationNumber = new JLabel("Confirmation Number");
+		panel.add(lblConfirmationNumber, "2, 4, 2, 1, left, center");
 		
 		setTextField_10(new JTextField());
 		getTextField_10().setColumns(10);
+		panel.add(textField_10, "5, 4, 5, 1, fill, top");
 		
 		JLabel lblAdditionalEquipment = new JLabel("Additional Equipment");
+		panel.add(lblAdditionalEquipment, "12, 4, 2, 1, left, center");
 		
 		setTextField_12(new JTextField());
 		getTextField_12().setColumns(10);
-		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.CENTER)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addGroup(gl_panel.createParallelGroup(Alignment.CENTER)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addGap(18)
-							.addComponent(lblReservationDetails))
-						.addGroup(gl_panel.createSequentialGroup()
-							.addGap(33)
-							.addGroup(gl_panel.createParallelGroup(Alignment.CENTER)
-								.addGroup(gl_panel.createSequentialGroup()
-									.addGap(64)
-									.addComponent(lblConfirmationNumber)
-									.addGap(26)
-									.addComponent(textField_10, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-									.addComponent(lblAdditionalEquipment))
-								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(lblPickupDate, GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
-									.addGap(18)
-									.addComponent(textField_2, GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
-									.addGap(18)
-									.addComponent(lblDropDate)
-									.addGap(18)
-									.addComponent(textField_3, GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
-									.addGap(18)
-									.addComponent(lblCharges)))
-							.addGap(18)
-							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addComponent(getTextField_12(), GroupLayout.PREFERRED_SIZE, 115, GroupLayout.PREFERRED_SIZE)
-								.addComponent(textField_4, GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE))))
-					.addGap(126))
-		);
-		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.CENTER)
-				.addGroup(gl_panel.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblReservationDetails)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblConfirmationNumber)
-						.addComponent(textField_10, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblAdditionalEquipment)
-						.addComponent(getTextField_12(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
-					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(textField_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblCharges)
-						.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblDropDate)
-						.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblPickupDate))
-					.addContainerGap())
-		);
-		panel.setLayout(gl_panel);
+		panel.add(textField_12, "14, 4, 4, 1, fill, top");
+		panel.add(lblPickupDate, "2, 6, fill, center");
+		panel.add(textField_2, "4, 6, 3, 1, fill, top");
+		panel.add(lblDropDate, "8, 6, 3, 1, left, center");
+		panel.add(textField_3, "12, 6, 3, 1, fill, top");
+		panel.add(lblCharges, "16, 6, left, center");
+		panel.add(textField_4, "18, 6, fill, top");
 		setLayout(groupLayout);
 		
 	}
@@ -425,11 +363,6 @@ public class Rent extends JPanel
 	public void confirmationbtnActionListener(ClerkController clerk)
 	{
 		btnSubmit.addActionListener(clerk);
-	}
-	
-	public void GoBackHomebtnActionListener(ClerkController clerk)
-	{
-		btnGobackToHome.addActionListener(clerk);
 	}
 	
 	public void CreateRentalbtnActionListener(ClerkController clerk)
