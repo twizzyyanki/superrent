@@ -49,6 +49,7 @@ public class ClubMember extends JFrame {
 	 * Create the frame.
 	 */
 	public ClubMember() {
+		setTitle("Wellcome Club Member");
 		clubMemberController = new ClubMemberController(this);
 		lc = new LoginController(this);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
