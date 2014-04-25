@@ -31,7 +31,7 @@ public class ClerkDao
 		ResultSet rs = null;
 		try
 		{
-		PreparedStatement ps=con.prepareStatement("select * from Reservation where status=0");
+		PreparedStatement ps=con.prepareStatement("select * from Reservation");
 		rs=ps.executeQuery();
 		}
 		catch(Exception e)
@@ -442,7 +442,8 @@ public class ClerkDao
 		int status=0;
 		try
 		{
-			PreparedStatement ps=con.prepareStatement("UPDATE Reservation SET status=? WHERE confirmationNo=? and confirmationNo not in(select confirmationNo from GeneratedAgreements)");
+			PreparedStatement ps=con.prepareStatement("UPDATE Reservation SET status=? WHERE confirmationNo=? and "
+					+ "confirmationNo not in(select confirmationNo from GeneratedAgreements)");
 			ps.setString(1,"1");
 			ps.setInt(2, confirmationNo);
 			status=ps.executeUpdate();
@@ -455,7 +456,7 @@ public class ClerkDao
 		return status;
 	}
 
-	public String[] displayRental(String agreementNo) 
+	public String[] displayRental(int agreementNo) 
 	{
 		String[] values=new String[11];
 		int confirmnum=0;

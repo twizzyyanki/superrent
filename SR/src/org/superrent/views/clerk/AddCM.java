@@ -40,7 +40,6 @@ public class AddCM extends JPanel
 		
 		setTextField(new JTextField());
 		getTextField().setColumns(10);
-		
 		textField_1 = new JTextField();
 		textField_1.setColumns(10);
 		

@@ -91,26 +91,26 @@ public class ClerkHome extends JFrame
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
 		
-		panel.add(btnRent, "2, 4, center, top");
+		panel.add(btnRent, "2, 4, fill, top");
 		
 		
-		panel.add(btnReturn, "2, 8, center, default");
+		panel.add(btnReturn, "2, 8, fill, default");
 		
 		
-		panel.add(btnManageReservation, "2, 12, center, center");
+		panel.add(btnManageReservation, "2, 12, fill, center");
 		
-		panel.add(btnAddClubMember, "2, 16, center, default");
+		panel.add(btnAddClubMember, "2, 16, fill, default");
 		
-		panel.add(btnViewRentalAgreement, "2, 20, center, default");
+		panel.add(btnViewRentalAgreement, "2, 20, fill, default");
 		
 		contentPane.add(panel_1, BorderLayout.NORTH);
 		panel_1.setLayout(new FormLayout(new ColumnSpec[] {
 				ColumnSpec.decode("97px"),
-				ColumnSpec.decode("89px"),
+				ColumnSpec.decode("67px"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
+				ColumnSpec.decode("max(25dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -124,9 +124,9 @@ public class ClerkHome extends JFrame
 			new RowSpec[] {
 				FormFactory.LINE_GAP_ROWSPEC,
 				RowSpec.decode("56px"),}));
-		panel_1.add(btnHome, "4, 2, left, top");
+		panel_1.add(btnHome, "4, 2, fill, top");
 		
-		panel_1.add(btnUpdateProfile, "8, 2, default, top");
+		panel_1.add(btnUpdateProfile, "8, 2, fill, top");
 		
 		panel_1.add(btnChangePassword, "12, 2, default, top");
 		

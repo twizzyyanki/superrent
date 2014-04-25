@@ -113,7 +113,6 @@ public class ClerkController implements ActionListener
 			this.clerkFrame.setCenterPanel(ret);
 			this.clerkFrame.revalidate();
 			this.clerkFrame.repaint();
-			//oldreturn = (JPanel) this.clerkFrame.getContentPane();
 		}
 		
 		if(ae.getActionCommand()=="Add ClubMember")
@@ -225,13 +224,8 @@ public class ClerkController implements ActionListener
 		
 		if(ae.getActionCommand()=="View Rental Agreement")
 		{
-			if(clerkFrame.getTextField().getText().isEmpty())
-			{
-				JOptionPane.showMessageDialog(clerkFrame, "Rental agreement Not Provided....!!!");
-			}
-			else
-			{
-				String agreementNo=clerkFrame.getTextField().getText();
+				String Num=JOptionPane.showInputDialog(clerkFrame, "Agreement Number");
+				int agreementNo=Integer.valueOf(Num);
 				String[] values;
 				values=dao.displayRental(agreementNo);
 				if(values[0]==null)
@@ -240,9 +234,10 @@ public class ClerkController implements ActionListener
 				}
 				else
 				{
-				this.clerkFrame.getContentPane().setVisible(false);
-				this.clerkFrame.setContentPane(rental);
-				this.clerkFrame.getContentPane().setVisible(true);
+				this.clerkFrame.remove(clerkFrame.getPanel_2());
+				this.clerkFrame.setCenterPanel(rental);
+				this.clerkFrame.revalidate();
+				this.clerkFrame.repaint();
 				rental.getTextField().setText(values[0]);
 				rental.getTextField_1().setText(values[5]);
 				rental.getTextField_2().setText(values[6]);
@@ -255,7 +250,6 @@ public class ClerkController implements ActionListener
 				rental.getTextField_9().setText(values[8]);
 				rental.getTextField_10().setText(values[9]);
 				}
-			}
 		}
 		
 		if(ae.getActionCommand()=="Manage Reservation")
