@@ -114,14 +114,22 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 			JComboBox jcb = aup.getComboBox();
 			int check = jcb.getSelectedIndex();
 			System.out.println(check);
+			aup.setUserName(true);
 			aup.setMembershipNumber(true);
 			if (check == 1) {
 				aup.getGroup().add(aup.getTextFieldMembershipNum(), StringValidators.REQUIRE_NON_EMPTY_STRING);
+				aup.getGroup().add(aup.getTextFieldUserName(), StringValidators.REQUIRE_NON_EMPTY_STRING);
 				System.out.println("You selected club member");
 			}
-			else {
+			else if (check == 0) {
 				//aup.getGroup().remove(aup.getTextFieldMembershipNum(),StringValidators.REQUIRE_NON_EMPTY_STRING);
-				System.out.println("You didn't select club member");
+				System.out.println("You selected a customer");
+				aup.setUserName(false);
+				aup.setMembershipNumber(false);
+			}
+			else {
+				aup.getGroup().add(aup.getTextFieldUserName(), StringValidators.REQUIRE_NON_EMPTY_STRING);
+				System.out.println("You selected a manager or clerk");
 				aup.setMembershipNumber(false);
 			}
 		
