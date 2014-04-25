@@ -1,3 +1,4 @@
+
 package org.superrent.views.general;
 
 import java.awt.event.ActionEvent;
@@ -33,6 +34,7 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 	private JDateChooser dateChooserPick;
 	private JDateChooser dateChooserReturn;
 	private JLabel lblAmount;
+	private JButton btnReserve;
 	
 	/**
 	 * Create the panel.
@@ -124,19 +126,21 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 		add(scrollPane, "4, 12, 13, 1, fill, fill");
 		
 		searchTable = new JTable();
+		searchTable.setEnabled(false);
 		searchTable.setToolTipText("");
 		searchTable.setModel(new DefaultTableModel(
 			new Object[][] {
-				{null, null, null, null},
+				{"ubc", "454", "4654", null},
 				{null, null, null, null},
 			},
 			new String[] {
 				"Location", "Category", "Type", "Rate"
 			}
 		));
+		searchTable.getSelectionModel().addListSelectionListener(mrc);
 		scrollPane.setViewportView(searchTable);
 		
-		JButton btnReserve = new JButton("Reserve");
+		btnReserve = new JButton("Reserve");
 		btnReserve.addActionListener(mrc);
 		
 		JLabel lblEquip = new JLabel("Add additional equipment");
@@ -161,25 +165,31 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 
 	//Just for combo box actions
 	//@Override
-	public void actionPerformed(ActionEvent arg0) {
-	/*	String item = (String)categoryCombox_1.getSelectedItem();
-		if(item.equalsIgnoreCase("CAR")){
-			typeCombox_1.setModel(new DefaultComboBoxModel<String>(new String[] { "All","ECONOMY","COMPACT","MID-SIZE",
-					  													"STANDARD", "FULL-SIZE", "PREMIUM","LUXURY", "SUV",
-					  													"VAN"}));
+	public void actionPerformed(ActionEvent event) {
+	
+		if(event.getSource() == categoryCombox_1){
 			
-			equipComboBox_1.setModel(new DefaultComboBoxModel<String>(new String[] { "None","Child seat"}));
+			String item = (String)categoryCombox_1.getSelectedItem();
+			if(item.equalsIgnoreCase("CAR")){
+				typeCombox_1.setModel(new DefaultComboBoxModel<String>(new String[] { "All","ECONOMY","COMPACT","MID-SIZE",
+						  													"STANDARD", "FULL-SIZE", "PREMIUM","LUXURY", "SUV",
+						  													"VAN"}));
+				
+				equipComboBox_1.setModel(new DefaultComboBoxModel<String>(new String[] { "None","Child seat"}));
+			}
+			else if(item.equalsIgnoreCase("TRUCK")){
+				typeCombox_1.setModel(new DefaultComboBoxModel<String>(new String[] {"All","24-FOOT", "15-FOOT", "12-FOOT", "BOX TRUCK", 
+						  												   "CARGO VAN"}));
+			}
+			else if(item.equalsIgnoreCase("ALL")){
+				typeCombox_1.setModel(new DefaultComboBoxModel<String>(new String[] {"ALL", "ECONOMY","COMPACT","MID-SIZE",
+						  													"STANDARD", "FULL-SIZE", "PREMIUM","LUXURY", "SUV",
+						  													"VAN", "24-FOOT", "15-FOOT", "12-FOOT", "BOX TRUCK", 
+						  													"CARGO VAN"}));
+			
+			}
 		}
-		else if(item.equalsIgnoreCase("TRUCK")){
-			typeCombox_1.setModel(new DefaultComboBoxModel<String>(new String[] {"All","24-FOOT", "15-FOOT", "12-FOOT", "BOX TRUCK", 
-					  												   "CARGO VAN"}));
-		}
-		else if(item.equalsIgnoreCase("ALL")){
-			typeCombox_1.setModel(new DefaultComboBoxModel<String>(new String[] {"ALL", "ECONOMY","COMPACT","MID-SIZE",
-					  													"STANDARD", "FULL-SIZE", "PREMIUM","LUXURY", "SUV",
-					  													"VAN", "24-FOOT", "15-FOOT", "12-FOOT", "BOX TRUCK", 
-					  													"CARGO VAN"}));
-		}*/
+		
 
 
 	}
@@ -208,5 +218,9 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 	public JLabel getLblAmount() {
 		return lblAmount;
 	}
+	public JButton getBtnReserve() {
+		return btnReserve;
+	}
 }
+
 

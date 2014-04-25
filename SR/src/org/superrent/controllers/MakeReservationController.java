@@ -11,6 +11,9 @@ import javax.swing.JPanel;
 
 
 
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+
 import org.superrent.views.general.MakeReservationPage;
 import org.superrent.views.general.ReservationPanel;
 import org.superrent.views.general.ReservationSuccessDialog;
@@ -20,7 +23,7 @@ import com.sun.media.sound.Toolkit;
 
 
 
-public class MakeReservationController implements ActionListener {
+public class MakeReservationController implements ActionListener,ListSelectionListener {
 	private final MakeReservationPage reservationPage;
 	private SearchVReservationPanel  sVRPanel;
 	private ReservationPanel reservationPanel;
@@ -71,5 +74,18 @@ public class MakeReservationController implements ActionListener {
 		
 		
 	}
+
+
+	@Override
+	public void valueChanged(ListSelectionEvent e) {
+		if(!e.getValueIsAdjusting()){
+			sVRPanel.getBtnReserve().setEnabled(true);
+			int i = sVRPanel.getSearchTable().getSelectedRow();
+			System.out.println(sVRPanel.getSearchTable().getValueAt(i, 0));
+		}
+		
+	}
+	
+	
 
 }
