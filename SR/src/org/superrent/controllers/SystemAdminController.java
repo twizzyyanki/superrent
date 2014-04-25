@@ -109,6 +109,7 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 	    
 	    if(e.getActionCommand().equals("comboBoxChanged")) {
 			System.out.println("ComboBox is changed");
+			aup = new AddUserPanel(this);
 			//final BorderLayout layout = (BorderLayout)sa.getContentPane().getLayout();
 			//final AddUserPanel aup = (AddUserPanel) layout.getLayoutComponent(BorderLayout.CENTER);
 			JComboBox jcb = aup.getComboBox();
@@ -122,7 +123,6 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 				System.out.println("You selected club member");
 			}
 			else if (check == 0) {
-				//aup.getGroup().remove(aup.getTextFieldMembershipNum(),StringValidators.REQUIRE_NON_EMPTY_STRING);
 				System.out.println("You selected a customer");
 				aup.setUserName(false);
 				aup.setMembershipNumber(false);
