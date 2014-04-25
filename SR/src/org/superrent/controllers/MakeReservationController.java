@@ -1,5 +1,6 @@
 package org.superrent.controllers;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -14,6 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import org.superrent.daos.ClubMemberDAO;
 import org.superrent.views.general.MakeReservationPage;
 import org.superrent.views.general.ReservationPanel;
 import org.superrent.views.general.ReservationSuccessDialog;
@@ -54,10 +56,29 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 			
 		}
 		
+		// Search the vehicle
 		if(e.getActionCommand().equals("Search")){
+			
+			sVRPanel.getLblSearchInfo().setForeground(Color.black);
+			sVRPanel.getLblSearchInfo().setText("");
+			
+			if(sVRPanel.getDateChooserPick().getDate()!=null && sVRPanel.getDateChooserReturn().getDate()!=null){
+				java.util.Date utilPickUpDate = sVRPanel.getDateChooserPick().getDate();
+				java.sql.Date datePickUpDate = new java.sql.Date(utilPickUpDate.getTime());
+				java.util.Date utilReturnDate = sVRPanel.getDateChooserReturn().getDate();
+				java.sql.Date dateReturnDate = new java.sql.Date(utilReturnDate.getTime());
+			}
+			else{
+				sVRPanel.getLblSearchInfo().setForeground(Color.RED);
+				sVRPanel.getLblSearchInfo().setText("Date field is invalid or empty");
+			}
+
+			
 			String category = (String) sVRPanel.getCategoryCombox().getSelectedItem();
 			String type = (String) sVRPanel.getTypeCombox().getSelectedItem();
 			String equipment = (String)sVRPanel.getEquipComboBox().getSelectedItem();
+			
+			
 		}
 		
 		if(e.getActionCommand().equals("Clubmember Reserve")){

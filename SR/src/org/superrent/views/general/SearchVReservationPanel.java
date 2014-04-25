@@ -35,6 +35,7 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 	private JDateChooser dateChooserReturn;
 	private JLabel lblAmount;
 	private JButton btnReserve;
+	private JLabel lblSearchInfo;
 	
 	/**
 	 * Create the panel.
@@ -121,6 +122,9 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 		btnSearch = new JButton("Search");
 		btnSearch.addActionListener(mrc);
 		add(btnSearch, "12, 8");
+		
+		lblSearchInfo = new JLabel("");
+		add(lblSearchInfo, "4, 10, 3, 1");
 		
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane, "4, 12, 13, 1, fill, fill");
@@ -219,6 +223,9 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 	}
 	public JButton getBtnReserve() {
 		return btnReserve;
+	}
+	public JLabel getLblSearchInfo() {
+		return lblSearchInfo;
 	}
 }
 

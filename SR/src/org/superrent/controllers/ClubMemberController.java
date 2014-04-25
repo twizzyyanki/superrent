@@ -118,7 +118,7 @@ public class ClubMemberController implements ActionListener {
 			jCheckReservation.getErrorInfo().setForeground(Color.black);
 			jCheckReservation.getErrorInfo().setText("");
 			
-			if(jCheckReservation.getFromDate().getDate() != null || jCheckReservation.getToDate().getDate() != null ){
+			if(jCheckReservation.getFromDate().getDate() != null && jCheckReservation.getToDate().getDate() != null ){
 				java.util.Date utilFromDate = jCheckReservation.getFromDate().getDate();
 				java.sql.Date dateFromDate = new java.sql.Date(utilFromDate.getTime());
 				java.util.Date utilToDate = jCheckReservation.getToDate().getDate();
