@@ -21,6 +21,10 @@ import java.awt.Insets;
 public class ReservationSuccessDialog extends JDialog{
 	private MakeReservationController mrc;
 	private final JPanel contentPanel = new JPanel();
+	private JLabel lblGetCoNo;
+	private JLabel lblGetLocation;
+	private JLabel lblGetPickUpDate;
+	private JLabel lblGetReturnDate;
 
 
 	/**
@@ -62,7 +66,7 @@ public class ReservationSuccessDialog extends JDialog{
 			contentPanel.add(lblYourConfirmationNo, "4, 4");
 		}
 		{
-			JLabel lblGetCoNo = new JLabel("");
+			lblGetCoNo = new JLabel("");
 			contentPanel.add(lblGetCoNo, "6, 4, 3, 1, left, default");
 		}
 		{
@@ -70,7 +74,7 @@ public class ReservationSuccessDialog extends JDialog{
 			contentPanel.add(lblPickUpLocation, "4, 6");
 		}
 		{
-			JLabel lblGetLocation = new JLabel("");
+			lblGetLocation = new JLabel("");
 			contentPanel.add(lblGetLocation, "6, 6, 3, 1");
 		}
 		{
@@ -78,7 +82,7 @@ public class ReservationSuccessDialog extends JDialog{
 			contentPanel.add(lblPickUpDate, "4, 8");
 		}
 		{
-			JLabel lblGetPickUpDate = new JLabel("");
+			lblGetPickUpDate = new JLabel("");
 			contentPanel.add(lblGetPickUpDate, "6, 8, 3, 1");
 		}
 		{
@@ -86,7 +90,7 @@ public class ReservationSuccessDialog extends JDialog{
 			contentPanel.add(lblReturnDate, "4, 10");
 		}
 		{
-			JLabel lblGetReturnDate = new JLabel("");
+			lblGetReturnDate = new JLabel("");
 			contentPanel.add(lblGetReturnDate, "6, 10, 3, 1");
 		}
 		{
@@ -115,4 +119,16 @@ public class ReservationSuccessDialog extends JDialog{
 	}
 
 
+	public JLabel getLblGetCoNo() {
+		return lblGetCoNo;
+	}
+	public JLabel getLblGetLocation() {
+		return lblGetLocation;
+	}
+	public JLabel getLblGetPickUpDate() {
+		return lblGetPickUpDate;
+	}
+	public JLabel getLblGetReturnDate() {
+		return lblGetReturnDate;
+	}
 }

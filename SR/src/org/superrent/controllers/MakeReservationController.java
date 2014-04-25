@@ -5,8 +5,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JDialog;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+
 
 
 
@@ -20,7 +24,7 @@ import org.superrent.views.general.SearchVReservationPanel;
 
 
 
-public class MakeReservationController implements ActionListener,ListSelectionListener {
+public class MakeReservationController implements ActionListener,ListSelectionListener{
 	private final MakeReservationPage reservationPage;
 	private SearchVReservationPanel  sVRPanel;
 	private ReservationPanel reservationPanel;
@@ -78,19 +82,102 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 			
 		}
 		
+		//Reserve as club member
 		if(e.getActionCommand().equals("Clubmember Reserve")){
-			dialog = new ReservationSuccessDialog(this);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-			reservationPage.dispose();
+			reservationPanel.getLblClubInfo().setForeground(Color.black);
+			reservationPanel.getLblClubInfo().setText("");
+			
+			if(reservationPanel.getUserIDTextField().getText().trim().length()!=0 &&
+			   reservationPanel.getPasswordField().getText().trim().length()!=0){
+				//Need DAO TO CHECK IF USER ID EXIST IF YES clubExist set to TRUE
+				boolean clubExist = false;
+				if(clubExist){
+					//Need DAO to store this reservation as clubmember
+					
+					dialog = new ReservationSuccessDialog(this);
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setVisible(true);
+					reservationPage.dispose();
+					
+					//Need DAO to get confirmation No.
+					String confirmaionNo = "123";
+					dialog.getLblGetCoNo().setText(confirmaionNo);
+					
+					//Need DAO to get location
+					String location = "Vancouver";
+					dialog.getLblGetLocation().setText(location);
+					
+					//Need DAO to get pickUpDate
+					String pickUpDate = "2014/05/18";
+					dialog.getLblGetPickUpDate().setText(pickUpDate);
+					
+					//Need DAO to get ReturnDate
+					String returnDate = "2014/05/18";
+					dialog.getLblGetReturnDate().setText(returnDate);
+					
+				}
+				else{
+					reservationPanel.getLblClubInfo().setForeground(Color.RED);
+					reservationPanel.getLblClubInfo().setText("User ID or Password is invalid");					
+				}
+
+			}
+			else{
+				reservationPanel.getLblClubInfo().setForeground(Color.RED);
+				reservationPanel.getLblClubInfo().setText("User ID and Password cannot be empty");
+			}
+			
+			
 		}
 		
 		if(e.getActionCommand().equals("Guest Reserve")){
-			dialog = new ReservationSuccessDialog(this);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-			reservationPage.dispose();
-			reservationPage.dispose();
+			reservationPanel.getLblGuestInfo().setForeground(Color.black);
+			reservationPanel.getLblGuestInfo().setText("");
+			
+			if(reservationPanel.getNameTextField().getText().trim().length()!=0 && 
+			   reservationPanel.getPhoneTextField().getText().trim().length()!=0 &&
+			   reservationPanel.getAddressTextArea().getText().trim().length()!=0 &&
+			   reservationPanel.getEmailTextField().getText().trim().length()!=0){
+				
+				//Validate all fields
+				boolean valid = false;
+				valid = ValidateFields(reservationPanel.getPhoneTextField().getText());				
+				
+				// Need to DAO to store user's information and thie reservation
+				if(valid){
+					dialog = new ReservationSuccessDialog(this);
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setVisible(true);
+					reservationPage.dispose();
+					
+					//Need DAO to get confirmation No.
+					String confirmaionNo = "123";
+					dialog.getLblGetCoNo().setText(confirmaionNo);
+					
+					//Need DAO to get location
+					String location = "Vancouver";
+					dialog.getLblGetLocation().setText(location);
+					
+					//Need DAO to get pickUpDate
+					String pickUpDate = "2014/05/18";
+					dialog.getLblGetPickUpDate().setText(pickUpDate);
+					
+					//Need DAO to get ReturnDate
+					String returnDate = "2014/05/18";
+					dialog.getLblGetReturnDate().setText(returnDate);
+					
+				}
+				else{
+					reservationPanel.getLblGuestInfo().setForeground(Color.RED);
+					reservationPanel.getLblGuestInfo().setText("Phone is invalid");					
+				}
+
+			}
+			else{
+				reservationPanel.getLblGuestInfo().setForeground(Color.RED);
+				reservationPanel.getLblGuestInfo().setText("Name,address,phone and email cannot be empty");
+			}
+			
 		}
 		
 		if(e.getActionCommand().equals("Login Page")){
@@ -119,7 +206,20 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 		}
 		
 	}
-	
-	
+
+	public boolean ValidateFields(String phone){
+		boolean valid = false;
+		try{
+			Integer.parseInt(phone);
+			valid = true;
+		}
+		catch(NumberFormatException e){
+			valid = false;
+		}
+		finally{
+			return valid;
+		}
+		
+	}
 
 }
