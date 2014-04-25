@@ -90,13 +90,16 @@ public class ClubMemberController implements ActionListener {
 			UpdateProfileDAO nameDAO = new UpdateProfileDAO();
 			UpdateProfileDAO phoneDAO = new UpdateProfileDAO();
 			UpdateProfileDAO addressDAO = new UpdateProfileDAO();
+			UpdateProfileDAO emailDao = new UpdateProfileDAO();
 			String name = nameDAO.getName();
 			String phone = String.valueOf(phoneDAO.getPhoneNumber());
 			String address = addressDAO.getAddress();
+			String email = emailDao.getEmail();
 			
 			jUProfile.getTextName().setText(name);
 			jUProfile.getTextPhone().setText(phone);
 			jUProfile.getTextAddress().setText(address);
+			jUProfile.getTxtEmail().setText(email);
 
 		}
 		

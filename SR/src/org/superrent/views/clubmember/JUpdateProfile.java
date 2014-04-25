@@ -25,6 +25,7 @@ public class JUpdateProfile extends JPanel {
 	private JTextField textName;
 	private JTextArea textAddress;
 	private JLabel updateInfo;
+	private JTextField txtEmail;
 	/**
 	 * Create the panel.
 	 */
@@ -34,7 +35,7 @@ public class JUpdateProfile extends JPanel {
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(20dlu;pref)"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.BUTTON_COLSPEC,
+				FormFactory.GROWING_BUTTON_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(80dlu;default):grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -75,21 +76,28 @@ public class JUpdateProfile extends JPanel {
 		add(textPhone, "6, 6, fill, default");
 		textPhone.setColumns(10);
 		
+		JButton Update = new JButton("Update");
+		Update.addActionListener(clubMemberController);
+		
+		JLabel lblEmail = new JLabel("E-mail");
+		add(lblEmail, "4, 8, center, default");
+		
+		txtEmail = new JTextField();
+		add(txtEmail, "6, 8, fill, default");
+		txtEmail.setColumns(10);
+		
 		JLabel address = new JLabel("Address");
-		add(address, "4, 8, center, default");
+		add(address, "4, 10, center, default");
 		
 		JScrollPane scrollPane = new JScrollPane();
-		add(scrollPane, "6, 8, fill, fill");
+		add(scrollPane, "6, 10, fill, fill");
 		
 		textAddress = new JTextArea();
 		scrollPane.setViewportView(textAddress);
-		
-		JButton Update = new JButton("Update");
-		Update.addActionListener(clubMemberController);
 		add(Update, "4, 12");
 		
 		updateInfo = new JLabel("");
-		add(updateInfo, "6, 14");
+		add(updateInfo, "4, 14, 3, 1");
 		
 		this.setVisible(true);
 
@@ -109,5 +117,8 @@ public class JUpdateProfile extends JPanel {
 
 	public JLabel getUpdateInfo() {
 		return updateInfo;
+	}
+	public JTextField getTxtEmail() {
+		return txtEmail;
 	}
 }

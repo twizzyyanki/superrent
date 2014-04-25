@@ -11,7 +11,9 @@ import org.superrent.application.DatabaseConnection;
 import sun.applet.Main;
 //import sun.security.util.BigInt;
 
+
 import com.mysql.jdbc.PreparedStatement;
+import com.sun.org.apache.regexp.internal.recompile;
 
 
 public class UpdateProfileDAO {
@@ -241,6 +243,35 @@ public class UpdateProfileDAO {
 		return address;
 	}
 	
+	public String getEmail(){
+		String email="";
+		PreparedStatement  ps;
+		
+		try{
+			
+			String query = "SELECT email FROM User WHERE uid= ? ";
+			ps = (PreparedStatement) connection.prepareStatement(query);
+			ps.setInt(1, uid);
+			ResultSet rs = ps.executeQuery(query );
+			if(rs.next()){
+				email = rs.getString("email");
+			}
+			
+			
+		}
 
+		catch (Exception e) {
+			DatabaseConnection.rollback(connection);
+			e.printStackTrace();
+		} finally {
+			
+			DatabaseConnection.close(connection);
+			return email;
+		}
+		
+		
+		
+		
+	}
 	
 }
