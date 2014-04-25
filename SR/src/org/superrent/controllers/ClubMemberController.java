@@ -188,6 +188,7 @@ public class ClubMemberController implements ActionListener {
 			int nameSuccess = 1;
 			int phoneSuccess = 1;
 			int addressSucess = 1;
+			int emailSuccess = 1;
 			String updateInfosString="";
 			jUProfile.getTextPhone().setForeground(Color.black);
 			jUProfile.getUpdateInfo().setText("");
@@ -263,8 +264,31 @@ public class ClubMemberController implements ActionListener {
 					}
 			}
 			
-			if(nameSuccess+phoneSuccess+addressSucess!=3){
-				jUProfile.getTextPhone().setForeground(Color.red);
+			// check if user enters text in email text area
+			if(jUProfile.getTxtEmail().getText()!=null &&				
+			   jUProfile.getTxtEmail().getText().trim().length()!=0){		
+				
+					// check if text area is "Update Success" to prevent updating 
+					if(!jUProfile.getTxtEmail().getText().equals("Update Success")){
+						UpdateProfileDAO updateEmailDAO = new UpdateProfileDAO();
+						String email = jUProfile.getTxtEmail().getText();
+						if(updateEmailDAO.updatemail(email)){
+							emailSuccess = 1;
+							updateInfosString = updateInfosString + "Update email success<br>";
+						}
+						else{
+							addressSucess = 0;
+							updateInfosString = updateInfosString + "Email is not valid<br>";
+						}
+					}
+					else{
+						jUProfile.getTextAddress().setForeground(Color.black);
+						jUProfile.getTextAddress().setText("");
+					}
+			}
+			
+			if(nameSuccess+phoneSuccess+addressSucess!=4){
+				
 				updateInfosString = "<html>"+ updateInfosString + "</html>";
 				jUProfile.getUpdateInfo().setText(updateInfosString);
 			}
