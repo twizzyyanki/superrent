@@ -2,7 +2,6 @@ package org.superrent.daos;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 
 import org.superrent.application.LoggedInUser;

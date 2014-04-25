@@ -2,14 +2,12 @@ package org.superrent.daos;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 
 import org.superrent.application.LoggedInUser;
 import org.superrent.application.DatabaseConnection;
 
 import com.mysql.jdbc.PreparedStatement;
-import com.sun.corba.se.spi.orb.StringPair;
 
 public class ChangePasswordDAO {
 	

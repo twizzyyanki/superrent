@@ -13,10 +13,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JTextArea;
-import javax.swing.JTextPane;
-
 import org.superrent.controllers.ClubMemberController;
-import com.jgoodies.forms.factories.DefaultComponentFactory;
 
 public class JUpdateProfile extends JPanel {
 

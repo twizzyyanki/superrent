@@ -1,28 +1,13 @@
 package org.superrent.controllers;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Date;
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Vector;
-
-import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.UIManager;
-import javax.swing.table.DefaultTableModel;
-
 import org.superrent.views.clubmember.*;
 import org.superrent.daos.ChangePasswordDAO;
 import org.superrent.daos.ClubMemberDAO;
 import org.superrent.daos.UpdateProfileDAO;
-import org.joda.time.DateTime;
 
 /**
  * This class implements the ActionListener interface and 

@@ -2,7 +2,6 @@ package org.superrent.views.general;
 
 import javax.swing.JPanel;
 
-import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
@@ -21,9 +20,10 @@ public class ReservationPanel extends JPanel {
 	private JTextField nameTextField;
 	private JTextField emailTextField;
 	private JTextField phoneTextField;
-	private JTextField userTextField;
+	private JTextField userIDTextField;
 	private JPasswordField passwordField;
 	private final MakeReservationController mrc;
+	private JTextArea addressTextArea;
 	/**
 	 * Create the panel.
 	 */
@@ -70,9 +70,9 @@ public class ReservationPanel extends JPanel {
 		JLabel lblUserId = new JLabel("User ID:");
 		add(lblUserId, "4, 6, center, default");
 		
-		userTextField = new JTextField();
-		add(userTextField, "6, 6, fill, default");
-		userTextField.setColumns(10);
+		userIDTextField = new JTextField();
+		add(userIDTextField, "6, 6, fill, default");
+		userIDTextField.setColumns(10);
 		
 		JLabel lblPassword = new JLabel("Password:");
 		add(lblPassword, "4, 8, center, default");
@@ -101,7 +101,7 @@ public class ReservationPanel extends JPanel {
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane, "6, 16, fill, fill");
 		
-		JTextArea addressTextArea = new JTextArea();
+		addressTextArea = new JTextArea();
 		scrollPane.setViewportView(addressTextArea);
 		
 		JLabel lblPhoneNo = new JLabel("Phone No.");
@@ -124,4 +124,22 @@ public class ReservationPanel extends JPanel {
 
 	}
 
+	public JTextField getUserIDTextField() {
+		return userIDTextField;
+	}
+	public JPasswordField getPasswordField() {
+		return passwordField;
+	}
+	public JTextField getNameTextField() {
+		return nameTextField;
+	}
+	public JTextArea getAddressTextArea() {
+		return addressTextArea;
+	}
+	public JTextField getPhoneTextField() {
+		return phoneTextField;
+	}
+	public JTextField getEmailTextField() {
+		return emailTextField;
+	}
 }
