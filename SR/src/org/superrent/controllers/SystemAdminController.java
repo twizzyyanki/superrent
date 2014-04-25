@@ -109,7 +109,6 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 	    
 	    if(e.getActionCommand().equals("comboBoxChanged")) {
 			System.out.println("ComboBox is changed");
-			aup = new AddUserPanel(this);
 			//final BorderLayout layout = (BorderLayout)sa.getContentPane().getLayout();
 			//final AddUserPanel aup = (AddUserPanel) layout.getLayoutComponent(BorderLayout.CENTER);
 			JComboBox jcb = aup.getComboBox();
