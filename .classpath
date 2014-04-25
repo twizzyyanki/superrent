@@ -15,5 +15,6 @@
 	<classpathentry kind="lib" path="C:/Users/Tianlai Dong/Desktop/mysql-connector-java-5.0.8/rs2xml.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Tianlai Dong/Desktop/mysql-connector-java-5.0.8/ValidationAPI.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Tianlai Dong/Desktop/mysql-connector-java-5.0.8/joda-time-2.3.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Tianlai Dong/Desktop/mysql-connector-java-5.0.8/paypal.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

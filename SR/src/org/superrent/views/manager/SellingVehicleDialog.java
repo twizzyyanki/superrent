@@ -153,7 +153,7 @@ public class SellingVehicleDialog extends JDialog implements ActionListener{
 	}
 
 
-	@Override
+	// @Override
 	public void actionPerformed(ActionEvent arg0) {
 		this.dispose();
 	}

@@ -137,7 +137,7 @@ public class EditForSalePrice extends JDialog implements ActionListener{
 		}
 	}
 
-	@Override
+	// @Override
 	public void actionPerformed(ActionEvent e) {
 		this.dispose();
 		

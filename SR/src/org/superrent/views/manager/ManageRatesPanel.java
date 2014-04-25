@@ -599,7 +599,7 @@ public class ManageRatesPanel extends JPanel implements ActionListener{
 	}
 	
 
-	@Override
+	// @Override
 	public void actionPerformed(ActionEvent e) {
 		
 		if(e.getActionCommand().equals("EditMemPoints")){
