@@ -38,6 +38,7 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 	private SystemAdmin sa;
 	//private Login l;
 	private SearchUserPanel sup = new SearchUserPanel(this);
+	private AddUserPanel aup;
 	private AddUserDAO au_dao;
 	private SearchUserDAO su_dao;
 	static JPanel oldpanel;
@@ -55,11 +56,11 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 		
 		
 		if(e.getActionCommand().equals("Add User")) {
-			AddUserPanel aup = new AddUserPanel(this);
+			aup = new AddUserPanel(this);
 			//new ValidateAddUser(aup);
 			//System.out.println("You add a user");
 			sa.remove(sa.getPanelCenter());
-			sa.setPanelCenter(aup);
+			sa.setPanelCenter(aup.getXpanel());
 			sa.getMainPanel().add(sa.getPanelCenter(), BorderLayout.CENTER);
 			sa.revalidate();
 			sa.repaint();
@@ -108,16 +109,18 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 	    
 	    if(e.getActionCommand().equals("comboBoxChanged")) {
 			System.out.println("ComboBox is changed");
-			final BorderLayout layout = (BorderLayout)sa.getContentPane().getLayout();
-			final AddUserPanel aup = (AddUserPanel) layout.getLayoutComponent(BorderLayout.CENTER);
+			//final BorderLayout layout = (BorderLayout)sa.getContentPane().getLayout();
+			//final AddUserPanel aup = (AddUserPanel) layout.getLayoutComponent(BorderLayout.CENTER);
 			JComboBox jcb = aup.getComboBox();
 			int check = jcb.getSelectedIndex();
 			System.out.println(check);
 			aup.setMembershipNumber(true);
 			if (check == 1) {
+				aup.getGroup().add(aup.getTextFieldMembershipNum(), StringValidators.REQUIRE_NON_EMPTY_STRING);
 				System.out.println("You selected club member");
 			}
 			else {
+				//aup.getGroup().remove(aup.getTextFieldMembershipNum(),StringValidators.REQUIRE_NON_EMPTY_STRING);
 				System.out.println("You didn't select club member");
 				aup.setMembershipNumber(false);
 			}
@@ -148,8 +151,8 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 		 * Add a user in the database
 		 */
 		if(e.getActionCommand().equals("Add")) {
-			final BorderLayout layout = (BorderLayout)sa.getContentPane().getLayout();
-			final AddUserPanel aup = (AddUserPanel) layout.getLayoutComponent(BorderLayout.CENTER);
+			//final BorderLayout layout = (BorderLayout)sa.getContentPane().getLayout();
+			//final AddUserPanel aup = (AddUserPanel) layout.getLayoutComponent(BorderLayout.CENTER);
 			System.out.println("You add a user and the informaiton about the user is as follows");
 			System.out.print("User type: "+aup.getInputType()+" ");
 			System.out.print("User Name: "+aup.getInputName()+" ");

@@ -90,7 +90,6 @@ public class SearchUserPanel extends JPanel {
 		textFieldPhoneNumber.setName("Phone Number");
 		textFieldPhoneNumber.getDocument().addDocumentListener(sac);
 		
-	
 		btnConfirm = new JButton("Confirm");
 		btnConfirm.addActionListener(sac);
 		btnConfirm.setEnabled(false);
@@ -102,7 +101,7 @@ public class SearchUserPanel extends JPanel {
 		group.add(this.getTextFieldUserName(), StringValidators.REQUIRE_NON_EMPTY_STRING,
 				StringValidators.NO_WHITESPACE);
 		group.add(this.getTextFieldPhoneNumber(), StringValidators.REQUIRE_NON_EMPTY_STRING);
-		xpanel.add(this);
+		//xpanel.add(this);
 		
 			add(btnConfirm, "5, 5, left, fill");
 		/**

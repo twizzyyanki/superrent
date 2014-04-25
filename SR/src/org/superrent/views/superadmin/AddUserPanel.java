@@ -65,6 +65,8 @@ public class AddUserPanel extends JPanel {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
 		JLabel lblUserType = new JLabel("User Type");
@@ -75,66 +77,72 @@ public class AddUserPanel extends JPanel {
 		add(comboBox, "4, 4, left, default");
 		comboBox.addActionListener(sac);
 		
+		lblMembershipNumber = new JLabel("Membership Number");
+		lblMembershipNumber.setVisible(false);
+		add(lblMembershipNumber, "2, 6, right, default");
+		
+		textFieldMembershipNum = new JTextField();
+		textFieldMembershipNum.setVisible(false);
+		textFieldMembershipNum.setColumns(10);
+		textFieldMembershipNum.setName("Membership Number");
+		add(textFieldMembershipNum, "4, 6, left, default");
+		textFieldMembershipNum.getDocument().addDocumentListener(va);
 		
 		
-		JLabel lblUserName = new JLabel("User Name");
-		add(lblUserName, "2, 6, left, default");
+		
+		JLabel lblName = new JLabel("Name");
+		add(lblName, "2, 8, left, default");
 		
 		textFieldUserName = new JTextField();
-		add(textFieldUserName, "4, 6, left, default");
+		add(textFieldUserName, "4, 8, left, default");
 		textFieldUserName.setColumns(10);
+		textFieldUserName.setName("User Name");
 		textFieldUserName.getDocument().addDocumentListener(va);
 		
 		JLabel lblPhoneNumber = new JLabel("Phone Number");
-		add(lblPhoneNumber, "2, 8, left, default");
+		add(lblPhoneNumber, "2, 10, left, default");
 		
 		textFieldPhoneNumber = new JTextField();
-		add(textFieldPhoneNumber, "4, 8, left, default");
+		add(textFieldPhoneNumber, "4, 10, left, default");
 		textFieldPhoneNumber.setColumns(10);
+		textFieldPhoneNumber.setName("Phone Number");
 		textFieldPhoneNumber.getDocument().addDocumentListener(va);
 		
 		JLabel lblAddress = new JLabel("Address");
-		add(lblAddress, "2, 10, left, default");
+		add(lblAddress, "2, 12, left, default");
 		
 		textFieldAddress = new JTextField();
-		add(textFieldAddress, "4, 10, left, default");
+		add(textFieldAddress, "4, 12, left, default");
 		textFieldAddress.setColumns(10);
+		textFieldAddress.setName("Address");
 		textFieldAddress.getDocument().addDocumentListener(va);
 		
 		JLabel lblEmail = new JLabel("Email");
-		add(lblEmail, "2, 12, left, default");
+		add(lblEmail, "2, 14, left, default");
 		
 		textFieldEmail = new JTextField();
 		textFieldEmail.setColumns(10);
-		add(textFieldEmail, "4, 12, left, default");
+		textFieldEmail.setName("Email");
+		add(textFieldEmail, "4, 14, left, default");
 		textFieldEmail.getDocument().addDocumentListener(va);
 		
 		btnAdd = new JButton("Add");
 		btnAdd.addActionListener(sac);
 		btnAdd.setEnabled(false);
-		
-		lblMembershipNumber = new JLabel("Membership Number");
-		lblMembershipNumber.setVisible(false);
-		add(lblMembershipNumber, "2, 14, right, default");
-		
-		textFieldMembershipNum = new JTextField();
-		textFieldMembershipNum.setVisible(false);
-		textFieldMembershipNum.setColumns(10);
-		add(textFieldMembershipNum, "4, 14, left, default");
 		add(btnAdd, "4, 16, left, default");
 		
 		addUserMessage = new JLabel("");
-		add(addUserMessage, "2, 18, 3, 1");
+		add(addUserMessage, "2, 20, 3, 1");
 		
 		xpanel = new ValidationPanel();
 		xpanel.setInnerComponent(this);
 		group = xpanel.getValidationGroup();
 		group.add(textFieldUserName, StringValidators.REQUIRE_NON_EMPTY_STRING,
 				StringValidators.NO_WHITESPACE);
-		group.add(textFieldPhoneNumber, StringValidators.REQUIRE_NON_EMPTY_STRING);
+		group.add(textFieldPhoneNumber, StringValidators.REQUIRE_NON_EMPTY_STRING, StringValidators.REQUIRE_VALID_NUMBER);
 		group.add(textFieldAddress, StringValidators.REQUIRE_NON_EMPTY_STRING);
-		group.add(textFieldEmail, StringValidators.REQUIRE_NON_EMPTY_STRING);
-		xpanel.add(this);
+		group.add(textFieldEmail, StringValidators.REQUIRE_NON_EMPTY_STRING,StringValidators.EMAIL_ADDRESS);
+		//xpanel.add(this);
 	}
 
 	public JComboBox getComboBox() {
@@ -183,5 +191,11 @@ public class AddUserPanel extends JPanel {
 	}
 	public JButton getBtnAdd() {
 		return btnAdd;
+	}
+	public ValidationPanel getXpanel() {
+		return xpanel;
+	}
+	public JTextField getTextFieldMembershipNum() {
+		return textFieldMembershipNum;
 	}
 }
