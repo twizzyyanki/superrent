@@ -21,6 +21,10 @@ public class SuperRent implements Serializable {
     private double tax;
     
     private double membershipFees;
+    
+    private Integer membershipPoints;
+    
+    private double fuelRate;
    
     private Collection<Vehicle> vehicleCollection;
    
@@ -118,7 +122,23 @@ public class SuperRent implements Serializable {
         this.superRentInsuranceRateCollection = superRentInsuranceRateCollection;
     }
 
-    @Override
+    public Integer getMembershipPoints() {
+		return membershipPoints;
+	}
+
+	public void setMembershipPoints(Integer membershipPoints) {
+		this.membershipPoints = membershipPoints;
+	}
+
+	public double getFuelRate() {
+		return fuelRate;
+	}
+
+	public void setFuelRate(double fuelRate) {
+		this.fuelRate = fuelRate;
+	}
+
+	@Override
     public int hashCode() {
         int hash = 0;
         hash += (branchID != null ? branchID.hashCode() : 0);

@@ -9,6 +9,7 @@ import net.proteanit.sql.DbUtils;
 
 import org.superrent.application.DatabaseConnection;
 import org.superrent.entities.SellVehicleVO;
+import org.superrent.entities.SuperRent;
 import org.superrent.entities.VehicleVO;
 import org.superrent.views.manager.ManagerHome;
 
@@ -28,8 +29,23 @@ public class ManagerDaoImpl implements IManagerDao{
 			Statement st = con.createStatement();
 			String category =(String)managerFrame.getSearchVehicleListPanel().getCategoryCombox().getSelectedItem();
 			String type =(String)managerFrame.getSearchVehicleListPanel().getTypeCombox().getSelectedItem();
-			String query = "SELECT * FROM Vehicle Where 1=1 " + (category.equalsIgnoreCase("All") ?(""):("and category = " + "'" + category.toUpperCase() + 
-					"'"))	+ (type.equalsIgnoreCase("All") ?(""):("and type = " + "'" + type.toUpperCase() + "'"));  
+			int year = managerFrame.getSearchVehicleListPanel().getYearChooser().getValue();
+			String status = (String)managerFrame.getSearchVehicleListPanel().getStatusCombox().getSelectedItem();
+			int inputStatus = 3;
+			
+			if(status.equalsIgnoreCase("Sold")){
+				inputStatus = 2;
+			}else if(status.equalsIgnoreCase("For-Rent")){
+				inputStatus = 0;
+			}else if(status.equalsIgnoreCase("For-Sale")){
+				inputStatus = 1;
+			}
+
+			System.out.println("inputStatus " + inputStatus + "status " + status);
+			String query = "SELECT regNo as RegisterNumber, category as Category, type as Type, brand as Brand,purchaseDate as PurchasedDate, CASE "
+								+ " WHEN status = 0 THEN 'FOR-RENT' WHEN status = 1 THEN 'FOR-SALE' WHEN status = 2 THEN 'SOLD'	END AS Status FROM Vehicle Where year(purchaseDate) <= " 
+								+ year + " "+ (category.equalsIgnoreCase("All") ?(""):("and category = " + "'" + category.toUpperCase() + 
+								"'"))	+ (type.equalsIgnoreCase("All") ?(""):("and type = " + "'" + type.toUpperCase() + "'" + status.equalsIgnoreCase("All"))) + (inputStatus == 3 ? "" : " and status = " + inputStatus);  
 			System.out.println(query);
 			
 			resultSet = st.executeQuery(query);
@@ -59,7 +75,7 @@ public class ManagerDaoImpl implements IManagerDao{
 			con.setAutoCommit(false);
 			Statement st = con.createStatement();
 			System.out.println( "------" + managerFrame.getComboBox_1().getSelectedItem());
-			String query = "SELECT * FROM ForSaleVehicles";
+			String query = "SELECT regNo as RegisterNumber, price as Price, dateMadeAvailableForSale as ForSaleFrom FROM ForSaleVehicles where soldDate is null";
 			resultSet = st.executeQuery(query);
 			System.out.println("In here");
 			managerFrame.getSellVehicleListPanel().getSellTable().setModel(DbUtils.resultSetToTableModel(resultSet));
@@ -79,7 +95,7 @@ public class ManagerDaoImpl implements IManagerDao{
 		
 	}
 
-	//@Override
+	@Override
 	public boolean addVehicle(VehicleVO vehicleVO) {
 		boolean result = true;
 		try {
@@ -112,7 +128,7 @@ public class ManagerDaoImpl implements IManagerDao{
 		return result;
 	}
 
-	//@Override
+	@Override
 	public boolean updateVehicle(VehicleVO vehicleVO) {
 		boolean result = true;
 		try {
@@ -146,7 +162,7 @@ public class ManagerDaoImpl implements IManagerDao{
 		
 	}
 
-	//@Override
+	@Override
 	public boolean sellVehicle(SellVehicleVO sellVehicleVO) {
 		boolean result = true;
 		try {
@@ -155,10 +171,12 @@ public class ManagerDaoImpl implements IManagerDao{
 			Statement st = con.createStatement();
 			
 			String query = "INSERT INTO ForSaleVehicles values (" + sellVehicleVO.getRegNo() +"," + sellVehicleVO.getPrice() + ","
-													+ null +","+ null +",'"+
+													+ null +",'"+
 													sellVehicleVO.getForSaleFrom()+ "')";
 			System.out.println(query);
 			st.executeUpdate(query);
+			String changeStatus = "UPDATE Vehicle SET status = 1 where regNo =" + sellVehicleVO.getRegNo();
+			st.executeUpdate(changeStatus);
 			con.commit();
 			System.out.println("In here");
 			
@@ -177,5 +195,227 @@ public class ManagerDaoImpl implements IManagerDao{
 			DatabaseConnection.close(con);
 		}
 		return result;
+	}
+
+	@Override
+	public boolean vehicleSold(SellVehicleVO sellVehicleVO) {
+		boolean result = true;
+		try {
+			con = DatabaseConnection.createConnection();
+			con.setAutoCommit(false);
+			Statement st = con.createStatement();
+			
+			String query = "UPDATE ForSaleVehicles SET soldDate = CURDATE() where regNo =" + sellVehicleVO.getRegNo();
+			System.out.println(query);
+			st.executeUpdate(query);
+			String changeStatus = "UPDATE Vehicle SET status = 2 where regNo =" + sellVehicleVO.getRegNo();
+			st.executeUpdate(changeStatus);
+			con.commit();
+			
+			//result = DatabaseConnection.map(resultSet);
+
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			result = false;
+			e.printStackTrace();
+		}
+		finally {
+			DatabaseConnection.close(con);
+		}
+		return result;
+	}
+
+	@Override
+	public boolean updateSellingPrice(SellVehicleVO sellVehicleVO) {
+		boolean result = true;
+		try {
+			con = DatabaseConnection.createConnection();
+			con.setAutoCommit(false);
+			Statement st = con.createStatement();
+			
+			String query = "UPDATE ForSaleVehicles SET price = " + sellVehicleVO.getPrice() + " where regNo =" + sellVehicleVO.getRegNo();
+			System.out.println(query);
+			
+			st.executeUpdate(query);
+			con.commit();
+
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			result = false;
+			e.printStackTrace();
+		}
+		finally {
+			DatabaseConnection.close(con);
+		}
+		return result;
+	
+	}
+	
+	@Override
+	public boolean moveForRent(SellVehicleVO sellVehicleVO) {
+		boolean result = true;
+		try {
+			con = DatabaseConnection.createConnection();
+			con.setAutoCommit(false);
+			Statement st = con.createStatement();
+			
+			String query = "DELETE FROM ForSaleVehicles where regNo =" + sellVehicleVO.getRegNo();
+			System.out.println(query);
+			st.executeUpdate(query);
+			String changeStatus = "UPDATE Vehicle SET status = 0 where regNo =" + sellVehicleVO.getRegNo();
+			st.executeUpdate(changeStatus);
+			con.commit();
+
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			result = false;
+			e.printStackTrace();
+		}
+		finally {
+			DatabaseConnection.close(con);
+		}
+		return result;
+	
+	}
+
+	@Override
+	public void getRentalRate(ManagerHome managerFrame) {
+		// TODO Auto-generated method stub
+	try{	
+		con = DatabaseConnection.createConnection();
+		con.setAutoCommit(false);
+		Statement st = con.createStatement();
+		System.out.println( "------" + managerFrame.getComboBox_1().getSelectedItem());
+		String query = "SELECT * FROM SuperRentRentalRate";
+		resultSet = st.executeQuery(query);
+		System.out.println("In here");
+		managerFrame.getManageRatesPanel().getRentalRateTable().setModel(DbUtils.resultSetToTableModel(resultSet));
+		System.out.println("Working");
+		//result = DatabaseConnection.map(resultSet);
+
+	} catch (ClassNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	finally {
+		DatabaseConnection.close(con);
+	}
+	
+		
+	}
+
+	@Override
+	public void getInsuranceRates(ManagerHome managerFrame) {
+		
+		try{	
+			con = DatabaseConnection.createConnection();
+			con.setAutoCommit(false);
+			Statement st = con.createStatement();
+			
+			String query = "SELECT * FROM SuperRentInsuranceRate";
+			resultSet = st.executeQuery(query);
+			System.out.println("In here");
+			managerFrame.getManageRatesPanel().getInsuranceTable().setModel(DbUtils.resultSetToTableModel(resultSet));
+			System.out.println("Working");
+			//result = DatabaseConnection.map(resultSet);
+
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+			DatabaseConnection.close(con);
+		}
+		
+	}
+
+	@Override
+	public boolean otherRates() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public SuperRent getOtherRates() {
+		// TODO Auto-generated method stub
+		SuperRent superRent = new SuperRent();
+		try{	
+			con = DatabaseConnection.createConnection();
+			con.setAutoCommit(false);
+			Statement st = con.createStatement();
+			
+			String query = "SELECT * FROM SuperRent";
+			resultSet = st.executeQuery(query);
+			System.out.println("In here");
+			while (resultSet.next()) {
+	           
+	            superRent.setMembershipFees(resultSet.getDouble("membershipFees"));
+				superRent.setTax(resultSet.getDouble("tax"));
+				superRent.setFuelRate(resultSet.getDouble(("fuelRate")));
+	        }
+			
+			System.out.println("Working");
+			//result = DatabaseConnection.map(resultSet);
+
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+			DatabaseConnection.close(con);
+		}
+		
+		
+		return superRent;
+		
+		
+	}
+
+	@Override
+	public boolean saveOtherRates(SuperRent superRent) {
+		boolean result = true;
+		try {
+			con = DatabaseConnection.createConnection();
+			con.setAutoCommit(false);
+			Statement st = con.createStatement();
+			
+			String query = "UPDATE SuperRent SET tax = " + superRent.getTax() + ", membershipFees = " + superRent.getMembershipFees()
+								+ ", fuelRate = "+ superRent.getFuelRate() + " where branchId =" + 1;
+			System.out.println(query);
+			
+			st.executeUpdate(query);
+			con.commit();
+
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			result = false;
+			e.printStackTrace();
+		}
+		finally {
+			DatabaseConnection.close(con);
+		}
+		return result;
+	
 	}
 }

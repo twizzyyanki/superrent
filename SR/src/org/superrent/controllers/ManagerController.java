@@ -12,6 +12,9 @@ import javax.swing.JDialog;
 import org.superrent.daos.IManagerDao;
 import org.superrent.daos.ManagerDaoImpl;
 import org.superrent.entities.SellVehicleVO;
+import org.superrent.entities.SuperRent;
+import org.superrent.entities.SuperRentInsuranceRate;
+import org.superrent.entities.SuperRentRentalRate;
 import org.superrent.entities.VehicleVO;
 import org.superrent.views.manager.FailureDialog;
 import org.superrent.views.manager.ManagerHome;
@@ -29,7 +32,7 @@ public class ManagerController implements ActionListener {
 
 	}
 
-	//@Override
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		System.out.println(e.getActionCommand());
@@ -92,8 +95,21 @@ public class ManagerController implements ActionListener {
 
 		} else if (e.getActionCommand().equals("Change Rates")) {
 			disablePanels();
+			SuperRent superRent = new SuperRent();
 			managerFrame.getManageRatesPanel().setEnabled(true);
 			managerFrame.getManageRatesPanel().setVisible(true);
+			managerDao.getRentalRate(managerFrame);
+			getRentalRates();
+			getInsuranceRates();
+			managerDao.getInsuranceRates(managerFrame);
+			superRent = managerDao.getOtherRates();
+			assembleOtherRates(superRent);
+			/*managerFrame.getManageRatesPanel().setMembershipTxtField(String.valueOf(superRent.getMembershipFees()));
+			managerFrame.getManageRatesPanel().setTaxField(String.valueOf(superRent.getTax()));
+			managerFrame.getManageRatesPanel().setMemPointsTxt(String.valueOf(superRent.getMembershipPoints()));
+			managerFrame.getManageRatesPanel().setFuelRateTxt(String.valueOf(superRent.getFuelRate()));
+			*/
+			managerFrame.getManageRatesPanel().getRentalratePanel().revalidate();
 
 		} else if (e.getActionCommand().equals("Sell Vehicle")) {
 			getVehicleForSelling(managerFrame);
@@ -169,16 +185,42 @@ public class ManagerController implements ActionListener {
 		
 		
 		else if (e.getActionCommand().equals("Sell")) {
-
+			SellVehicleVO sellVehicleVO = new SellVehicleVO();
 			int row = managerFrame.getSellVehicleListPanel().getSellTable()
 					.getSelectedRow();
 			if (row != -1) {
-				String regNumber = (String) managerFrame
+				sellVehicleVO.setRegNo(managerFrame
 						.getSellVehicleListPanel().getSellTable().getModel()
-						.getValueAt(row, 0);
-				System.out
-						.println("Delete entry in vehicle and vehicle for sale table"
-								+ row + "---" + regNumber);
+						.getValueAt(row, 0).toString());
+				boolean result = managerDao.vehicleSold(sellVehicleVO);
+				
+				if (result) {
+
+					SuccessDialog dialog = new SuccessDialog();
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setLocation(
+							(Toolkit.getDefaultToolkit().getScreenSize().width) / 2
+									- dialog.getWidth() / 2, (Toolkit
+									.getDefaultToolkit().getScreenSize().height)
+									/ 2 - dialog.getHeight() / 2);
+					getVehicle(managerFrame);
+					dialog.setVisible(true);
+					managerDao.getVehiclesForSelling(managerFrame);
+					
+
+				} else {
+
+					FailureDialog dialog = new FailureDialog();
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setLocation(
+							(Toolkit.getDefaultToolkit().getScreenSize().width) / 2
+									- dialog.getWidth() / 2, (Toolkit
+									.getDefaultToolkit().getScreenSize().height)
+									/ 2 - dialog.getHeight() / 2);
+					dialog.setVisible(true);
+
+				}
+				
 			}
 
 		} else if (e.getActionCommand().equals("Update")) {
@@ -249,7 +291,191 @@ public class ManagerController implements ActionListener {
 			}
 			
 		}
+		
+		else if (e.getActionCommand().equals("Change Price")) {
+			
+			
+			
+			//EditVehicleInfoDialog.getAddVehiclePanel().setRegNumberTxt(managerFrame.getSearchVehicleListPanel().getSearchtable().getSelectedRow());
+			int row =managerFrame.getSellVehicleListPanel().getSellTable().getSelectedRow();
+			if (row != -1) {
+				managerFrame.getEditForSalePriceDialog().setRegisterNumber((String) managerFrame
+						.getSellVehicleListPanel().getSellTable().getModel()
+						.getValueAt(row, 0).toString());
+				managerFrame.getEditForSalePriceDialog().setPrice((String) managerFrame
+						.getSellVehicleListPanel().getSellTable().getModel()
+						.getValueAt(row, 1).toString());
+				managerFrame.getEditForSalePriceDialog().setVisible(true);
+				
+			}
+			
+		} else if (e.getActionCommand().equals("Confirm Change")) {
+			SellVehicleVO sellVehicleVO = new SellVehicleVO();
+			sellVehicleVO.setRegNo(managerFrame.getEditForSalePriceDialog().getRegisterNumber());
+			sellVehicleVO.setPrice(managerFrame.getEditForSalePriceDialog().getPrice());
+			
+			boolean result = managerDao.updateSellingPrice(sellVehicleVO);
+			
+			if (result) {
 
+				SuccessDialog dialog = new SuccessDialog();
+				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+				dialog.setLocation(
+						(Toolkit.getDefaultToolkit().getScreenSize().width) / 2
+								- dialog.getWidth() / 2, (Toolkit
+								.getDefaultToolkit().getScreenSize().height)
+								/ 2 - dialog.getHeight() / 2);
+				getVehicle(managerFrame);
+				dialog.setVisible(true);
+				managerDao.getVehiclesForSelling(managerFrame);
+				managerFrame.getEditForSalePriceDialog().dispose();
+				
+
+			} else {
+
+				FailureDialog dialog = new FailureDialog();
+				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+				dialog.setLocation(
+						(Toolkit.getDefaultToolkit().getScreenSize().width) / 2
+								- dialog.getWidth() / 2, (Toolkit
+								.getDefaultToolkit().getScreenSize().height)
+								/ 2 - dialog.getHeight() / 2);
+				dialog.setVisible(true);
+
+			}
+			
+			
+		}
+		
+		else if (e.getActionCommand().equals("To-Rent")) {
+			
+			
+			SellVehicleVO sellVehicleVO = new SellVehicleVO();
+			//EditVehicleInfoDialog.getAddVehiclePanel().setRegNumberTxt(managerFrame.getSearchVehicleListPanel().getSearchtable().getSelectedRow());
+			int row =managerFrame.getSellVehicleListPanel().getSellTable().getSelectedRow();
+			if (row != -1) {
+				sellVehicleVO.setRegNo((String) managerFrame
+						.getSellVehicleListPanel().getSellTable().getModel()
+						.getValueAt(row, 0).toString());
+				boolean result = managerDao.moveForRent(sellVehicleVO);
+				
+				if (result) {
+
+					SuccessDialog dialog = new SuccessDialog();
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setLocation(
+							(Toolkit.getDefaultToolkit().getScreenSize().width) / 2
+									- dialog.getWidth() / 2, (Toolkit
+									.getDefaultToolkit().getScreenSize().height)
+									/ 2 - dialog.getHeight() / 2);
+					getVehicle(managerFrame);
+					dialog.setVisible(true);
+					managerDao.getVehiclesForSelling(managerFrame);
+					
+					
+
+				} else {
+
+					FailureDialog dialog = new FailureDialog();
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setLocation(
+							(Toolkit.getDefaultToolkit().getScreenSize().width) / 2
+									- dialog.getWidth() / 2, (Toolkit
+									.getDefaultToolkit().getScreenSize().height)
+									/ 2 - dialog.getHeight() / 2);
+					dialog.setVisible(true);
+
+				}
+								
+			}
+		}else if (e.getActionCommand().equals("Edit Insurance Rate")) {
+			
+			SuperRentInsuranceRate superRentInsuranceRate = new SuperRentInsuranceRate();
+			saveInsuranceRate(superRentInsuranceRate);
+			
+		}else if (e.getActionCommand().equals("Save Other Rates")) {
+			
+			SuperRent superRent = new SuperRent();
+			saveOtherRates(superRent);
+			
+			
+		}else if (e.getActionCommand().equals("rentalRateSaveEdit")) {
+			
+			int row = managerFrame.getManageRatesPanel().getRentalRateTable().getSelectedRow();
+			SuperRentRentalRate superRentRentalRate = new SuperRentRentalRate();
+			if(row != -1){
+				
+			}
+			
+		}	
+	}
+	public void getInsuranceRates() {
+		
+		managerDao.getInsuranceRates(managerFrame);
+		
+	}
+
+	public void getRentalRates() {
+	
+		managerDao.getRentalRate(managerFrame);
+			
+	}
+
+	private void saveInsuranceRate(SuperRentInsuranceRate superRentInsuranceRate) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void assembleOtherRates(SuperRent superRent) {
+		
+		managerFrame.getManageRatesPanel().setMembershipTxtField(String.valueOf(superRent.getMembershipFees()));
+		managerFrame.getManageRatesPanel().setTaxField(String.valueOf(superRent.getTax()));
+		managerFrame.getManageRatesPanel().setMemPointsTxt(String.valueOf(superRent.getMembershipPoints()));
+		managerFrame.getManageRatesPanel().setFuelRateTxt(String.valueOf(superRent.getFuelRate()));
+		
+	}
+	
+	private void saveOtherRates(SuperRent superRent) {
+		if(!managerFrame.getManageRatesPanel().getMembershipTxtField().equalsIgnoreCase(null)){
+			superRent.setMembershipFees(Double.parseDouble(managerFrame.getManageRatesPanel().getMembershipTxtField()));
+		}
+		if(!managerFrame.getManageRatesPanel().getMemPointsTxt().equalsIgnoreCase(null)){
+			superRent.setTax(Double.parseDouble(managerFrame.getManageRatesPanel().getTaxField()));
+		}
+		if(!managerFrame.getManageRatesPanel().getFuelRateTxt().equalsIgnoreCase(null)){
+			superRent.setFuelRate(Double.parseDouble(managerFrame.getManageRatesPanel().getFuelRateTxt()));
+		}
+		
+		
+		
+		boolean result = managerDao.saveOtherRates(superRent);
+		
+		if (result) {
+
+			SuccessDialog dialog = new SuccessDialog();
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setLocation(
+					(Toolkit.getDefaultToolkit().getScreenSize().width) / 2
+							- dialog.getWidth() / 2, (Toolkit
+							.getDefaultToolkit().getScreenSize().height)
+							/ 2 - dialog.getHeight() / 2);		
+			dialog.setVisible(true);
+			assembleOtherRates(superRent);;
+
+		} else {
+
+			FailureDialog dialog = new FailureDialog();
+			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			dialog.setLocation(
+					(Toolkit.getDefaultToolkit().getScreenSize().width) / 2
+							- dialog.getWidth() / 2, (Toolkit
+							.getDefaultToolkit().getScreenSize().height)
+							/ 2 - dialog.getHeight() / 2);
+			dialog.setVisible(true);
+			
+
+		}
+	
 	}
 
 	private void disablePanels() {
@@ -265,7 +491,7 @@ public class ManagerController implements ActionListener {
 
 	}
 
-	private void getVehicleForSelling(ManagerHome managerFrame2) {
+	public void getVehicleForSelling(ManagerHome managerFrame2) {
 		// TODO Auto-generated method stub
 		managerDao.getVehiclesForSelling(managerFrame);
 

@@ -22,6 +22,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 import com.toedter.calendar.JCalendar;
 import java.awt.Component;
+import com.toedter.calendar.JDateChooser;
 
 public class AddVehiclePanel extends JPanel implements ActionListener {
 	/**
@@ -39,9 +40,9 @@ public class AddVehiclePanel extends JPanel implements ActionListener {
 
 
 	private final JLabel lblPurchaseDate = new JLabel("Purchase Date");
-	private JCalendar calendar = new JCalendar();
+	private JDateChooser calendar = new JDateChooser();
 
-	public JCalendar getCalendar() {
+	public JDateChooser getCalendar() {
 		return calendar;
 	}
 
@@ -64,7 +65,7 @@ public class AddVehiclePanel extends JPanel implements ActionListener {
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(104dlu;default)"),
+				ColumnSpec.decode("max(76dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -83,7 +84,7 @@ public class AddVehiclePanel extends JPanel implements ActionListener {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("max(75dlu;default)"),
+				RowSpec.decode("max(14dlu;default)"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
@@ -130,9 +131,6 @@ public class AddVehiclePanel extends JPanel implements ActionListener {
 		brandTxt.setColumns(10);
 		
 		add(lblPurchaseDate, "10, 14");
-		calendar.setAlignmentY(Component.TOP_ALIGNMENT);
-		calendar.setAlignmentX(Component.LEFT_ALIGNMENT);
-		calendar.setLocale(Locale.US);
 		
 		add(calendar, "14, 14, fill, fill");
 		
@@ -157,7 +155,7 @@ public class AddVehiclePanel extends JPanel implements ActionListener {
 		this.calendar.setDate(date);
 	}
 
-	//@Override
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		String item = (String)categoryCombox.getSelectedItem();
 		if(item.equalsIgnoreCase("CAR")){
@@ -180,7 +178,7 @@ public class AddVehiclePanel extends JPanel implements ActionListener {
 		brandTxt.setText("");		
 		categoryCombox.setSelectedIndex(0);
 		typeCombox.setSelectedIndex(0);
-		calendar = new JCalendar();
+		calendar = new JDateChooser();
 	}
 	
 	public String getRegNumberTxt() {

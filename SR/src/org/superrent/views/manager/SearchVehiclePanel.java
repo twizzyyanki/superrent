@@ -9,6 +9,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -28,6 +29,10 @@ public class SearchVehiclePanel extends JPanel implements ActionListener{
 	private JTable searchtable = new JTable();
 	JComboBox<String> categoryCombox = new JComboBox<String>();
 	JComboBox<String> typeCombox = new JComboBox<String>();
+	JYearChooser yearChooser = new JYearChooser();
+	JComboBox<String> statusCombox = new JComboBox<String>();
+
+	
 
 	ManagerController managerController;
 	JButton btnAddForSale = new JButton("Add For Sale");
@@ -55,7 +60,11 @@ public class SearchVehiclePanel extends JPanel implements ActionListener{
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("max(53dlu;default)"),
+				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -109,11 +118,21 @@ public class SearchVehiclePanel extends JPanel implements ActionListener{
 		JLabel lblPurchasedyear = new JLabel("Year Purchased");
 		add(lblPurchasedyear, "16, 4, right, default");
 		
-		JYearChooser yearChooser = new JYearChooser();
+		
+		JSpinner spinner = (JSpinner) yearChooser.getSpinner();
+		((javax.swing.JTextField)spinner.getEditor()).setEditable(false);
+		
 		add(yearChooser, "18, 4, left, fill");
 		
+		JLabel lblStatus = new JLabel("Status");
+		add(lblStatus, "20, 4, right, default");
+		
+		
+		statusCombox.setModel(new DefaultComboBoxModel(new String[] {"ALL", "FOR-RENT", "FOR-SALE", "SOLD"}));
+		add(statusCombox, "22, 4, fill, default");
+		
 		JButton btnSearch = new JButton("Search");
-		add(btnSearch, "20, 4, right, default");
+		add(btnSearch, "24, 4, right, default");
 		btnSearch.addActionListener(managerController);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -143,7 +162,7 @@ public class SearchVehiclePanel extends JPanel implements ActionListener{
 
 	}
 
-	//@Override
+	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		String item = (String)categoryCombox.getSelectedItem();
 		if(item.equalsIgnoreCase("CAR")){
@@ -187,6 +206,22 @@ public class SearchVehiclePanel extends JPanel implements ActionListener{
 
 	public void setTypeCombox(JComboBox<String> typeCombox) {
 		this.typeCombox = typeCombox;
+	}
+	
+	public JYearChooser getYearChooser() {
+		return yearChooser;
+	}
+
+	public void setYearChooser(JYearChooser yearChooser) {
+		this.yearChooser = yearChooser;
+	}
+
+	public JComboBox<String> getStatusCombox() {
+		return statusCombox;
+	}
+
+	public void setStatusCombox(JComboBox<String> statusCombox) {
+		this.statusCombox = statusCombox;
 	}
 
 }
