@@ -5,23 +5,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JDialog;
-import javax.swing.JPanel;
-
-
-
-
-
-
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import org.superrent.daos.ClubMemberDAO;
+
+
+import org.superrent.views.general.Login;
 import org.superrent.views.general.MakeReservationPage;
 import org.superrent.views.general.ReservationPanel;
 import org.superrent.views.general.ReservationSuccessDialog;
 import org.superrent.views.general.SearchVReservationPanel;
 
-import com.sun.media.sound.Toolkit;
+
 
 
 
@@ -29,6 +24,8 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 	private final MakeReservationPage reservationPage;
 	private SearchVReservationPanel  sVRPanel;
 	private ReservationPanel reservationPanel;
+	private ReservationSuccessDialog dialog;
+	
 	public MakeReservationController(MakeReservationPage reservationPage){
 		this.reservationPage = reservationPage;
 		
@@ -62,6 +59,7 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 			sVRPanel.getLblSearchInfo().setForeground(Color.black);
 			sVRPanel.getLblSearchInfo().setText("");
 			
+			// check Date field is valid or not 
 			if(sVRPanel.getDateChooserPick().getDate()!=null && sVRPanel.getDateChooserReturn().getDate()!=null){
 				java.util.Date utilPickUpDate = sVRPanel.getDateChooserPick().getDate();
 				java.sql.Date datePickUpDate = new java.sql.Date(utilPickUpDate.getTime());
@@ -82,17 +80,33 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 		}
 		
 		if(e.getActionCommand().equals("Clubmember Reserve")){
-			ReservationSuccessDialog dialog = new ReservationSuccessDialog();
+			dialog = new ReservationSuccessDialog(this);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
+			reservationPage.dispose();
 		}
 		
 		if(e.getActionCommand().equals("Guest Reserve")){
-			ReservationSuccessDialog dialog = new ReservationSuccessDialog();
+			dialog = new ReservationSuccessDialog(this);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
+			reservationPage.dispose();
+			reservationPage.dispose();
 		}
 		
+		if(e.getActionCommand().equals("Login Page")){
+			Login loginPageLogin = new Login();
+			loginPageLogin.setVisible(true);
+			reservationPage.dispose();
+			
+		}
+		
+		if(e.getActionCommand().equals("OK")){
+			Login loginPageLogin = new Login();
+			loginPageLogin.setVisible(true);
+			dialog.dispose();
+			reservationPage.dispose();
+		}
 		
 	}
 

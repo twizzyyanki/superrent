@@ -9,33 +9,29 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
+
 import javax.swing.JLabel;
 
-public class ReservationSuccessDialog extends JDialog implements ActionListener{
+import org.superrent.controllers.MakeReservationController;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 
+public class ReservationSuccessDialog extends JDialog{
+	private MakeReservationController mrc;
 	private final JPanel contentPanel = new JPanel();
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			ReservationSuccessDialog dialog = new ReservationSuccessDialog();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
 	/**
 	 * Create the dialog.
 	 */
-	public ReservationSuccessDialog() {
+	public ReservationSuccessDialog(MakeReservationController mrc) {
+		this.mrc = mrc;
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -81,30 +77,27 @@ public class ReservationSuccessDialog extends JDialog implements ActionListener{
 		{
 			JPanel buttonPane = new JPanel();
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-			buttonPane.setLayout(new FormLayout(new ColumnSpec[] {
-					ColumnSpec.decode("309px"),
-					ColumnSpec.decode("59px"),
-					FormFactory.RELATED_GAP_COLSPEC,
-					FormFactory.DEFAULT_COLSPEC,
-					FormFactory.RELATED_GAP_COLSPEC,
-					FormFactory.DEFAULT_COLSPEC,},
-				new RowSpec[] {
-					FormFactory.RELATED_GAP_ROWSPEC,
-					FormFactory.DEFAULT_ROWSPEC,}));
+			GridBagLayout gbl_buttonPane = new GridBagLayout();
+			gbl_buttonPane.columnWidths = new int[]{134, 54, 0, 0, 0};
+			gbl_buttonPane.rowHeights = new int[]{31, 0, 23, 0};
+			gbl_buttonPane.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+			gbl_buttonPane.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+			buttonPane.setLayout(gbl_buttonPane);
 			{
 				JButton okButton = new JButton("OK");
 				okButton.setActionCommand("OK");
-				buttonPane.add(okButton, "2, 2, center, top");
-				okButton.addActionListener(this);
+				GridBagConstraints gbc_okButton = new GridBagConstraints();
+				gbc_okButton.insets = new Insets(0, 0, 5, 5);
+				gbc_okButton.anchor = GridBagConstraints.NORTH;
+				gbc_okButton.fill = GridBagConstraints.HORIZONTAL;
+				gbc_okButton.gridx = 2;
+				gbc_okButton.gridy = 1;
+				buttonPane.add(okButton, gbc_okButton);
+				okButton.addActionListener(this.mrc);
 				getRootPane().setDefaultButton(okButton);
 			}
 		}
 	}
 
-	//@Override
-	public void actionPerformed(ActionEvent e) {
-		this.dispose();
-		
-	}
 
 }

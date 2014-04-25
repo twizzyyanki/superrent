@@ -103,10 +103,11 @@ public class MakeReservationPage extends JFrame {
 		JButton searchVbtn = new JButton("Home Page");
 		panelNorth.add(searchVbtn, "2, 2");
 		searchVbtn.setActionCommand("Home Page");
+		searchVbtn.addActionListener(mrc);
 		
 		JButton btnLoginPage = new JButton("Login Page");
 		panelNorth.add(btnLoginPage, "4, 2");
-		searchVbtn.addActionListener(mrc);
+		btnLoginPage.addActionListener(mrc);
 		
 		JPanel panelEast = new JPanel();
 		contentPane.add(panelEast, BorderLayout.EAST);
@@ -137,6 +138,5 @@ public class MakeReservationPage extends JFrame {
 		contentPane.add(panelCenter, BorderLayout.CENTER);
 		return panelCenter;
 	}
-
 
 }

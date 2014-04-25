@@ -120,7 +120,7 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 		add(LocationBox, "6, 8, fill, default");
 		
 		btnSearch = new JButton("Search");
-		btnSearch.addActionListener(mrc);
+		btnSearch.addActionListener(this.mrc);
 		add(btnSearch, "12, 8");
 		
 		lblSearchInfo = new JLabel("");
@@ -140,11 +140,11 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 				"Location", "Category", "Type", "Rate"
 			}
 		));
-		searchTable.getSelectionModel().addListSelectionListener(mrc);
+		searchTable.getSelectionModel().addListSelectionListener(this.mrc);
 		scrollPane.setViewportView(searchTable);
 		
 		btnReserve = new JButton("Reserve");
-		btnReserve.addActionListener(mrc);
+		btnReserve.addActionListener(this.mrc);
 		btnReserve.setEnabled(false);
 		JLabel lblEquip = new JLabel("Add additional equipment");
 		lblEquip.setToolTipText("Please select vehicle first");
