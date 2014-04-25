@@ -63,7 +63,7 @@ public class ManagerHome extends JFrame {
 	 */
 	public ManagerHome() {
 		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 874, 601);
 
 		JMenuBar menuBar = new JMenuBar();
