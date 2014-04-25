@@ -2,18 +2,16 @@ package org.superrent.daos;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.HashMap;
 import java.util.UUID;
 
 import org.superrent.application.DatabaseConnection;
 import org.superrent.application.LoggedInUser;
 import org.superrent.entities.RegUser;
 import org.superrent.entities.User;
+
+import java.sql.PreparedStatement;
 
 public class UserDAO {
 
@@ -28,19 +26,17 @@ public class UserDAO {
 		try {
 			connection = DatabaseConnection.createConnection();
 			System.out.println(connection.toString());
-			Statement st = connection.createStatement();
-			String query = "SELECT * FROM RegUser WHERE username='" + username
-					+ "' AND password='" + password + "'";
-			System.out.println("query is: " + query);
-			regUser = st.executeQuery(query);
+			PreparedStatement st = connection
+					.prepareStatement("SELECT * FROM RegUser WHERE username = ? AND password= ?");
+			st.setString(1, username);
+			st.setString(2, password);
+			regUser = st.executeQuery();
 
 			if (regUser != null) {
 				while (regUser.next()) {
 
 					uid = regUser.getInt("uid");
 					System.out.println("Setting uid to " + uid);
-					// user = st.executeQuery("SELECT * FROM User WHERE uid = "
-					// + uid);
 				}
 				LoggedInUser.setUserId(String.valueOf(uid));
 				System.out.println("User id is now set to"
@@ -63,11 +59,10 @@ public class UserDAO {
 			try {
 				connection = DatabaseConnection.createConnection();
 				System.out.println(connection.toString());
-				Statement st = connection.createStatement();
-				String query = "SELECT * FROM User WHERE uid = " + uid;
-				System.out.println("query is: " + query);
-				user = st.executeQuery(query);
-				user = st.executeQuery("SELECT * FROM User WHERE uid = " + uid);
+				PreparedStatement st = connection
+						.prepareStatement("SELECT * FROM User WHERE uid = ?");
+				st.setInt(1, uid);
+				user = st.executeQuery();
 				mm = DatabaseConnection.map(user);
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -87,10 +82,10 @@ public class UserDAO {
 		try {
 			connection = DatabaseConnection.createConnection();
 			System.out.println(connection.toString());
-			Statement st = connection.createStatement();
-			String query = "SELECT * FROM User WHERE email='" + email + "'";
-			System.out.println("query is: " + query);
-			user = st.executeQuery(query);
+			PreparedStatement st = connection
+					.prepareStatement("SELECT * FROM User WHERE email= ?");
+			st.setString(1, email);
+			user = st.executeQuery();
 
 			if (user != null) {
 				while (user.next()) {
@@ -98,8 +93,6 @@ public class UserDAO {
 					u.setEmail(user.getString("email"));
 					u.setName(user.getString("name"));
 					u.setRegUser(findRegUserByUid(u.getUid()));
-					// user = st.executeQuery("SELECT * FROM User WHERE uid = "
-					// + uid);
 				}
 			} else {
 				System.out
@@ -120,18 +113,17 @@ public class UserDAO {
 
 	public static String changePassword(User u) {
 		Connection connection = null;
-		String pass = UUID.randomUUID().toString().substring(0,5);
+		String pass = UUID.randomUUID().toString().substring(0, 5);
 		System.out.println("uuid = " + pass);
 		String newPass = org.apache.commons.codec.digest.DigestUtils
 				.md5Hex(pass);
 		try {
 			connection = DatabaseConnection.createConnection();
-			System.out.println(connection.toString());
-			Statement st = connection.createStatement();
-			String query = "UPDATE RegUser SET password = '" + newPass
-					+ "' WHERE uid = " + u.getUid();
-			System.out.println("query is: " + query);
-			int affectedRow = st.executeUpdate(query);
+			PreparedStatement st = connection
+					.prepareStatement("UPDATE RegUser SET password = ? WHERE uid = ?");
+			st.setString(1, newPass);
+			st.setInt(2, u.getUid());
+			int affectedRow = st.executeUpdate();
 
 			if (affectedRow != 1) {
 				System.out
@@ -146,7 +138,7 @@ public class UserDAO {
 		}
 		return pass;
 	}
-	
+
 	public static RegUser findRegUserByUid(int uid) {
 		Connection connection = null;
 		ResultSet user = null;
@@ -154,26 +146,22 @@ public class UserDAO {
 		try {
 			connection = DatabaseConnection.createConnection();
 			System.out.println(connection.toString());
-			Statement st = connection.createStatement();
-			String query = "SELECT * FROM RegUser WHERE uid=" + uid;
-			System.out.println("query is: " + query);
-			user = st.executeQuery(query);
+			PreparedStatement st = connection
+					.prepareStatement("SELECT * FROM RegUser WHERE uid=?");
+			st.setInt(1, uid);
+			user = st.executeQuery();
 
 			if (user != null) {
 				while (user.next()) {
-				//	u.setUid(user.getInt("uid"));
 					u.setUsername(user.getString("username"));
 					u.setPassword(user.getString("password"));
 					u.setDatecreated(user.getDate("datecreated"));
-					// user = st.executeQuery("SELECT * FROM User WHERE uid = "
-					// + uid);
 				}
 			} else {
 				System.out
 						.println("Resultset is null and this is how you want fddfd it");
 			}
 		} catch (Exception e) {
-			// DatabaseConnection.rollback(connection);
 			e.printStackTrace();
 		} finally {
 			DatabaseConnection.close(connection);
