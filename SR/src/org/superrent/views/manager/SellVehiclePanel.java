@@ -14,6 +14,10 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 public class SellVehiclePanel extends JPanel{
 	/**
 	 * 
@@ -30,6 +34,18 @@ public class SellVehiclePanel extends JPanel{
 	public SellVehiclePanel(ManagerController managerController) {
 		this.managerController = managerController;
 		setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -67,10 +83,11 @@ public class SellVehiclePanel extends JPanel{
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
 		JLabel label = new JLabel("Sell Vehicle List");
+		label.setFont(new Font("Tahoma", Font.BOLD, 15));
 		add(label, "10, 6, center, default");
 		
 		JScrollPane scrollPane = new JScrollPane();
-		add(scrollPane, "2, 10, 19, 1, fill, fill");
+		add(scrollPane, "2, 10, 31, 1, fill, fill");
 		
 		sellTable = new JTable();
 		scrollPane.setViewportView(sellTable);
@@ -78,20 +95,24 @@ public class SellVehiclePanel extends JPanel{
 			new Object[][] {
 			},
 			new String[] {
-				"New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column"
+				"Register Number", "Selling Price", "For Sale From"
 			}
 		));
+		sellTable.getColumnModel().getColumn(0).setPreferredWidth(107);
+		sellTable.getColumnModel().getColumn(2).setPreferredWidth(88);
 		
-		JButton btnEditSellingPrice = new JButton("Edit");
-		add(btnEditSellingPrice, "8, 12");
+		JButton btnEditSellingPrice = new JButton("Change Price");
+		add(btnEditSellingPrice, "14, 12");
+		btnEditSellingPrice.addActionListener(managerController);
 		
 		
-		add(btnSellVehicle, "10, 12, center, default");
-		
-		JButton btnTorent = new JButton("To-Rent");
-		add(btnTorent, "12, 12");
+		add(btnSellVehicle, "16, 12, center, default");
 		
 		btnSellVehicle.addActionListener(managerController);
+		
+		JButton btnTorent = new JButton("To-Rent");
+		add(btnTorent, "18, 12");
+		btnTorent.addActionListener(managerController);
 
 	}
 	
@@ -102,6 +123,7 @@ public class SellVehiclePanel extends JPanel{
 	public void setSellTable(JTable sellTable) {
 		this.sellTable = sellTable;
 	}
+
 
 	
 }

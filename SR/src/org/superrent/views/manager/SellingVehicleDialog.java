@@ -5,7 +5,6 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
@@ -29,12 +28,12 @@ public class SellingVehicleDialog extends JDialog implements ActionListener{
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField regNumberTxt;
-	private JTextField brandTxt;
 	private JTextField price;
+	ManagerController managerController;
+	JButton okButton = new JButton("Ok");
+	private JTextField brandTxt;
 	JComboBox<String> categoryCombox = new JComboBox<String>();
 	JComboBox<String> typeCombox = new JComboBox<String>();
-	ManagerController managerController;
-
 	
 	/**
 	 * Create the dialog.
@@ -73,6 +72,12 @@ public class SellingVehicleDialog extends JDialog implements ActionListener{
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		{
 			JLabel lblNewLabel = new JLabel("For Sale");
@@ -91,21 +96,21 @@ public class SellingVehicleDialog extends JDialog implements ActionListener{
 		}
 		{
 			JLabel lblCategory = new JLabel("Category");
-			contentPanel.add(lblCategory, "1, 10, right, center");
+			contentPanel.add(lblCategory, "1, 10, right, default");
 		}
 		{
-			typeCombox.setModel(new DefaultComboBoxModel<String>(new String[] {"ECONOMY", "COMPACT", "MID-SIZE", "STANDARD", "FULL-SIZE", "PREMIUM", "LUXURY", "SUV", "VAN", "24-FOOT", "15-FOOT", "12-FOOT", "BOX TRUCK", "CARGO VAN"}));
-			typeCombox.setEnabled(false);
-			contentPanel.add(typeCombox, "4, 10, fill, default");
-		}
-		{
-			JLabel lblNewLabel_1 = new JLabel("Type");
-			contentPanel.add(lblNewLabel_1, "1, 12, right, default");
-		}
-		{
-			categoryCombox.setModel(new DefaultComboBoxModel<String>(new String[] {"CAR", "TRUCK"}));
+			
 			categoryCombox.setEnabled(false);
-			contentPanel.add(categoryCombox, "4, 12, fill, default");
+			contentPanel.add(categoryCombox, "4, 10, fill, default");
+		}
+		{
+			JLabel lblType = new JLabel("Type");
+			contentPanel.add(lblType, "1, 12, right, default");
+		}
+		{
+			
+			typeCombox.setEnabled(false);
+			contentPanel.add(typeCombox, "4, 12, fill, default");
 		}
 		{
 			JLabel lblBrand = new JLabel("Brand");
@@ -113,9 +118,9 @@ public class SellingVehicleDialog extends JDialog implements ActionListener{
 		}
 		{
 			brandTxt = new JTextField();
+			brandTxt.setEnabled(false);
 			contentPanel.add(brandTxt, "4, 14, fill, default");
 			brandTxt.setColumns(10);
-			brandTxt.setEnabled(false);
 		}
 		{
 			JLabel lblForSalePrice = new JLabel("For Sale Price");
@@ -131,10 +136,10 @@ public class SellingVehicleDialog extends JDialog implements ActionListener{
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, "1, 2, fill, top");
 			{
-				JButton okButton = new JButton("OK");
+				
 				okButton.addActionListener(managerController);
 					
-				okButton.setActionCommand("OK");
+				okButton.setActionCommand("Done");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
@@ -148,38 +153,18 @@ public class SellingVehicleDialog extends JDialog implements ActionListener{
 	}
 
 
-	//@Override
+	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		this.dispose();
 	}
 	
-	public JComboBox<String> getCategoryCombox() {
-		return categoryCombox;
-	}
-
-	public void setCategoryCombox(String categoryCombox) {
-		this.categoryCombox.setSelectedItem(categoryCombox);
-	}
-
-	public JComboBox<String> getTypeCombox() {
-		return typeCombox;
-	}
-
-	public void setTypeCombox(String typeCombox) {
-		this.typeCombox.setSelectedItem(typeCombox);
-	}
+	
 	
 	public String getRegNumberTxt() {
 		return regNumberTxt.getText();
 	}
 
-	public String getBrandTxt() {
-		return brandTxt.getText();
-	}
-
-	public void setBrandTxt(String brandTxt) {
-		this.brandTxt.setText(brandTxt);
-	}
+	
 
 	public void setRegNumberTxt(String regNumberTxt) {
 		this.regNumberTxt.setText(regNumberTxt);
@@ -193,6 +178,24 @@ public class SellingVehicleDialog extends JDialog implements ActionListener{
 
 	public void setPrice(String price) {
 		this.price.setText(price);
+	}
+
+
+	public void setCategoryCombox(String string) {
+		this.categoryCombox.setSelectedItem(string);
+		
+	}
+
+
+	public void setTypeCombox(String string) {
+		this.typeCombox.setSelectedItem(string);
+		
+	}
+
+
+	public void setBrandTxt(String string) {
+		this.brandTxt.setText(string);
+		
 	}
 
 }
