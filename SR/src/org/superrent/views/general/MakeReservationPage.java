@@ -53,6 +53,7 @@ public class MakeReservationPage extends JFrame {
 	 */
 	
 	public MakeReservationPage() {
+		setTitle("Reservation");
 		mrc = new MakeReservationController(this);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 874, 601);
@@ -119,6 +120,7 @@ public class MakeReservationPage extends JFrame {
 		panelCenter = new JPanel();
 		contentPane.add(panelCenter, BorderLayout.CENTER);
 	
+		//virtual click home page button
 		searchVbtn.doClick();
 
 	}
