@@ -1,5 +1,6 @@
 package org.superrent.daos;
 
+import java.awt.Color;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,12 +25,13 @@ public class AddUserDAO {
 	private String address;
 	private String email;
 	private AddUserPanel aup;
-	boolean isValid = true;
+	boolean isValid;
 
 	
 	
 	public AddUserDAO (AddUserPanel aup) {
 		this.aup = aup;
+		isValid = true;
 		/* Get data to search from search user panel view */
 		System.out.println("Now, you entered into add user DAO...");
 		type = aup.getInputType();
@@ -68,14 +70,17 @@ public class AddUserDAO {
 			isValid = false;
 			DatabaseConnection.rollback(connection);
 			System.out.println(e.getMessage());
+			aup.getAddUserMessage().setForeground(Color.red);
 			aup.getAddUserMessage().setText(
 					"Operation failed.  "+e.getMessage());
 		} finally {
 			DatabaseConnection.close(connection);
 		}
-		if (isValid)
+		if (isValid) {
 			System.out.println("Successful");
+			aup.getAddUserMessage().setForeground(Color.black);
 			aup.getAddUserMessage().setText(
 				"You successfully add a user.");
+		}
 	}
 }
