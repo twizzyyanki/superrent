@@ -36,7 +36,7 @@ public class LoginController implements ActionListener, DocumentListener {
 	private ManagerHome m;
 	RetrieveLoginDetails jd;
 	private ClerkHome k;
-	static JPanel oldpanel;
+	//static JPanel oldpanel;
 
 	/**
 	 * Returns the privilege of the user that wants to login if the login is
@@ -100,7 +100,7 @@ public class LoginController implements ActionListener, DocumentListener {
 				if (status == 2) {
 					System.out.println("Clerk logging in");
 					ClerkHome k = new ClerkHome();
-					oldpanel = (JPanel) k.getContentPane();
+					//oldpanel = (JPanel) k.getContentPane();
 					k.setLocationRelativeTo(null);
 					k.setVisible(true);
 				}

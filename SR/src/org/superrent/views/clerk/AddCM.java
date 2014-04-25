@@ -10,6 +10,12 @@ import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import org.superrent.controllers.ClerkController;
+import javax.swing.JScrollPane;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.RowSpec;
+import com.jgoodies.forms.factories.FormFactory;
+import javax.swing.ScrollPaneConstants;
 
 
 
@@ -23,7 +29,7 @@ public class AddCM extends JPanel
 	private JTextField textField_1;
 	private JTextField textField_2;
 	JButton btnAddMember;
-	JButton btnGobackToHome;
+	private JScrollPane scrollPane;
 	
 	/**
 	 * Create the panel.
@@ -51,69 +57,47 @@ public class AddCM extends JPanel
 		
 		JLabel label_2 = new JLabel("Adress");
 		
-		btnAddMember = new JButton("Add Member");
+		scrollPane = new JScrollPane(textArea);
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		setLayout(new FormLayout(new ColumnSpec[] {
+				ColumnSpec.decode("31px"),
+				ColumnSpec.decode("70px"),
+				ColumnSpec.decode("36px"),
+				ColumnSpec.decode("93px"),
+				ColumnSpec.decode("151px"),
+				ColumnSpec.decode("2px"),},
+			new RowSpec[] {
+				RowSpec.decode("57px"),
+				RowSpec.decode("20px"),
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("20px"),
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("20px"),
+				RowSpec.decode("23px"),
+				RowSpec.decode("14px"),
+				FormFactory.NARROW_LINE_GAP_ROWSPEC,
+				RowSpec.decode("36px"),
+				RowSpec.decode("21px"),
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				RowSpec.decode("23px"),}));
+		add(label_3, "2, 6, left, center");
+		add(label_1, "2, 4, left, center");
+		add(label, "2, 2, left, center");
+		add(label_2, "2, 8, left, top");
+		add(textField_1, "4, 4, 3, 1, fill, top");
+		add(textField, "4, 2, 3, 1, fill, top");
+		add(textField_2, "4, 6, 3, 1, fill, top");
+		add(scrollPane, "4, 8, 2, 3");
 		
-		btnGobackToHome = new JButton("GoBack to Home");
-		GroupLayout groupLayout = new GroupLayout(this);
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
-					.addGap(31)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(label_3)
-						.addComponent(label_1)
-						.addComponent(label)
-						.addComponent(label_2))
-					.addGap(36)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addComponent(btnAddMember)
-							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-							.addComponent(btnGobackToHome))
-						.addComponent(textField_1)
-						.addComponent(textField, GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
-						.addComponent(textField_2)
-						.addComponent(textArea))
-					.addGap(151))
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(57)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(label)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(label_1)
-						.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(label_3)
-						.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(95)
-							.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(btnAddMember)
-								.addComponent(btnGobackToHome)))
-						.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-							.addComponent(label_2)
-							.addComponent(textArea, GroupLayout.PREFERRED_SIZE, 46, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(87, Short.MAX_VALUE))
-		);
-		setLayout(groupLayout);
+		btnAddMember = new JButton("Add Member");
+		add(btnAddMember, "4, 13, left, top");
 	}
 	public void addmemberActionListener(ClerkController clerk)
 	{
 		btnAddMember.addActionListener(clerk);
 	}
 	
-	public void GoBackHomActionListener(ClerkController clerk)
-	{
-		btnGobackToHome.addActionListener(clerk);
-	}
 	public JTextField getTextField() {
 		return textField;
 	}
