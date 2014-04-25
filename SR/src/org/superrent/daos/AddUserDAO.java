@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.netbeans.validation.api.ui.ValidationGroup;
+import org.netbeans.validation.api.ui.swing.ValidationPanel;
 import org.superrent.application.DatabaseConnection;
 import org.superrent.application.LoggedInUser;
 import org.superrent.views.superadmin.AddUserPanel;
@@ -23,6 +25,7 @@ public class AddUserDAO {
 	private String email;
 	private AddUserPanel aup;
 	boolean isValid = true;
+
 	
 	
 	public AddUserDAO (AddUserPanel aup) {
@@ -72,5 +75,7 @@ public class AddUserDAO {
 		}
 		if (isValid)
 			System.out.println("Successful");
+			aup.getAddUserMessage().setText(
+				"You successfully add a user.");
 	}
 }

@@ -101,7 +101,7 @@ public class ReservationSuccessDialog extends JDialog implements ActionListener{
 		}
 	}
 
-	@Override
+	//@Override
 	public void actionPerformed(ActionEvent e) {
 		this.dispose();
 		

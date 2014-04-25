@@ -14,7 +14,11 @@ import javax.swing.JSpinner;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
+import org.netbeans.validation.api.builtin.stringvalidation.StringValidators;
+import org.netbeans.validation.api.ui.ValidationGroup;
+import org.netbeans.validation.api.ui.swing.ValidationPanel;
 import org.superrent.controllers.SystemAdminController;
+import org.superrent.controllers.ValidateAddUser;
 
 public class AddUserPanel extends JPanel {
 	private SystemAdminController sac;
@@ -26,11 +30,16 @@ public class AddUserPanel extends JPanel {
 	private JComboBox comboBox;
 	private JLabel lblMembershipNumber;
 	private JLabel addUserMessage;
+	private ValidationGroup group;
+	private ValidationPanel xpanel;
+	private JButton btnAdd;
+	private ValidateAddUser va;
 	/**
 	 * Create the panel.
 	 */
 	public AddUserPanel(SystemAdminController sac) {
 		this.sac = sac;
+		va = new ValidateAddUser(this);
 		setLayout(new FormLayout(new ColumnSpec[] {
 				ColumnSpec.decode("40px"),
 				FormFactory.DEFAULT_COLSPEC,
@@ -74,6 +83,7 @@ public class AddUserPanel extends JPanel {
 		textFieldUserName = new JTextField();
 		add(textFieldUserName, "4, 6, left, default");
 		textFieldUserName.setColumns(10);
+		textFieldUserName.getDocument().addDocumentListener(va);
 		
 		JLabel lblPhoneNumber = new JLabel("Phone Number");
 		add(lblPhoneNumber, "2, 8, left, default");
@@ -81,6 +91,7 @@ public class AddUserPanel extends JPanel {
 		textFieldPhoneNumber = new JTextField();
 		add(textFieldPhoneNumber, "4, 8, left, default");
 		textFieldPhoneNumber.setColumns(10);
+		textFieldPhoneNumber.getDocument().addDocumentListener(va);
 		
 		JLabel lblAddress = new JLabel("Address");
 		add(lblAddress, "2, 10, left, default");
@@ -88,6 +99,7 @@ public class AddUserPanel extends JPanel {
 		textFieldAddress = new JTextField();
 		add(textFieldAddress, "4, 10, left, default");
 		textFieldAddress.setColumns(10);
+		textFieldAddress.getDocument().addDocumentListener(va);
 		
 		JLabel lblEmail = new JLabel("Email");
 		add(lblEmail, "2, 12, left, default");
@@ -95,9 +107,11 @@ public class AddUserPanel extends JPanel {
 		textFieldEmail = new JTextField();
 		textFieldEmail.setColumns(10);
 		add(textFieldEmail, "4, 12, left, default");
+		textFieldEmail.getDocument().addDocumentListener(va);
 		
-		JButton btnAdd = new JButton("Add");
+		btnAdd = new JButton("Add");
 		btnAdd.addActionListener(sac);
+		btnAdd.setEnabled(false);
 		
 		lblMembershipNumber = new JLabel("Membership Number");
 		lblMembershipNumber.setVisible(false);
@@ -111,6 +125,16 @@ public class AddUserPanel extends JPanel {
 		
 		addUserMessage = new JLabel("");
 		add(addUserMessage, "2, 18, 3, 1");
+		
+		xpanel = new ValidationPanel();
+		xpanel.setInnerComponent(this);
+		group = xpanel.getValidationGroup();
+		group.add(textFieldUserName, StringValidators.REQUIRE_NON_EMPTY_STRING,
+				StringValidators.NO_WHITESPACE);
+		group.add(textFieldPhoneNumber, StringValidators.REQUIRE_NON_EMPTY_STRING);
+		group.add(textFieldAddress, StringValidators.REQUIRE_NON_EMPTY_STRING);
+		group.add(textFieldEmail, StringValidators.REQUIRE_NON_EMPTY_STRING);
+		xpanel.add(this);
 	}
 
 	public JComboBox getComboBox() {
@@ -152,5 +176,12 @@ public class AddUserPanel extends JPanel {
 	
 	public JLabel getAddUserMessage() {
 		return addUserMessage;
+	}
+	
+	public ValidationGroup getGroup() {
+		return group;
+	}
+	public JButton getBtnAdd() {
+		return btnAdd;
 	}
 }
