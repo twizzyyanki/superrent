@@ -161,6 +161,38 @@ public class UpdateProfileDAO {
 		return success;	
 	}
 	
+	public boolean updatemail(String email){
+		boolean success = false;
+		PreparedStatement  ps;
+		
+		try{
+			String query = "UPDATE User SET email = ? WHERE uid = ?";
+			ps = (PreparedStatement) connection.prepareStatement(query);
+			ps.setInt(2, uid);
+			ps.setString(1, email);
+			int rowCount = ps.executeUpdate();
+			  if (rowCount == 1){
+				  success = true ;
+				  
+			  }
+			  else {
+				  success = false;
+				  
+			  }
+			
+			
+		}catch (Exception e) {
+			DatabaseConnection.rollback(connection);
+			e.printStackTrace();
+		} finally {
+			
+			DatabaseConnection.close(connection);
+			
+		}
+		
+		return success;	
+	}
+	
 	/**
 	 * This method is used to get user's current name
 	 * @return user's name
@@ -225,7 +257,7 @@ public class UpdateProfileDAO {
 		try{
 			ResultSet rs;
 			Statement st = connection.createStatement();
-			String query = "SELECT address FROM User WHERE uid='" + uid +"'";
+			String query = "SELECT address FROM User WHERE uid='" + uid+ "'";
 			rs = st.executeQuery(query);
 			rs.next();
 			address = rs.getString("address");			
@@ -245,19 +277,22 @@ public class UpdateProfileDAO {
 	
 	public String getEmail(){
 		String email="";
-		PreparedStatement  ps;
+		
 		
 		try{
 			
-			String query = "SELECT email FROM User WHERE uid= ? ";
-			ps = (PreparedStatement) connection.prepareStatement(query);
-			ps.setInt(1, uid);
-			ResultSet rs = ps.executeQuery(query );
+			connection.setAutoCommit(false);
+			ResultSet rs;
+			Statement st = connection.createStatement();
+			String query = "SELECT email FROM User WHERE uid='" + uid+ "'";
+			
+			rs = st.executeQuery(query);
 			if(rs.next()){
 				email = rs.getString("email");
+				System.out.println("email"+email);
 			}
 			
-			
+			connection.commit(); 
 		}
 
 		catch (Exception e) {

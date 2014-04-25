@@ -27,7 +27,6 @@ public class UpdateProfile extends JPanel
 	JTextArea textArea;
 	
 	JButton btnUpdate;
-	JButton btnGobackToHome;
 	/**
 	 * Create the panel.
 	 */
@@ -56,12 +55,10 @@ public class UpdateProfile extends JPanel
 		
 		btnUpdate = new JButton("Update");
 		
-		btnGobackToHome = new JButton("GoBack to Home");
-		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(10)
@@ -74,16 +71,13 @@ public class UpdateProfile extends JPanel
 								.addComponent(lblName)
 								.addComponent(lblPhoneNumber))
 							.addGap(42)
-							.addGroup(groupLayout.createParallelGroup(Alignment.LEADING, false)
+							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 								.addComponent(textArea, GroupLayout.PREFERRED_SIZE, 239, GroupLayout.PREFERRED_SIZE)
 								.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 239, GroupLayout.PREFERRED_SIZE)
 								.addComponent(textField, GroupLayout.PREFERRED_SIZE, 239, GroupLayout.PREFERRED_SIZE)
 								.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 239, GroupLayout.PREFERRED_SIZE)
-								.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
-									.addComponent(btnUpdate)
-									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(btnGobackToHome)))))
-					.addContainerGap(160, Short.MAX_VALUE))
+								.addComponent(btnUpdate, Alignment.LEADING))))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -107,15 +101,9 @@ public class UpdateProfile extends JPanel
 						.addComponent(lblAdress)
 						.addComponent(textArea, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE))
 					.addGap(38)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnGobackToHome)
-						.addComponent(btnUpdate))
+					.addComponent(btnUpdate)
 					.addGap(34))
 		);
 		setLayout(groupLayout);
-	}
-	public void goBackHomeActionListener(ClerkController clerk)
-	{
-		btnGobackToHome.addActionListener(clerk);
 	}
 }

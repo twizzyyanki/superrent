@@ -29,7 +29,6 @@ public class RentalAgreement extends JPanel {
 	private JTextField textField_8;
 	private JTextField textField_9;
 	private JTextField textField_10;
-	public JButton btnGobackToHome;
 
 	/**
 	 * Create the panel.
@@ -158,15 +157,8 @@ public class RentalAgreement extends JPanel {
 		add(getTextField_10(), "6, 28, fill, default");
 		getTextField_10().setColumns(10);
 		
-		btnGobackToHome = new JButton("GoBack to Home");
-		add(btnGobackToHome, "6, 34, center, default");
-		
 	}
 
-	public void GoBackHomeActionListener(ClerkController clerk)
-	{
-		btnGobackToHome.addActionListener(clerk);
-	}
 
 	public JTextField getTextField() {
 		return textField;

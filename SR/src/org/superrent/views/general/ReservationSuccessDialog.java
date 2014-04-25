@@ -31,6 +31,7 @@ public class ReservationSuccessDialog extends JDialog{
 	 * Create the dialog.
 	 */
 	public ReservationSuccessDialog(MakeReservationController mrc) {
+		setTitle("Reservation confirmation");
 		this.mrc = mrc;
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(new BorderLayout());
@@ -40,11 +41,13 @@ public class ReservationSuccessDialog extends JDialog{
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
+				ColumnSpec.decode("max(69dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
+				ColumnSpec.decode("max(30dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,},
+				ColumnSpec.decode("max(36dlu;default)"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),},
 			new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
@@ -63,16 +66,32 @@ public class ReservationSuccessDialog extends JDialog{
 			contentPanel.add(lblYourConfirmationNo, "4, 4");
 		}
 		{
+			JLabel lblGetCoNo = new JLabel("");
+			contentPanel.add(lblGetCoNo, "6, 4, 3, 1, left, default");
+		}
+		{
 			JLabel lblPickUpLocation = new JLabel("Pick up location");
 			contentPanel.add(lblPickUpLocation, "4, 6");
+		}
+		{
+			JLabel lblGetLocation = new JLabel("");
+			contentPanel.add(lblGetLocation, "6, 6, 3, 1");
 		}
 		{
 			JLabel lblPickUpDate = new JLabel("Pick Up Date:");
 			contentPanel.add(lblPickUpDate, "4, 8");
 		}
 		{
+			JLabel lblGetPickUpDate = new JLabel("");
+			contentPanel.add(lblGetPickUpDate, "6, 8, 3, 1");
+		}
+		{
 			JLabel lblReturnDate = new JLabel("Return Date:");
 			contentPanel.add(lblReturnDate, "4, 10");
+		}
+		{
+			JLabel lblGetReturnDate = new JLabel("");
+			contentPanel.add(lblGetReturnDate, "6, 10, 3, 1");
 		}
 		{
 			JPanel buttonPane = new JPanel();
