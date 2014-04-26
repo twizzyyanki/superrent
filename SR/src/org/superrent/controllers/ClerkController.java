@@ -539,11 +539,12 @@ public class ClerkController implements ActionListener
 		
 		if(ae.getActionCommand()=="Cancel Reservation")
 		{
-			int status=0;
+			//Amulya pls check this part of your code it is throwing an error
+			int status[];
 			int confirmationNo=Integer.parseInt(manage.textField_1.getText());
 			status=dao.cancelReservation(confirmationNo);
 			
-			if(status==1)
+			if(status[0]==1)
 			{
 				JOptionPane.showMessageDialog(manage, "Reservation with reservation number "+confirmationNo+" is cancelled");
 			}
@@ -608,7 +609,8 @@ public class ClerkController implements ActionListener
 			{
 				String agreementNo=ret.getTextField().getText();
 				Double points=Double.valueOf(dao.DisplayPoints(agreementNo));
-				Double discount=Double.parseDouble(dao.DisplayDiscountedCost());
+				//Amulya pls check this part of your code it is throwing an error
+				Double discount=dao.DisplayDiscountedCost(Integer.valueOf(agreementNo), points);
 				ret.textField_17.setText(String.valueOf(points));
 				Double cost=Double.parseDouble(ret.getTextField_11().getText());
 				int cost1=(int) Math.round(cost);
