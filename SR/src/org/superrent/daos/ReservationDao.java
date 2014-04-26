@@ -86,7 +86,7 @@ public class ReservationDao {
 		con.commit();
 	}
 
-	public boolean cancelReservation(Reservation reservation) {
+	public boolean cancelReservation(Integer confirmationNo) {
 		
 		boolean result = true;
 
@@ -94,16 +94,33 @@ public class ReservationDao {
 			con = DatabaseConnection.createConnection();
 			con.setAutoCommit(false);
 			Statement st = con.createStatement();
-			// change status in reservation table and make reservation table
-			String query = "UPDATE Reservation SET  status =" + 1
-					+ " where confirmationNo = '" + reservation.getConfirmationNo() + "'";
-			System.out.println(query);			
-			st.executeUpdate(query);
-			
-			String query1 = "UPDATE Reservation SET  MakeReservation =" + 3
-					+ " where confirmationNo = '" + reservation.getConfirmationNo() + "'";
-			System.out.println(query1);			
-			st.executeUpdate(query1);
+			changeReservationStatus(con,confirmationNo);
+			changeMakeReservationStatus(con,confirmationNo);			
+			con.commit();
+
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			result = false;
+			e.printStackTrace();
+		} finally {
+			DatabaseConnection.close(con);
+		}
+		return result;
+
+	}
+	
+	public boolean cancelReservation(String phoneNumber, java.util.Date reservedDate ) {
+		
+		boolean result = true;
+
+		try {
+			con = DatabaseConnection.createConnection();
+			con.setAutoCommit(false);
+			Integer confirmationNo = getConfirmationNumber(con,phoneNumber,reservedDate);
+			changeReservationStatus(con,confirmationNo);
+			changeMakeReservationStatus(con,confirmationNo);
 			
 			con.commit();
 
@@ -118,5 +135,42 @@ public class ReservationDao {
 		}
 		return result;
 
+	}
+
+	private Integer getConfirmationNumber(Connection con, String phoneNumber, Date reservedDate) throws SQLException {
+		Integer confirmationNo = null;
+		
+		Statement st = con.createStatement();
+		String query = "select confirmationNo from MakeReservation where status = 0 and date = '" + 
+				new java.sql.Date(reservedDate.getTime()) + "' and uid = (select uid from User where phoneNumber = " + phoneNumber + ")";
+		System.out.println(query);			
+		resultSet = st.executeQuery(query);
+		while (resultSet.next()) {
+			confirmationNo = resultSet.getInt("confirmationNo");
+        }
+		return confirmationNo;
+	}
+
+	private void changeMakeReservationStatus(Connection con, Integer confirmationNo) throws ClassNotFoundException, SQLException {
+		
+		
+		Statement st = con.createStatement();
+		String query1 = "UPDATE Reservation SET  MakeReservation =" + 3
+				+ " where confirmationNo = '" + confirmationNo;
+		System.out.println(query1);			
+		st.executeUpdate(query1);
+		
+		
+	}
+
+	private void changeReservationStatus(Connection con, Integer confirmationNo) throws ClassNotFoundException, SQLException {
+		
+		Statement st = con.createStatement();
+		// change status in reservation table and make reservation table
+		String query = "UPDATE Reservation SET  status =" + 1
+				+ " where confirmationNo = " + confirmationNo;
+		System.out.println(query);			
+		st.executeUpdate(query);
+		
 	}
 }
