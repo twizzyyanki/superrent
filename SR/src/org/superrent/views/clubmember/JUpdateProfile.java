@@ -23,18 +23,16 @@ public class JUpdateProfile extends JPanel {
 	private JTextArea textAddress;
 	private JLabel updateInfo;
 	private JTextField txtEmail;
-	
 	/**
 	 * Create the panel.
 	 */
-	public JUpdateProfile(ClubMemberController clubMemberController)
-	{
+	public JUpdateProfile(ClubMemberController clubMemberController) {
 		this.clubMemberController = clubMemberController;
 		setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(20dlu;pref)"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.GROWING_BUTTON_COLSPEC,
+				FormFactory.BUTTON_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(80dlu;default):grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -62,38 +60,38 @@ public class JUpdateProfile extends JPanel {
 				RowSpec.decode("max(13dlu;default):grow"),}));
 		
 		JLabel name = new JLabel("Name");
-		add(name, "4, 4, center, default");
+		add(name, "4, 4, right, default");
 		
 		textName = new JTextField();
 		add(textName, "6, 4, fill, default");
 		textName.setColumns(10);
 		
 		JLabel phoneNumber = new JLabel("Phone Number");
-		add(phoneNumber, "4, 6, center, default");
+		add(phoneNumber, "4, 6, right, default");
 		
 		textPhone = new JTextField();
 		add(textPhone, "6, 6, fill, default");
 		textPhone.setColumns(10);
 		
-		JButton Update = new JButton("Update");
-		Update.addActionListener(clubMemberController);
-		
 		JLabel lblEmail = new JLabel("E-mail");
-		add(lblEmail, "4, 8, center, default");
+		add(lblEmail, "4, 8, right, default");
 		
 		txtEmail = new JTextField();
 		add(txtEmail, "6, 8, fill, default");
 		txtEmail.setColumns(10);
 		
 		JLabel address = new JLabel("Address");
-		add(address, "4, 10, center, default");
+		add(address, "4, 10, right, default");
 		
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane, "6, 10, fill, fill");
 		
 		textAddress = new JTextArea();
 		scrollPane.setViewportView(textAddress);
-		add(Update, "4, 12");
+		
+		JButton Update = new JButton("Update");
+		Update.addActionListener(clubMemberController);
+		add(Update, "6, 12, left, default");
 		
 		updateInfo = new JLabel("");
 		add(updateInfo, "4, 14, 3, 1");
