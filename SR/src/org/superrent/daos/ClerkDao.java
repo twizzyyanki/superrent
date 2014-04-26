@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
 import java.util.concurrent.TimeUnit;
 
 import javax.swing.JFormattedTextField;
@@ -255,9 +256,7 @@ public class ClerkDao
 	public String calculateOdometerCost(Double currentReading,int agreementNo) 
 	{
 		ResultSet rs=null;
-		ResultSet rs1=null;
 		ResultSet rs2=null;
-		ResultSet rs3=null;
 		Double  limit=0.0;
 		String cost=null;
 		double cost1=0.0;
@@ -267,43 +266,41 @@ public class ClerkDao
 		double rate=0.0;
 		try
 		{	
-		PreparedStatement ps=con.prepareStatement("Select kmLimit from SuperRent");
+		PreparedStatement ps=con.prepareStatement("select * from RentAgreement where agreementNo=?");
+		ps.setInt(1,agreementNo);
 		rs=ps.executeQuery();
+		
 		while(rs.next())
 		{
-			limit=rs.getDouble("kmLimit");
+			reading=Double.valueOf(rs.getString("odometer"));
+			
 		}
-		
-		PreparedStatement ps1=con.prepareStatement("select odometer from RentAgreement where agreementNo=?");
-		ps1.setInt(1,agreementNo);
-		rs1=ps1.executeQuery();
-		
-		if(rs1.next())
+		if(reading!=0)
 		{
-			while(rs1.next())
+			System.out.println(reading);
+			PreparedStatement Vehicletype=con.prepareStatement("select category,type from Vehicle where regNo="
+					+ "(select regNo from MakeReservation where confirmationNo="
+					+ "(select confirmationNo from RentAgreement where agreementNo=?))");
+			Vehicletype.setInt(1,agreementNo);
+			ResultSet Vehtype=Vehicletype.executeQuery();
+			while(Vehtype.next())
 			{
-				reading = rs1.getDouble("odometer");
+				type=Vehtype.getString("type");
+				category=Vehtype.getString("category");
+			}
+			
+		PreparedStatement ps1=con.prepareStatement("select MileageLimit,perKMRate from SuperRentRentalRate where category=? and type=?");
+			ps1.setString(1, category);
+			ps1.setString(2, type);
+			rs2=ps1.executeQuery();
+			while(rs2.next())
+			{
+				limit=rs2.getDouble("MileageLimit");
+				rate=rs2.getDouble("perKMRate");
 			}
 		if((currentReading-reading)>limit)
 		{
-			PreparedStatement vehicleType=con.prepareStatement("select type,category from Vehicle v where regNo=(select regNo from MakeReservation where confirmationNo=(select confirmationNo from GeneratedAgreements where agreementNo=?))");
-			vehicleType.setInt(1, agreementNo);
-			rs2=vehicleType.executeQuery();
-			while(rs2.next())
-			{
-				type=rs2.getString("type");
-				category=rs2.getString("category");
-			}
-			PreparedStatement ps2=con.prepareStatement("select costPerKM from SuperRentInsuranceRate where type=? and category=?");
-			ps2.setString(1, type);
-			ps2.setString(2,category);
-			
-			rs3=ps2.executeQuery();
-			while(rs3.next())
-			{
-				rate=rs3.getDouble("costPerKM");
-			}	
-			cost1=((currentReading-reading)-limit)*rate;
+			cost1=(currentReading-reading)*rate;
 			cost=String.valueOf(cost1);
 		}
 		else
@@ -371,9 +368,9 @@ public class ClerkDao
 		String values[]=new String[4];
 		String type=null;
 		String category=null;
-		Date pickdate=null;
-		Date dropdate=null;
-		
+		Timestamp pickdate=null;
+		Timestamp dropdate=null;
+		double days=0.0;
 		try
 		{
 		PreparedStatement ps=con.prepareStatement("Select type,category from Vehicle where regno=(select regNo from MakeReservation where confirmationNo=(select confirmationNo from GeneratedAgreements where agreementNo=?))");	
@@ -402,13 +399,20 @@ public class ClerkDao
 		rs2=ps2.executeQuery();
 		while(rs2.next())
 		{
-			pickdate=rs2.getDate("pickDate");
-			dropdate=rs2.getDate("dropDate");
+			pickdate=rs2.getTimestamp("pickDate");
+			dropdate=rs2.getTimestamp("dropDate");
 		}
 		
+		System.out.println(pickdate);
+		System.out.println(dropdate);
+		
 		long difference= (dropdate.getTime()-pickdate.getTime());
-		long days=TimeUnit.DAYS.convert(difference, TimeUnit.MILLISECONDS);
-		values[3]=String.valueOf(days);
+		long seconds=TimeUnit.SECONDS.convert(difference, TimeUnit.MILLISECONDS);    
+		long hours = TimeUnit.SECONDS.toHours(seconds) - TimeUnit.SECONDS.toHours(TimeUnit.SECONDS.toDays(seconds));
+        
+		values[3]=String.valueOf(hours);
+		
+		System.out.println(values[3]);
 		}
 		catch(Exception e)
 		{
