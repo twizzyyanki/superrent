@@ -24,7 +24,6 @@ public class PayPal extends JPanel {
 	private JTextField addressLine2;
 	private JPasswordField creditcardno;
 	private JTextField textField_8;
-	public JButton btnGobackToHome;
 	public JButton btnProcessPayment;
 	private JTextField textField_9;
 	private JTextField city;
@@ -214,18 +213,12 @@ public class PayPal extends JPanel {
 		lastname.setColumns(10);
 		
 		btnProcessPayment = new JButton("Process Payment");
-		add(btnProcessPayment, "6, 32, center, default");
+		//btnProcessPayment.addActionListener();
+		add(btnProcessPayment, "6, 32, 5, 1, center, default");
+
+	}
+
 		
-		btnGobackToHome = new JButton("GoBack to ReturnPage");
-		add(btnGobackToHome, "10, 32, center, default");
-
-	}
-
-	public void returnPageActionListener(ClerkController clerk)
-	{	
-		btnGobackToHome.addActionListener(clerk);
-	}
-	
 	public void processPaymentActionListener(ClerkController clerk)
 	{
 		btnProcessPayment.addActionListener(clerk);
