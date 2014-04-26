@@ -56,6 +56,9 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 		
 		
 		if(e.getActionCommand().equals("Add User")) {
+			
+			
+			
 			aup = new AddUserPanel(this);
 			//new ValidateAddUser(aup);
 			//System.out.println("You add a user");
@@ -116,20 +119,28 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 			System.out.println(check);
 			aup.setUserName(true);
 			aup.setMembershipNumber(true);
+			aup.getValidateAUR().setRunVUR(false);
+			aup.getValidateAUC().setRunVUC(false);
 			if (check == 1) {
 				//aup.getGroup().add(aup.getTextFieldMembershipNum(), StringValidators.REQUIRE_NON_EMPTY_STRING);
 				//aup.getGroup().add(aup.getTextFieldUserName(), StringValidators.REQUIRE_NON_EMPTY_STRING);
 				System.out.println("You selected club member");
+				aup.getValidateAUR().setRunVUR(true);
+				aup.getValidateAUC().setRunVUC(true);
 			}
 			else if (check == 0) {
 				System.out.println("You selected a customer");
 				aup.setUserName(false);
 				aup.setMembershipNumber(false);
+				aup.getValidateAUR().setRunVUR(false);
+				aup.getValidateAUC().setRunVUC(false);
 			}
 			else {
 				//aup.getGroup().add(aup.getTextFieldUserName(), StringValidators.REQUIRE_NON_EMPTY_STRING);
 				System.out.println("You selected a manager or clerk");
 				aup.setMembershipNumber(false);
+				aup.getValidateAUR().setRunVUR(true);
+				aup.getValidateAUC().setRunVUC(false);
 			}
 		
 		}

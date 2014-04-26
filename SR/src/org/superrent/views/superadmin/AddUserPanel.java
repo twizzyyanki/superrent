@@ -16,6 +16,8 @@ import javax.swing.DefaultComboBoxModel;
 
 import org.netbeans.validation.api.builtin.stringvalidation.StringValidators;
 import org.netbeans.validation.api.ui.ValidationGroup;
+import org.netbeans.validation.api.ui.ValidationListener;
+import org.netbeans.validation.api.ui.ValidationStrategy;
 import org.netbeans.validation.api.ui.swing.ValidationPanel;
 import org.superrent.controllers.SystemAdminController;
 import org.superrent.controllers.ValidateAddUser;
@@ -119,7 +121,7 @@ public class AddUserPanel extends JPanel {
 		textFieldName = new JTextField();
 		add(textFieldName, "4, 10, left, default");
 		textFieldName.setColumns(10);
-		textFieldName.setName("User Name");
+		textFieldName.setName("Name");
 		textFieldName.getDocument().addDocumentListener(va);
 		
 		JLabel lblPhoneNumber = new JLabel("Phone Number");
@@ -153,14 +155,17 @@ public class AddUserPanel extends JPanel {
 		btnAdd.addActionListener(sac);
 		btnAdd.setEnabled(false);
 		add(btnAdd, "4, 18, left, default");
+
 		
 		addUserMessage = new JLabel("");
 		add(addUserMessage, "2, 22, 3, 1");
 		
+		
 		xpanel = new ValidationPanel();
 		xpanel.setInnerComponent(this);
-		
+
 		/* Validation group for customer */
+		
 		group = xpanel.getValidationGroup();
 		group.add(textFieldName, StringValidators.REQUIRE_NON_EMPTY_STRING,
 				StringValidators.NO_WHITESPACE);
@@ -168,16 +173,23 @@ public class AddUserPanel extends JPanel {
 		group.add(textFieldAddress, StringValidators.REQUIRE_NON_EMPTY_STRING);
 		group.add(textFieldEmail, StringValidators.REQUIRE_NON_EMPTY_STRING,StringValidators.EMAIL_ADDRESS);
 		
+		
+		
 		/* Validation group for manager and clerk */
-		groupR = xpanel.getValidationGroup();
+		
+		groupR = new ValidationPanel().getValidationGroup();
+		
 		groupR.add(textFieldUserName, StringValidators.REQUIRE_NON_EMPTY_STRING,
 				StringValidators.NO_WHITESPACE);
+	
 		
 		/* Validation group for club member */
-		groupCM = xpanel.getValidationGroup();
+		groupCM = new ValidationPanel().getValidationGroup();
 		//groupCM.add(groupR);
-		group.add(textFieldMembershipNum, StringValidators.REQUIRE_NON_EMPTY_STRING, StringValidators.REQUIRE_VALID_NUMBER);
-		
+	
+		groupCM.add(textFieldMembershipNum, StringValidators.REQUIRE_NON_EMPTY_STRING, StringValidators.REQUIRE_VALID_NUMBER);
+	
+	
 	}
 
 	public JComboBox getComboBox() {
@@ -250,10 +262,36 @@ public class AddUserPanel extends JPanel {
 	public JTextField getTextFieldUserName() {
 		return textFieldUserName;
 	}
-	/*
+	
 	public ValidateAddUser getValidateAU() {
-		
+		return va;
 	}
-	public ValidateAddUserR vaR;
-	public ValidateAddUserC vaC; */
+	public ValidateAddUserR getValidateAUR() {
+		return vaR;
+	}
+	public ValidateAddUserC getValidateAUC() {
+		return vaC;
+	}
+
+	public JTextField getTextFieldName() {
+		return textFieldName;
+	}
+	public JTextField getTextFieldPhoneNumber() {
+		return textFieldPhoneNumber;
+	}
+	public JTextField getTextFieldAddress() {
+		return textFieldAddress;
+	}
+	public JTextField getTextFieldEmail() {
+		return textFieldEmail;
+	}
+	
+	public void setGroup(ValidationGroup group){
+		this.group = group; 
+	}
+	
+	public void setGroupR(ValidationGroup groupR){
+		this.groupR = groupR; 
+	}
+	
 }

@@ -12,7 +12,8 @@ public class ValidateAddUserR implements DocumentListener {
 
 	private AddUserPanel aup;
 	private ValidateAddUser va;
-	private boolean isValid;
+	//private boolean isValid;
+	private boolean runVUR = false;
 	
 	public ValidateAddUserR(AddUserPanel aup, ValidateAddUser va) {
 		this.aup = aup;
@@ -37,33 +38,41 @@ public class ValidateAddUserR implements DocumentListener {
 	}
 	
 	private void checkValidation() {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				System.out.println(aup.getGroupR());
-				Problem validateAll = aup.getGroupR().performValidation();
-				// System.out.println("validate all is  " + validateAll);
-				if (validateAll == null && va.AddUserValid()) {
-					isValid = true;
-					aup.getBtnAdd().setEnabled(true);
-					aup.revalidate();
-					aup.repaint();
-					// System.out.println("Getting here");
-				} else {
-					if (validateAll.isFatal()) {
-						isValid = false;
-						aup.getBtnAdd().setEnabled(false);
+		
+		if (runVUR){
+			System.out.println("I'm in vaR");
+			EventQueue.invokeLater(new Runnable() {
+				public void run() {
+					System.out.println(aup.getGroupR());
+					Problem validateAll = aup.getGroupR().performValidation();
+					// System.out.println("validate all is  " + validateAll);
+					if (validateAll == null && runVUR) {
+						//isValid = true;
+						aup.getBtnAdd().setEnabled(true);
+						aup.revalidate();
+						aup.repaint();
+						// System.out.println("Getting here");
+					} else {
+						if (validateAll.isFatal()) {
+							//isValid = false;
+							aup.getBtnAdd().setEnabled(false);
+						}
 					}
-				}
-
-			}
-		});
-	}
 	
+				}
+			});
+		}
+	}
+	/*
 	public boolean AddUserValidR() {
 		return isValid;
 	}
 
 	public void setUserValidR(boolean bl){
 		isValid = bl;
+	}
+	*/
+	public void setRunVUR(boolean bl){
+		runVUR = bl;
 	}
 }

@@ -12,6 +12,7 @@ public class ValidateAddUserC implements DocumentListener {
 	private AddUserPanel aup;
 	private ValidateAddUserR vaR;
 	private ValidateAddUser va;
+	private boolean runVUC = false;
 	
 	public ValidateAddUserC(AddUserPanel aup, ValidateAddUser va, ValidateAddUserR vaR) {
 		this.aup = aup;
@@ -37,24 +38,31 @@ public class ValidateAddUserC implements DocumentListener {
 	}
 	
 	private void checkValidation() {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				System.out.println(aup.getGroupCM());
-				Problem validateAll = aup.getGroupCM().performValidation();
-				// System.out.println("validate all is  " + validateAll);
-				if (validateAll == null && va.AddUserValid() && vaR.AddUserValidR()) {
-					aup.getBtnAdd().setEnabled(true);
-					aup.revalidate();
-					aup.repaint();
-					// System.out.println("Getting here");
-				} else {
-					if (validateAll.isFatal()) {
-						aup.getBtnAdd().setEnabled(false);
+		if (runVUC) {
+			System.out.println("I'm in vaC");
+			EventQueue.invokeLater(new Runnable() {
+				public void run() {
+					System.out.println(aup.getGroupCM());
+					Problem validateAll = aup.getGroupCM().performValidation();
+					// System.out.println("validate all is  " + validateAll);
+					if (validateAll == null && runVUC) {
+						aup.getBtnAdd().setEnabled(true);
+						aup.revalidate();
+						aup.repaint();
+						// System.out.println("Getting here");
+					} else {
+						if (validateAll.isFatal()) {
+							aup.getBtnAdd().setEnabled(false);
+						}
 					}
+	
 				}
-
-			}
-		});
+			});
+		}
+	}
+	
+	public void setRunVUC(boolean bl){
+		runVUC = bl;
 	}
 	 
 }
