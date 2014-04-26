@@ -294,9 +294,35 @@ public class ReservationDao {
 		String query = "SELECT MAX(confirmationNo) FROM Reservation";	 
 		resultSet = st.executeQuery(query);
 		if(resultSet.next()){
-			resultSet.getInt("confirmationNo");
+			confirmationNo = resultSet.getInt("confirmationNo");
 
 		}
 		return confirmationNo;
+	}
+	
+	public Integer getUid(String username, String password){
+		Integer uid = null;
+
+		try {
+			con = DatabaseConnection.createConnection();
+			con.setAutoCommit(false);
+			Statement st = con.createStatement();
+			String query = "select uid from RegUser where username = '" + username + "' "
+									+ "	and password = '" + password + "' ";	 
+			resultSet = st.executeQuery(query);
+			if(resultSet.next()){
+				uid = resultSet.getInt("uid");
+
+			}
+
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DatabaseConnection.close(con);
+		}
+		return uid;
 	}
 }
