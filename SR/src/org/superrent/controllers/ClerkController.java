@@ -25,7 +25,6 @@ import org.superrent.views.clerk.UpdateProfile;
 import com.paypal.api.payments.Address;
 import com.paypal.api.payments.Amount;
 import com.paypal.api.payments.CreditCard;
-import com.paypal.api.payments.Details;
 import com.paypal.api.payments.FundingInstrument;
 import com.paypal.api.payments.Payer;
 import com.paypal.api.payments.Payment;
@@ -85,6 +84,7 @@ public class ClerkController implements ActionListener
 	}
 	
 
+	@SuppressWarnings("unused")
 	public void actionPerformed(ActionEvent ae)
 	{
 		if(ae.getActionCommand()=="Refresh")
@@ -218,12 +218,14 @@ public class ClerkController implements ActionListener
 			}
 			catch(Exception e)
 			{
-				JOptionPane.showMessageDialog(ret, "Enter an integer Values");
+				JOptionPane.showMessageDialog(ret, "Enter an integer Value");
 			}
 		}
 		
 		if(ae.getActionCommand()=="View Rental Agreement")
 		{
+			try
+			{
 				String Num=JOptionPane.showInputDialog(clerkFrame, "Agreement Number");
 				int agreementNo=Integer.valueOf(Num);
 				String[] values;
@@ -250,6 +252,11 @@ public class ClerkController implements ActionListener
 				rental.getTextField_9().setText(values[8]);
 				rental.getTextField_10().setText(values[9]);
 				}
+			}
+			catch(Exception e)
+			{
+				JOptionPane.showMessageDialog(rental, "No agreement number provided");
+			}
 		}
 		
 		if(ae.getActionCommand()=="Manage Reservation")
@@ -436,6 +443,8 @@ public class ClerkController implements ActionListener
 		
 		if(ae.getActionCommand()=="Inc Cost")
 		{
+			try
+			{
 			if(ret.getTextField().getText().equals(""))
 			{
 				JOptionPane.showMessageDialog(rent, "Please enter a rental agreement and check the details");
@@ -446,25 +455,38 @@ public class ClerkController implements ActionListener
 				String agreementNo=ret.getTextField().getText();
 				values=dao.displayInsuranceCost(agreementNo);
 				Double cost=0.0;
-				Double days=Double.parseDouble(values[3]);
-				//Double hourlyrate=Double.parseDouble(values[0]);
+				long hours=Long.parseLong(values[3]);
+				Double hourlyrate=Double.parseDouble(values[0]);
 				Double dailyrate=Double.parseDouble(values[1]);
 				Double weeklyrate=Double.parseDouble(values[2]);
 				int totalweeks=0;
 				int totaldays=0;
-				if(days>7)
+				int totalhours=0;
+				System.out.println(hours);
+				if(hours<24)
 				{
-					totalweeks=(int) (days/7);
-					totaldays=(int) (days%7);
-					cost=totalweeks*weeklyrate;
-					cost=cost+(totaldays*dailyrate);
+					cost=hours * hourlyrate;
 				}
-				else if(days<7 && days>1)
+				else
 				{
-					cost=days*dailyrate;
+					int days = (int) (Math.ceil(hours/24));
+					System.out.println(days);
+					if(days<5 || days==5)
+					{
+						cost=days*dailyrate;
+					}
+					else
+					{
+						cost=days*weeklyrate;
+					}
 				}
 				String finalCost=String.valueOf(cost);
 				ret.getTextField_20().setText(finalCost);
+			}
+			}
+			catch(Exception e)
+			{
+				System.out.println(e);
 			}
 		}
 		
@@ -709,15 +731,15 @@ public class ClerkController implements ActionListener
 						createdPayment = payment.create(accessToken);
 						status = dao.createPayment(agreementNo, description,
 								totalCost);
-						System.out.println(getSuccessPaymentStatus(createdPayment
+						System.out.println(getSuccessPaymentStatus(Payment
 								.getLastResponse()));
 						paypal.getPaymentMessage().setText(
 								"Payment - "
-										+ getSuccessPaymentStatus(createdPayment
+										+ getSuccessPaymentStatus(Payment
 												.getLastResponse()));
 					} catch (PayPalRESTException et) { //
 						paypal.getPaymentMessage().setText(et.getMessage());
-						System.out.println(createdPayment.getLastResponse());
+						System.out.println(Payment.getLastResponse());
 					}
 					System.out.println("Getting here - after transaction");
 
@@ -753,6 +775,7 @@ public class ClerkController implements ActionListener
 		return paymentStatus;
 	}
 
+	@SuppressWarnings("unused")
 	private String getWrongPaymentStatus(String status) 
 	{
 		List<String> statusParams = Arrays.asList(status.split(","));
