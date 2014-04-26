@@ -136,7 +136,7 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 			new Object[][] {
 			},
 			new String[] {
-				"Category", "Type", "Brand"
+				"Category", "Type", "Brand", "RegNo"
 			}
 		));
 		searchTable.getSelectionModel().addListSelectionListener(this.mrc);

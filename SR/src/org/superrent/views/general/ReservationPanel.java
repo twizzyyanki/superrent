@@ -71,7 +71,7 @@ public class ReservationPanel extends JPanel {
 		JLabel lblAdress = new JLabel("Please enter user ID and password to reserve as a clubmember:");
 		add(lblAdress, "4, 4, 3, 1");
 		
-		JLabel lblUserId = new JLabel("User ID:");
+		JLabel lblUserId = new JLabel("User name:");
 		add(lblUserId, "4, 6, center, default");
 		
 		userIDTextField = new JTextField();

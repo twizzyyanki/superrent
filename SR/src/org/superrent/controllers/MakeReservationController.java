@@ -16,7 +16,11 @@ import javax.swing.event.ListSelectionListener;
 
 
 
+
+
 import org.superrent.daos.ReservationDao;
+import org.superrent.entities.MakeReservation;
+import org.superrent.entities.Reservation;
 import org.superrent.views.general.Login;
 import org.superrent.views.general.MakeReservationPage;
 import org.superrent.views.general.ReservationPanel;
@@ -35,8 +39,11 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 	private cancelReservationPanel cancelReservationPanel;
 	private ReservationSuccessDialog dialog;
 	// charge for the reservation
-	private String charge;
-	
+	private double charge;
+	private Reservation reservation;
+	private MakeReservation makeReservation;
+	private java.util.Date pickupDate;
+	private java.util.Date dropDate;
 	public MakeReservationController(MakeReservationPage reservationPage){
 		this.reservationPage = reservationPage;
 		
@@ -70,6 +77,15 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 			reservationPage.revalidate();
 			reservationPage.repaint();
 			
+			//"Insert into MakeReservation (uid, confirmationNo, date, regNo, status) 
+			//"INSERT INTO Reservation (pickDate, dropDate, creationDate,charges,status)
+			reservation = new Reservation();
+			makeReservation = new MakeReservation();
+			
+			reservation.setPickDate(pickupDate);
+			reservation.setDropDate(dropDate);
+			reservation.setCharges(charge);;
+			
 		}
 		
 		// Search the vehicle
@@ -81,8 +97,8 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 			// check Date field is valid or not 
 			if(sVRPanel.getDateChooserPick().getDate()!=null && sVRPanel.getDateChooserReturn().getDate()!=null){
 				
-				java.util.Date pickupDate = sVRPanel.getDateChooserPick().getDate();
-				java.util.Date dropDate = sVRPanel.getDateChooserReturn().getDate();
+				pickupDate = sVRPanel.getDateChooserPick().getDate();
+				dropDate = sVRPanel.getDateChooserReturn().getDate();
 				String category = (String) sVRPanel.getCategoryCombox().getSelectedItem();
 				String type = (String) sVRPanel.getTypeCombox().getSelectedItem();
 				
@@ -166,7 +182,7 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 				boolean valid = false;
 				valid = ValidateFields(reservationPanel.getPhoneTextField().getText());				
 				
-				// Need to DAO to store user's information and thie reservation
+				// Need to DAO to store user's information and this reservation
 				if(valid){
 					dialog = new ReservationSuccessDialog(this);
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -256,8 +272,9 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 			sVRPanel.getEquipComboBox().setEnabled(true);
 			
 			//NEED DAO to calculate estimated cost and return to charge
-			charge = "20";
-			sVRPanel.getLblAmount().setText(charge);
+			charge = 20;
+			
+			sVRPanel.getLblAmount().setText(String.valueOf(charge));
 			
 			
 		}

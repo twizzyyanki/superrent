@@ -30,7 +30,7 @@ public class ReservationDao {
 			Statement st = con.createStatement();
 		
 
-		String query = "SELECT Distinct category as Category, type as Type, brand as Brand from Vehicle where status = 0 "
+		String query = "SELECT category as Category, type as Type, brand as Brand, regNo from Vehicle where status = 0 "
 				+ (category.equalsIgnoreCase("All") ? ("")
 						: (" and category = " + "'" + category.toUpperCase() + "'"))
 				+ (type.equalsIgnoreCase("All") ? ("") : (" and type = " + "'"
@@ -136,6 +136,7 @@ public class ReservationDao {
 			reservation.setCreatedDate(new java.sql.Date(date.getTime()));
 			makeReservation
 					.setLastUpdatedDate(new java.sql.Date(date.getTime()));
+			makeReservation.setConfirmationNo(getConfirmationFromReservation(con));
 			insertIntoReservation(con, reservation);
 			insertIntoMakeReservation(con, makeReservation);
 			con.commit();
@@ -284,5 +285,18 @@ public class ReservationDao {
 		System.out.println(query);
 		st.executeUpdate(query);
 
+	}
+
+	private Integer getConfirmationFromReservation(Connection con)throws ClassNotFoundException, SQLException {
+		Integer confirmationNo = null;
+
+		Statement st = con.createStatement();
+		String query = "SELECT MAX(confirmationNo) FROM Reservation";	 
+		resultSet = st.executeQuery(query);
+		if(resultSet.next()){
+			resultSet.getInt("confirmationNo");
+
+		}
+		return confirmationNo;
 	}
 }
