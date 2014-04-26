@@ -133,14 +133,14 @@ public class Return extends JPanel
 				RowSpec.decode("19px"),}));
 		
 		JLabel Phonenum = new JLabel("Phone Number");
-		panel.add(Phonenum, "6, 2, left, center");
+		panel.add(Phonenum, "6, 2, right, center");
 		
 		setTextField_2(new JTextField());
 		getTextField_2().setColumns(10);
 		panel.add(textField_2, "8, 2, fill, center");
 		
 		JLabel RoadStar = new JLabel("Roadstar");
-		panel.add(RoadStar, "11, 2, left, center");
+		panel.add(RoadStar, "11, 2, right, center");
 		
 		rdbtnYes = new JRadioButton("Yes");
 		bG.add(rdbtnYes);
@@ -159,7 +159,7 @@ public class Return extends JPanel
 		panel.add(textField_14, "4, 3, fill, center");
 		
 		JLabel label_5 = new JLabel("DropDate");
-		panel.add(label_5, "6, 3, left, center");
+		panel.add(label_5, "6, 3, right, center");
 		
 		setTextField_4(new JTextField());
 		getTextField_4().setColumns(10);
@@ -180,14 +180,14 @@ public class Return extends JPanel
 		panel.add(textField_5, "4, 4, fill, center");
 		
 		JLabel label_7 = new JLabel("Fuel Percentage");
-		panel.add(label_7, "6, 4, left, center");
+		panel.add(label_7, "6, 4, right, center");
 		
 		setTextField_6(new JTextField());
 		getTextField_6().setColumns(10);
 		panel.add(textField_6, "8, 4, fill, center");
 		
 		JLabel label_2 = new JLabel("Charges");
-		panel.add(label_2, "11, 4, left, center");
+		panel.add(label_2, "11, 4, right, center");
 		
 		setTextField_7(new JTextField());
 		getTextField_7().setColumns(10);
@@ -266,7 +266,7 @@ public class Return extends JPanel
 		add(lblEnterCurrentDetails, "2, 5, left, center");
 		
 		JLabel lblOdometerReading = new JLabel("Odometer Reading");
-		add(lblOdometerReading, "2, 6, left, center");
+		add(lblOdometerReading, "2, 6, right, center");
 		
 		setTextField_9(new JTextField());
 		getTextField_9().setColumns(10);
@@ -278,7 +278,7 @@ public class Return extends JPanel
 		add(textField_8, "10, 6, 3, 1, left, center");
 		
 		JLabel lblFuelPercentage = new JLabel("Fuel Percentage");
-		add(lblFuelPercentage, "2, 8, left, center");
+		add(lblFuelPercentage, "2, 8, right, center");
 		
 		setTextField_10(new JTextField());
 		getTextField_10().setColumns(10);
@@ -290,7 +290,7 @@ public class Return extends JPanel
 		add(textField_19, "10, 8, 3, 1, left, center");
 		
 		JLabel lblVehicleDescription = new JLabel("Vehicle Description");
-		add(lblVehicleDescription, "2, 10, left, center");
+		add(lblVehicleDescription, "2, 10, right, center");
 		
 		textArea_1 = new JTextArea(2,30);
 		textArea_1.setLineWrap(true);
@@ -300,7 +300,7 @@ public class Return extends JPanel
 		add(scrollPane, "4, 10, 3, 1, fill, fill");
 		
 		JLabel lblDamgeCost = new JLabel("Damge Cost");
-		add(lblDamgeCost, "2, 12, left, center");
+		add(lblDamgeCost, "2, 12, right, center");
 		
 		textField_12 = new JTextField();
 		textField_12.setColumns(10);
