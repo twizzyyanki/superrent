@@ -227,7 +227,7 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 			Boolean inDatabase = false;
 			Boolean updateSucess = false;
 			// checkOldPassword method to check password in DB
-			inDatabase = checkPassword.checkOldPassword(oldPass);
+			inDatabase = checkPassword.checkOldPassword(org.apache.commons.codec.digest.DigestUtils.md5Hex(oldPass));
 			
 			if(inDatabase){
 				char[] newPassword = cpp.getNewPass().getPassword();
@@ -236,7 +236,7 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 				String confirmPass = new String (confirmPassword);
 				if(Arrays.equals(newPassword, confirmPassword)){
 					ChangePasswordDAO setPassword = new ChangePasswordDAO();
-					if(setPassword.setNewPassword(newPass)){
+					if(setPassword.setNewPassword(org.apache.commons.codec.digest.DigestUtils.md5Hex(newPass))){
 						cpp.getWrongInput().setForeground(Color.BLACK);
 						cpp.getWrongInput().setText("Update success");
 					}
