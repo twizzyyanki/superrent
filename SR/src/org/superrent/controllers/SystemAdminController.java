@@ -241,7 +241,7 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 				String confirmPass = new String (confirmPassword);
 				if(Arrays.equals(newPassword, confirmPassword)){
 					ChangePasswordDAO setPassword = new ChangePasswordDAO();
-					if(setPassword.setNewPassword(org.apache.commons.codec.digest.DigestUtils.md5Hex(newPass))){
+					if(setPassword.setNewPassword(newPass)){
 						cpp.getWrongInput().setForeground(Color.BLACK);
 						cpp.getWrongInput().setText("Update success");
 					}
