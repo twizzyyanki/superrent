@@ -157,7 +157,7 @@ public class SearchVehiclePanel extends JPanel implements ActionListener{
 
 	}
 
-	@Override
+	// @Override
 	public void actionPerformed(ActionEvent arg0) {
 		String item = (String)categoryCombox.getSelectedItem();
 		if(item.equalsIgnoreCase("CAR")){

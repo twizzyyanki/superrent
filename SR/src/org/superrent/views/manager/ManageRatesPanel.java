@@ -643,7 +643,7 @@ public class ManageRatesPanel extends JPanel implements ActionListener{
 		this.additionalEquipmentTable = additionalEquipmentTable;
 	}
 
-	@Override
+	// @Override
 	public void actionPerformed(ActionEvent e) {
 		
 		if(e.getActionCommand().equals("EditMemPoints")){
