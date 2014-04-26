@@ -88,14 +88,6 @@ public class Rent extends JPanel
 		
 		JLabel lblNewLabel = new JLabel("Driver's License Number");
 		
-		setTextField_5(new JTextField());
-		getTextField_5().setColumns(10);
-		
-		JLabel lblCreditCardNumber = new JLabel("Credit Card Number");
-		
-		setTextField_6(new JTextField());
-		getTextField_6().setColumns(10);
-		
 		JLabel lblExpiryDate = new JLabel("Expiry Date");
 		
 		setTextField_7(new JTextField());
@@ -127,11 +119,6 @@ public class Rent extends JPanel
 	     bG.add(rdbtnYes);
 	     bG.add(rdbtnNo);
 		
-		JLabel label_1 = new JLabel("/");
-		
-		setTextField_11(new JTextField());
-		getTextField_11().setColumns(10);
-		
 		JLabel lblMonthyear = new JLabel("Month/year");
 		
 		setLblInvalidEntries(new JLabel("Invalid Entries"));
@@ -148,11 +135,11 @@ public class Rent extends JPanel
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(20)
 							.addGroup(groupLayout.createParallelGroup(Alignment.CENTER)
-								.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 844, GroupLayout.PREFERRED_SIZE)
 								.addComponent(panel, GroupLayout.PREFERRED_SIZE, 842, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblOr)
 								.addComponent(btnCreateRentalAgreement)
-								.addComponent(btnSubmit)))
+								.addComponent(btnSubmit)
+								.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 844, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(groupLayout.createSequentialGroup()
 							.addGap(97)
 							.addComponent(label, GroupLayout.PREFERRED_SIZE, 101, GroupLayout.PREFERRED_SIZE)
@@ -162,7 +149,7 @@ public class Rent extends JPanel
 							.addComponent(lblPhoneNumber)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 135, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(27, Short.MAX_VALUE))
+					.addContainerGap(35, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.CENTER)
@@ -177,12 +164,12 @@ public class Rent extends JPanel
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btnSubmit)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 233, GroupLayout.PREFERRED_SIZE)
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 101, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
+					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 233, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btnCreateRentalAgreement)
-					.addContainerGap(38, Short.MAX_VALUE))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		panel_1.setLayout(new FormLayout(new ColumnSpec[] {
 				ColumnSpec.decode("1px"),
@@ -190,6 +177,10 @@ public class Rent extends JPanel
 				ColumnSpec.decode("100px"),
 				ColumnSpec.decode("27px"),
 				ColumnSpec.decode("12px"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
 				ColumnSpec.decode("33px"),
 				ColumnSpec.decode("50px"),
 				ColumnSpec.decode("59px"),
@@ -206,18 +197,22 @@ public class Rent extends JPanel
 				ColumnSpec.decode("2px"),
 				FormFactory.UNRELATED_GAP_COLSPEC,
 				ColumnSpec.decode("24px"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("max(6dlu;default)"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("max(18dlu;default)"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
-				ColumnSpec.decode("4px"),
+				ColumnSpec.decode("62px"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
-				ColumnSpec.decode("4px"),
+				ColumnSpec.decode("0px"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
-				ColumnSpec.decode("31px"),},
+				ColumnSpec.decode("24px"),},
 			new RowSpec[] {
 				RowSpec.decode("1px"),
 				FormFactory.UNRELATED_GAP_ROWSPEC,
 				RowSpec.decode("14px"),
 				FormFactory.PARAGRAPH_GAP_ROWSPEC,
-				RowSpec.decode("20px"),
+				RowSpec.decode("24px"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("14px"),
 				FormFactory.RELATED_GAP_ROWSPEC,
@@ -229,27 +224,40 @@ public class Rent extends JPanel
 				RowSpec.decode("25px"),
 				RowSpec.decode("14px"),}));
 		panel_1.add(datefield, "1, 1, fill, fill");
-		panel_1.add(lblEnterCurrentDetails, "11, 3, 3, 1, left, top");
+		panel_1.add(lblEnterCurrentDetails, "15, 3, 3, 1, left, top");
+		
+		setTextField_5(new JTextField());
+		getTextField_5().setColumns(10);
+		panel_1.add(textField_5, "5, 5, 7, 1, fill, fill");
+		
+		JLabel lblCreditCardNumber = new JLabel("Credit Card Number");
+		panel_1.add(lblCreditCardNumber, "13, 5, 4, 1, right, center");
+		
+		setTextField_6(new JTextField());
+		getTextField_6().setColumns(10);
+		panel_1.add(textField_6, "17, 5, 3, 1, fill, fill");
+		
+		JLabel label_1 = new JLabel("/");
+		panel_1.add(label_1, "27, 5, fill, center");
+		
+		setTextField_11(new JTextField());
+		getTextField_11().setColumns(10);
+		panel_1.add(textField_11, "29, 5, fill, fill");
 		panel_1.add(lblVehicleCondition, "3, 9, left, top");
-		panel_1.add(lblOdometerReading, "3, 11, right, center");
-		panel_1.add(lblVehicleDescription, "3, 13, right, bottom");
-		panel_1.add(textField_8, "5, 11, 3, 1, fill, center");
-		panel_1.add(lblFuelPercentage, "9, 11, 3, 1, left, center");
-		panel_1.add(textField_9, "13, 11, 3, 1, left, center");
-		panel_1.add(textArea, "5, 13, 11, 3, fill, fill");
-		panel_1.add(lblNewLabel, "3, 5, 3, 1, right, center");
-		panel_1.add(textField_5, "7, 5, 3, 1, fill, top");
-		panel_1.add(lblCreditCardNumber, "11, 5, 3, 1, right, center");
-		panel_1.add(textField_6, "15, 5, fill, top");
-		panel_1.add(lblRoadStar, "17, 11, left, center");
-		panel_1.add(rdbtnYes, "19, 11, 5, 1, left, top");
-		panel_1.add(rdbtnNo, "25, 11, 3, 1, left, top");
-		panel_1.add(lblMonthyear, "21, 7, 7, 1, center, top");
-		panel_1.add(lblExpiryDate, "17, 5, 3, 1, left, center");
-		panel_1.add(textField_7, "21, 5, fill, top");
-		panel_1.add(label_1, "23, 5, 3, 1, fill, center");
-		panel_1.add(textField_11, "27, 5, fill, top");
-		panel_1.add(lblInvalidEntries, "21, 15, 7, 1, left, top");
+		panel_1.add(lblOdometerReading, "3, 11, left, center");
+		panel_1.add(lblVehicleDescription, "3, 13, left, bottom");
+		panel_1.add(textField_8, "5, 11, 7, 1, fill, fill");
+		panel_1.add(lblFuelPercentage, "13, 11, 3, 1, left, center");
+		panel_1.add(textField_9, "17, 11, 3, 1, left, fill");
+		panel_1.add(textArea, "5, 13, 15, 3, fill, fill");
+		panel_1.add(lblNewLabel, "3, 5, 2, 1, left, center");
+		panel_1.add(lblRoadStar, "21, 11, left, center");
+		panel_1.add(rdbtnYes, "23, 11, 9, 1, left, top");
+		panel_1.add(rdbtnNo, "33, 11, 3, 1, left, top");
+		panel_1.add(lblMonthyear, "25, 7, 11, 1, center, top");
+		panel_1.add(lblExpiryDate, "21, 5, 3, 1, left, center");
+		panel_1.add(textField_7, "25, 5, fill, fill");
+		panel_1.add(lblInvalidEntries, "25, 15, 11, 1, left, top");
 		
 		JLabel lblReservationDetails = new JLabel("Reservation Details");
 		
@@ -290,9 +298,9 @@ public class Rent extends JPanel
 				FormFactory.UNRELATED_GAP_ROWSPEC,
 				RowSpec.decode("14px"),
 				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("20px"),
+				RowSpec.decode("31px"),
 				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("20px"),}));
+				RowSpec.decode("29px"),}));
 		panel.add(lblReservationDetails, "10, 2, 3, 1, left, top");
 		
 		JLabel lblConfirmationNumber = new JLabel("Confirmation Number");

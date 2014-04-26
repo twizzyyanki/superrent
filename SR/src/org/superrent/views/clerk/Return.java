@@ -60,13 +60,13 @@ public class Return extends JPanel
 	
 	JButton btnTaxCost = new JButton("Add Tax Cost");
 	
-	JButton btnRedeem = new JButton("Redeem");
+	JButton btnRedeem = new JButton("Show Points");
 	
 	JLabel lblCostAfterRedeeming = new JLabel("Cost After Redeeming");
 	
 	JButton btnCalculateTotalCost = new JButton("Calculate Total Cost");
 	
-	JButton btnAddPoints;
+	JButton btnPayWithPoints;
 	
 	JButton btnProceedToPayment;
 	
@@ -271,11 +271,11 @@ public class Return extends JPanel
 		setTextField_9(new JTextField());
 		getTextField_9().setColumns(10);
 		add(textField_9, "4, 6, fill, center");
-		add(btnCost, "6, 6, center, center");
+		add(btnCost, "6, 6, 3, 1, fill, center");
 		
 		setTextField_8(new JTextField());
 		getTextField_8().setColumns(10);
-		add(textField_8, "8, 6, 5, 1, left, center");
+		add(textField_8, "10, 6, 3, 1, left, center");
 		
 		JLabel lblFuelPercentage = new JLabel("Fuel Percentage");
 		add(lblFuelPercentage, "2, 8, left, center");
@@ -283,11 +283,11 @@ public class Return extends JPanel
 		setTextField_10(new JTextField());
 		getTextField_10().setColumns(10);
 		add(textField_10, "4, 8, right, center");
-		add(btnCost_1, "6, 8, center, center");
+		add(btnCost_1, "6, 8, 3, 1, fill, center");
 		
 		setTextField_19(new JTextField());
 		getTextField_19().setColumns(10);
-		add(textField_19, "8, 8, 5, 1, left, center");
+		add(textField_19, "10, 8, 3, 1, left, center");
 		
 		JLabel lblVehicleDescription = new JLabel("Vehicle Description");
 		add(lblVehicleDescription, "2, 10, left, center");
@@ -314,14 +314,14 @@ public class Return extends JPanel
 		add(textField_13, "4, 14, right, center");
 		add(btnCalculateTotalCost, "2, 18, 3, 1, left, bottom");
 		
-		JLabel lblRedeemPoints = new JLabel("Redeem Points");
+		JLabel lblRedeemPoints = new JLabel("Club Points");
 		add(lblRedeemPoints, "12, 18, 2, 1, left, top");
 		
 		textField_17 = new JTextField();
 		textField_17.setText("0");
 		textField_17.setColumns(10);
 		add(textField_17, "15, 18, center, center");
-		add(btnRedeem, "17, 18, left, top");
+		add(btnRedeem, "17, 18, fill, top");
 		add(lblTotalCost, "2, 20, left, center");
 		add(textField_15, "4, 20, 3, 1, left, bottom");
 		add(lblCostAfterRedeeming, "12, 20, 2, 1, left, center");
@@ -332,8 +332,8 @@ public class Return extends JPanel
 		getTextField_18().setColumns(10);
 		add(textField_18, "15, 20, left, top");
 		
-		btnAddPoints = new JButton("Add Points");
-		add(btnAddPoints, "17, 20, left, top");
+		btnPayWithPoints = new JButton("Pay With points");
+		add(btnPayWithPoints, "17, 20, 3, 1, left, top");
 		add(textField_11, "4, 22, 3, 1, left, top");
 		add(btnCheckDetails, "15, 2, 3, 1, left, top");
 		add(panel, "2, 4, 22, 1, fill, top");
@@ -357,7 +357,7 @@ public class Return extends JPanel
 	
 	public void addPointsActionListener(ClerkController clerk)
 	{
-		btnAddPoints.addActionListener(clerk);
+		btnPayWithPoints.addActionListener(clerk);
 	}
 	
 	public void paymentActionListener(ClerkController clerk)
@@ -544,5 +544,6 @@ public class Return extends JPanel
 
 	public void setTextField_18(JTextField textField_18) {
 		this.textField_18 = textField_18;
+		textField_18.setText("0");
 	}
 }

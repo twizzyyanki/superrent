@@ -30,8 +30,7 @@ public class ClerkHome extends JFrame
 	JButton btnRent = new JButton("Rent");
 	JButton btnReturn = new JButton("Return");
 	JButton btnManageReservation = new JButton("Manage Reservation");
-	
-	
+
 	JPanel panel = new JPanel();
 	JPanel panel_1 = new JPanel();
 	private JPanel panel_2 = new JPanel();
@@ -237,6 +236,10 @@ public class ClerkHome extends JFrame
 		btnManageReservation.addActionListener(clerkController);
 	}
 
+	public void ChangePasswordActionListener(ClerkController clerkController)
+	{
+		btnChangePassword.addActionListener(clerkController);
+	}
 
 	public JPanel getPanel_2() {
 		return panel_2;

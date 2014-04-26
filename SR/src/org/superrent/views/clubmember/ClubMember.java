@@ -26,8 +26,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Dimension;
 
-public class ClubMember extends JFrame {
-
+public class ClubMember extends JFrame 
+{
 	private JPanel contentPane;
 	private final LoginController lc;
 	private final ClubMemberController clubMemberController;
@@ -144,7 +144,8 @@ public class ClubMember extends JFrame {
 	/**
 	 * @return
 	 */
-	public JPanel getPanelCenter() {
+	public JPanel getPanelCenter() 
+	{
 		return panelCenter;
 	}
 
@@ -178,7 +179,8 @@ public class ClubMember extends JFrame {
 		return panelCenter;
 	}
 
-	public ValidationGroup getChangePasswordGroup() {
+	public ValidationGroup getChangePasswordGroup()
+	{
 		return changePasswordGroup;
 	}
 }
