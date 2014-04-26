@@ -1,7 +1,10 @@
 package org.superrent.daos;
 
+import org.superrent.entities.AdditionalEquipment;
 import org.superrent.entities.SellVehicleVO;
 import org.superrent.entities.SuperRent;
+import org.superrent.entities.SuperRentInsuranceRate;
+import org.superrent.entities.SuperRentRentalRate;
 import org.superrent.entities.VehicleVO;
 import org.superrent.views.manager.ManagerHome;
 
@@ -33,5 +36,14 @@ public interface IManagerDao {
 	public SuperRent getOtherRates();
 
 	public boolean saveOtherRates(SuperRent superRent);
+
+	public boolean updateRentalRate(SuperRentRentalRate superRentRentalRate);
+
+	public boolean updateInsuranceRate(
+			SuperRentInsuranceRate superRentInsuranceRate);
+
+	public void getAddnEquipRates(ManagerHome managerFrame);
+
+	public boolean updateAddnEquipRate(AdditionalEquipment additionalEquipment);
 
 	}

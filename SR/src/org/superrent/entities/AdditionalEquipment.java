@@ -1,17 +1,20 @@
 package org.superrent.entities;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 public class AdditionalEquipment implements Serializable {
     private static final long serialVersionUID = 1L;
    
     protected AdditionalEquipmentPK additionalEquipmentPK;
     
+    private String category;
+    
     private double hourlyRate;
    
     private double dailyRate;
     
-    private String updateData;
+    private Date updateData;
 
     public AdditionalEquipment() {
     }
@@ -20,7 +23,7 @@ public class AdditionalEquipment implements Serializable {
         this.additionalEquipmentPK = additionalEquipmentPK;
     }
 
-    public AdditionalEquipment(AdditionalEquipmentPK additionalEquipmentPK, double hourlyRate, double dailyRate, String updateData) {
+    public AdditionalEquipment(AdditionalEquipmentPK additionalEquipmentPK, double hourlyRate, double dailyRate, Date updateData) {
         this.additionalEquipmentPK = additionalEquipmentPK;
         this.hourlyRate = hourlyRate;
         this.dailyRate = dailyRate;
@@ -55,15 +58,23 @@ public class AdditionalEquipment implements Serializable {
         this.dailyRate = dailyRate;
     }
 
-    public String getUpdateData() {
+    public Date getUpdateData() {
         return updateData;
     }
 
-    public void setUpdateData(String updateData) {
-        this.updateData = updateData;
+    public void setUpdateData(Date date) {
+        this.updateData = date;
     }
 
-    @Override
+    public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	@Override
     public int hashCode() {
         int hash = 0;
         hash += (additionalEquipmentPK != null ? additionalEquipmentPK.hashCode() : 0);

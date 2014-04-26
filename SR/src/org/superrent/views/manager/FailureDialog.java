@@ -58,12 +58,12 @@ public class FailureDialog extends JDialog {
 		lblError.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		contentPanel.add(lblError, "4, 4, center, center");
 		{
-			JLabel lblNewLabel = new JLabel("Vehicle with this registration number");
+			JLabel lblNewLabel = new JLabel("Transaction Failed");
 			lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
 			contentPanel.add(lblNewLabel, "4, 6, center, center");
 		}
 		
-		JLabel lblExists = new JLabel("  EXISTS!!!");
+		JLabel lblExists = new JLabel("Please Contact Support");
 		lblExists.setFont(new Font("Tahoma", Font.BOLD, 11));
 		contentPanel.add(lblExists, "4, 8, center, center");
 	}

@@ -5,6 +5,7 @@
 package org.superrent.entities;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 /**
  *
@@ -16,13 +17,17 @@ public class SuperRentInsuranceRate implements Serializable {
   
     protected SuperRentInsuranceRatePK superRentInsuranceRatePK;   
   
+    private String category;
+    
+    private String type;
+    
     private double hourlyRate;
     
     private double dailyRate;
    
     private double weeklyRate;
    
-    private String updateData;
+    private Date updateData;
    
     private SuperRent superRent;
 
@@ -33,7 +38,7 @@ public class SuperRentInsuranceRate implements Serializable {
         this.superRentInsuranceRatePK = superRentInsuranceRatePK;
     }
 
-    public SuperRentInsuranceRate(SuperRentInsuranceRatePK superRentInsuranceRatePK, double dailyRate, double hourlyRate, double weeklyRate, String updateData) {
+    public SuperRentInsuranceRate(SuperRentInsuranceRatePK superRentInsuranceRatePK, double dailyRate, double hourlyRate, double weeklyRate, Date updateData) {
         this.superRentInsuranceRatePK = superRentInsuranceRatePK;
         this.dailyRate = dailyRate;
         this.hourlyRate = hourlyRate;
@@ -77,11 +82,11 @@ public class SuperRentInsuranceRate implements Serializable {
         this.weeklyRate = weeklyRate;
     }
 
-    public String getUpdateData() {
+    public Date getUpdateData() {
         return updateData;
     }
 
-    public void setUpdateData(String updateData) {
+    public void setUpdateData(Date updateData) {
         this.updateData = updateData;
     }
 
@@ -89,7 +94,23 @@ public class SuperRentInsuranceRate implements Serializable {
         return superRent;
     }
 
-    public void setSuperRent(SuperRent superRent) {
+    public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public void setSuperRent(SuperRent superRent) {
         this.superRent = superRent;
     }
 

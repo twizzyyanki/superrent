@@ -36,9 +36,10 @@ public class ManageRatesPanel extends JPanel implements ActionListener{
 	private JTextField taxField;
 	private JTextField memPointsTxt;
 	private JTextField FuelRateTxt;
-	private JTable table_3;
+	
 	private static int insuranceRow=-1;
 	private static int rentalRow=-1;
+	private static int addnEquipRow=-1;
 	
 	JButton btnEditInsuranceRate = new JButton("Edit Insurance Rate");
 	JButton btnEditRentalRate = new JButton("Edit Rental Rate");
@@ -47,17 +48,15 @@ public class ManageRatesPanel extends JPanel implements ActionListener{
 	JButton btnCancelEditRental = new JButton("Cancel");
 	JButton rentalRateSaveEditBtn = new JButton("Save");
 	
+	JButton btnAddnEquipCanel = new JButton("Cancel");
+	JButton btnEditSelectedRate = new JButton("Edit Selected Rate");
+	JButton btnAddnEquipSaveBtn = new JButton("Save");
+	
 	JPanel rentalratePanel = new JPanel();
 	JButton btnSave = new JButton("Save");
-	
-	private JTextField carDayCSTxt;
-	private JTextField carSRDayTxt;
-	private JTextField truckHourCSTxt;
-	private JTextField truckHourSRTxt;
-	private JTextField truckDayCSTxt;
-	private JTextField truckDaySRTxt;
-	private JTextField carHourCSTxt;
-	private JTextField carHourSRTxt;
+	private JTable additionalEquipmentTable;
+	private JTextField minReedemablePointsTxt;
+	private JTextField clubPointsPerDollarTxt;
 
 	/**
 	 * Create the panel.
@@ -89,6 +88,10 @@ public class ManageRatesPanel extends JPanel implements ActionListener{
 		
 		tabbedPane.addTab("Rental Rates", null, rentalratePanel, null);
 		rentalratePanel.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("65px"),
+				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("65px"),
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -102,7 +105,7 @@ public class ManageRatesPanel extends JPanel implements ActionListener{
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("652px"),
+				ColumnSpec.decode("max(159dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("652px"),
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -117,7 +120,7 @@ public class ManageRatesPanel extends JPanel implements ActionListener{
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
-		rentalratePanel.add(scrollPane, "2, 2, 15, 1, left, top");
+		rentalratePanel.add(scrollPane, "2, 2, 17, 1, fill, top");
 		
 		rentalRateTable = new JTable(){
 			private static final long serialVersionUID = 1L;
@@ -162,41 +165,25 @@ public class ManageRatesPanel extends JPanel implements ActionListener{
 		));
 		
 		btnEditRentalRate.addActionListener(this);
-		rentalratePanel.add(btnEditRentalRate, "8, 4, center, center");
+		rentalratePanel.add(btnEditRentalRate, "12, 4, center, center");
 		
 		
 		rentalRateSaveEditBtn.setActionCommand("rentalRateSaveEdit");
 		rentalRateSaveEditBtn.setEnabled(false);
 		rentalRateSaveEditBtn.addActionListener(managerController);
-		rentalratePanel.add(rentalRateSaveEditBtn, "10, 4, center, default");
+		rentalratePanel.add(rentalRateSaveEditBtn, "10, 6, center, default");
 		
 		
 		btnCancelEditRental.addActionListener(this);
 		btnCancelEditRental.setEnabled(false);
 		btnCancelEditRental.setActionCommand("Cancel Rental Edit");
-		rentalratePanel.add(btnCancelEditRental, "12, 4, center, default");
-		
-		JPanel panel_4 = new JPanel();
-		tabbedPane.addTab("Exceeded limit Rates", null, panel_4, null);
-		
-		JScrollPane scrollPane_3 = new JScrollPane();
-		panel_4.add(scrollPane_3);
-		
-		table_3 = new JTable();
-		table_3.setPreferredScrollableViewportSize(new Dimension(650, 300));
-		scrollPane_3.setViewportView(table_3);
-		table_3.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Category", "Type", "Per Kilometer Rate"
-			}
-		));
-		table_3.getColumnModel().getColumn(2).setPreferredWidth(107);
+		rentalratePanel.add(btnCancelEditRental, "14, 6, center, default");
 		
 		JPanel panel_1 = new JPanel();
 		tabbedPane.addTab("Insurance Rates", null, panel_1, null);
 		panel_1.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("65px"),
 				FormFactory.BUTTON_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -216,7 +203,7 @@ public class ManageRatesPanel extends JPanel implements ActionListener{
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,},
+				ColumnSpec.decode("max(137dlu;default)"),},
 			new RowSpec[] {
 				FormFactory.LINE_GAP_ROWSPEC,
 				RowSpec.decode("327px"),
@@ -226,7 +213,7 @@ public class ManageRatesPanel extends JPanel implements ActionListener{
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		panel_1.add(scrollPane_1, "2, 2, 11, 1, left, top");
+		panel_1.add(scrollPane_1, "3, 2, 20, 1, fill, top");
 		
 		insuranceTable = new JTable(){
 			private static final long serialVersionUID = 1L;
@@ -269,32 +256,26 @@ public class ManageRatesPanel extends JPanel implements ActionListener{
 		));
 		
 		btnEditInsuranceRate.addActionListener(this);
-		panel_1.add(btnEditInsuranceRate, "12, 4, center, center");
+		panel_1.add(btnEditInsuranceRate, "14, 4, center, center");
 		
 		
 		saveInsuranceRateBtn.setActionCommand("SaveInsuranceRate");
 		saveInsuranceRateBtn.setEnabled(false);
 		saveInsuranceRateBtn.addActionListener(managerController);
-		panel_1.add(saveInsuranceRateBtn, "14, 4, center, default");
+		panel_1.add(saveInsuranceRateBtn, "12, 6, center, default");
 		
 		
 		
 		btnCancelInsuranceEdit.setActionCommand("Cancel Insurance Edit");
 		btnCancelInsuranceEdit.setEnabled(false);
 		btnCancelInsuranceEdit.addActionListener(this);
-		panel_1.add(btnCancelInsuranceEdit, "16, 4");
+		panel_1.add(btnCancelInsuranceEdit, "16, 6");
 		
 		insuranceTable.getColumnModel().getColumn(6).setPreferredWidth(90);
 		
 		JPanel panel_2 = new JPanel();
 		tabbedPane.addTab("Additional Equipment Rate", null, panel_2, null);
 		panel_2.setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(51dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -308,126 +289,78 @@ public class ManageRatesPanel extends JPanel implements ActionListener{
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,},
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("max(221dlu;default)"),},
 			new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
+				RowSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
+				RowSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
-		JLabel lblLocation = new JLabel("Location");
-		panel_2.add(lblLocation, "10, 4, center, default");
+		JScrollPane scrollPane_2 = new JScrollPane();
+		panel_2.add(scrollPane_2, "2, 2, 15, 1, fill, fill");
 		
-		JComboBox<String> locationCombox = new JComboBox<String>();
-		locationCombox.setEnabled(false);
-		locationCombox.setModel(new DefaultComboBoxModel<String>(new String[] {"Vancouver"}));
-		panel_2.add(locationCombox, "14, 4, left, default");
+		additionalEquipmentTable = new JTable(){
+			
+			private static final long serialVersionUID = 1L;
+
+	        public boolean isCellEditable(int row, int column) {                
+	               
+	        	if((!btnEditSelectedRate.isEnabled())  && addnEquipRow == row && !(column == 0) && !(column == 1) && !(column == 2) && !(column == 5)){
+	        		return true;
+	        	}
+	        	return false;               
+	        };
+	        
+	        @Override
+	    	public void changeSelection(int rowIndex, int columnIndex, boolean toggle, boolean extend) {
+	    		if (!btnEditSelectedRate.isEnabled()) {
+	    			int currentIndex = addnEquipRow;
+	    			if (rowIndex != currentIndex) {
+	    				
+	    			}else{
+	    				// make the selection change
+	    	    		super.changeSelection(rowIndex, columnIndex, toggle, extend);
+	    			}
+	    		}else{
+	    			// make the selection change
+    	    		super.changeSelection(rowIndex, columnIndex, toggle, extend);
+	    		}
+	    		
+	    	}
+
 		
-		JLabel lblCar = new JLabel("Car");
-		panel_2.add(lblCar, "6, 6, center, default");
+		};
+		additionalEquipmentTable.setPreferredScrollableViewportSize(new Dimension(650, 300));
+		scrollPane_2.setViewportView(additionalEquipmentTable);
+		additionalEquipmentTable.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"New column", "New column", "New column", "New column", "New column", "New column", "New column", "New column"
+			}
+		));
 		
-		JLabel lblTruck = new JLabel("Truck");
-		panel_2.add(lblTruck, "16, 6, center, default");
 		
-		JLabel label_3 = new JLabel("Per Hour");
-		panel_2.add(label_3, "6, 8, center, default");
+		btnEditSelectedRate.addActionListener(this);
+		panel_2.add(btnEditSelectedRate, "12, 4, center, default");
 		
-		JLabel label_2 = new JLabel("Per Day");
-		panel_2.add(label_2, "8, 8, center, default");
 		
-		JLabel lblPerHour = new JLabel("Per Hour");
-		panel_2.add(lblPerHour, "16, 8, center, default");
+		btnAddnEquipCanel.setEnabled(false);
+		btnAddnEquipCanel.setActionCommand("AddnEquipCancel");
+		btnAddnEquipCanel.addActionListener(this);
 		
-		JLabel lblPerDay = new JLabel("Per Day");
-		panel_2.add(lblPerDay, "18, 8, center, default");
 		
-		JLabel lblNewLabel_1 = new JLabel("Child Seat");
-		panel_2.add(lblNewLabel_1, "4, 10");
-		
-		carHourCSTxt = new JTextField();
-		carHourCSTxt.setEnabled(false);
-		carHourCSTxt.setColumns(10);
-		panel_2.add(carHourCSTxt, "6, 10, fill, default");
-		
-		carDayCSTxt = new JTextField();
-		carDayCSTxt.setEnabled(false);
-		panel_2.add(carDayCSTxt, "8, 10, fill, default");
-		carDayCSTxt.setColumns(10);
-		
-		JButton carCSEditBtn = new JButton("Edit");
-		carCSEditBtn.setActionCommand("carCSEditBtn");
-		panel_2.add(carCSEditBtn, "10, 10");
-		
-		JLabel label = new JLabel("Child Seat");
-		panel_2.add(label, "14, 10, center, default");
-		
-		truckHourCSTxt = new JTextField();
-		truckHourCSTxt.setEnabled(false);
-		truckHourCSTxt.setColumns(10);
-		panel_2.add(truckHourCSTxt, "16, 10, fill, default");
-		
-		truckDayCSTxt = new JTextField();
-		truckDayCSTxt.setEnabled(false);
-		truckDayCSTxt.setColumns(10);
-		panel_2.add(truckDayCSTxt, "18, 10, fill, default");
-		
-		JButton TruckCSEditBtn = new JButton("Edit");
-		TruckCSEditBtn.setActionCommand("TruckCSEditBtn");
-		panel_2.add(TruckCSEditBtn, "20, 10");
-		
-		JLabel lblSkiRack = new JLabel("Ski Rack");
-		panel_2.add(lblSkiRack, "4, 12, right, default");
-		
-		carHourSRTxt = new JTextField();
-		carHourSRTxt.setEnabled(false);
-		carHourSRTxt.setColumns(10);
-		panel_2.add(carHourSRTxt, "6, 12, fill, default");
-		
-		carSRDayTxt = new JTextField();
-		carSRDayTxt.setEnabled(false);
-		panel_2.add(carSRDayTxt, "8, 12, fill, default");
-		carSRDayTxt.setColumns(10);
-		
-		JButton carSREditBtn = new JButton("Edit");
-		carSREditBtn.setActionCommand("carSREditBtn");
-		panel_2.add(carSREditBtn, "10, 12");
-		
-		JLabel label_1 = new JLabel("Ski Rack");
-		panel_2.add(label_1, "14, 12, center, default");
-		
-		truckHourSRTxt = new JTextField();
-		truckHourSRTxt.setEnabled(false);
-		truckHourSRTxt.setColumns(10);
-		panel_2.add(truckHourSRTxt, "16, 12, fill, default");
-		
-		truckDaySRTxt = new JTextField();
-		truckDaySRTxt.setEnabled(false);
-		truckDaySRTxt.setColumns(10);
-		panel_2.add(truckDaySRTxt, "18, 12, fill, default");
-		
-		JButton TruckSREditBtn = new JButton("Edit");
-		TruckSREditBtn.setActionCommand("TruckSREditBtn");
-		panel_2.add(TruckSREditBtn, "20, 12");
-		
-		JButton updateAddnEquip = new JButton("Save");
-		updateAddnEquip.setActionCommand("updateAddnEquip");
-		panel_2.add(updateAddnEquip, "12, 18");
+		btnAddnEquipSaveBtn.setEnabled(false);
+		btnAddnEquipSaveBtn.setActionCommand("Additional Equipment Save");
+		btnAddnEquipSaveBtn.addActionListener(managerController);
+		panel_2.add(btnAddnEquipSaveBtn, "10, 6");
+		panel_2.add(btnAddnEquipCanel, "14, 6, center, default");
 		
 		JPanel panel_3 = new JPanel();
 		tabbedPane.addTab("Other Rates", null, panel_3, null);
@@ -464,13 +397,17 @@ public class ManageRatesPanel extends JPanel implements ActionListener{
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("max(17dlu;default)"),
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
-		JLabel lblNewLabel = new JLabel("New label");
+		JLabel lblNewLabel = new JLabel("Location");
 		panel_3.add(lblNewLabel, "16, 4");
 		
 		JComboBox<String> comboBox = new JComboBox<String>();
@@ -491,49 +428,76 @@ public class ManageRatesPanel extends JPanel implements ActionListener{
 		btnMemberShipEdit.addActionListener(this);
 		panel_3.add(btnMemberShipEdit, "22, 6");
 		
+		JLabel lblNewLabel_1 = new JLabel("Minimum Redeemable Points");
+		panel_3.add(lblNewLabel_1, "16, 8");
+		
+		minReedemablePointsTxt = new JTextField();
+		minReedemablePointsTxt.setEnabled(false);
+		panel_3.add(minReedemablePointsTxt, "20, 8, fill, default");
+		minReedemablePointsTxt.setColumns(10);
+		
+		JButton btnReemablePointsEdit = new JButton("Edit");
+		btnReemablePointsEdit.addActionListener(this);
+		btnReemablePointsEdit.setActionCommand("Reedemable Points Button");
+		panel_3.add(btnReemablePointsEdit, "22, 8");
+		
+		JLabel lblClubpointsPerDollar = new JLabel("ClubPoints per dollar");
+		panel_3.add(lblClubpointsPerDollar, "16, 10, left, center");
+		
+		clubPointsPerDollarTxt = new JTextField();
+		clubPointsPerDollarTxt.setEnabled(false);
+		clubPointsPerDollarTxt.setActionCommand("Club Points Per Dollar");
+		panel_3.add(clubPointsPerDollarTxt, "20, 10, fill, default");
+		clubPointsPerDollarTxt.setColumns(10);
+		
+		JButton clubPointsPerDollarBtn = new JButton("Edit");
+		clubPointsPerDollarBtn.addActionListener(this);
+		clubPointsPerDollarBtn.setActionCommand("ClubPoints Per Dollar Button");
+		panel_3.add(clubPointsPerDollarBtn, "22, 10");
+		
 		JLabel lblTax = new JLabel("Tax");
-		panel_3.add(lblTax, "16, 8");
+		panel_3.add(lblTax, "16, 12");
 		
 		taxField = new JTextField();
 		taxField.setEnabled(false);
-		panel_3.add(taxField, "20, 8, fill, default");
+		panel_3.add(taxField, "20, 12, fill, default");
 		taxField.setColumns(10);
 		
 		JButton btnEditTax = new JButton("Edit");
 		btnEditTax.setActionCommand("EditTax");	
 		btnEditTax.addActionListener(this);
-		panel_3.add(btnEditTax, "22, 8");
+		panel_3.add(btnEditTax, "22, 12");
 		
 		JLabel lblMembershipRentalPoints = new JLabel("Membership Points");
-		panel_3.add(lblMembershipRentalPoints, "16, 10");
+		panel_3.add(lblMembershipRentalPoints, "16, 14");
 		
 		memPointsTxt = new JTextField();
 		memPointsTxt.setEnabled(false);
-		panel_3.add(memPointsTxt, "20, 10, fill, default");
+		panel_3.add(memPointsTxt, "20, 14, fill, default");
 		memPointsTxt.setColumns(10);
 		
 		JButton btnMemPoints = new JButton("Edit");
 		btnMemPoints.setActionCommand("EditMemPoints");
 		btnMemPoints.addActionListener(this);
-		panel_3.add(btnMemPoints, "22, 10");
+		panel_3.add(btnMemPoints, "22, 14");
 		
 		JLabel lblFuelRatesTank = new JLabel("Fuel Rates(10% tank)");
-		panel_3.add(lblFuelRatesTank, "16, 12");
+		panel_3.add(lblFuelRatesTank, "16, 16");
 		
 		FuelRateTxt = new JTextField();
 		FuelRateTxt.setEnabled(false);
-		panel_3.add(FuelRateTxt, "20, 12, fill, default");
+		panel_3.add(FuelRateTxt, "20, 16, fill, default");
 		FuelRateTxt.setColumns(10);
 		
 		JButton btnFuelRate = new JButton("Edit");
 		btnFuelRate.setActionCommand("EditFuelRates");
 		btnFuelRate.addActionListener(this);
-		panel_3.add(btnFuelRate, "22, 12");
+		panel_3.add(btnFuelRate, "22, 16");
 		
 		
 		btnSave.setActionCommand("Save Other Rates");
 		btnSave.addActionListener(managerController);
-		panel_3.add(btnSave, "18, 14");
+		panel_3.add(btnSave, "18, 18");
 
 	}
 
@@ -599,7 +563,87 @@ public class ManageRatesPanel extends JPanel implements ActionListener{
 	}
 	
 
-	// @Override
+	public JButton getBtnEditInsuranceRate() {
+		return btnEditInsuranceRate;
+	}
+
+	public void setBtnEditInsuranceRate(JButton btnEditInsuranceRate) {
+		this.btnEditInsuranceRate = btnEditInsuranceRate;
+	}
+
+	public JButton getBtnEditRentalRate() {
+		return btnEditRentalRate;
+	}
+
+	public void setBtnEditRentalRate(JButton btnEditRentalRate) {
+		this.btnEditRentalRate = btnEditRentalRate;
+	}
+
+	public JButton getSaveInsuranceRateBtn() {
+		return saveInsuranceRateBtn;
+	}
+
+	public void setSaveInsuranceRateBtn(JButton saveInsuranceRateBtn) {
+		this.saveInsuranceRateBtn = saveInsuranceRateBtn;
+	}
+
+	public JButton getBtnCancelInsuranceEdit() {
+		return btnCancelInsuranceEdit;
+	}
+
+	public void setBtnCancelInsuranceEdit(JButton btnCancelInsuranceEdit) {
+		this.btnCancelInsuranceEdit = btnCancelInsuranceEdit;
+	}
+
+	public JButton getBtnCancelEditRental() {
+		return btnCancelEditRental;
+	}
+
+	public void setBtnCancelEditRental(JButton btnCancelEditRental) {
+		this.btnCancelEditRental = btnCancelEditRental;
+	}
+
+	public JButton getRentalRateSaveEditBtn() {
+		return rentalRateSaveEditBtn;
+	}
+
+	public void setRentalRateSaveEditBtn(JButton rentalRateSaveEditBtn) {
+		this.rentalRateSaveEditBtn = rentalRateSaveEditBtn;
+	}
+
+	public JButton getBtnAddnEquipCanel() {
+		return btnAddnEquipCanel;
+	}
+
+	public void setBtnAddnEquipCanel(JButton btnAddnEquipCanel) {
+		this.btnAddnEquipCanel = btnAddnEquipCanel;
+	}
+
+	public JButton getBtnEditSelectedRate() {
+		return btnEditSelectedRate;
+	}
+
+	public void setBtnEditSelectedRate(JButton btnEditSelectedRate) {
+		this.btnEditSelectedRate = btnEditSelectedRate;
+	}
+
+	public JButton getBtnAddnEquipSaveBtn() {
+		return btnAddnEquipSaveBtn;
+	}
+
+	public void setBtnAddnEquipSaveBtn(JButton btnAddnEquipSaveBtn) {
+		this.btnAddnEquipSaveBtn = btnAddnEquipSaveBtn;
+	}
+
+	public JTable getAdditionalEquipmentTable() {
+		return additionalEquipmentTable;
+	}
+
+	public void setAdditionalEquipmentTable(JTable additionalEquipmentTable) {
+		this.additionalEquipmentTable = additionalEquipmentTable;
+	}
+
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		
 		if(e.getActionCommand().equals("EditMemPoints")){
@@ -618,6 +662,16 @@ public class ManageRatesPanel extends JPanel implements ActionListener{
 		else if(e.getActionCommand().equals("EditFuelRates")){
 			
 			FuelRateTxt.setEnabled(true);
+			
+		}
+		else if(e.getActionCommand().equals("ClubPoints Per Dollar Button")){
+			
+			clubPointsPerDollarTxt.setEnabled(true);
+			
+		}
+		else if(e.getActionCommand().equals("Reedemable Points Button")){
+			
+			minReedemablePointsTxt.setEnabled(true);
 			
 		}
 		else if(e.getActionCommand().equals("Edit Rental Rate")){
@@ -639,8 +693,20 @@ public class ManageRatesPanel extends JPanel implements ActionListener{
 			
 			
 		}
-		else if(e.getActionCommand().equals("Cancel Insurance Edit")){
+		else if(e.getActionCommand().equals("Edit Selected Rate")){
 			
+			btnEditSelectedRate.setEnabled(false);
+			btnAddnEquipSaveBtn.setEnabled(true);
+			btnAddnEquipCanel.setEnabled(true);
+			int row = additionalEquipmentTable.getSelectedRow();
+			System.out.println("row----" + row);
+			addnEquipRow = row;
+			
+			
+			
+		}
+		else if(e.getActionCommand().equals("Cancel Insurance Edit")){
+		
 			saveInsuranceRateBtn.setEnabled(false);
 			btnCancelInsuranceEdit.setEnabled(false);
 			btnEditInsuranceRate.setEnabled(true);
@@ -658,7 +724,33 @@ public class ManageRatesPanel extends JPanel implements ActionListener{
 			rentalRow=-1;
 			
 		}
+		
+		else if(e.getActionCommand().equals("AddnEquipCancel")){
+			
+			btnAddnEquipSaveBtn.setEnabled(false);
+			btnAddnEquipCanel.setEnabled(false);
+			btnEditSelectedRate.setEnabled(true);
+			managerController.getAddnEquipRates();
+			addnEquipRow=-1;
+			
+		}
 	
+	}
+
+	public String getMinReedemablePointsTxt() {
+		return minReedemablePointsTxt.getText();
+	}
+
+	public void setMinReedemablePointsTxt(String minReedemablePointsTxt) {
+		this.minReedemablePointsTxt.setText(minReedemablePointsTxt);
+	}
+
+	public String getClubPointsPerDollarTxt() {
+		return clubPointsPerDollarTxt.getText();
+	}
+
+	public void setClubPointsPerDollarTxt(String clubPointsPerDollarTxt) {
+		this.clubPointsPerDollarTxt.setText(clubPointsPerDollarTxt);
 	}
 
 }

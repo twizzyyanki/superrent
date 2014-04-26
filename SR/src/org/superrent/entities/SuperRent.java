@@ -25,6 +25,10 @@ public class SuperRent implements Serializable {
     private Integer membershipPoints;
     
     private double fuelRate;
+    
+    private double oneClubPoint;
+    
+    private String reedemablePoints;
    
     private Collection<Vehicle> vehicleCollection;
    
@@ -136,6 +140,22 @@ public class SuperRent implements Serializable {
 
 	public void setFuelRate(double fuelRate) {
 		this.fuelRate = fuelRate;
+	}
+
+	public double getOneClubPoint() {
+		return oneClubPoint;
+	}
+
+	public void setOneClubPoint(double oneClubPoint) {
+		this.oneClubPoint = oneClubPoint;
+	}
+
+	public String getReedemablePoints() {
+		return reedemablePoints;
+	}
+
+	public void setReedemablePoints(String reedemablePoints) {
+		this.reedemablePoints = reedemablePoints;
 	}
 
 	@Override

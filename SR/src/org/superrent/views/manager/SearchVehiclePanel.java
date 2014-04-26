@@ -1,5 +1,6 @@
 package org.superrent.views.manager;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -20,6 +21,7 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 import com.toedter.calendar.JYearChooser;
+import javax.swing.ListSelectionModel;
 
 public class SearchVehiclePanel extends JPanel implements ActionListener{
 	/**
@@ -48,7 +50,7 @@ public class SearchVehiclePanel extends JPanel implements ActionListener{
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(57dlu;default)"),
+				ColumnSpec.decode("center:max(40dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -58,19 +60,13 @@ public class SearchVehiclePanel extends JPanel implements ActionListener{
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(53dlu;default)"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("default:grow"),
+				ColumnSpec.decode("max(45dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,},
+				ColumnSpec.decode("max(32dlu;default)"),},
 			new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
@@ -85,60 +81,59 @@ public class SearchVehiclePanel extends JPanel implements ActionListener{
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
-		JLabel lblSearchVehicles = new JLabel("Search Vehicles");
-		add(lblSearchVehicles, "14, 2, 2, 1, center, center");
-		
 		JLabel lblLocation = new JLabel("Location");
-		add(lblLocation, "4, 4, right, default");
+		add(lblLocation, "2, 4, right, default");
 		
 		JComboBox<String> locationCombox = new JComboBox<String>();
 		locationCombox.setModel(new DefaultComboBoxModel(new String[] {"All", "Vancouver"}));
-		add(locationCombox, "6, 4, left, center");
+		add(locationCombox, "4, 4, left, center");
 		
 		JLabel lblCategory = new JLabel("Category");
-		add(lblCategory, "8, 4, fill, default");
+		add(lblCategory, "6, 4, center, default");
 		
 		
 		categoryCombox.setModel(new DefaultComboBoxModel(new String[] {"All", "Car", "Truck"}));
-		add(categoryCombox, "10, 4, left, default");
+		add(categoryCombox, "8, 4, left, default");
 		
 	    //  prevent action events from being fired when the up/down arrow keys are used
 		categoryCombox.putClientProperty("JComboBox.isTableCellEditor", Boolean.TRUE);
 		categoryCombox.addActionListener( this );
 		
 		JLabel lblType = new JLabel("Type");
-		add(lblType, "12, 4, fill, default");
+		add(lblType, "10, 4, fill, default");
 		
 		typeCombox.setModel(new DefaultComboBoxModel<String>(new String[] {"ALL", "ECONOMY","COMPACT","MID-SIZE",
 																		  "STANDARD", "FULL-SIZE", "PREMIUM","LUXURY", "SUV",
 																		  "VAN", "24-FOOT", "15-FOOT", "12-FOOT", "BOX TRUCK", 
 																		  "CARGO VAN"}));
-		add(typeCombox, "14, 4, fill, default");
-		
-		JLabel lblPurchasedyear = new JLabel("Year Purchased");
-		add(lblPurchasedyear, "16, 4, right, default");
+		add(typeCombox, "12, 4, fill, default");
 		
 		
 		JSpinner spinner = (JSpinner) yearChooser.getSpinner();
 		((javax.swing.JTextField)spinner.getEditor()).setEditable(false);
 		
-		add(yearChooser, "18, 4, left, fill");
+		JLabel lblPurchasedyear = new JLabel("Year Purchased");
+		add(lblPurchasedyear, "14, 4, right, default");
+		
+		add(yearChooser, "16, 4, left, fill");
 		
 		JLabel lblStatus = new JLabel("Status");
-		add(lblStatus, "20, 4, right, default");
+		add(lblStatus, "18, 4, right, default");
 		
 		
 		statusCombox.setModel(new DefaultComboBoxModel(new String[] {"ALL", "FOR-RENT", "FOR-SALE", "SOLD"}));
-		add(statusCombox, "22, 4, fill, default");
+		add(statusCombox, "20, 4, fill, default");
 		
 		JButton btnSearch = new JButton("Search");
-		add(btnSearch, "24, 4, right, default");
+		add(btnSearch, "22, 4, right, default");
 		btnSearch.addActionListener(managerController);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		add(scrollPane, "2, 8, 23, 1, fill, fill");
+		add(scrollPane, "2, 8, 20, 1, fill, fill");
 		
 		searchtable = new JTable();
+		searchtable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		searchtable.setPreferredScrollableViewportSize(new Dimension(650, 300));
 		searchtable.setModel(new DefaultTableModel(
 			new Object[][] {
 				{null, null, null, null, null, null, null, null},
@@ -154,15 +149,15 @@ public class SearchVehiclePanel extends JPanel implements ActionListener{
 		
 		JButton btnEdit = new JButton("Edit");
 		btnEdit.addActionListener(managerController);
-		add(btnEdit, "16, 10, center, fill");
+		add(btnEdit, "14, 10, center, fill");
 		
 		JButton btnAddForSale = new JButton("Add For Sale");
-		add(btnAddForSale, "18, 10, center, default");
+		add(btnAddForSale, "16, 10, center, default");
 		btnAddForSale.addActionListener(managerController);
 
 	}
 
-	// @Override
+	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		String item = (String)categoryCombox.getSelectedItem();
 		if(item.equalsIgnoreCase("CAR")){

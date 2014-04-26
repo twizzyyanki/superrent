@@ -4,12 +4,16 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
 
 import net.proteanit.sql.DbUtils;
 
 import org.superrent.application.DatabaseConnection;
+import org.superrent.entities.AdditionalEquipment;
 import org.superrent.entities.SellVehicleVO;
 import org.superrent.entities.SuperRent;
+import org.superrent.entities.SuperRentInsuranceRate;
+import org.superrent.entities.SuperRentRentalRate;
 import org.superrent.entities.VehicleVO;
 import org.superrent.views.manager.ManagerHome;
 
@@ -95,7 +99,7 @@ public class ManagerDaoImpl implements IManagerDao{
 		
 	}
 
-	// @Override
+	@Override
 	public boolean addVehicle(VehicleVO vehicleVO) {
 		boolean result = true;
 		try {
@@ -128,7 +132,7 @@ public class ManagerDaoImpl implements IManagerDao{
 		return result;
 	}
 
-	// @Override
+	@Override
 	public boolean updateVehicle(VehicleVO vehicleVO) {
 		boolean result = true;
 		try {
@@ -162,7 +166,7 @@ public class ManagerDaoImpl implements IManagerDao{
 		
 	}
 
-	// @Override
+	@Override
 	public boolean sellVehicle(SellVehicleVO sellVehicleVO) {
 		boolean result = true;
 		try {
@@ -197,7 +201,7 @@ public class ManagerDaoImpl implements IManagerDao{
 		return result;
 	}
 
-	// @Override
+	@Override
 	public boolean vehicleSold(SellVehicleVO sellVehicleVO) {
 		boolean result = true;
 		try {
@@ -228,7 +232,7 @@ public class ManagerDaoImpl implements IManagerDao{
 		return result;
 	}
 
-	// @Override
+	@Override
 	public boolean updateSellingPrice(SellVehicleVO sellVehicleVO) {
 		boolean result = true;
 		try {
@@ -257,7 +261,7 @@ public class ManagerDaoImpl implements IManagerDao{
 	
 	}
 	
-	// @Override
+	@Override
 	public boolean moveForRent(SellVehicleVO sellVehicleVO) {
 		boolean result = true;
 		try {
@@ -287,7 +291,7 @@ public class ManagerDaoImpl implements IManagerDao{
 	
 	}
 
-	// @Override
+	@Override
 	public void getRentalRate(ManagerHome managerFrame) {
 		// TODO Auto-generated method stub
 	try{	
@@ -316,7 +320,7 @@ public class ManagerDaoImpl implements IManagerDao{
 		
 	}
 
-	// @Override
+	@Override
 	public void getInsuranceRates(ManagerHome managerFrame) {
 		
 		try{	
@@ -344,13 +348,13 @@ public class ManagerDaoImpl implements IManagerDao{
 		
 	}
 
-	// @Override
+	@Override
 	public boolean otherRates() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	// @Override
+	@Override
 	public SuperRent getOtherRates() {
 		// TODO Auto-generated method stub
 		SuperRent superRent = new SuperRent();
@@ -367,6 +371,9 @@ public class ManagerDaoImpl implements IManagerDao{
 	            superRent.setMembershipFees(resultSet.getDouble("membershipFees"));
 				superRent.setTax(resultSet.getDouble("tax"));
 				superRent.setFuelRate(resultSet.getDouble(("fuelRate")));
+				superRent.setMembershipPoints(resultSet.getInt("MembershipPoint"));
+				superRent.setReedemablePoints(resultSet.getString("minRedeemablePoints"));
+				superRent.setOneClubPoint(resultSet.getDouble("perPointPayment"));
 	        }
 			
 			System.out.println("Working");
@@ -389,18 +396,23 @@ public class ManagerDaoImpl implements IManagerDao{
 		
 	}
 
-	// @Override
+	@Override
 	public boolean saveOtherRates(SuperRent superRent) {
 		boolean result = true;
 		try {
 			con = DatabaseConnection.createConnection();
 			con.setAutoCommit(false);
 			Statement st = con.createStatement();
-			
-			String query = "UPDATE SuperRent SET tax = " + superRent.getTax() + ", membershipFees = " + superRent.getMembershipFees()
-								+ ", fuelRate = "+ superRent.getFuelRate() + " where branchId =" + 1;
+
+			String query = "UPDATE SuperRent SET tax = " + superRent.getTax()
+					+ ", membershipFees = " + superRent.getMembershipFees()
+					+ ", fuelRate = " + superRent.getFuelRate()
+					+ ", minRedeemablePoints = " + superRent.getReedemablePoints()
+					+ ", perPointPayment = " + superRent.getOneClubPoint()
+					+ ", MembershipPoint = " + superRent.getMembershipPoints()
+					+ " where branchId =" + 1;
 			System.out.println(query);
-			
+
 			st.executeUpdate(query);
 			con.commit();
 
@@ -411,11 +423,144 @@ public class ManagerDaoImpl implements IManagerDao{
 			// TODO Auto-generated catch block
 			result = false;
 			e.printStackTrace();
+		} finally {
+			DatabaseConnection.close(con);
+		}
+		return result;
+
+	}
+
+	@Override
+	public boolean updateRentalRate(SuperRentRentalRate superRentRentalRate) {
+		boolean result = true;
+		Date date = new Date();
+		superRentRentalRate.setUpdateData(new java.sql.Date(date.getTime()));
+		try {
+			con = DatabaseConnection.createConnection();
+			con.setAutoCommit(false);
+			Statement st = con.createStatement();
+
+			String query = "UPDATE SuperRentRentalRate SET dailyRate = " + superRentRentalRate.getDailyRate()
+					+ ", weeklyRate = " + superRentRentalRate.getWeeklyRate()
+					+ ", hourlyRate = " + superRentRentalRate.getHourlyRate()
+					+ ", perKMRate = " + superRentRentalRate.getPerKMRate()
+					+ ", MileageLimit = " + superRentRentalRate.getHourlyRate()
+					+ ", lastUpdatedDate = '" + superRentRentalRate.getUpdateData() + " ' "
+					+ " where category = '" + superRentRentalRate.getCategory() + "'"
+					+ " and type = '" + superRentRentalRate.getType() + "'";
+			System.out.println(query);
+
+			st.executeUpdate(query);
+			con.commit();
+
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			result = false;
+			e.printStackTrace();
+		} finally {
+			DatabaseConnection.close(con);
+		}
+		return result;
+	}
+
+	@Override
+	public boolean updateInsuranceRate(
+			SuperRentInsuranceRate superRentInsuranceRate) {
+		boolean result = true;
+		Date date = new Date();
+		superRentInsuranceRate.setUpdateData(new java.sql.Date(date.getTime()));
+		try {
+			con = DatabaseConnection.createConnection();
+			con.setAutoCommit(false);
+			Statement st = con.createStatement();
+			
+			String query = "UPDATE SuperRentInsuranceRate SET dailyRate = " + superRentInsuranceRate.getDailyRate()
+					+ ", weeklyRate = " + superRentInsuranceRate.getWeeklyRate()
+					+ ", hourlyRate = " + superRentInsuranceRate.getHourlyRate()
+					+ ", lastUpdatedDate = '" + superRentInsuranceRate.getUpdateData() + " ' "
+					+ " where category = '" + superRentInsuranceRate.getCategory() + "'"
+					+ " and type = '" + superRentInsuranceRate.getType() + "'";
+			System.out.println(query);
+
+			st.executeUpdate(query);
+			con.commit();
+
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			result = false;
+			e.printStackTrace();
+		} finally {
+			DatabaseConnection.close(con);
+		}
+		return result;
+	}
+
+	@Override
+	public void getAddnEquipRates(ManagerHome managerFrame) {
+		// TODO Auto-generated method stub
+		
+		try{	
+			con = DatabaseConnection.createConnection();
+			con.setAutoCommit(false);
+			Statement st = con.createStatement();
+			
+			String query = "SELECT * FROM AdditionalEquipment";
+			resultSet = st.executeQuery(query);
+			managerFrame.getManageRatesPanel().getAdditionalEquipmentTable().setModel(DbUtils.resultSetToTableModel(resultSet));
+			
+			
+			System.out.println("Working");
+			
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		finally {
 			DatabaseConnection.close(con);
 		}
+		
+		
+	}
+
+	@Override
+	public boolean updateAddnEquipRate(AdditionalEquipment additionalEquipment) {
+		boolean result = true;
+		Date date = new Date();
+		additionalEquipment.setUpdateData(new java.sql.Date(date.getTime()));
+		try {
+			con = DatabaseConnection.createConnection();
+			con.setAutoCommit(false);
+			Statement st = con.createStatement();
+			
+			String query = "UPDATE AdditionalEquipment SET dailyRate = " + additionalEquipment.getDailyRate()					
+					+ ", hourlyRate = " + additionalEquipment.getHourlyRate()					
+					+ ", lastUpdatedDate = '" + additionalEquipment.getUpdateData() + " ' "
+					+ " where category = '" + additionalEquipment.getCategory() + "'";
+			System.out.println(query);
+
+			st.executeUpdate(query);
+			con.commit();
+
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			result = false;
+			e.printStackTrace();
+		} finally {
+			DatabaseConnection.close(con);
+		}
 		return result;
-	
+
 	}
 }

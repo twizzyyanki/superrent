@@ -5,6 +5,7 @@
 package org.superrent.entities;
 
 import java.io.Serializable;
+import java.sql.Date;
 
 /**
  *
@@ -17,6 +18,10 @@ public class SuperRentRentalRate implements Serializable {
     protected SuperRentRentalRatePK superRentRentalRatePK;
    
     private double dailyRate;
+    
+    private String category;
+    
+    private String type;
    
     private double weeklyRate;
    
@@ -26,7 +31,7 @@ public class SuperRentRentalRate implements Serializable {
    
     private double mileageLimit;
    
-    private String updateData;
+    private Date updateData;
    
     private SuperRent superRent;
 
@@ -37,7 +42,7 @@ public class SuperRentRentalRate implements Serializable {
         this.superRentRentalRatePK = superRentRentalRatePK;
     }
 
-    public SuperRentRentalRate(SuperRentRentalRatePK superRentRentalRatePK, double dailyRate, double weeklyRate, double hourlyRate, double perKMRate, double mileageLimit, String updateData) {
+    public SuperRentRentalRate(SuperRentRentalRatePK superRentRentalRatePK, double dailyRate, double weeklyRate, double hourlyRate, double perKMRate, double mileageLimit, Date updateData) {
         this.superRentRentalRatePK = superRentRentalRatePK;
         this.dailyRate = dailyRate;
         this.weeklyRate = weeklyRate;
@@ -99,12 +104,12 @@ public class SuperRentRentalRate implements Serializable {
         this.mileageLimit = mileageLimit;
     }
 
-    public String getUpdateData() {
+    public Date getUpdateData() {
         return updateData;
     }
 
-    public void setUpdateData(String updateData) {
-        this.updateData = updateData;
+    public void setUpdateData(Date date) {
+        this.updateData = date;
     }
 
     public SuperRent getSuperRent() {
@@ -115,7 +120,23 @@ public class SuperRentRentalRate implements Serializable {
         this.superRent = superRent;
     }
 
-    @Override
+    public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	@Override
     public int hashCode() {
         int hash = 0;
         hash += (superRentRentalRatePK != null ? superRentRentalRatePK.hashCode() : 0);
@@ -139,5 +160,7 @@ public class SuperRentRentalRate implements Serializable {
     public String toString() {
         return "superrent.SuperRentRentalRate[ superRentRentalRatePK=" + superRentRentalRatePK + " ]";
     }
+
+	
     
 }

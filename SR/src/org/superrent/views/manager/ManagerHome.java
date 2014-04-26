@@ -63,7 +63,7 @@ public class ManagerHome extends JFrame {
 	 */
 	public ManagerHome() {
 		
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 874, 601);
 
 		JMenuBar menuBar = new JMenuBar();
@@ -160,6 +160,7 @@ public class ManagerHome extends JFrame {
 		addVehiclePanel.setVisible(false);
 		sellVehicleListPanel.setEnabled(false);
 		sellVehicleListPanel.setVisible(false);
+		manageRatesPanel.setVisible(false);
 		
 		//creating two more panels
 		JPanel panel_3 = new JPanel();

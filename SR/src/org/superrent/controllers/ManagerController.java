@@ -3,14 +3,13 @@ package org.superrent.controllers;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.JDialog;
 
 import org.superrent.daos.IManagerDao;
 import org.superrent.daos.ManagerDaoImpl;
+import org.superrent.entities.AdditionalEquipment;
 import org.superrent.entities.SellVehicleVO;
 import org.superrent.entities.SuperRent;
 import org.superrent.entities.SuperRentInsuranceRate;
@@ -19,6 +18,7 @@ import org.superrent.entities.VehicleVO;
 import org.superrent.views.manager.FailureDialog;
 import org.superrent.views.manager.ManagerHome;
 import org.superrent.views.manager.SuccessDialog;
+import org.superrent.views.manager.VehicleExistsDialog;
 
 public class ManagerController implements ActionListener {
 
@@ -32,7 +32,7 @@ public class ManagerController implements ActionListener {
 
 	}
 
-	// @Override
+	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		System.out.println(e.getActionCommand());
@@ -64,7 +64,7 @@ public class ManagerController implements ActionListener {
 
 			if (result) {
 
-				SuccessDialog dialog = new SuccessDialog();
+				VehicleExistsDialog dialog = new VehicleExistsDialog();
 				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 				dialog.setLocation(
 						(Toolkit.getDefaultToolkit().getScreenSize().width) / 2
@@ -101,14 +101,11 @@ public class ManagerController implements ActionListener {
 			managerDao.getRentalRate(managerFrame);
 			getRentalRates();
 			getInsuranceRates();
+			getAddnEquipRates();
 			managerDao.getInsuranceRates(managerFrame);
 			superRent = managerDao.getOtherRates();
 			assembleOtherRates(superRent);
-			/*managerFrame.getManageRatesPanel().setMembershipTxtField(String.valueOf(superRent.getMembershipFees()));
-			managerFrame.getManageRatesPanel().setTaxField(String.valueOf(superRent.getTax()));
-			managerFrame.getManageRatesPanel().setMemPointsTxt(String.valueOf(superRent.getMembershipPoints()));
-			managerFrame.getManageRatesPanel().setFuelRateTxt(String.valueOf(superRent.getFuelRate()));
-			*/
+			
 			managerFrame.getManageRatesPanel().getRentalratePanel().revalidate();
 
 		} else if (e.getActionCommand().equals("Sell Vehicle")) {
@@ -388,41 +385,168 @@ public class ManagerController implements ActionListener {
 				}
 								
 			}
-		}else if (e.getActionCommand().equals("Edit Insurance Rate")) {
 			
-			SuperRentInsuranceRate superRentInsuranceRate = new SuperRentInsuranceRate();
-			saveInsuranceRate(superRentInsuranceRate);
 			
-		}else if (e.getActionCommand().equals("Save Other Rates")) {
-			
+		}
+		
+		else if (e.getActionCommand().equals("Save Other Rates")){
 			SuperRent superRent = new SuperRent();
 			saveOtherRates(superRent);
-			
-			
-		}else if (e.getActionCommand().equals("rentalRateSaveEdit")) {
+		}
+		
+		else if (e.getActionCommand().equals("rentalRateSaveEdit")) {
 			
 			int row = managerFrame.getManageRatesPanel().getRentalRateTable().getSelectedRow();
 			SuperRentRentalRate superRentRentalRate = new SuperRentRentalRate();
 			if(row != -1){
+				superRentRentalRate.setCategory(managerFrame.getManageRatesPanel().getRentalRateTable().getModel().getValueAt(row, 1).toString());
+				superRentRentalRate.setType(managerFrame.getManageRatesPanel().getRentalRateTable().getModel().getValueAt(row, 2).toString());
+				superRentRentalRate.setDailyRate(Double.parseDouble(managerFrame.getManageRatesPanel().getRentalRateTable().getModel().getValueAt(row, 3).toString()));
+				superRentRentalRate.setWeeklyRate(Double.parseDouble(managerFrame.getManageRatesPanel().getRentalRateTable().getModel().getValueAt(row, 4).toString()));
+				superRentRentalRate.setHourlyRate(Double.parseDouble(managerFrame.getManageRatesPanel().getRentalRateTable().getModel().getValueAt(row, 5).toString()));
+				superRentRentalRate.setPerKMRate(Double.parseDouble(managerFrame.getManageRatesPanel().getRentalRateTable().getModel().getValueAt(row, 6).toString()));
+				superRentRentalRate.setMileageLimit(Double.parseDouble(managerFrame.getManageRatesPanel().getRentalRateTable().getModel().getValueAt(row, 7).toString()));
+				boolean result = managerDao.updateRentalRate(superRentRentalRate);
 				
+				if (result) {
+
+					SuccessDialog dialog = new SuccessDialog();
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setLocation(
+							(Toolkit.getDefaultToolkit().getScreenSize().width) / 2
+									- dialog.getWidth() / 2, (Toolkit
+									.getDefaultToolkit().getScreenSize().height)
+									/ 2 - dialog.getHeight() / 2);		
+					dialog.setVisible(true);
+					getRentalRates();
+					
+
+				} else {
+
+					FailureDialog dialog = new FailureDialog();
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setLocation(
+							(Toolkit.getDefaultToolkit().getScreenSize().width) / 2
+									- dialog.getWidth() / 2, (Toolkit
+									.getDefaultToolkit().getScreenSize().height)
+									/ 2 - dialog.getHeight() / 2);
+					dialog.setVisible(true);
+					
+
+				}
+			}
+			
+		} else if (e.getActionCommand().equals("SaveInsuranceRate")) {
+			
+			int row = managerFrame.getManageRatesPanel().getInsuranceTable().getSelectedRow();
+			SuperRentInsuranceRate superRentInsuranceRate = new SuperRentInsuranceRate();
+			if(row != -1){
+				superRentInsuranceRate.setCategory(managerFrame.getManageRatesPanel().getInsuranceTable().getModel().getValueAt(row, 1).toString());
+				superRentInsuranceRate.setType(managerFrame.getManageRatesPanel().getInsuranceTable().getModel().getValueAt(row, 2).toString());
+				superRentInsuranceRate.setDailyRate(Double.parseDouble(managerFrame.getManageRatesPanel().getInsuranceTable().getModel().getValueAt(row, 3).toString()));
+				superRentInsuranceRate.setWeeklyRate(Double.parseDouble(managerFrame.getManageRatesPanel().getInsuranceTable().getModel().getValueAt(row, 4).toString()));
+				superRentInsuranceRate.setHourlyRate(Double.parseDouble(managerFrame.getManageRatesPanel().getInsuranceTable().getModel().getValueAt(row, 5).toString()));
+				//superRentInsuranceRate.setPerKMRate(Double.parseDouble(managerFrame.getManageRatesPanel().getInsuranceTable().getModel().getValueAt(row, 6).toString()));
+				//superRentInsuranceRate.setMileageLimit(Double.parseDouble(managerFrame.getManageRatesPanel().getInsuranceTable().getModel().getValueAt(row, 7).toString()));
+				boolean result = managerDao.updateInsuranceRate(superRentInsuranceRate);
+				
+				if (result) {
+
+					SuccessDialog dialog = new SuccessDialog();
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setLocation(
+							(Toolkit.getDefaultToolkit().getScreenSize().width) / 2
+									- dialog.getWidth() / 2, (Toolkit
+									.getDefaultToolkit().getScreenSize().height)
+									/ 2 - dialog.getHeight() / 2);		
+					dialog.setVisible(true);
+					getInsuranceRates();
+					
+
+				} else {
+
+					FailureDialog dialog = new FailureDialog();
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setLocation(
+							(Toolkit.getDefaultToolkit().getScreenSize().width) / 2
+									- dialog.getWidth() / 2, (Toolkit
+									.getDefaultToolkit().getScreenSize().height)
+									/ 2 - dialog.getHeight() / 2);
+					dialog.setVisible(true);
+					
+
+				}
 			}
 			
 		}	
+		
+		 else if (e.getActionCommand().equals("Additional Equipment Save")) {
+				
+				int row = managerFrame.getManageRatesPanel().getAdditionalEquipmentTable().getSelectedRow();
+				AdditionalEquipment additionalEquipment = new AdditionalEquipment();
+				if(row != -1){
+					additionalEquipment.setCategory(managerFrame.getManageRatesPanel().getAdditionalEquipmentTable().getModel().getValueAt(row, 2).toString());
+					
+					additionalEquipment.setDailyRate(Double.parseDouble(managerFrame.getManageRatesPanel().getAdditionalEquipmentTable().getModel().getValueAt(row, 4).toString()));
+					
+					additionalEquipment.setHourlyRate(Double.parseDouble(managerFrame.getManageRatesPanel().getAdditionalEquipmentTable().getModel().getValueAt(row, 3).toString()));
+					
+					boolean result = managerDao.updateAddnEquipRate(additionalEquipment);
+					
+					if (result) {
+
+						SuccessDialog dialog = new SuccessDialog();
+						dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+						dialog.setLocation(
+								(Toolkit.getDefaultToolkit().getScreenSize().width) / 2
+										- dialog.getWidth() / 2, (Toolkit
+										.getDefaultToolkit().getScreenSize().height)
+										/ 2 - dialog.getHeight() / 2);		
+						dialog.setVisible(true);
+						getAddnEquipRates();
+						
+
+					} else {
+
+						FailureDialog dialog = new FailureDialog();
+						dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+						dialog.setLocation(
+								(Toolkit.getDefaultToolkit().getScreenSize().width) / 2
+										- dialog.getWidth() / 2, (Toolkit
+										.getDefaultToolkit().getScreenSize().height)
+										/ 2 - dialog.getHeight() / 2);
+						dialog.setVisible(true);
+						
+
+					}
+				}
+				
+			}
 	}
 	public void getInsuranceRates() {
 		
-		managerDao.getInsuranceRates(managerFrame);
 		
+		managerDao.getInsuranceRates(managerFrame);
+		managerFrame.getManageRatesPanel().getSaveInsuranceRateBtn().setEnabled(false);
+		managerFrame.getManageRatesPanel().getBtnCancelInsuranceEdit().setEnabled(false);
+		managerFrame.getManageRatesPanel().getBtnEditInsuranceRate().setEnabled(true);	
 	}
 
 	public void getRentalRates() {
 	
 		managerDao.getRentalRate(managerFrame);
-			
+		managerFrame.getManageRatesPanel().getRentalRateSaveEditBtn().setEnabled(false);
+		managerFrame.getManageRatesPanel().getBtnCancelEditRental().setEnabled(false);
+		managerFrame.getManageRatesPanel().getBtnEditRentalRate().setEnabled(true);	
 	}
-
-	private void saveInsuranceRate(SuperRentInsuranceRate superRentInsuranceRate) {
-		// TODO Auto-generated method stub
+	
+	public void getAddnEquipRates() {
+			
+		
+		managerDao.getAddnEquipRates(managerFrame);
+		managerFrame.getManageRatesPanel().getBtnAddnEquipSaveBtn().setEnabled(false);
+		managerFrame.getManageRatesPanel().getBtnAddnEquipCanel().setEnabled(false);
+		managerFrame.getManageRatesPanel().getBtnEditSelectedRate().setEnabled(true);	
 		
 	}
 
@@ -432,20 +556,31 @@ public class ManagerController implements ActionListener {
 		managerFrame.getManageRatesPanel().setTaxField(String.valueOf(superRent.getTax()));
 		managerFrame.getManageRatesPanel().setMemPointsTxt(String.valueOf(superRent.getMembershipPoints()));
 		managerFrame.getManageRatesPanel().setFuelRateTxt(String.valueOf(superRent.getFuelRate()));
+		managerFrame.getManageRatesPanel().setClubPointsPerDollarTxt(String.valueOf(superRent.getOneClubPoint()));
+		managerFrame.getManageRatesPanel().setMinReedemablePointsTxt(superRent.getReedemablePoints());
 		
 	}
 	
 	private void saveOtherRates(SuperRent superRent) {
+		
 		if(!managerFrame.getManageRatesPanel().getMembershipTxtField().equalsIgnoreCase(null)){
 			superRent.setMembershipFees(Double.parseDouble(managerFrame.getManageRatesPanel().getMembershipTxtField()));
 		}
-		if(!managerFrame.getManageRatesPanel().getMemPointsTxt().equalsIgnoreCase(null)){
+		if(!managerFrame.getManageRatesPanel().getTaxField().equalsIgnoreCase(null)){
 			superRent.setTax(Double.parseDouble(managerFrame.getManageRatesPanel().getTaxField()));
 		}
 		if(!managerFrame.getManageRatesPanel().getFuelRateTxt().equalsIgnoreCase(null)){
 			superRent.setFuelRate(Double.parseDouble(managerFrame.getManageRatesPanel().getFuelRateTxt()));
 		}
-		
+		if(!managerFrame.getManageRatesPanel().getClubPointsPerDollarTxt().equalsIgnoreCase(null)){
+			superRent.setOneClubPoint(Double.parseDouble(managerFrame.getManageRatesPanel().getClubPointsPerDollarTxt()));
+		}
+		if(!managerFrame.getManageRatesPanel().getMinReedemablePointsTxt().equalsIgnoreCase(null)){
+			superRent.setReedemablePoints(managerFrame.getManageRatesPanel().getMinReedemablePointsTxt().toString());
+		}
+		if(!managerFrame.getManageRatesPanel().getMemPointsTxt().equalsIgnoreCase(null)){
+			superRent.setMembershipPoints(Integer.parseInt(managerFrame.getManageRatesPanel().getMemPointsTxt()));
+		}
 		
 		
 		boolean result = managerDao.saveOtherRates(superRent);
