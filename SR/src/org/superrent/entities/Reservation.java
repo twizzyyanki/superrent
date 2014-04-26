@@ -18,15 +18,33 @@ public class Reservation implements Serializable {
    
     private Integer confirmationNo;
     
-    private Date pickDate;
+    public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	private Date pickDate;
     
     private Date dropDate;
     
-    private Date date;
+    private Date createdDate;
     
     private double charges;
     
-    private Collection<MakeReservation> makeReservationCollection;
+    private Integer status;
+    
+    public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	private Collection<MakeReservation> makeReservationCollection;
    
     private Collection<RentAgreement> rentAgreementCollection;
   
@@ -43,7 +61,7 @@ public class Reservation implements Serializable {
         this.confirmationNo = confirmationNo;
         this.pickDate = pickDate;
         this.dropDate = dropDate;
-        this.date = date;
+        this.createdDate = date;
         this.charges = charges;
     }
 
@@ -72,11 +90,11 @@ public class Reservation implements Serializable {
     }
 
     public Date getDate() {
-        return date;
+        return createdDate;
     }
 
     public void setDate(Date date) {
-        this.date = date;
+        this.createdDate = date;
     }
 
     public double getCharges() {

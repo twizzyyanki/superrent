@@ -12,15 +12,42 @@ public class MakeReservation implements Serializable {
    
     protected MakeReservationPK makeReservationPK;   
     
-    private Date date;
+    private Date lastUpdatedDate;
    
-    private User user;
+    private Integer uid;
     
-    private Reservation reservation;
-   
-    private Vehicle vehicle;
+    private Integer confirmationNo;
+    
+	private String regNo;
+    
+    private Integer status;
+    
+    
+    public Integer getUid() {
+		return uid;
+	}
 
-    public MakeReservation() {
+	public void setUid(Integer uid) {
+		this.uid = uid;
+	}
+
+    public Date getLastUpdatedDate() {
+		return lastUpdatedDate;
+	}
+
+	public void setLastUpdatedDate(Date lastUpdatedDate) {
+		this.lastUpdatedDate = lastUpdatedDate;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	public MakeReservation() {
     }
 
     public MakeReservation(MakeReservationPK makeReservationPK) {
@@ -29,7 +56,7 @@ public class MakeReservation implements Serializable {
 
     public MakeReservation(MakeReservationPK makeReservationPK, Date date) {
         this.makeReservationPK = makeReservationPK;
-        this.date = date;
+        this.lastUpdatedDate = date;
     }
 
     public MakeReservation(int uid, int confirmationNo, int regNo) {
@@ -44,39 +71,33 @@ public class MakeReservation implements Serializable {
         this.makeReservationPK = makeReservationPK;
     }
 
-    public Date getDate() {
-        return date;
+    public Integer getConfirmationNo() {
+		return confirmationNo;
+	}
+
+	public void setConfirmationNo(Integer confirmationNo) {
+		this.confirmationNo = confirmationNo;
+	}
+
+	public Date getDate() {
+        return lastUpdatedDate;
     }
 
     public void setDate(Date date) {
-        this.date = date;
+        this.lastUpdatedDate = date;
     }
 
-    public User getUser() {
-        return user;
-    }
+   
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+    public String getRegNo() {
+		return regNo;
+	}
 
-    public Reservation getReservation() {
-        return reservation;
-    }
+	public void setRegNo(String regNo) {
+		this.regNo = regNo;
+	}
 
-    public void setReservation(Reservation reservation) {
-        this.reservation = reservation;
-    }
-
-    public Vehicle getVehicle() {
-        return vehicle;
-    }
-
-    public void setVehicle(Vehicle vehicle) {
-        this.vehicle = vehicle;
-    }
-
-    @Override
+	@Override
     public int hashCode() {
         int hash = 0;
         hash += (makeReservationPK != null ? makeReservationPK.hashCode() : 0);
