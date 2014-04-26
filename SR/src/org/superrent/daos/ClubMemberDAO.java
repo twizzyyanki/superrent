@@ -2,25 +2,19 @@ package org.superrent.daos;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Vector;
-
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import net.proteanit.sql.DbUtils;
 
-import org.joda.time.DateTime;
 import org.superrent.application.DatabaseConnection;
 import org.superrent.application.LoggedInUser;
-import org.superrent.entities.Reservation;
 	
 public class ClubMemberDAO {
-private Connection connection = null;
-private int uid;
-private final LoggedInUser lc; 
+	private Connection connection = null;
+	private int uid;
+	private final LoggedInUser lc; 
 
 	/**
 	 * This is the constructor for this class
