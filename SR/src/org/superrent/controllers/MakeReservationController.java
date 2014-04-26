@@ -14,11 +14,13 @@ import javax.swing.event.ListSelectionListener;
 
 
 
+
 import org.superrent.views.general.Login;
 import org.superrent.views.general.MakeReservationPage;
 import org.superrent.views.general.ReservationPanel;
 import org.superrent.views.general.ReservationSuccessDialog;
 import org.superrent.views.general.SearchVReservationPanel;
+import org.superrent.views.general.cancelReservationPanel;
 
 
 
@@ -28,6 +30,7 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 	private final MakeReservationPage reservationPage;
 	private SearchVReservationPanel  sVRPanel;
 	private ReservationPanel reservationPanel;
+	private cancelReservationPanel cancelReservationPanel;
 	private ReservationSuccessDialog dialog;
 	// charge for the reservation
 	private String charge;
@@ -44,6 +47,15 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 			sVRPanel = new SearchVReservationPanel(this);
 			reservationPage.remove(reservationPage.getPanelCenter());
 			reservationPage.setCenterPanel(sVRPanel);
+			reservationPage.revalidate();
+			reservationPage.repaint();
+			
+		}
+		
+		if(e.getActionCommand().equals("Cancel Reservation")){
+			cancelReservationPanel = new cancelReservationPanel(this);
+			reservationPage.remove(reservationPage.getPanelCenter());
+			reservationPage.setCenterPanel(cancelReservationPanel);
 			reservationPage.revalidate();
 			reservationPage.repaint();
 			
@@ -198,6 +210,28 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 			loginPageLogin.setVisible(true);
 			dialog.dispose();
 			reservationPage.dispose();
+		}
+		
+		if(e.getActionCommand().equals("Confirm to cancel")){
+			cancelReservationPanel.getLblCancelInfo().setForeground(Color.black);
+			cancelReservationPanel.getLblCancelInfo().setText("");
+			
+			if(cancelReservationPanel.getConfirmationNoTextField().getText().trim().length()!=0){
+				String confirmationNo = cancelReservationPanel.getConfirmationNoTextField().getText();
+				//Need DAO to cancel reservation
+				Boolean successCancel = false;
+				if(successCancel){
+					cancelReservationPanel.getLblCancelInfo().setText("You success cancel the reservation");
+				}
+				else{
+					cancelReservationPanel.getLblCancelInfo().setForeground(Color.red);
+					cancelReservationPanel.getLblCancelInfo().setText("Your confirmation No. is not right");
+				}
+			}
+			else{
+				cancelReservationPanel.getLblCancelInfo().setForeground(Color.red);
+				cancelReservationPanel.getLblCancelInfo().setText("confirmation No. cannot be empty");
+			}
 		}
 		
 		//calcuated estimated cost for vehicle and equipment

@@ -87,6 +87,8 @@ public class MakeReservationPage extends JFrame {
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,},
 			new RowSpec[] {
 				FormFactory.LINE_GAP_ROWSPEC,
@@ -97,9 +99,12 @@ public class MakeReservationPage extends JFrame {
 		searchVbtn.setActionCommand("Home Page");
 		searchVbtn.addActionListener(mrc);
 		
+		JButton btnCancelReservation = new JButton("Cancel Reservation");
+		panelNorth.add(btnCancelReservation, "4, 2, center, default");
+		btnCancelReservation.addActionListener(this.mrc);
 		
 		JButton btnLoginPage = new JButton("Login Page");
-		panelNorth.add(btnLoginPage, "4, 2");
+		panelNorth.add(btnLoginPage, "6, 2");
 		btnLoginPage.addActionListener(mrc);
 		
 		JPanel panelEast = new JPanel();
