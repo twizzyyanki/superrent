@@ -23,10 +23,12 @@ public class JUpdateProfile extends JPanel {
 	private JTextArea textAddress;
 	private JLabel updateInfo;
 	private JTextField txtEmail;
+	
 	/**
 	 * Create the panel.
 	 */
-	public JUpdateProfile(ClubMemberController clubMemberController) {
+	public JUpdateProfile(ClubMemberController clubMemberController)
+	{
 		this.clubMemberController = clubMemberController;
 		setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,

@@ -16,8 +16,8 @@ import org.superrent.daos.UpdateProfileDAO;
  *
  */
 
-public class ClubMemberController implements ActionListener {
-	
+public class ClubMemberController implements ActionListener
+{	
 	private ClubMember clubMemberView;
 	private JChangePassword jCPassword;
 	private JUpdateProfile jUProfile;
@@ -31,6 +31,7 @@ public class ClubMemberController implements ActionListener {
 	 *@c.post An action will be performed according to the command types
 	 *@param e is the command which is received by the ActionListener
 	 */
+	
 	public void actionPerformed(ActionEvent e) {
 	
 		ClubMemberDAO clubMemberDAO = new ClubMemberDAO();
@@ -66,7 +67,6 @@ public class ClubMemberController implements ActionListener {
 		
 		if(e.getActionCommand().equals("Update Profile")) {
 			jUProfile= new JUpdateProfile(this);
-			
 			clubMemberView.remove(clubMemberView.getPanelCenter());
 			clubMemberView.setCenterPanel(jUProfile);
 			clubMemberView.revalidate();
@@ -121,14 +121,12 @@ public class ClubMemberController implements ActionListener {
 				jCheckReservation.getErrorInfo().setForeground(Color.RED);
 				jCheckReservation.getErrorInfo().setText("date fields cannot be empty");
 			}
-
-			
-		
 			
 		}
 		
 		// confirm button in the JChangePassword panel
-		if(e.getActionCommand().equals("Confirm")) {
+		if(e.getActionCommand().equals("Confirm")) 
+		{
 			ChangePasswordDAO checkPassword = new ChangePasswordDAO();
 			jCPassword.getWrongInput().setText("");
 			String oldPassword = jCPassword.getTextCurrentPassword().getText();
@@ -160,12 +158,11 @@ public class ClubMemberController implements ActionListener {
 				}
 				
 			}
-			else{
+			else
+			{
 				jCPassword.getWrongInput().setForeground(Color.RED);
 				jCPassword.getWrongInput().setText("Current password does not match");
 			}
-			
-
 		}
 		
 		// Update button in the JUpdateProfile panel
@@ -277,12 +274,11 @@ public class ClubMemberController implements ActionListener {
 				updateInfosString = "<html>"+ updateInfosString + "</html>";
 				jUProfile.getUpdateInfo().setText(updateInfosString);
 			}
-			else{
+			else
+			{
 				updateInfosString = "<html>"+ updateInfosString + "</html>";
 				jUProfile.getUpdateInfo().setText(updateInfosString);
 			}
-		
-
 		}
 	}
 	/**
@@ -291,9 +287,8 @@ public class ClubMemberController implements ActionListener {
 	 * @c.post The variable , this.clubMemberView, is initialized
 	 * @param clubMemberView take ClubMember type parameter and assign it to the variable this.clubMemberView. 
 	 */
-	public ClubMemberController (ClubMember clubMemberView){
-		
+	public ClubMemberController (ClubMember clubMemberView)
+	{	
 		this.clubMemberView = clubMemberView;
-	
 	}
 }
