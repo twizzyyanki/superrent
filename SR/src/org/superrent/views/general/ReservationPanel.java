@@ -24,6 +24,10 @@ public class ReservationPanel extends JPanel {
 	private JPasswordField passwordField;
 	private final MakeReservationController mrc;
 	private JTextArea addressTextArea;
+	private JLabel lblClubInfo;
+	private JLabel lblGuestInfo;
+	private JButton btnGuest;
+	private JButton btnClubmember;
 	/**
 	 * Create the panel.
 	 */
@@ -80,8 +84,11 @@ public class ReservationPanel extends JPanel {
 		passwordField = new JPasswordField();
 		add(passwordField, "6, 8, fill, default");
 		
-		JButton btnClubmember = new JButton("Clubmember Reserve");
+		btnClubmember = new JButton("Clubmember Reserve");
 		btnClubmember.addActionListener(mrc);
+		
+		lblClubInfo = new JLabel("");
+		add(lblClubInfo, "4, 10");
 		add(btnClubmember, "6, 10, fill, default");
 		
 		
@@ -94,6 +101,7 @@ public class ReservationPanel extends JPanel {
 		nameTextField = new JTextField();
 		add(nameTextField, "6, 14");
 		nameTextField.setColumns(10);
+		
 		
 		JLabel lblAddress = new JLabel("Address:");
 		add(lblAddress, "4, 16, center, default");
@@ -118,8 +126,11 @@ public class ReservationPanel extends JPanel {
 		add(emailTextField, "6, 20, fill, default");
 		emailTextField.setColumns(10);
 		
-		JButton btnGuest = new JButton("Guest Reserve");
+		btnGuest = new JButton("Guest Reserve");
 		btnGuest.addActionListener(mrc);
+		
+		lblGuestInfo = new JLabel("");
+		add(lblGuestInfo, "4, 22");
 		add(btnGuest, "6, 22, fill, default");
 
 	}
@@ -141,5 +152,17 @@ public class ReservationPanel extends JPanel {
 	}
 	public JTextField getEmailTextField() {
 		return emailTextField;
+	}
+	public JLabel getLblClubInfo() {
+		return lblClubInfo;
+	}
+	public JLabel getLblGuestInfo() {
+		return lblGuestInfo;
+	}
+	public JButton getBtnGuest() {
+		return btnGuest;
+	}
+	public JButton getBtnClubmember() {
+		return btnClubmember;
 	}
 }

@@ -154,8 +154,9 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 		equipComboBox_1 = new JComboBox();
 		equipComboBox_1.setToolTipText("Please select vehicle first");
 		equipComboBox_1.setModel(new DefaultComboBoxModel(new String[] {"None"}));
-		equipComboBox_1.addActionListener(this);
+		equipComboBox_1.addActionListener(this.mrc);
 		add(equipComboBox_1, "6, 14, fill, default");
+		equipComboBox_1.setEnabled(false);
 		
 		JLabel lblEstamited = new JLabel("Estimated cost:");
 		add(lblEstamited, "4, 16");
