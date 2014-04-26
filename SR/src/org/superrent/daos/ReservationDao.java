@@ -9,24 +9,84 @@ import java.util.Date;
 import org.superrent.application.DatabaseConnection;
 import org.superrent.entities.MakeReservation;
 import org.superrent.entities.Reservation;
+import org.superrent.entities.User;
 
 public class ReservationDao {
 
 	Connection con;
 	private static ResultSet resultSet = null;
+	
+	public Integer getUid(User user){
+		
+		Integer uid = null;
+		try {
+			con = DatabaseConnection.createConnection();
+			con.setAutoCommit(false);
+			uid = userExists(user);
+			
+			if(null == uid){
+				addUser(user);
+				uid = userExists(user);
+			}
+			
+			con.commit();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		} finally {
+			DatabaseConnection.close(con);
+		}
+		
+		return uid;
+	}
+
+	private void addUser(User user) throws SQLException {
+		
+		
+		Statement st = con.createStatement();
+		String query = "INSERT INTO User (name,email,phoneNumber,dateCreated,type,address) VALUES ('"
+				+ user.getName() + " ', '"
+				+ user.getEmail()+ " ',"
+				+ user.getPhoneNumber() + " ', '"
+				+ new java.sql.Date(user.getDateCreated().getTime()) + " ', "
+				+ user.getType() + " , '"
+				+ user.getAddress() + "')";
+		System.out.println(query);
+		st.executeUpdate(query);
+		
+	}
+
+	private Integer userExists(User user) throws SQLException {
+		Integer uid = null;
+		Statement st = con.createStatement();
+		
+		String query = "select uid from User where phoneNumber = " + user.getPhoneNumber();
+		System.out.println(query);			
+		resultSet = st.executeQuery(query);
+		while (resultSet.next()) {
+			uid = resultSet.getInt("uid");
+        }
+		
+		return uid;
+	}
 
 	public boolean makeReservation(Reservation reservation,
 			MakeReservation makeReservation) {
 		boolean result = true;
 		try {
-
+			con = DatabaseConnection.createConnection();
+			con.setAutoCommit(false);
+			
 			Date date = new Date();
 			reservation.setCreatedDate(new java.sql.Date(date.getTime()));
 			makeReservation
 					.setLastUpdatedDate(new java.sql.Date(date.getTime()));
-			insertIntoReservation(reservation);
-			insertIntoMakeReservation(makeReservation);
-
+			insertIntoReservation(con,reservation);
+			insertIntoMakeReservation(con,makeReservation);
+			con.commit();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -40,11 +100,10 @@ public class ReservationDao {
 
 	}
 
-	private void insertIntoMakeReservation(MakeReservation makeReservation)
+	private void insertIntoMakeReservation(Connection con, MakeReservation makeReservation)
 			throws ClassNotFoundException, SQLException {
 
-		con = DatabaseConnection.createConnection();
-		con.setAutoCommit(false);
+		
 		Statement st = con.createStatement();
 		// change status in reservation table and make reservation table
 		String query = "Insert into MakeReservation (uid, confirmationNo, date, regNo, status) values "
@@ -60,14 +119,13 @@ public class ReservationDao {
 				+ makeReservation.getRegNo() + "'," + 0 + ")";
 		System.out.println(query);
 		st.executeUpdate(query);
-		con.commit();
+		
 	}
 
-	private void insertIntoReservation(Reservation reservation)
+	private void insertIntoReservation(Connection con, Reservation reservation)
 			throws ClassNotFoundException, SQLException {
 
-		con = DatabaseConnection.createConnection();
-		con.setAutoCommit(false);
+		
 		Statement st = con.createStatement();
 		// change status in reservation table and make reservation table
 		String query = "INSERT INTO Reservation (pickDate, dropDate, creationDate,charges,status) values "
@@ -83,7 +141,7 @@ public class ReservationDao {
 				+ reservation.getCharges() + "," + 0 + ")";
 		System.out.println(query);
 		st.executeUpdate(query);
-		con.commit();
+		
 	}
 
 	public boolean cancelReservation(Integer confirmationNo) {
