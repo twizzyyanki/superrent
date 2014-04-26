@@ -39,20 +39,23 @@ public class ValidateAddUserC implements DocumentListener {
 	
 	private void checkValidation() {
 		if (runVUC) {
+			//runVUC = false;
 			System.out.println("I'm in vaC");
 			EventQueue.invokeLater(new Runnable() {
 				public void run() {
 					System.out.println(aup.getGroupCM());
 					Problem validateAll = aup.getGroupCM().performValidation();
 					// System.out.println("validate all is  " + validateAll);
-					if (validateAll == null && runVUC) {
+					if (validateAll == null && aup.getValidateAU().AddUserValid()) {
 						aup.getBtnAdd().setEnabled(true);
 						aup.revalidate();
 						aup.repaint();
 						// System.out.println("Getting here");
 					} else {
-						if (validateAll.isFatal()) {
-							aup.getBtnAdd().setEnabled(false);
+						if (validateAll != null) {
+							if (validateAll.isFatal()) {
+								aup.getBtnAdd().setEnabled(false);
+							}
 						}
 					}
 	
@@ -63,6 +66,10 @@ public class ValidateAddUserC implements DocumentListener {
 	
 	public void setRunVUC(boolean bl){
 		runVUC = bl;
+	}
+	
+	public boolean getRunVUC( ) {
+		return runVUC;
 	}
 	 
 }

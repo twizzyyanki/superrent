@@ -40,22 +40,29 @@ public class ValidateAddUserR implements DocumentListener {
 	private void checkValidation() {
 		
 		if (runVUR){
+			//runVUR = false;
 			System.out.println("I'm in vaR");
 			EventQueue.invokeLater(new Runnable() {
 				public void run() {
 					System.out.println(aup.getGroupR());
 					Problem validateAll = aup.getGroupR().performValidation();
 					// System.out.println("validate all is  " + validateAll);
-					if (validateAll == null && runVUR) {
+					System.out.println("RunVUC() "+aup.getValidateAUC().getRunVUC());
+					System.out.println("RunVUR"	+ runVUR);
+					System.out.println("ValidateVUR"+validateAll+" Validate"+aup.getValidateAU().AddUserValid());
+					
+					if (validateAll == null && !aup.getValidateAUC().getRunVUC() && aup.getValidateAU().AddUserValid()) {
 						//isValid = true;
 						aup.getBtnAdd().setEnabled(true);
 						aup.revalidate();
 						aup.repaint();
 						// System.out.println("Getting here");
 					} else {
-						if (validateAll.isFatal()) {
-							//isValid = false;
-							aup.getBtnAdd().setEnabled(false);
+						if (validateAll != null) {
+							if (validateAll.isFatal()) {
+								//isValid = false;
+								aup.getBtnAdd().setEnabled(false);
+							}
 						}
 					}
 	
@@ -74,5 +81,9 @@ public class ValidateAddUserR implements DocumentListener {
 	*/
 	public void setRunVUR(boolean bl){
 		runVUR = bl;
+	}
+	
+	public boolean getRunVUR() {
+		return runVUR;
 	}
 }

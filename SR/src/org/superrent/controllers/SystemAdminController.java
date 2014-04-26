@@ -42,6 +42,7 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 	private AddUserDAO au_dao;
 	private SearchUserDAO su_dao;
 	static JPanel oldpanel;
+	private String text;
 	private UpdateProfile updateProfile;
 	boolean firstTime = true;
 	//private Login l;
@@ -127,6 +128,18 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 				System.out.println("You selected club member");
 				aup.getValidateAUR().setRunVUR(true);
 				aup.getValidateAUC().setRunVUC(true);
+				//aup.getTextFieldUserName().setText("test");
+				//aup.getTextFieldUserName().setText(null);
+				
+				text = aup.getTextFieldUserName().getText();
+				aup.getTextFieldUserName().setText("test");
+				aup.getTextFieldUserName().setText(null);
+				aup.getTextFieldUserName().setText(text);
+				
+				text = aup.getTextFieldMembershipNum().getText();
+				aup.getTextFieldMembershipNum().setText("test");
+				aup.getTextFieldMembershipNum().setText(null);
+				aup.getTextFieldMembershipNum().setText(text);
 			}
 			else if (check == 0) {
 				System.out.println("You selected a customer");
@@ -134,6 +147,11 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 				aup.setMembershipNumber(false);
 				aup.getValidateAUR().setRunVUR(false);
 				aup.getValidateAUC().setRunVUC(false);
+				
+				text = aup.getTextFieldEmail().getText();
+				aup.getTextFieldEmail().setText("test");
+				aup.getTextFieldEmail().setText(null);
+				aup.getTextFieldEmail().setText(text);
 			}
 			else {
 				//aup.getGroup().add(aup.getTextFieldUserName(), StringValidators.REQUIRE_NON_EMPTY_STRING);
@@ -141,6 +159,16 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 				aup.setMembershipNumber(false);
 				aup.getValidateAUR().setRunVUR(true);
 				aup.getValidateAUC().setRunVUC(false);
+				
+				text = aup.getTextFieldUserName().getText();
+				aup.getTextFieldUserName().setText("test");
+				aup.getTextFieldUserName().setText(null);
+				aup.getTextFieldUserName().setText(text);
+				
+				text = aup.getTextFieldEmail().getText();
+				aup.getTextFieldEmail().setText("test");
+				aup.getTextFieldEmail().setText(null);
+				aup.getTextFieldEmail().setText(text);
 			}
 		
 		}

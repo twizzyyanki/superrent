@@ -101,6 +101,7 @@ public class AddUserPanel extends JPanel {
 		textFieldMembershipNum.setName("Membership Number");
 		add(textFieldMembershipNum, "4, 6, left, default");
 		textFieldMembershipNum.getDocument().addDocumentListener(vaC);
+		textFieldMembershipNum.getDocument().addDocumentListener(va);
 		
 		lblUserName = new JLabel("Username");
 		lblUserName.setVisible(false);
@@ -112,7 +113,7 @@ public class AddUserPanel extends JPanel {
 		textFieldUserName.setColumns(10);
 		textFieldUserName.setName("User Name");
 		textFieldUserName.getDocument().addDocumentListener(vaR);
-		
+		textFieldUserName.getDocument().addDocumentListener(va);
 		
 		
 		JLabel lblName = new JLabel("Name");

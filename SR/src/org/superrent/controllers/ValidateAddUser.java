@@ -13,7 +13,7 @@ import org.superrent.views.superadmin.AddUserPanel;
 
 public class ValidateAddUser implements DocumentListener {
 	private AddUserPanel aup;
-	//private boolean isValid;
+	private boolean isValid;
 	
 	public ValidateAddUser(AddUserPanel aup) {
 		this.aup = aup;
@@ -42,23 +42,25 @@ public class ValidateAddUser implements DocumentListener {
 				System.out.println(aup.getGroup());
 				Problem validateAll = aup.getGroup().performValidation();
 				// System.out.println("validate all is  " + validateAll);
-				if (validateAll == null) {
-					//isValid = true;
+				if (validateAll == null && !aup.getValidateAUR().getRunVUR() && !aup.getValidateAUC().getRunVUC()) {
+					isValid = true;
 					aup.getBtnAdd().setEnabled(true);
 					aup.revalidate();
 					aup.repaint();
 					// System.out.println("Getting here");
 				} else {
-					if (validateAll.isFatal()) {
-						//isValid = false;
-						aup.getBtnAdd().setEnabled(false);
+					if (validateAll != null){
+						if (validateAll.isFatal()) {
+							isValid = false;
+							aup.getBtnAdd().setEnabled(false);
+						}
 					}
 				}
 
 			}
 		});
 	}
-	/*
+
 	public boolean AddUserValid() {
 		return isValid;
 	}
@@ -66,5 +68,4 @@ public class ValidateAddUser implements DocumentListener {
 	public void setAddUserValid(boolean bl){
 		isValid = bl;
 	}
-	*/
 }
