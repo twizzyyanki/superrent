@@ -15,6 +15,8 @@ import javax.swing.event.ListSelectionListener;
 
 
 
+
+import org.superrent.daos.ReservationDao;
 import org.superrent.views.general.Login;
 import org.superrent.views.general.MakeReservationPage;
 import org.superrent.views.general.ReservationPanel;
@@ -78,17 +80,20 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 			
 			// check Date field is valid or not 
 			if(sVRPanel.getDateChooserPick().getDate()!=null && sVRPanel.getDateChooserReturn().getDate()!=null){
-				java.util.Date utilPickUpDate = sVRPanel.getDateChooserPick().getDate();
-				java.sql.Date datePickUpDate = new java.sql.Date(utilPickUpDate.getTime());
-				java.util.Date utilReturnDate = sVRPanel.getDateChooserReturn().getDate();
-				java.sql.Date dateReturnDate = new java.sql.Date(utilReturnDate.getTime());
-						
+				
+				java.util.Date pickupDate = sVRPanel.getDateChooserPick().getDate();
+				java.util.Date dropDate = sVRPanel.getDateChooserReturn().getDate();
 				String category = (String) sVRPanel.getCategoryCombox().getSelectedItem();
 				String type = (String) sVRPanel.getTypeCombox().getSelectedItem();
-				String equipment = (String)sVRPanel.getEquipComboBox().getSelectedItem();
 				
 				// Need DAO to search available vehicles
 				// SET Jtable according to DAO's return value
+				ReservationDao searchVehicle = new ReservationDao();
+				searchVehicle.searchVehiclesForReservation(pickupDate, dropDate, type, 
+						                                   category, sVRPanel.getSearchTable(), sVRPanel.getScrollPane() );
+				//String equipment = (String)sVRPanel.getEquipComboBox().getSelectedItem();
+				
+	
 			}
 			else{
 				sVRPanel.getLblSearchInfo().setForeground(Color.RED);

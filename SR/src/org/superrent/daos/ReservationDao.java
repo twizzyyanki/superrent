@@ -6,6 +6,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Date;
 
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+
+import net.proteanit.sql.DbUtils;
+
 import org.superrent.application.DatabaseConnection;
 import org.superrent.entities.MakeReservation;
 import org.superrent.entities.Reservation;
@@ -17,7 +22,7 @@ public class ReservationDao {
 	private static ResultSet resultSet = null;
 
 	public void searchVehiclesForReservation(Date pickupDate, Date dropDate,
-			String type, String category) {
+			String type, String category, JTable table, JScrollPane scrollPane) {
 		
 		try {
 			con = DatabaseConnection.createConnection();
@@ -42,8 +47,11 @@ public class ReservationDao {
 				+ new java.sql.Date(dropDate.getTime()) + "'))";
 		
 		resultSet = st.executeQuery(query);
-		
 		//Map the resultset to the search table
+		table.setModel(DbUtils.resultSetToTableModel(resultSet));
+		scrollPane.setVisible(true);
+		table.setVisible(true);
+
 		
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block

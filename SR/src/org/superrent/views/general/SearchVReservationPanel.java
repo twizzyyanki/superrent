@@ -36,6 +36,7 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 	private JLabel lblAmount;
 	private JButton btnReserve;
 	private JLabel lblSearchInfo;
+	private JScrollPane scrollPane;
 	
 	/**
 	 * Create the panel.
@@ -126,18 +127,16 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 		lblSearchInfo = new JLabel("");
 		add(lblSearchInfo, "4, 10, 3, 1");
 		
-		JScrollPane scrollPane = new JScrollPane();
+		scrollPane = new JScrollPane();
 		add(scrollPane, "4, 12, 13, 1, fill, fill");
 		
 		searchTable = new JTable();
 		searchTable.setToolTipText("");
 		searchTable.setModel(new DefaultTableModel(
 			new Object[][] {
-				{"ubc", "454", "4654", null},
-				{null, null, null, null},
 			},
 			new String[] {
-				"Location", "Category", "Type", "Rate"
+				"Category", "Type", "Brand"
 			}
 		));
 		searchTable.getSelectionModel().addListSelectionListener(this.mrc);
@@ -227,6 +226,9 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 	}
 	public JLabel getLblSearchInfo() {
 		return lblSearchInfo;
+	}
+	public JScrollPane getScrollPane() {
+		return scrollPane;
 	}
 }
 
