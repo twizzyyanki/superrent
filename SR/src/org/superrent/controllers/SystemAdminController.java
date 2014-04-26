@@ -131,6 +131,7 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 				//aup.getTextFieldUserName().setText("test");
 				//aup.getTextFieldUserName().setText(null);
 				
+				
 				text = aup.getTextFieldUserName().getText();
 				aup.getTextFieldUserName().setText("test");
 				aup.getTextFieldUserName().setText(null);
@@ -140,6 +141,7 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 				aup.getTextFieldMembershipNum().setText("test");
 				aup.getTextFieldMembershipNum().setText(null);
 				aup.getTextFieldMembershipNum().setText(text);
+				
 			}
 			else if (check == 0) {
 				System.out.println("You selected a customer");
@@ -152,6 +154,7 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 				aup.getTextFieldEmail().setText("test");
 				aup.getTextFieldEmail().setText(null);
 				aup.getTextFieldEmail().setText(text);
+				
 			}
 			else {
 				//aup.getGroup().add(aup.getTextFieldUserName(), StringValidators.REQUIRE_NON_EMPTY_STRING);
@@ -159,6 +162,7 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 				aup.setMembershipNumber(false);
 				aup.getValidateAUR().setRunVUR(true);
 				aup.getValidateAUC().setRunVUC(false);
+				
 				
 				text = aup.getTextFieldUserName().getText();
 				aup.getTextFieldUserName().setText("test");
@@ -169,6 +173,7 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 				aup.getTextFieldEmail().setText("test");
 				aup.getTextFieldEmail().setText(null);
 				aup.getTextFieldEmail().setText(text);
+				
 			}
 		
 		}

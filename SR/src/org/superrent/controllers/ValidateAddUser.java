@@ -42,13 +42,25 @@ public class ValidateAddUser implements DocumentListener {
 				System.out.println(aup.getGroup());
 				Problem validateAll = aup.getGroup().performValidation();
 				// System.out.println("validate all is  " + validateAll);
-				if (validateAll == null && !aup.getValidateAUR().getRunVUR() && !aup.getValidateAUC().getRunVUC()) {
-					isValid = true;
-					aup.getBtnAdd().setEnabled(true);
-					aup.revalidate();
-					aup.repaint();
-					// System.out.println("Getting here");
-				} else {
+				if (validateAll == null) {
+					if ((!aup.getValidateAUR().getRunVUR() && !aup.getValidateAUC().getRunVUC())
+							||(aup.getValidateAUR().getRunVUR() && aup.getValidateAUR().AddUserValidR()&& !aup.getValidateAUC().getRunVUC())
+							||(!aup.getValidateAUR().getRunVUR() && aup.getValidateAUC().getRunVUC() && aup.getValidateAUC().AddUserValidC())
+							||(aup.getValidateAUR().getRunVUR() && aup.getValidateAUC().getRunVUC() && aup.getValidateAUC().AddUserValidC()
+									&& aup.getValidateAUR().AddUserValidR())
+							) {
+						isValid = true;
+						aup.getBtnAdd().setEnabled(true);
+						aup.revalidate();
+						//aup.repaint();
+						// System.out.println("Getting here");
+					} 
+					else {
+						System.out.println("Shouldn't be here.");
+						aup.getBtnAdd().setEnabled(false);
+					}
+				}
+				else {
 					if (validateAll != null){
 						if (validateAll.isFatal()) {
 							isValid = false;

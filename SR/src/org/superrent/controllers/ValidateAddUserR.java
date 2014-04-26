@@ -12,8 +12,10 @@ public class ValidateAddUserR implements DocumentListener {
 
 	private AddUserPanel aup;
 	private ValidateAddUser va;
-	//private boolean isValid;
+	private boolean isValid;
 	private boolean runVUR = false;
+	private String text;
+	private int count = 1;
 	
 	public ValidateAddUserR(AddUserPanel aup, ValidateAddUser va) {
 		this.aup = aup;
@@ -50,18 +52,31 @@ public class ValidateAddUserR implements DocumentListener {
 					System.out.println("RunVUC() "+aup.getValidateAUC().getRunVUC());
 					System.out.println("RunVUR"	+ runVUR);
 					System.out.println("ValidateVUR"+validateAll+" Validate"+aup.getValidateAU().AddUserValid());
-					
-					if (validateAll == null && !aup.getValidateAUC().getRunVUC() && aup.getValidateAU().AddUserValid()) {
-						//isValid = true;
-						aup.getBtnAdd().setEnabled(true);
-						aup.revalidate();
-						aup.repaint();
+					//validateAll == null && !aup.getValidateAUC().getRunVUC() && aup.getValidateAU().AddUserValid()
+					if (validateAll == null ) {
+						isValid = true;
+						System.out.println("VUR makes it true");
+						//aup.getBtnAdd().setEnabled(true);
+						// aup.revalidate();
+						// aup.repaint();
 						// System.out.println("Getting here");
 					} else {
 						if (validateAll != null) {
 							if (validateAll.isFatal()) {
-								//isValid = false;
-								aup.getBtnAdd().setEnabled(false);
+								isValid = false;
+								System.out.println("VUR makes it false");
+								if (count-- == 1) {
+									text = aup.getTextFieldUserName().getText();
+									aup.getTextFieldUserName().setText("test");
+									aup.getTextFieldUserName().setText(null);
+									aup.getTextFieldUserName().setText(text);
+									
+									text = aup.getTextFieldEmail().getText();
+									aup.getTextFieldEmail().setText("test");
+									aup.getTextFieldEmail().setText(null);
+									aup.getTextFieldEmail().setText(text);
+								}
+								// aup.getBtnAdd().setEnabled(false);
 							}
 						}
 					}
@@ -70,7 +85,7 @@ public class ValidateAddUserR implements DocumentListener {
 			});
 		}
 	}
-	/*
+	
 	public boolean AddUserValidR() {
 		return isValid;
 	}
@@ -78,7 +93,7 @@ public class ValidateAddUserR implements DocumentListener {
 	public void setUserValidR(boolean bl){
 		isValid = bl;
 	}
-	*/
+	
 	public void setRunVUR(boolean bl){
 		runVUR = bl;
 	}

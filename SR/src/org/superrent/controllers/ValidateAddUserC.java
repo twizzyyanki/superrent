@@ -13,6 +13,9 @@ public class ValidateAddUserC implements DocumentListener {
 	private ValidateAddUserR vaR;
 	private ValidateAddUser va;
 	private boolean runVUC = false;
+	private boolean isValid = false;
+	private String text;
+	private int count = 1;
 	
 	public ValidateAddUserC(AddUserPanel aup, ValidateAddUser va, ValidateAddUserR vaR) {
 		this.aup = aup;
@@ -46,15 +49,31 @@ public class ValidateAddUserC implements DocumentListener {
 					System.out.println(aup.getGroupCM());
 					Problem validateAll = aup.getGroupCM().performValidation();
 					// System.out.println("validate all is  " + validateAll);
-					if (validateAll == null && aup.getValidateAU().AddUserValid()) {
-						aup.getBtnAdd().setEnabled(true);
-						aup.revalidate();
-						aup.repaint();
+					// validateAll == null && aup.getValidateAU().AddUserValid()
+					if (validateAll == null) {
+						isValid = true;
+						System.out.println("VUC makes it true");
+						//aup.getBtnAdd().setEnabled(true);
+						// aup.revalidate();
+						// aup.repaint();
 						// System.out.println("Getting here");
 					} else {
 						if (validateAll != null) {
 							if (validateAll.isFatal()) {
-								aup.getBtnAdd().setEnabled(false);
+								//aup.getBtnAdd().setEnabled(false);
+								System.out.println("VUC makes it false");
+								if (count-- == 1){
+									text = aup.getTextFieldUserName().getText();
+									aup.getTextFieldUserName().setText("test");
+									aup.getTextFieldUserName().setText(null);
+									aup.getTextFieldUserName().setText(text);
+									
+									text = aup.getTextFieldMembershipNum().getText();
+									aup.getTextFieldMembershipNum().setText("test");
+									aup.getTextFieldMembershipNum().setText(null);
+									aup.getTextFieldMembershipNum().setText(text);
+								}
+								isValid = false;
 							}
 						}
 					}
@@ -70,6 +89,14 @@ public class ValidateAddUserC implements DocumentListener {
 	
 	public boolean getRunVUC( ) {
 		return runVUC;
+	}
+	
+	public boolean AddUserValidC() {
+		return isValid;
+	}
+	
+	public void setAddUserValidC(boolean bl){
+		isValid = bl;
 	}
 	 
 }
