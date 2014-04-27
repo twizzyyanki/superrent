@@ -20,6 +20,8 @@ import javax.swing.event.ListSelectionListener;
 
 
 
+import javax.swing.table.DefaultTableModel;
+
 import org.superrent.daos.ReservationDao;
 import org.superrent.entities.MakeReservation;
 import org.superrent.entities.Reservation;
@@ -93,7 +95,8 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 		
 		// Search the vehicle
 		if(e.getActionCommand().equals("Search")){
-			
+			DefaultTableModel model = (DefaultTableModel) sVRPanel.getSearchTable().getModel();
+			model.setRowCount(0);
 			sVRPanel.getLblSearchInfo().setForeground(Color.black);
 			sVRPanel.getLblSearchInfo().setText("");
 			
@@ -319,17 +322,26 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 
 	// @Override
 	public void valueChanged(ListSelectionEvent e) {
+		
 		if(!e.getValueIsAdjusting()){
-			sVRPanel.getBtnReserve().setEnabled(true);
-			int i = sVRPanel.getSearchTable().getSelectedRow();	
-			regNo = sVRPanel.getSearchTable().getValueAt(i, 3).toString();
-			System.out.println(regNo);
-			sVRPanel.getEquipComboBox().setEnabled(true);
 			
-			//NEED DAO to calculate estimated cost and return to charge
-			charge = 20;
-			
-			sVRPanel.getLblAmount().setText(String.valueOf(charge));
+			if(sVRPanel.getSearchTable().getSelectedRow()!=-1){
+				sVRPanel.getBtnReserve().setEnabled(true);
+				int i = sVRPanel.getSearchTable().getSelectedRow();	
+				regNo = sVRPanel.getSearchTable().getValueAt(i, 3).toString();
+				System.out.println(regNo);
+				sVRPanel.getEquipComboBox().setEnabled(true);
+				//NEED DAO to calculate estimated cost and return to charge
+				ReservationDao calculatePriceDao = new ReservationDao();	
+				charge = calculatePriceDao.calculateCharges(Integer.parseInt(regNo), 
+															pickupDate, dropDate);			
+				sVRPanel.getLblAmount().setText(String.valueOf(charge));
+			}else{
+				charge = 0;
+				sVRPanel.getLblAmount().setText(String.valueOf(charge));
+			}
+
+
 			
 			
 		}

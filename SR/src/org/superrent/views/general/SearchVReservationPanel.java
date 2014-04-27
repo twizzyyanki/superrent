@@ -118,6 +118,7 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 		
 		JComboBox<String> LocationBox = new JComboBox<String>();
 		LocationBox.setModel(new DefaultComboBoxModel(new String[] {"All", "Vancouver"}));
+		LocationBox.addActionListener(this);
 		add(LocationBox, "6, 8, fill, default");
 		
 		btnSearch = new JButton("Search");
@@ -169,9 +170,8 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 	//Just for combo box actions
 	//@Override
 	public void actionPerformed(ActionEvent event) {
-	
 		if(event.getSource() == categoryCombox_1){
-			
+			searchTable.clearSelection();
 			String item = (String)categoryCombox_1.getSelectedItem();
 			if(item.equalsIgnoreCase("CAR")){
 				typeCombox_1.setModel(new DefaultComboBoxModel<String>(new String[] { "All","ECONOMY","COMPACT","MID-SIZE",
@@ -179,16 +179,19 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 						  													"VAN"}));
 				
 				equipComboBox_1.setModel(new DefaultComboBoxModel<String>(new String[] { "None","Child seat"}));
+				
 			}
 			else if(item.equalsIgnoreCase("TRUCK")){
 				typeCombox_1.setModel(new DefaultComboBoxModel<String>(new String[] {"All","24-FOOT", "15-FOOT", "12-FOOT", "BOX TRUCK", 
 						  												   "CARGO VAN"}));
+				
 			}
 			else if(item.equalsIgnoreCase("ALL")){
 				typeCombox_1.setModel(new DefaultComboBoxModel<String>(new String[] {"ALL", "ECONOMY","COMPACT","MID-SIZE",
 						  													"STANDARD", "FULL-SIZE", "PREMIUM","LUXURY", "SUV",
 						  													"VAN", "24-FOOT", "15-FOOT", "12-FOOT", "BOX TRUCK", 
 						  													"CARGO VAN"}));
+				
 			
 			}
 		}
