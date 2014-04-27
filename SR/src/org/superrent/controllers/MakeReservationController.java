@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JDialog;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -337,9 +338,17 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 				sVRPanel.getEquipComboBox().setEnabled(true);
 				//NEED DAO to calculate estimated cost and return to charge
 				ReservationDao calculatePriceDao = new ReservationDao();	
-				charge = calculatePriceDao.calculateCharges(Integer.parseInt(regNo), 
+				charge = calculatePriceDao.calculateCharges(regNo, 
 															pickupDate, dropDate);			
 				sVRPanel.getLblAmount().setText(String.valueOf(charge));
+				
+				if(sVRPanel.getSearchTable().getValueAt(i, 0).toString().equals("Car")){
+					sVRPanel.getEquipComboBox().setModel(new DefaultComboBoxModel<String>(new String[] { "None","Child seat"}));
+				}
+				else if(sVRPanel.getSearchTable().getValueAt(i, 0).toString().equals("Truck")){
+					sVRPanel.getEquipComboBox().setModel(new DefaultComboBoxModel<String>(new String[] { "None"}));
+				}
+				
 			}else{
 				charge = 0;
 				sVRPanel.getLblAmount().setText(String.valueOf(charge));

@@ -396,7 +396,7 @@ public class ReservationDao {
 		return uid;
 	}
 	
-	public double calculateCharges(int regNo, Date pick, Date drop){
+	public double calculateCharges(String regNo, Date pick, Date drop){
 		int d_month = drop.getMonth(), p_month = pick.getMonth(); //return 0 to 11
 		int d_date = drop.getDate(), p_date = pick.getDate();//return 1 to 31
 		int d_year = drop.getYear()+1900, p_year = pick.getYear()+1900;
@@ -417,8 +417,8 @@ public class ReservationDao {
 		try {
 			con = DatabaseConnection.createConnection();
 			PreparedStatement preparedStatement = con.prepareStatement(sql);
-			preparedStatement.setInt(1, regNo);
-			preparedStatement.setInt(2, regNo);
+			preparedStatement.setString(1, regNo);
+			preparedStatement.setString(2, regNo);
 			ResultSet rs = preparedStatement.executeQuery();
 		
 			//put the rates in local variable
