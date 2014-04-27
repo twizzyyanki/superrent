@@ -45,7 +45,7 @@ public class ReservationSuccessDialog extends JDialog{
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(30dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(36dlu;default)"),
+				ColumnSpec.decode("max(36dlu;default):grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("default:grow"),},
 			new RowSpec[] {

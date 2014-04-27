@@ -160,6 +160,7 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 					//open ReservationSuccess Dialog
 					dialog = new ReservationSuccessDialog(this);
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setLocationRelativeTo(null);
 					dialog.setVisible(true);
 					reservationPage.dispose();
 					
@@ -232,6 +233,7 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 					
 					dialog = new ReservationSuccessDialog(this);
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setLocationRelativeTo(null);
 					dialog.setVisible(true);
 					reservationPage.dispose();
 					
@@ -267,6 +269,7 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 		
 		if(e.getActionCommand().equals("Login Page")){
 			Login loginPageLogin = new Login();
+			loginPageLogin.setLocationRelativeTo(null);
 			loginPageLogin.setVisible(true);
 			reservationPage.dispose();
 			
@@ -274,6 +277,7 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 		
 		if(e.getActionCommand().equals("OK")){
 			Login loginPageLogin = new Login();
+			loginPageLogin.setLocationRelativeTo(null);
 			loginPageLogin.setVisible(true);
 			dialog.dispose();
 			reservationPage.dispose();
