@@ -18,6 +18,8 @@ public class RequireAdditionalEquipment implements Serializable {
     
     private String equipmentName;
     
+    private int quantity;
+    
     private Reservation reservation;
     
     private SuperRent superRent;
@@ -94,5 +96,19 @@ public class RequireAdditionalEquipment implements Serializable {
     public String toString() {
         return "superrent.RequireAdditionalEquipment[ requireAdditionalEquipmentPK=" + requireAdditionalEquipmentPK + " ]";
     }
+
+	/**
+	 * @param quantity the quantity to set
+	 */
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	/**
+	 * @return the quantity
+	 */
+	public int getQuantity() {
+		return quantity;
+	}
     
 }
