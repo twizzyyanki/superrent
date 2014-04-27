@@ -300,7 +300,7 @@ public class ClerkDao
 			}
 		if((currentReading-reading)>limit)
 		{
-			cost1=(currentReading-reading)*rate;
+			cost1=((currentReading-reading)-limit)*rate;
 			cost=String.valueOf(cost1);
 		}
 		else
@@ -692,7 +692,7 @@ public class ClerkDao
 		return charges;
 	}
 
-	public int UpdatePoints(String agreementNo,String cost) 
+	public int UpdatePoints(int agreementNo,Double totalCost) 
 	{
 		int status=0;
 		double points=0.0;
@@ -702,39 +702,39 @@ public class ClerkDao
 		ResultSet rs1=null;
 		try
 		{
-			PreparedStatement ps=con.prepareStatement("select uid from MakeReservation where confirmationNo=(select confirmationNo from GeneratedAgreements where agreementNo=?)");
-			ps.setString(1,agreementNo);
+			PreparedStatement ps=con.prepareStatement("select uid from ClubMember where uid="
+					+ "(select uid from MakeReservation where confirmationNo="
+					+ "(select confirmationNo from GeneratedAgreements where agreementNo=?))");
+			ps.setInt(1,agreementNo);
 			rs=ps.executeQuery();
 			while(rs.next())
 			{
 				uid=rs.getString("uid");
 			}
-			
-			PreparedStatement discount=con.prepareStatement("Select discountPerPoints from SuperRent");
-			rs1=discount.executeQuery();
-			while(rs1.next())
+			if(uid!=null)
 			{
-				disc=rs1.getString("discountPerPoints");
+				PreparedStatement discount=con.prepareStatement("Select perPointPayment from SuperRent");
+				rs1=discount.executeQuery();
+				while(rs1.next())
+				{
+					disc=rs1.getString(1);
+				}
+				PreparedStatement ps2= con.prepareStatement("select points from ClubMember where uid=?");
+				ps2.setString(1, uid);
+				ResultSet rs2=ps2.executeQuery();
+				
+				while(rs2.next())
+				{
+					points=rs2.getDouble("points");
+				}
+				Double discount1=Double.valueOf(disc);
+				Double newpoints=Math.floor(totalCost/discount1);
+				double addedpoints=points+newpoints;
+				PreparedStatement ps1=con.prepareStatement("Update ClubMember set points=? where uid=?");
+				ps1.setDouble(1,addedpoints);
+				ps1.setString(2, uid);
+				status=ps1.executeUpdate();
 			}
-			
-			PreparedStatement ps2= con.prepareStatement("select points from ClubMember where uid=?");
-			ps2.setString(1, uid);
-			ResultSet rs2=ps2.executeQuery();
-			
-			while(rs2.next())
-			{
-				points=rs2.getDouble("points");
-			}
-			
-			Double discountpoints=Double.valueOf(disc);
-			int cost1=Integer.valueOf(cost);
-			int cost2=(int) Math.round(cost1/discountpoints) * 100;
-			
-			double addedpoints=points+cost2;
-			PreparedStatement ps1=con.prepareStatement("Update ClubMember set points=? where uid=?");
-			ps1.setDouble(1,addedpoints);
-			ps1.setString(2, uid);
-			status=ps1.executeUpdate();
 		}
 		catch(Exception e)
 		{

@@ -3,6 +3,7 @@ package org.superrent.views.clerk;
 import java.text.SimpleDateFormat;
 
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
 import javax.swing.GroupLayout;
@@ -18,12 +19,17 @@ import javax.swing.JTextArea;
 import javax.swing.JRadioButton;
 
 import org.superrent.controllers.ClerkController;
+
 import java.awt.Color;
+
 import javax.swing.SwingConstants;
+
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.RowSpec;
+
+import javax.swing.JComboBox;
 
 public class Rent extends JPanel
 {
@@ -37,7 +43,6 @@ public class Rent extends JPanel
 	private JTextField textField_4;
 	private JTextField textField_5;
 	private JTextField textField_6;
-	private JTextField textField_7;
 	private JTextField textField_8;
 	private JTextField textField_9;
 	private JTextField textField_3;
@@ -48,10 +53,11 @@ public class Rent extends JPanel
 	private JTextField textField_10;
 	public JRadioButton rdbtnYes;
 	public JRadioButton rdbtnNo;
-	public JFormattedTextField datefield=new JFormattedTextField(new SimpleDateFormat("yyyy/MM/dd"));
-	private JTextField textField_11;
 	private JTextField textField_12;
 	private JLabel lblInvalidEntries;
+	private JComboBox<String> comboBox = new JComboBox<String>();
+	private JComboBox<String> comboBox_1 = new JComboBox<String>();
+	
 	/**
 	 * Create the panel.
 	 */
@@ -81,17 +87,12 @@ public class Rent extends JPanel
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBackground(Color.LIGHT_GRAY);
-		panel_1.add(datefield);
-		datefield.computeVisibleRect(getBounds());
 		
 		JLabel lblEnterCurrentDetails = new JLabel("Enter Current Details");
 		
 		JLabel lblNewLabel = new JLabel("Driver's License Number");
 		
 		JLabel lblExpiryDate = new JLabel("Expiry Date");
-		
-		setTextField_7(new JTextField());
-		getTextField_7().setColumns(10);
 		
 		JLabel lblVehicleCondition = new JLabel("Vehicle Condition");
 		
@@ -113,11 +114,8 @@ public class Rent extends JPanel
 		
 		rdbtnYes = new JRadioButton("yes");
 		
-		rdbtnNo = new JRadioButton("No");
-		
 		bG = new ButtonGroup();
 	     bG.add(rdbtnYes);
-	     bG.add(rdbtnNo);
 		
 		JLabel lblMonthyear = new JLabel("Month/year");
 		
@@ -196,11 +194,11 @@ public class Rent extends JPanel
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("2px"),
 				FormFactory.UNRELATED_GAP_COLSPEC,
-				ColumnSpec.decode("24px"),
+				ColumnSpec.decode("35px:grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(6dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(18dlu;default)"),
+				ColumnSpec.decode("max(19dlu;default):grow"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
 				ColumnSpec.decode("62px"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
@@ -223,7 +221,6 @@ public class Rent extends JPanel
 				RowSpec.decode("19px"),
 				RowSpec.decode("25px"),
 				RowSpec.decode("14px"),}));
-		panel_1.add(datefield, "1, 1, fill, fill");
 		panel_1.add(lblEnterCurrentDetails, "15, 3, 3, 1, left, top");
 		
 		setTextField_5(new JTextField());
@@ -237,14 +234,27 @@ public class Rent extends JPanel
 		getTextField_6().setColumns(10);
 		panel_1.add(textField_6, "17, 5, 3, 1, fill, fill");
 		
-		JLabel label_1 = new JLabel("/");
-		panel_1.add(label_1, "27, 5, fill, center");
 		
-		setTextField_11(new JTextField());
-		getTextField_11().setColumns(10);
-		panel_1.add(textField_11, "29, 5, fill, fill");
+		panel_1.add(getComboBox(), "24, 5, 2, 1, fill, default");
+		
+		JLabel label_1 = new JLabel("/");
+		panel_1.add(label_1, "27, 5, right, center");
+		
+		
+		panel_1.add(getComboBox_1(), "29, 5, fill, default");
 		panel_1.add(lblVehicleCondition, "3, 9, left, top");
 		panel_1.add(lblOdometerReading, "3, 11, left, center");
+		
+		String[] Month={"00","01","02","03","04","05","06","07","08","09","10","11","12"};
+		getComboBox().setModel(new DefaultComboBoxModel<String>(Month));
+		
+		String[] year={"00","16","17","18","19","20","21","22","23","24","25","26","28","29","30","31",
+				"32","33","34","35","36"};
+		getComboBox_1().setModel(new DefaultComboBoxModel<String>(year));
+		
+		rdbtnNo = new JRadioButton("No");
+		bG.add(rdbtnNo);
+		panel_1.add(rdbtnNo, "29, 11, left, top");
 		panel_1.add(lblVehicleDescription, "3, 13, left, bottom");
 		panel_1.add(textField_8, "5, 11, 7, 1, fill, fill");
 		panel_1.add(lblFuelPercentage, "13, 11, 3, 1, left, center");
@@ -252,11 +262,9 @@ public class Rent extends JPanel
 		panel_1.add(textArea, "5, 13, 15, 3, fill, fill");
 		panel_1.add(lblNewLabel, "3, 5, 2, 1, left, center");
 		panel_1.add(lblRoadStar, "21, 11, left, center");
-		panel_1.add(rdbtnYes, "23, 11, 9, 1, left, top");
-		panel_1.add(rdbtnNo, "33, 11, 3, 1, left, top");
-		panel_1.add(lblMonthyear, "25, 7, 11, 1, center, top");
+		panel_1.add(rdbtnYes, "23, 11, 4, 1, left, top");
+		panel_1.add(lblMonthyear, "25, 7, 6, 1, center, top");
 		panel_1.add(lblExpiryDate, "21, 5, 3, 1, left, center");
-		panel_1.add(textField_7, "25, 5, fill, fill");
 		panel_1.add(lblInvalidEntries, "25, 15, 11, 1, left, top");
 		
 		JLabel lblReservationDetails = new JLabel("Reservation Details");
@@ -394,12 +402,7 @@ public class Rent extends JPanel
 		this.textField_6 = textField_6;
 	}
 
-	public JTextField getTextField_7() {
-		return textField_7;
-	}
-
 	public void setTextField_7(JTextField textField_7) {
-		this.textField_7 = textField_7;
 	}
 
 	public JTextField getTextField_8() {
@@ -429,17 +432,9 @@ public class Rent extends JPanel
 	public void rdbtnActionListener(ClerkController clerk)
 	{
 		rdbtnYes.addActionListener(clerk);
-		rdbtnNo.addActionListener(clerk);
-		//bG.getSelection().addActionListener(clerk);
-		
+		rdbtnNo.addActionListener(clerk);	
 	}
-
-	public JTextField getTextField_11() {
-		return textField_11;
-	}
-
 	public void setTextField_11(JTextField textField_11) {
-		this.textField_11 = textField_11;
 	}
 
 	public JTextField getTextField_12() {
@@ -456,5 +451,21 @@ public class Rent extends JPanel
 
 	public void setLblInvalidEntries(JLabel lblInvalidEntries) {
 		this.lblInvalidEntries = lblInvalidEntries;
+	}
+
+	public JComboBox<String> getComboBox() {
+		return comboBox;
+	}
+
+	public void setComboBox(JComboBox<String> comboBox) {
+		this.comboBox = comboBox;
+	}
+
+	public JComboBox<String> getComboBox_1() {
+		return comboBox_1;
+	}
+
+	public void setComboBox_1(JComboBox<String> comboBox_1) {
+		this.comboBox_1 = comboBox_1;
 	}
 }

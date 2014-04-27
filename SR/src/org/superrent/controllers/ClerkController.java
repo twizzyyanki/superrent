@@ -324,8 +324,8 @@ public class ClerkController implements ActionListener {
 				int roadstar = 0;
 				String LicenseNo = rent.getTextField_5().getText();
 				Long Creditcard = new Long(rent.getTextField_6().getText());
-				String ExpiryMonth = rent.getTextField_7().getText();
-				String ExpiryYear = rent.getTextField_11().getText();
+				String ExpiryMonth = (String) rent.getComboBox().getSelectedItem();
+				String ExpiryYear = (String) rent.getComboBox_1().getSelectedItem();
 				Double Odometer = Double.valueOf(rent.getTextField_8()
 						.getText());
 				String Fuel = rent.getTextField_9().getText();
@@ -340,11 +340,12 @@ public class ClerkController implements ActionListener {
 				int ConfirmNo = Integer.parseInt(rent.getTextField_10()
 						.getText());
 
-				if (ExpiryYear.length() > 2 || ExpiryYear.length() < 2
-						|| ExpiryMonth.length() < 2 || ExpiryMonth.length() > 2) {
+				if (Expiry.equals("0000")) 
+				{
 					JOptionPane.showMessageDialog(rent,
 							"Invalid Month and year, Valid Pattern: 04/16");
-				} else {
+				} else 
+				{
 					values = dao.createRentalAgreement(LicenseNo, Creditcard,
 							Expiry, Odometer, Fuel, roadstar, Description,
 							ConfirmNo);
@@ -358,6 +359,7 @@ public class ClerkController implements ActionListener {
 				}
 			} catch (Exception e) {
 				rent.getLblInvalidEntries().setVisible(true);
+				JOptionPane.showMessageDialog(rent, "Invalid Entries present, cannot creat a rental agreement");
 			}
 		}
 
@@ -679,10 +681,11 @@ public class ClerkController implements ActionListener {
 			
 		if(ae.getActionCommand()=="Process Payment")
 		{
+			Double totalCost=0.0;
 			try
 			{
 				int agreementNo = Integer.parseInt(paypal.getTextField_9().getText());
-				Double totalCost = Double.valueOf(paypal.getTextField_8().getText());
+				totalCost = Double.valueOf(paypal.getTextField_8().getText());
 				String description = ret.textArea_1.getText();
 
 				Payment createdPayment = null;
@@ -771,6 +774,11 @@ public class ClerkController implements ActionListener {
 						JOptionPane.showMessageDialog(paypal, "Payment Unsuccessfull");
 					}
 					
+					int isadded=dao.UpdatePoints(agreementNo, totalCost);
+					if(isadded==1)
+					{
+						JOptionPane.showMessageDialog(paypal, "Points updated");
+					}
 				} catch (PayPalRESTException et)
 				{ //
 					paypal.getPaymentMessage().setText(et.getMessage());
