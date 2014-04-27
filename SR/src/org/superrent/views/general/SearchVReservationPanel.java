@@ -161,7 +161,7 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 		JLabel lblEstamited = new JLabel("Estimated cost:");
 		add(lblEstamited, "4, 16");
 		
-		lblAmount = new JLabel("amount");
+		lblAmount = new JLabel("0");
 		add(lblAmount, "6, 16");
 		add(btnReserve, "12, 18, center, default");
 
