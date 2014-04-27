@@ -136,7 +136,14 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 				//aup.getTextFieldUserName().setText("test");
 				//aup.getTextFieldUserName().setText(null);
 				
-				
+				aup.getTextFieldMembershipNum().setText(null);
+				aup.getTextFieldUserName().setText(null);
+				aup.getTextFieldName().setText(null);
+				aup.getTextFieldPhoneNumber().setText(null);
+				aup.getTextFieldAddress().setText(null);
+				aup.getTextFieldEmail().setText(null);
+				aup.getAddUserMessage().setText(null);
+				/*
 				text = aup.getTextFieldUserName().getText();
 				aup.getTextFieldUserName().setText("test");
 				aup.getTextFieldUserName().setText(null);
@@ -146,6 +153,7 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 				aup.getTextFieldMembershipNum().setText("test");
 				aup.getTextFieldMembershipNum().setText(null);
 				aup.getTextFieldMembershipNum().setText(text);
+				*/
 				
 			}
 			else if (check == 0) {
@@ -155,10 +163,17 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 				aup.getValidateAUR().setRunVUR(false);
 				aup.getValidateAUC().setRunVUC(false);
 				
+				aup.getTextFieldName().setText(null);
+				aup.getTextFieldPhoneNumber().setText(null);
+				aup.getTextFieldAddress().setText(null);
+				aup.getTextFieldEmail().setText(null);
+				aup.getAddUserMessage().setText(null);
+				/*
 				text = aup.getTextFieldEmail().getText();
 				aup.getTextFieldEmail().setText("test");
 				aup.getTextFieldEmail().setText(null);
 				aup.getTextFieldEmail().setText(text);
+				*/
 				
 			}
 			else {
@@ -168,7 +183,13 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 				aup.getValidateAUR().setRunVUR(true);
 				aup.getValidateAUC().setRunVUC(false);
 				
-				
+				aup.getTextFieldUserName().setText(null);
+				aup.getTextFieldName().setText(null);
+				aup.getTextFieldPhoneNumber().setText(null);
+				aup.getTextFieldAddress().setText(null);
+				aup.getTextFieldEmail().setText(null);
+				aup.getAddUserMessage().setText(null);
+				/*
 				text = aup.getTextFieldUserName().getText();
 				aup.getTextFieldUserName().setText("test");
 				aup.getTextFieldUserName().setText(null);
@@ -178,7 +199,7 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 				aup.getTextFieldEmail().setText("test");
 				aup.getTextFieldEmail().setText(null);
 				aup.getTextFieldEmail().setText(text);
-				
+				*/
 			}
 		
 		}
