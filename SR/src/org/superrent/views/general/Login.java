@@ -111,6 +111,10 @@ public class Login extends JFrame {
 		login = new JButton("Login");
 		//login.setIcon(new ImageIcon(Login.class.getResource("/res/icons/addons/64/admin_lock_open.png")));
 		login.addActionListener(lc);
+		
+		JButton makeReservation = new JButton("Make Reservation");
+		panel.add(makeReservation, "10, 12, fill, default");
+		makeReservation.addActionListener(lc);
 		login.setEnabled(false);
 		panel.add(login, "7, 14, 2, 1, fill, default");
 

@@ -20,6 +20,7 @@ import org.superrent.entities.User;
 import org.superrent.views.clerk.ClerkHome;
 import org.superrent.views.clubmember.ClubMember;
 import org.superrent.views.general.Login;
+import org.superrent.views.general.MakeReservationPage;
 import org.superrent.views.general.RetrieveLoginDetails;
 import org.superrent.views.manager.ManagerHome;
 import org.superrent.views.superadmin.SystemAdmin;
@@ -170,6 +171,13 @@ public class LoginController implements ActionListener, DocumentListener {
 			l = new Login();
 			l.setLocationRelativeTo(null);
 			l.setVisible(true);
+		}
+		
+		if(e.getActionCommand().equals("Make Reservation")){
+			MakeReservationPage mr = new MakeReservationPage();
+			mr.setLocationRelativeTo(null);
+			mr.setVisible(true);
+			l.dispose();
 		}
 	}
 
