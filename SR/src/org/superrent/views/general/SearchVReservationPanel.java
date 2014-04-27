@@ -3,6 +3,7 @@ package org.superrent.views.general;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 
 import javax.swing.JPanel;
 
@@ -14,6 +15,7 @@ import com.jgoodies.forms.factories.FormFactory;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.SpinnerDateModel;
 
 import com.toedter.calendar.JDateChooser;
 
@@ -23,6 +25,8 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import org.superrent.controllers.MakeReservationController;
+
+import javax.swing.JSpinner;
 
 public class SearchVReservationPanel extends JPanel implements ActionListener{
 	private JTable searchTable;
@@ -37,6 +41,8 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 	private JButton btnReserve;
 	private JLabel lblSearchInfo;
 	private JScrollPane scrollPane;
+	private JSpinner spinnerPickUp;
+	private JSpinner spinnerDrop;
 	
 	/**
 	 * Create the panel.
@@ -75,61 +81,77 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
+				RowSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
-		JLabel lblPickUpDate = new JLabel("Pick up Date");
+		JLabel lblPickUpDate = new JLabel("Pick up Date and Time");
 		add(lblPickUpDate, "4, 4, center, default");
 		
 		dateChooserPick = new JDateChooser();
 		add(dateChooserPick, "6, 4, fill, fill");
 		
-		JLabel lblReturnDate = new JLabel("Return Date");
-		add(lblReturnDate, "10, 4, center, default");
+		SpinnerDateModel model = new SpinnerDateModel();
+		model.setCalendarField(Calendar.MINUTE);
+		spinnerPickUp = new JSpinner();
+		spinnerPickUp.setModel(model);
+		spinnerPickUp.setEditor(new JSpinner.DateEditor(spinnerPickUp, "HH:00"));
+		add(spinnerPickUp, "12, 4");
 		
 		dateChooserReturn = new JDateChooser();
-		add(dateChooserReturn, "12, 4, fill, fill");
+		add(dateChooserReturn, "6, 6, fill, fill");
+		
+		SpinnerDateModel model2 = new SpinnerDateModel();
+		model2.setCalendarField(Calendar.MINUTE);
+		spinnerDrop = new JSpinner();
+		spinnerDrop.setModel(model2);
+		spinnerDrop.setEditor(new JSpinner.DateEditor(spinnerDrop, "HH:00"));
+		add(spinnerDrop, "12, 6");
+		
+		JLabel lblReturnDate = new JLabel("Return Date and Time");
+		add(lblReturnDate, "4, 6, center, default");
 		
 		JLabel lblCategory = new JLabel("Category");
-		add(lblCategory, "4, 6, center, default");
+		add(lblCategory, "4, 8, center, default");
 		
 		categoryCombox_1 = new JComboBox<String>();
 		categoryCombox_1.setModel(new DefaultComboBoxModel(new String[] {"All", "Car", "Truck"}));
 		categoryCombox_1.addActionListener(this);
-		add(categoryCombox_1, "6, 6, fill, default");
+		add(categoryCombox_1, "6, 8, fill, default");
 		
 		JLabel lblType = new JLabel("Type");
-		add(lblType, "10, 6, center, default");
+		add(lblType, "10, 8, center, default");
 		
 		typeCombox_1 = new JComboBox<String>();
 		typeCombox_1.setModel(new DefaultComboBoxModel(new String[] {"ALL", "ECONOMY", "COMPACT", "MID-SIZE", "STANDARD", "FULL-SIZE", "PREMIUM", "LUXURY", "SUV", "VAN", "24-FOOT", "15-FOOT", "12-FOOT", "BOX TRUCK", "CARGO VAN"}));
 		typeCombox_1.addActionListener(this);
-		add(typeCombox_1, "12, 6, fill, default");
+		add(typeCombox_1, "12, 8, fill, default");
 		
 		JLabel lblLocation = new JLabel("Location");
-		add(lblLocation, "4, 8, center, default");
+		add(lblLocation, "4, 10, center, default");
 		
 		JComboBox<String> LocationBox = new JComboBox<String>();
 		LocationBox.setModel(new DefaultComboBoxModel(new String[] {"All", "Vancouver"}));
 		LocationBox.addActionListener(this);
-		add(LocationBox, "6, 8, fill, default");
+		add(LocationBox, "6, 10, fill, default");
 		
 		btnSearch = new JButton("Search");
 		btnSearch.addActionListener(this.mrc);
-		add(btnSearch, "12, 8");
+		add(btnSearch, "12, 10");
 		
 		lblSearchInfo = new JLabel("");
-		add(lblSearchInfo, "4, 10, 3, 1");
+		add(lblSearchInfo, "4, 12, 3, 1");
 		
 		scrollPane = new JScrollPane();
-		add(scrollPane, "4, 12, 13, 1, fill, fill");
+		add(scrollPane, "4, 14, 13, 1, fill, fill");
 		
 		searchTable = new JTable();
 		searchTable.setToolTipText("");
@@ -149,21 +171,22 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 		JLabel lblEquip = new JLabel("Add additional equipment");
 		lblEquip.setToolTipText("Please select vehicle first");
 		
-		add(lblEquip, "4, 14");
+		add(lblEquip, "4, 16");
 		
 		equipComboBox_1 = new JComboBox();
 		equipComboBox_1.setToolTipText("Please select vehicle first");
 		equipComboBox_1.setModel(new DefaultComboBoxModel(new String[] {"None"}));
 		equipComboBox_1.addActionListener(this.mrc);
-		add(equipComboBox_1, "6, 14, fill, default");
+		add(equipComboBox_1, "6, 16, fill, default");
 		equipComboBox_1.setEnabled(false);
 		
 		JLabel lblEstamited = new JLabel("Estimated cost:");
-		add(lblEstamited, "4, 16");
+		add(lblEstamited, "4, 18");
 		
 		lblAmount = new JLabel("0");
-		add(lblAmount, "6, 16");
-		add(btnReserve, "12, 18, center, default");
+		add(lblAmount, "6, 18");
+
+		add(btnReserve, "12, 20, center, default");
 
 	}
 
@@ -232,6 +255,12 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 	}
 	public JScrollPane getScrollPane() {
 		return scrollPane;
+	}
+	public JSpinner getSpinnerPickUp() {
+		return spinnerPickUp;
+	}
+	public JSpinner getSpinnerDrop() {
+		return spinnerDrop;
 	}
 }
 

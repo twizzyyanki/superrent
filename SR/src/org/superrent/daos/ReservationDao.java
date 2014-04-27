@@ -479,13 +479,6 @@ public class ReservationDao {
 		return total;
 	}
 	
-/*	public static void main(String[] args){
-		Date pick = new Date(2011,4,1);
-		Date drop = new Date(2011,4,2);
-		
-		ReservationDao reDaoDao = new ReservationDao();
-		double total = reDaoDao.calculateCharges(1212, pick, drop);
-		System.out.println("total:"+total);
-	}*/
+
 }
 

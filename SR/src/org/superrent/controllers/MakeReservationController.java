@@ -3,19 +3,13 @@ package org.superrent.controllers;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JDialog;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
-
-
-
-
-
-
 
 
 
@@ -104,17 +98,32 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 			// check Date field is valid or not 
 			if(sVRPanel.getDateChooserPick().getDate()!=null && sVRPanel.getDateChooserReturn().getDate()!=null){
 				
+				
 				pickupDate = sVRPanel.getDateChooserPick().getDate();
 				dropDate = sVRPanel.getDateChooserReturn().getDate();
-				String category = (String) sVRPanel.getCategoryCombox().getSelectedItem();
-				String type = (String) sVRPanel.getTypeCombox().getSelectedItem();
+				Date pickHour = (Date)sVRPanel.getSpinnerPickUp().getValue();
+				Date dropHour = (Date)sVRPanel.getSpinnerDrop().getValue();
+
+				pickupDate = dateCombine(pickupDate, pickHour);
+				dropDate = dateCombine(dropDate, dropHour);
 				
-				// Need DAO to search available vehicles
-				// SET Jtable according to DAO's return value
-				ReservationDao searchVehicle = new ReservationDao();
-				searchVehicle.searchVehiclesForReservation(pickupDate, dropDate, type, 
-						                                   category, sVRPanel.getSearchTable(), sVRPanel.getScrollPane() );
-				//String equipment = (String)sVRPanel.getEquipComboBox().getSelectedItem();
+				
+				if(validateTime(pickupDate, dropDate)){
+					String category = (String) sVRPanel.getCategoryCombox().getSelectedItem();
+					String type = (String) sVRPanel.getTypeCombox().getSelectedItem();
+					
+					// Need DAO to search available vehicles
+					// SET Jtable according to DAO's return value
+					ReservationDao searchVehicle = new ReservationDao();
+					searchVehicle.searchVehiclesForReservation(pickupDate, dropDate, type, 
+							                                   category, sVRPanel.getSearchTable(), sVRPanel.getScrollPane() );
+					//String equipment = (String)sVRPanel.getEquipComboBox().getSelectedItem();		
+				}
+				else{
+					sVRPanel.getLblSearchInfo().setForeground(Color.RED);
+					sVRPanel.getLblSearchInfo().setText("Pick up time cannot be latter than return time");
+				}
+
 				
 	
 			}
@@ -317,7 +326,7 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 			}
 		}
 		
-		//calcuated estimated cost for vehicle and equipment
+		//calculated estimated cost for vehicle and equipment
 /*		if(e.getSource() == sVRPanel.getEquipComboBox()){
 			
 		}*/
@@ -376,4 +385,27 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 		
 	}
 
+	public boolean validateTime(Date pick, Date drop){
+		boolean valid = false;
+		if(pick.compareTo(drop)==1){
+			valid = false;
+		}
+		else{
+			valid = true;
+		}
+		
+		return  valid;
+	}
+
+	public static Date dateCombine(Date date, Date hour){ 
+		  Calendar cal = Calendar.getInstance();
+		  cal.setTime(date);
+		  cal.set(Calendar.HOUR_OF_DAY, hour.getHours());
+		  cal.set(Calendar.MINUTE, 0);
+		  cal.set(Calendar.SECOND,0);
+		  Date dateF = cal.getTime();
+		  return dateF;
+	}
+	
+	
 }
