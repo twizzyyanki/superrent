@@ -6,12 +6,14 @@ import java.sql.ResultSet;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import org.superrent.daos.ClerkDao;
+import org.superrent.daos.ClerkSearchDao;
 import org.superrent.daos.UpdateProfileDAO;
 import org.superrent.views.clerk.AddCM;
 import org.superrent.views.clerk.ChangePassword;
@@ -48,6 +50,7 @@ public class ClerkController implements ActionListener {
 	private final UpdateProfile profile = new UpdateProfile();
 	private final PayPal paypal = new PayPal();
 	private ClerkDao dao = new ClerkDao();
+	private ClerkSearchDao searchdao=new ClerkSearchDao();
 	private RentalAgreement rental = new RentalAgreement();
 	private ManageReservation manage = new ManageReservation();
 	private ClerkSearchVehicle search=new ClerkSearchVehicle();
@@ -91,6 +94,7 @@ public class ClerkController implements ActionListener {
 		ret.paymentActionListener(this);
 		paypal.processPaymentActionListener(this);
 		search.searchActionListener(this);
+		vehicle.searchvehicleActionListener(this);
 	}
 
 	@SuppressWarnings("unused")
@@ -795,6 +799,8 @@ public class ClerkController implements ActionListener {
 				this.clerkFrame.setCenterPanel(overdue);
 				this.clerkFrame.revalidate();
 				this.clerkFrame.repaint();
+				searchdao.showOverdueVehicles(overdue);
+				//overdue.getTable().setModel(DbUtils.resultSetToTableModel(rs));*/
 			}
 			else if(index==3)
 			{
@@ -817,17 +823,18 @@ public class ClerkController implements ActionListener {
 		
 		if(ae.getActionCommand()=="Search")
 		{
-			
+			String category=(String) search.comboBox.getSelectedItem();
+			String type=(String) search.comboBox_1.getSelectedItem();
+			Date pickdate=search.calendar1.getDate();
+			Date dropdate=search.calendar2.getDate();
+			searchdao.showAvailableVehicles(pickdate, dropdate, type, category,search);
 		}
 		
-		if(ae.getActionCommand()=="Search Type")
+		if(ae.getActionCommand()=="Category")
 		{
-			
+			String category=(String) vehicle.getComboBox().getSelectedItem();
+			searchdao.getForSaleVehicles(category,vehicle);
 		}
-	}
-
-	public void displayConnectionLost(Exception e) {
-		JOptionPane.showMessageDialog(clerkFrame, e);
 	}
 
 	private String getSuccessPaymentStatus(String status) {

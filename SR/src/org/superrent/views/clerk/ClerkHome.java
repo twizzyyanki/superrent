@@ -33,7 +33,6 @@ public class ClerkHome extends JFrame
 	JButton btnRent = new JButton("Rent");
 	JButton btnReturn = new JButton("Return");
 	JButton btnManageReservation = new JButton("Manage Reservation");
-
 	JPanel panel = new JPanel();
 	JPanel panel_1 = new JPanel();
 	private JPanel panel_2 = new JPanel();

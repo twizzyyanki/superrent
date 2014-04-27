@@ -57,31 +57,46 @@ public class RentandSale extends JPanel
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
-		JLabel lblRentAndSale = new JLabel("RENT AND SALE VEHICLES");
+		JLabel lblRentAndSale = new JLabel("VEHICLES FOR SALE");
 		lblRentAndSale.setFont(new Font("Tahoma", Font.BOLD, 11));
 		add(lblRentAndSale, "4, 2");
 		
-		JLabel lblSearchType = new JLabel("Search Type");
+		JLabel lblSearchType = new JLabel("Category");
 		add(lblSearchType, "4, 4, left, default");
-		comboBox.setActionCommand("Search Type");
+		getComboBox().setActionCommand("Category");
 		
 		
-		add(comboBox, "6, 4, left, default");
-		String[] search={"ALL","FOR RENT","FOR SALE"};
-		comboBox.setModel(new DefaultComboBoxModel<String>(search));
-		
+		add(getComboBox(), "6, 4, left, default");
+		String[] search={"ALL","CAR","TRUCK"};
+		getComboBox().setModel(new DefaultComboBoxModel<String>(search));
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane, "4, 8, 7, 5, fill, fill");
 		
-		table = new JTable();
-		scrollPane.setViewportView(table);
+		setTable(new JTable());
+		scrollPane.setViewportView(getTable());
 		
 		
 	}
 	
 	public void searchvehicleActionListener(ClerkController clerk)
 	{
-		comboBox.addActionListener(clerk);
+		getComboBox().addActionListener(clerk);
+	}
+
+	public JComboBox<String> getComboBox() {
+		return comboBox;
+	}
+
+	public void setComboBox(JComboBox<String> comboBox) {
+		this.comboBox = comboBox;
+	}
+
+	public JTable getTable() {
+		return table;
+	}
+
+	public void setTable(JTable table) {
+		this.table = table;
 	}
 
 }

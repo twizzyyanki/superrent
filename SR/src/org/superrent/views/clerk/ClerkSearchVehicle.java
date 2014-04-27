@@ -29,11 +29,11 @@ public class ClerkSearchVehicle extends JPanel
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JDateChooser calendar1 = new JDateChooser();
-	private JDateChooser calendar2 = new JDateChooser();
-	JComboBox<Object> comboBox;
-	JComboBox<Object> comboBox_1;
-	private JComboBox<String> comboBox_2= new JComboBox<String>();
+	public JDateChooser calendar1 = new JDateChooser();
+	public JDateChooser calendar2 = new JDateChooser();
+	public JComboBox<Object> comboBox;
+	public JComboBox<Object> comboBox_1;
+	public JComboBox<String> comboBox_2= new JComboBox<String>();
 	private final JLabel lblCategory = new JLabel("Category");
 	private final JLabel lblType = new JLabel("Type");
 	private final JLabel lblFrom = new JLabel("From");
@@ -48,7 +48,8 @@ public class ClerkSearchVehicle extends JPanel
 	
 	public ClerkSearchVehicle() 
 	{
-		setLayout(new FormLayout(new ColumnSpec[] {
+		setLayout(new FormLayout(new ColumnSpec[] 
+				{
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -151,7 +152,7 @@ public class ClerkSearchVehicle extends JPanel
 		add(btnSearch, "4, 4");
 		
 		add(scrollPane, "3, 5, 27, 2, fill, fill");
-		scrollPane.setViewportView(table);
+		scrollPane.setViewportView(getTable());
 		
 	}
 	
@@ -170,6 +171,12 @@ public class ClerkSearchVehicle extends JPanel
 	public void searchActionListener(ClerkController clerk)
 	{
 		btnSearch.addActionListener(clerk);
+	}
+
+
+
+	public JTable getTable() {
+		return table;
 	}
 
 }

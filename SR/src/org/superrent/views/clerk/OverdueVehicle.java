@@ -49,9 +49,17 @@ public class OverdueVehicle extends JPanel
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane, "4, 4, 1, 3, fill, fill");
 		
-		table = new JTable();
-		scrollPane.setViewportView(table);
+		setTable(new JTable());
+		scrollPane.setViewportView(getTable());
 
+	}
+
+	public JTable getTable() {
+		return table;
+	}
+
+	public void setTable(JTable table) {
+		this.table = table;
 	}
 
 }
