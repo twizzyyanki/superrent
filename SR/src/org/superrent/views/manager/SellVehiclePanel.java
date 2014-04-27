@@ -65,7 +65,7 @@ public class SellVehiclePanel extends JPanel{
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,},
+				ColumnSpec.decode("max(77dlu;default)"),},
 			new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
@@ -84,7 +84,7 @@ public class SellVehiclePanel extends JPanel{
 		
 		JLabel label = new JLabel("Sell Vehicle List");
 		label.setFont(new Font("Tahoma", Font.BOLD, 15));
-		add(label, "10, 6, center, default");
+		add(label, "16, 4, center, default");
 		
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane, "2, 10, 31, 1, fill, fill");

@@ -51,7 +51,7 @@ public class EditForSalePrice extends JDialog implements ActionListener{
 	public EditForSalePrice(ManagerController managerController) {
 		this.managerController = managerController;
 		setModalityType(ModalityType.APPLICATION_MODAL);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 473, 300);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -107,15 +107,6 @@ public class EditForSalePrice extends JDialog implements ActionListener{
 			price = new JTextField();
 			contentPanel.add(price, "16, 10, left, default");
 			price.setColumns(10);
-		}
-		{
-			JLabel lblYear = new JLabel("Year");
-			contentPanel.add(lblYear, "12, 12");
-		}
-		{
-			JDateChooser dateChooser = new JDateChooser();
-			dateChooser.setEnabled(false);
-			contentPanel.add(dateChooser, "16, 12, left, top");
 		}
 		{
 			JPanel buttonPane = new JPanel();

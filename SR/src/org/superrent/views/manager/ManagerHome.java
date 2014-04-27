@@ -19,7 +19,13 @@ import javax.swing.border.EmptyBorder;
 
 import net.miginfocom.swing.MigLayout;
 
+import org.superrent.controllers.LoginController;
 import org.superrent.controllers.ManagerController;
+import org.superrent.views.clerk.ClerkHome;
+import org.superrent.views.clerk.Reports;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.Dimension;
 
 
 public class ManagerHome extends JFrame {
@@ -27,6 +33,7 @@ public class ManagerHome extends JFrame {
 	/**
 	 * 
 	 */
+	private final LoginController lc;
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JButton btnAddVehicle = new JButton("Add Vehicle");
@@ -34,6 +41,8 @@ public class ManagerHome extends JFrame {
 	JButton btnSearch = new JButton("Search");
 	JButton btnChangeRates = new JButton("Change Rates");
 	JButton btnSellVehicle = new JButton("Sell Vehicle");
+	JButton btnReports = new JButton("Reports");
+	JButton btnClerkScreen = new JButton("Clerk View");
 	JComboBox<String> comboBox_1 = new JComboBox<String>();
 	private JMenuItem mntmLogout;
 	
@@ -49,6 +58,8 @@ public class ManagerHome extends JFrame {
 	EditVehicleInfoDialog editVehicleInfoDialog = new EditVehicleInfoDialog(managerController);
 	SellingVehicleDialog sellingVehicleDialog = new SellingVehicleDialog(managerController);
 	EditForSalePrice editForSalePriceDialog = new EditForSalePrice(managerController);
+	Reports reportsPanel = new Reports();
+	ClerkHome clerkHome = new ClerkHome();
 
 	public EditVehicleInfoDialog getEditVehicleInfoDialog() {
 		return editVehicleInfoDialog;
@@ -62,30 +73,16 @@ public class ManagerHome extends JFrame {
 	 * Create the frame.
 	 */
 	public ManagerHome() {
-		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 874, 601);
+		lc = new LoginController(this);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 869, 569);
 
 		JMenuBar menuBar = new JMenuBar();
+		menuBar.setFont(new Font("Segoe UI", Font.BOLD, 15));
+		menuBar.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		setJMenuBar(menuBar);
-
-		JMenuItem mntmNewMenuItem = new JMenuItem("Home");
-		menuBar.add(mntmNewMenuItem);
-
-		JMenu mnClerk = new JMenu("Clerk");
-		menuBar.add(mnClerk);
-
-		JMenuItem mntmNewMenuItem_1 = new JMenuItem("rent");
-		mnClerk.add(mntmNewMenuItem_1);
-
-		JMenuItem mntmReturn = new JMenuItem("return");
-		mnClerk.add(mntmReturn);
-
-		JMenuItem mntmAddClubMember = new JMenuItem("Add Club Member");
-		mnClerk.add(mntmAddClubMember);
-
-		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Search Reservation ");
-		mnClerk.add(mntmNewMenuItem_2);
+		menuBar.add(btnClerkScreen);
+		btnClerkScreen.addActionListener(managerController);
 
 		JLabel lblWelcomeBackManager = new JLabel(
 				"                                                                                         Welcome Back Manager!!!!!!                                                                    ");
@@ -101,9 +98,11 @@ public class ManagerHome extends JFrame {
 		mnProfile.add(mntmChangePassword);
 
 		mntmLogout = new JMenuItem("Logout");
-		mntmLogout.setHorizontalAlignment(SwingConstants.CENTER);
+		mntmLogout.setActionCommand("Log Out");
+		mntmLogout.setHorizontalAlignment(SwingConstants.RIGHT);
 		menuBar.add(mntmLogout);
-		mntmLogout.addActionListener(managerController );
+		
+		mntmLogout.addActionListener(lc);
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -112,22 +111,28 @@ public class ManagerHome extends JFrame {
 
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.WEST);
-		panel.setLayout(new MigLayout("", "[92px,grow]",
-				"[28px][][][][][][5.00]"));
+		panel.setLayout(new MigLayout("", "[92px,grow]", "[28px][][][][][][][][-7.00][][]"));
 
 		
 		// all panel buttons
-		panel.add(btnAddVehicle, "cell 0 2,growx,aligny top");
-		btnAddVehicle.addActionListener(managerController);
+		
 		
 		panel.add(btnSellVehicle, "cell 0 3,grow");
 		btnSellVehicle.addActionListener(managerController);
 		
-		panel.add(btnSearchVehicle, "cell 0 4,growx");		
+		panel.add(btnSearchVehicle, "cell 0 4,growx");	
+		btnSearchVehicle.requestFocusInWindow();
 		btnSearchVehicle.addActionListener(managerController);
 		
 		panel.add(btnChangeRates, "cell 0 5,growx");
 		btnChangeRates.addActionListener(managerController);
+		
+		panel.add(btnAddVehicle, "cell 0 2,growx,aligny top");
+		btnAddVehicle.addActionListener(managerController);
+		
+		btnReports.addActionListener(managerController);
+			
+		panel.add(btnReports, "cell 0 6,growx");
 		
 		//creating panel1
 		JPanel panel_1 = new JPanel();
@@ -142,15 +147,17 @@ public class ManagerHome extends JFrame {
 		
 		//adding panel5 and panel6 to panel2
 		JPanel panel_2 = new JPanel();
+		panel_2.setPreferredSize(new Dimension(100, 10));
 		GroupLayout groupLayout = new GroupLayout(panel_2);
 		contentPane.add(panel_2, BorderLayout.CENTER);
 		panel_2.setLayout(groupLayout);
 		groupLayout.setHorizontalGroup(groupLayout
 				.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addComponent(searchVehicleListPanel).addComponent(addVehiclePanel).addComponent(sellVehicleListPanel).addComponent(manageRatesPanel));
+				.addComponent(searchVehicleListPanel).addComponent(addVehiclePanel).addComponent(sellVehicleListPanel).
+								addComponent(manageRatesPanel).addComponent(reportsPanel));
 		groupLayout.setVerticalGroup(groupLayout
 				.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addComponent(searchVehicleListPanel).addComponent(addVehiclePanel).addComponent(sellVehicleListPanel).addComponent(manageRatesPanel));
+				.addComponent(searchVehicleListPanel).addComponent(addVehiclePanel).addComponent(sellVehicleListPanel).addComponent(manageRatesPanel).addComponent(reportsPanel));
 		
 		
 		managerController.getVehicle(this);
@@ -161,13 +168,8 @@ public class ManagerHome extends JFrame {
 		sellVehicleListPanel.setEnabled(false);
 		sellVehicleListPanel.setVisible(false);
 		manageRatesPanel.setVisible(false);
-		
-		//creating two more panels
-		JPanel panel_3 = new JPanel();
-		contentPane.add(panel_3, BorderLayout.SOUTH);
-
-		JPanel panel_4 = new JPanel();
-		contentPane.add(panel_4, BorderLayout.EAST);
+		reportsPanel.setVisible(false);
+		clerkHome.setVisible(false);
 
 	}	
 	
@@ -270,6 +272,22 @@ public class ManagerHome extends JFrame {
 
 	public EditForSalePrice getEditForSalePriceDialog() {
 		return editForSalePriceDialog;
+	}
+
+	public Reports getReportsPanel() {
+		return reportsPanel;
+	}
+
+	public ClerkHome getClerkHome() {
+		return clerkHome;
+	}
+
+	public void setClerkHome(ClerkHome clerkHome) {
+		this.clerkHome = clerkHome;
+	}
+
+	public void setReportsPanel(Reports reportsPanel) {
+		this.reportsPanel = reportsPanel;
 	}
 
 	public void setEditForSalePriceDialog(EditForSalePrice editForSalePriceDialog) {
