@@ -26,6 +26,7 @@ import org.netbeans.validation.api.ui.ValidationListener;
 import java.awt.Font;
 import javax.swing.JDialog;
 import javax.swing.ImageIcon;
+import java.awt.Color;
 
 /**
  * This class is the login view. It contains two text fields: username and
@@ -47,10 +48,11 @@ public class Login extends JFrame {
 	 * Create the login frame with subTitle "SuperRent"
 	 */
 	public Login() {
+		setBackground(UIManager.getColor("nimbusBlueGrey"));
 		setTitle("SuperRent");
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 529, 303);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -59,34 +61,47 @@ public class Login extends JFrame {
 		lc = new LoginController(this);
 
 		JPanel panel = new JPanel();
+		panel.setBackground(UIManager.getColor("nimbusBlueGrey"));
 
 		panel.setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.RELATED_GAP_COLSPEC, FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC, FormFactory.DEFAULT_COLSPEC,
-				FormFactory.RELATED_GAP_COLSPEC, FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(57dlu;default)"),
-				FormFactory.UNRELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("max(35dlu;default)"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("left:max(70dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(34dlu;default)"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("left:default:grow"), }, new RowSpec[] {
-				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.PREF_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.PREF_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC, }));
+				ColumnSpec.decode("left:default:grow"),},
+			new RowSpec[] {
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.PREF_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.PREF_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,}));
 
 		JLabel lblLoginToSuperrent = new JLabel("LOGIN TO SUPERRENT");
 		lblLoginToSuperrent.setFont(new Font("SansSerif", Font.PLAIN, 21));
-		panel.add(lblLoginToSuperrent, "5, 2, 6, 1, fill, default");
+		panel.add(lblLoginToSuperrent, "1, 2, 14, 1, center, default");
 
 		loginMessage = new JLabel("");
-		panel.add(loginMessage, "8, 4, 3, 1, left, default");
+		panel.add(loginMessage, "7, 4, 6, 1, center, default");
 
 		JLabel lblUsername = new JLabel("Username:");
 		panel.add(lblUsername, "4, 6");
@@ -95,7 +110,7 @@ public class Login extends JFrame {
 		username.setName("Username");
 		username.getDocument().addDocumentListener(lc);
 		username.setPreferredSize(new Dimension(12, 35));
-		panel.add(username, "7, 6, 5, 1, fill, fill");
+		panel.add(username, "7, 6, 6, 1, fill, fill");
 		username.setColumns(10);
 
 		JLabel lblPassword = new JLabel("Password:");
@@ -105,31 +120,32 @@ public class Login extends JFrame {
 		password.setName("Password");
 		password.getDocument().addDocumentListener(lc);
 		password.setPreferredSize(new Dimension(12, 35));
-		panel.add(password, "7, 10, 5, 1, fill, default");
+		panel.add(password, "7, 10, 6, 1, fill, default");
 		password.setColumns(10);
-
-		login = new JButton("Login");
-		//login.setIcon(new ImageIcon(Login.class.getResource("/res/icons/addons/64/admin_lock_open.png")));
-		login.addActionListener(lc);
-		
-		JButton makeReservation = new JButton("Make Reservation");
-		panel.add(makeReservation, "10, 12, fill, default");
-		makeReservation.addActionListener(lc);
-		login.setEnabled(false);
-		panel.add(login, "7, 14, 2, 1, fill, default");
-
-		JButton forgotLogin = new JButton("Forgot Login Details");
-		forgotLogin.setActionCommand("Forgot Login");
-		forgotLogin.addActionListener(lc);
-		forgotLogin.setSize(new Dimension(150, 150));
-		panel.add(forgotLogin, "10, 14, fill, default");
+				
+						login = new JButton("Login");
+						//login.setIcon(new ImageIcon(Login.class.getResource("/res/icons/addons/64/admin_lock_open.png")));
+						login.addActionListener(lc);
+						login.setEnabled(false);
+						panel.add(login, "8, 12, left, default");
 
 		ValidationPanel xpanel = new ValidationPanel();
+		xpanel.setBackground(UIManager.getColor("nimbusBlueGrey"));
 		xpanel.setInnerComponent(panel);
 		group = xpanel.getValidationGroup();
 		group.add(username, StringValidators.REQUIRE_NON_EMPTY_STRING,
 				StringValidators.NO_WHITESPACE);
 		group.add(password, StringValidators.REQUIRE_NON_EMPTY_STRING);
+				
+				JButton makeReservation = new JButton("Make Reservation");
+				panel.add(makeReservation, "10, 12, left, default");
+				makeReservation.addActionListener(lc);
+				
+						JButton forgotLogin = new JButton("Forgot Login Details");
+						forgotLogin.setActionCommand("Forgot Login");
+						forgotLogin.addActionListener(lc);
+						forgotLogin.setSize(new Dimension(150, 150));
+						panel.add(forgotLogin, "12, 12, left, default");
 		contentPane.add(xpanel, BorderLayout.CENTER);
 	}
 
