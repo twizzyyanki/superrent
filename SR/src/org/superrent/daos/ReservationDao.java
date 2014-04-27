@@ -449,7 +449,7 @@ public class ReservationDao {
 				total = (d_hour - p_hour) * hourlyR;
 		}else {	//1
 				if(d_month == p_month){	//2 for same month
-					if((d_date - p_date) > 7){ //3 
+					if((d_date - p_date) > 5){ //3 
 						//impose weekly rates
 						System.out.println("3.weekly entry");
 						total = ((d_date - p_date)+1) * weeklyR;
@@ -460,7 +460,7 @@ public class ReservationDao {
 						}//3
 					}//2
 					else{ //for different months
-						if((d_date + (numDays-p_date)) > 7){
+						if((d_date + (numDays-p_date)) > 5){
 							//impose weekly rates
 							System.out.println("L.weekly entry");
 							total = (d_date + (numDays-p_date)+1) * weeklyR;
