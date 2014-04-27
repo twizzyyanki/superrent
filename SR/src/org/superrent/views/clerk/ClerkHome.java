@@ -14,6 +14,8 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.RowSpec;
+
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.GroupLayout;
@@ -22,6 +24,7 @@ import javax.swing.JScrollPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.JComboBox;
 
 public class ClerkHome extends JFrame
 {
@@ -47,6 +50,7 @@ public class ClerkHome extends JFrame
 	private final JButton btnSearchReservation = new JButton("Search Reservation");
 	private JTextField textField;
 	public JButton btnRefresh = new JButton("Refresh");
+	private JComboBox<String> comboBox = new JComboBox<String>();;
 	ClerkController c;
 	/**
 	 * Create the frame.
@@ -105,31 +109,45 @@ public class ClerkHome extends JFrame
 		contentPane.add(panel_1, BorderLayout.NORTH);
 		panel_1.setLayout(new FormLayout(new ColumnSpec[] {
 				ColumnSpec.decode("97px"),
-				ColumnSpec.decode("67px"),
+				ColumnSpec.decode("109px"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(25dlu;default)"),
+				ColumnSpec.decode("max(6dlu;default)"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("max(2dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
+				ColumnSpec.decode("max(57dlu;default):grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
+				ColumnSpec.decode("max(8dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,},
+				ColumnSpec.decode("max(9dlu;default)"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("max(4dlu;default)"),
+				ColumnSpec.decode("max(5dlu;default)"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("max(3dlu;default)"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("max(5dlu;default)"),},
 			new RowSpec[] {
 				FormFactory.LINE_GAP_ROWSPEC,
 				RowSpec.decode("56px"),}));
-		panel_1.add(btnHome, "4, 2, fill, top");
+		panel_1.add(btnHome, "1, 2, fill, top");
 		
-		panel_1.add(btnUpdateProfile, "8, 2, fill, top");
+		String[] search={"Search","Show Vehicle","OverDue Vehicles","Show Vehicles for Rent and sale"};
+		comboBox.setModel(new DefaultComboBoxModel<String>(search));
+				
+		panel_1.add(getComboBox(), "12, 2, center, default");
 		
-		panel_1.add(btnChangePassword, "12, 2, default, top");
+		panel_1.add(btnUpdateProfile, "16, 2, center, top");
 		
-		panel_1.add(btnLogout, "16, 2, default, top");
+		panel_1.add(btnChangePassword, "18, 2, default, top");
+		
+		panel_1.add(btnLogout, "20, 2, default, top");
 		panel_2.setAutoscrolls(true);
 		
 		contentPane.add(getPanel_2(), BorderLayout.CENTER);
@@ -160,10 +178,10 @@ public class ClerkHome extends JFrame
 						.addComponent(btnSearchReservation)
 						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(30)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 177, GroupLayout.PREFERRED_SIZE)
-					.addGap(28)
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 337, Short.MAX_VALUE)
+					.addGap(18)
 					.addComponent(btnRefresh)
-					.addContainerGap(47, Short.MAX_VALUE))
+					.addGap(22))
 		);
 		
 		
@@ -242,6 +260,11 @@ public class ClerkHome extends JFrame
 		btnChangePassword.addActionListener(clerkController);
 	}
 
+	public void searchAddActionListener(ClerkController clerk)
+	{
+		comboBox.addActionListener(clerk);
+	}
+	
 	public JPanel getPanel_2() {
 		return panel_2;
 	}
@@ -270,5 +293,15 @@ public class ClerkHome extends JFrame
 
 	public void setTextField(JTextField textField) {
 		this.textField = textField;
+	}
+
+
+	public JComboBox getComboBox() {
+		return comboBox;
+	}
+
+
+	public void setComboBox(JComboBox comboBox) {
+		this.comboBox = comboBox;
 	}
 }

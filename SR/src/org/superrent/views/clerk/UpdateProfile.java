@@ -24,7 +24,7 @@ public class UpdateProfile extends JPanel
 	JLabel lblEmailId ;
 	JLabel lblAdress;
 	
-	JTextArea textArea;
+	private JTextArea textArea;
 	
 	JButton btnUpdate;
 	/**
@@ -36,24 +36,24 @@ public class UpdateProfile extends JPanel
 		
 		lblName = new JLabel("Name");
 		
-		textField = new JTextField();
-		textField.setColumns(10);
+		setTextField(new JTextField());
+		getTextField().setColumns(10);
 		
 		lblPhoneNumber = new JLabel("Phone Number");
 		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
+		setTextField_1(new JTextField());
+		getTextField_1().setColumns(10);
 		
 		lblEmailId = new JLabel("Email id");
 		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
+		setTextField_2(new JTextField());
+		getTextField_2().setColumns(10);
 		
 		lblAdress = new JLabel("Address");
 		
-		textArea = new JTextArea();
+		setTextArea(new JTextArea());
 		
-		btnUpdate = new JButton("Update");
+		btnUpdate = new JButton(" Update Account Details");
 		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
@@ -72,10 +72,10 @@ public class UpdateProfile extends JPanel
 								.addComponent(lblPhoneNumber))
 							.addGap(42)
 							.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
-								.addComponent(textArea, GroupLayout.PREFERRED_SIZE, 239, GroupLayout.PREFERRED_SIZE)
-								.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 239, GroupLayout.PREFERRED_SIZE)
-								.addComponent(textField, GroupLayout.PREFERRED_SIZE, 239, GroupLayout.PREFERRED_SIZE)
-								.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, 239, GroupLayout.PREFERRED_SIZE)
+								.addComponent(getTextArea(), GroupLayout.PREFERRED_SIZE, 239, GroupLayout.PREFERRED_SIZE)
+								.addComponent(getTextField_1(), GroupLayout.PREFERRED_SIZE, 239, GroupLayout.PREFERRED_SIZE)
+								.addComponent(getTextField(), GroupLayout.PREFERRED_SIZE, 239, GroupLayout.PREFERRED_SIZE)
+								.addComponent(getTextField_2(), GroupLayout.PREFERRED_SIZE, 239, GroupLayout.PREFERRED_SIZE)
 								.addComponent(btnUpdate, Alignment.LEADING))))
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
@@ -87,23 +87,47 @@ public class UpdateProfile extends JPanel
 					.addGap(41)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblName)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(getTextField(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(39)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblPhoneNumber)
-						.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(getTextField_1(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(35)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblEmailId)
-						.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(getTextField_2(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(38)
 					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblAdress)
-						.addComponent(textArea, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE))
+						.addComponent(getTextArea(), GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE))
 					.addGap(38)
 					.addComponent(btnUpdate)
 					.addGap(34))
 		);
 		setLayout(groupLayout);
+	}
+	public JTextField getTextField() {
+		return textField;
+	}
+	public void setTextField(JTextField textField) {
+		this.textField = textField;
+	}
+	public JTextField getTextField_1() {
+		return textField_1;
+	}
+	public void setTextField_1(JTextField textField_1) {
+		this.textField_1 = textField_1;
+	}
+	public JTextArea getTextArea() {
+		return textArea;
+	}
+	public void setTextArea(JTextArea textArea) {
+		this.textArea = textArea;
+	}
+	public JTextField getTextField_2() {
+		return textField_2;
+	}
+	public void setTextField_2(JTextField textField_2) {
+		this.textField_2 = textField_2;
 	}
 }

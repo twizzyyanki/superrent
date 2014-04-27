@@ -53,9 +53,15 @@ public class ManageReservation extends JPanel {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("max(38dlu;default)"),
 				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("max(27dlu;default)"),
+				RowSpec.decode("max(53dlu;default)"),
 				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("max(41dlu;default):grow"),}));
+				RowSpec.decode("max(26dlu;default):grow"),
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,}));
 		
 		lblConfirmationno = new JLabel("ConfirmationNo");
 		add(lblConfirmationno, "6, 4, right, default");
@@ -65,23 +71,23 @@ public class ManageReservation extends JPanel {
 		getTextField_2().setColumns(10);
 		
 		JLabel lblChangeDropDate = new JLabel("Change Drop Date");
-		add(lblChangeDropDate, "10, 4, center, default");
+		add(lblChangeDropDate, "6, 6, center, default");
 		
 		dateField.setValue(new java.util.Date());
-		add(dateField,"12, 4, fill, default");
+		add(dateField,"8, 6, fill, default");
 		
-		btnUpdate = new JButton("Update");
-		add(btnUpdate, "14, 4, center, default");
+		btnUpdate = new JButton("Extend");
+		add(btnUpdate, "10, 6, center, default");
 		
 		JLabel lblConfirmationNo = new JLabel("Confirmation No");
-		add(lblConfirmationNo, "6, 6, center, default");
+		add(lblConfirmationNo, "6, 8, center, default");
 		
 		setTextField_1(new JTextField());
-		add(getTextField_1(), "8, 6, fill, default");
+		add(getTextField_1(), "8, 8, fill, default");
 		getTextField_1().setColumns(10);
 		
 		
-		add(btnCancelReservation, "10, 6, center, default");
+		add(btnCancelReservation, "10, 8, center, default");
 		
 		
 		

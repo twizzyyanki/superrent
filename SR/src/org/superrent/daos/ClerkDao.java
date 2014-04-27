@@ -594,26 +594,30 @@ public class ClerkDao
 		{
 			minimum=rs1.getDouble(1);
 		}
+		
+		PreparedStatement ps=con.prepareStatement("select pickDate,dropDate from Reservation where confirmationNo="
+				+ "(select confirmationNo from GeneratedAgreements where agreementNo=?)");
+		ps.setInt(1,agreementNo);
+		rs=ps.executeQuery();
+		while(rs.next())
+		{
+			pickdate=rs.getTimestamp("pickDate");
+			dropdate=rs.getTimestamp("dropDate");
+		}
+		
+		System.out.println(pickdate);
+		System.out.println(dropdate);
+		
+		long difference= (dropdate.getTime()-pickdate.getTime());
+		long seconds=TimeUnit.SECONDS.convert(difference, TimeUnit.MILLISECONDS);    
+		hours = TimeUnit.SECONDS.toHours(seconds) - TimeUnit.SECONDS.toHours(TimeUnit.SECONDS.toDays(seconds));
+		
+		System.out.println(points+"  "+minimum);
+		
+		
 		if(points>=minimum)
 		{
 			bonusdays=Integer.valueOf((int) (points/minimum));
-			
-			PreparedStatement ps=con.prepareStatement("select pickDate,dropDate from Reservation where confirmationNo="
-					+ "(select confirmationNo from GeneratedAgreements where agreementNo=?)");
-			ps.setInt(1,agreementNo);
-			rs=ps.executeQuery();
-			while(rs.next())
-			{
-				pickdate=rs.getTimestamp("pickDate");
-				dropdate=rs.getTimestamp("dropDate");
-			}
-			
-			System.out.println(pickdate);
-			System.out.println(dropdate);
-			
-			long difference= (dropdate.getTime()-pickdate.getTime());
-			long seconds=TimeUnit.SECONDS.convert(difference, TimeUnit.MILLISECONDS);    
-			hours = TimeUnit.SECONDS.toHours(seconds) - TimeUnit.SECONDS.toHours(TimeUnit.SECONDS.toDays(seconds));
 			
 			PreparedStatement ps2=con.prepareStatement("Select type,category from Vehicle where regno="
 					+ "(select regNo from MakeReservation where confirmationNo="
