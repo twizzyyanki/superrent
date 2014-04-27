@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Vector;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JDialog;
@@ -45,9 +46,17 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 	private java.util.Date pickupDate;
 	private java.util.Date dropDate;
 	private String regNo;
+	private Vector carTypeList;
+	private Vector truckTypeList;
+	
+	
 	public MakeReservationController(MakeReservationPage reservationPage){
 		this.reservationPage = reservationPage;
-		
+		ReservationDao carTypeDao = new ReservationDao();
+		carTypeList = carTypeDao.searchCarType();
+		System.out.println(carTypeList);
+		ReservationDao truckTypeDao = new ReservationDao();
+		truckTypeList = truckTypeDao.searchTruckType();
 	}
 
 
@@ -326,6 +335,29 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 			}
 		}
 		
+		if(e.getSource() == sVRPanel.getCategoryCombox()){
+			sVRPanel.getSearchTable().clearSelection();
+			String item = (String)sVRPanel.getCategoryCombox().getSelectedItem();
+			if(item.equalsIgnoreCase("CAR")){
+				sVRPanel.getTypeCombox().setModel(new DefaultComboBoxModel(carTypeList));
+				
+				sVRPanel.getEquipComboBox().setModel(new DefaultComboBoxModel<String>(new String[] { "None","Child seat"}));
+				
+			}
+			else if(item.equalsIgnoreCase("TRUCK")){
+				sVRPanel.getTypeCombox().setModel(new DefaultComboBoxModel(truckTypeList));
+				
+			}
+			else if(item.equalsIgnoreCase("ALL")){
+				sVRPanel.getTypeCombox().setModel(new DefaultComboBoxModel<String>(new String[] {"ALL", "ECONOMY","COMPACT","MID-SIZE",
+						  													"STANDARD", "FULL-SIZE", "PREMIUM","LUXURY", "SUV",
+						  													"VAN", "24-FOOT", "15-FOOT", "12-FOOT", "BOX TRUCK", 
+						  													"CARGO VAN"}));
+				
+			
+			}
+		}
+		
 		//calculated estimated cost for vehicle and equipment
 /*		if(e.getSource() == sVRPanel.getEquipComboBox()){
 			
@@ -343,13 +375,13 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 				sVRPanel.getBtnReserve().setEnabled(true);
 				int i = sVRPanel.getSearchTable().getSelectedRow();	
 				regNo = sVRPanel.getSearchTable().getValueAt(i, 3).toString();
-				System.out.println(regNo);
 				sVRPanel.getEquipComboBox().setEnabled(true);
 				//NEED DAO to calculate estimated cost and return to charge
 				ReservationDao calculatePriceDao = new ReservationDao();	
 				charge = calculatePriceDao.calculateCharges(regNo, 
-															pickupDate, dropDate);			
-				sVRPanel.getLblAmount().setText(String.valueOf(charge));
+															pickupDate, dropDate);
+				String scharge = String.format("%.2f", charge);  
+				sVRPanel.getLblAmount().setText(scharge);
 				
 				if(sVRPanel.getSearchTable().getValueAt(i, 0).toString().equals("Car")){
 					sVRPanel.getEquipComboBox().setModel(new DefaultComboBoxModel<String>(new String[] { "None","Child seat"}));

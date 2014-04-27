@@ -17,12 +17,14 @@ public class RequireAdditionalEquipment implements Serializable {
     protected RequireAdditionalEquipmentPK requireAdditionalEquipmentPK;
     
     private String equipmentName;
-    
-    private int quantity;
-    
-    private Reservation reservation;
-    
-    private SuperRent superRent;
+
+    private Integer confirmationNo;
+
+    private Integer branchID;
+
+    private String category;
+
+    private Integer quantity;
 
     public RequireAdditionalEquipment() {
     }
@@ -56,21 +58,40 @@ public class RequireAdditionalEquipment implements Serializable {
         this.equipmentName = equipmentName;
     }
 
-    public Reservation getReservation() {
-        return reservation;
-    }
+   
+    
+    public Integer getConfirmationNo() {
+		return confirmationNo;
+	}
 
-    public void setReservation(Reservation reservation) {
-        this.reservation = reservation;
-    }
+	public void setConfirmationNo(Integer confirmationNo) {
+		this.confirmationNo = confirmationNo;
+	}
 
-    public SuperRent getSuperRent() {
-        return superRent;
-    }
+	public Integer getBranchID() {
+		return branchID;
+	}
 
-    public void setSuperRent(SuperRent superRent) {
-        this.superRent = superRent;
-    }
+	public void setBranchID(Integer branchID) {
+		this.branchID = branchID;
+	}
+
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
+	}
+
+	
+
+   
+    
 
     @Override
     public int hashCode() {

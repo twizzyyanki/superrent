@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Vector;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -15,6 +16,7 @@ import net.proteanit.sql.DbUtils;
 
 import org.superrent.application.DatabaseConnection;
 import org.superrent.entities.MakeReservation;
+import org.superrent.entities.RequireAdditionalEquipment;
 import org.superrent.entities.Reservation;
 import org.superrent.entities.User;
 
@@ -34,8 +36,8 @@ public class ReservationDao {
 
 		String query = "SELECT category as Category, type as Type, brand as Brand, regNo from Vehicle where status = 0 "
 				+ (category.equalsIgnoreCase("All") ? ("")
-						: (" and category = " + "'" + category.toUpperCase() + "'"))
-				+ (type.equalsIgnoreCase("All") ? ("") : (" and type = " + "'"
+						: (" and UPPER(category) = " + "'" + category.toUpperCase() + "'"))
+				+ (type.equalsIgnoreCase("All") ? ("") : (" and UPPER(type) = " + "'"
 						+ type.toUpperCase() + "'"))
 				+ " and regNo not in (select regNo from MakeReservation where confirmationNo in (select confirmationNo from"
 				+ " Reservation where status = 0 and pickDate between '"
@@ -479,6 +481,140 @@ public class ReservationDao {
 		return total;
 	}
 	
+	public Vector searchCarType(){
+		Vector type = null;
+		try {
+			con = DatabaseConnection.createConnection();
+			con.setAutoCommit(false);
+			Statement st = con.createStatement();
+		
 
+		String query = "SELECT DISTINCT type from Vehicle WHERE category = 'Car'";
+		System.out.println(query);
+		resultSet = st.executeQuery(query);
+		
+		while(resultSet.next()){
+			//System.out.println(query);
+			type.add(resultSet.getString("type"));
+		}
+		
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+			DatabaseConnection.close(con);
+			return type;
+		}
+		
+		
+	}
+	
+	public Vector searchTruckType(){
+		Vector type = null;
+		try {
+			con = DatabaseConnection.createConnection();
+			con.setAutoCommit(false);
+			Statement st = con.createStatement();
+		
+
+		String query = "SELECT DISTINCT type from Vehicle WHERE category = 'Truck'";
+		
+		resultSet = st.executeQuery(query);
+		
+		while(resultSet.next()){
+			type.add(resultSet.getString("type"));
+		}
+		
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+			DatabaseConnection.close(con);
+			return type;
+		}
+		
+		
+	}
+	
+
+	
+	public boolean makeReservation(RequireAdditionalEquipment requireAdditionalEquipment) {
+
+		boolean result = true;
+
+		try {
+
+		con = DatabaseConnection.createConnection();
+
+		con.setAutoCommit(false);
+
+		insertIntoAdditionEquip(con, requireAdditionalEquipment);
+
+		con.commit();
+
+		} catch (ClassNotFoundException e) {
+
+		// TODO Auto-generated catch block
+
+		e.printStackTrace();
+
+		} catch (SQLException e) {
+
+		result = false;
+
+		e.printStackTrace();
+
+		} finally {
+
+		DatabaseConnection.close(con);
+
+		}
+
+		return result;
+
+		}
+
+
+
+
+		//Inserting into additional equipment table
+
+		public void insertIntoAdditionEquip(Connection con, RequireAdditionalEquipment requireAdditionalEquipment) throws SQLException{
+
+		Statement st = con.createStatement();
+
+		String query = "insert into AdditionalEquipment (confirmationNo, branchID, equipmentName category, quantity) "
+
+		+ "values (" + requireAdditionalEquipment.getConfirmationNo()
+
+		+ ", 1"
+
+		+ ",'" + requireAdditionalEquipment.getEquipmentName() + "'"
+
+		+ ",'" + requireAdditionalEquipment.getCategory() + "'"
+
+		+ ", " + requireAdditionalEquipment.getQuantity();
+
+		System.out.println(query);
+
+		st.executeUpdate(query);
+
+		}
+		
+		
+/*		public static void main(String[] args){
+			Vector test;
+			ReservationDao ddd = new ReservationDao();
+			test = ddd.searchCarType();
+			System.out.println(test);
+		}*/
 }
 
