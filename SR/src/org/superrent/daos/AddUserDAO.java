@@ -26,6 +26,7 @@ public class AddUserDAO {
 	private String email;
 	private AddUserPanel aup;
 	boolean isValid;
+	private int uid;
 
 	
 	
@@ -58,13 +59,43 @@ public class AddUserDAO {
 		
 		/* Create SQL query and perform the add */
 		try{
-			ResultSet rs;
+			ResultSet rs,rs2;
 			Statement st = connection.createStatement();
 			connection.setAutoCommit(false);
 			String query = "INSERT INTO `superrent`.`User` (`name`, `email`, `phoneNumber`, `type`, `address`) VALUES ('" 
 					+ name + "', '"+email+"', '"+phone+"', '"+type+"', '"+address+"');";
 			System.out.println("query is: " + query);
 			st.executeUpdate(query);
+			String query2 = "SELECT MAX(uid) FROM User";
+			rs2 = st.executeQuery(query2);
+			while(rs2.next())
+				uid = rs2.getInt("MAX(uid)");
+			
+			
+			if (type != 0){
+				
+				String query3 = "INSERT INTO `superrent`.`RegUser` (`uid`, `username`) VALUES ('" 
+						+ uid + "', '"+aup.getTextFieldUserName().getText()+"');";
+				System.out.println("query is: " + query3);
+				st.executeUpdate(query3);
+				
+				if (type == 1) {
+					System.out.println("You are adding a clubmember");
+					/* Insert it to club member table */
+					String query4 = "INSERT INTO `superrent`.`ClubMember` (`uid`, `membershipNo`) VALUES ('" 
+							+ uid + "', '"+Integer.parseInt(aup.getMembershipNo())+"');";
+					System.out.println("query is: " + query4);
+					st.executeUpdate(query4);
+					/* Insert it to Reg User table */
+				}
+				else {
+					System.out.println("You are adding a registered User that is not a clubmember");
+					/* Insert it to Reg User table */
+					
+				
+				}
+			}
+			
 			connection.commit();
 		}catch (Exception e) {
 			isValid = false;
