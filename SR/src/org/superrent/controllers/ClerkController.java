@@ -1,5 +1,6 @@
 package org.superrent.controllers;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.ResultSet;
@@ -12,6 +13,7 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import org.superrent.daos.ChangePasswordDAO;
 import org.superrent.daos.ClerkDao;
 import org.superrent.daos.ClerkSearchDao;
 import org.superrent.daos.UpdateProfileDAO;
@@ -95,9 +97,10 @@ public class ClerkController implements ActionListener {
 		paypal.processPaymentActionListener(this);
 		search.searchActionListener(this);
 		vehicle.searchvehicleActionListener(this);
+		profile.updateDetailsActionListener(this);
 	}
 
-	@SuppressWarnings("unused")
+	@SuppressWarnings({ "unused", "deprecation" })
 	public void actionPerformed(ActionEvent ae) {
 		if (ae.getActionCommand() == "Refresh") {
 			try {
@@ -121,17 +124,37 @@ public class ClerkController implements ActionListener {
 			this.clerkFrame.repaint();
 		}
 
-		if (ae.getActionCommand() == "Add ClubMember") {
+		if (ae.getActionCommand() == "Add ClubMember") 
+		{
 			this.clerkFrame.remove(clerkFrame.getPanel_2());
 			this.clerkFrame.setCenterPanel(cm);
 			this.clerkFrame.revalidate();
 			this.clerkFrame.repaint();
 		}
 
-		if (ae.getActionCommand() == "Add Member") {
-			String name = cm.getTextField().getText();
-			mem.getTextField().setText(name);
+		if (ae.getActionCommand() == "Add Member") 
+		{
+			String name=null;
+			try
+			{
+			int id=Integer.parseInt(cm.getTextField().getText());
+			int MembershipNumber=Integer.parseInt(cm.getTextField_1().getText());
+			name=dao.addClubMember(id,MembershipNumber);
+			if(name==null)
+			{
+				JOptionPane.showMessageDialog(cm, "The uid provided is not valid");
+			}
+			else
+			{
+			mem.getLblName().setText(name);
+			mem.getLblNumber().setText(String.valueOf(MembershipNumber));
 			mem.setVisible(true);
+			}
+			}
+			catch(Exception e)
+			{
+				JOptionPane.showMessageDialog(cm, "Could not add");
+			}
 		}
 
 		if (ae.getActionCommand() == "Search Reservation")
@@ -417,7 +440,8 @@ public class ClerkController implements ActionListener {
 							.displayFuelCost(fuel, agreementNo));
 					ret.textField_19.setText(cost);
 				}
-			} catch (Exception e) {
+			} catch (Exception e) 
+			{
 				JOptionPane.showMessageDialog(ret,
 						"Please enter the valid values");
 			}
@@ -425,14 +449,22 @@ public class ClerkController implements ActionListener {
 
 		if (ae.getActionCommand() == "Extend")
 		{
+			try
+			{
 			int confirmationNo = Integer
 					.valueOf((manage.textField_2.getText()));
-			int status = dao.extendRental(manage.dateField, confirmationNo);
-			if (status == 1) {
+			int status = dao.extendRental(manage.calendar.getDate(), confirmationNo);
+			int status1= dao.updateCharges(confirmationNo);
+			if (status == 1 && status1==1) {
 				JOptionPane.showMessageDialog(manage, "Date Updated...!!");
 			} else {
 				JOptionPane.showMessageDialog(manage,
 						"Date could not be Updated...!!");
+			}
+			}
+			catch(Exception e)
+			{
+				JOptionPane.showMessageDialog(manage, "Date should be later than the pickupdate");
 			}
 		}
 
@@ -494,24 +526,6 @@ public class ClerkController implements ActionListener {
 						"Invalid entries are present ");
 			}
 		}
-
-		
-		  if(ae.getActionCommand()=="Process Payment")
-		  {
-			  try 
-			  { 
-				  int agreementNo=Integer.parseInt(paypal.getTextField_9().getText());
-				  Double totalCost=Double.valueOf(paypal.getTextField_8().getText());
-				  String description=ret.textArea_1.getText(); int[]
-				  status=dao.createPayment(agreementNo,description,totalCost);
-				  if(status[0] ==1) { JOptionPane.showMessageDialog(ret,
-				  "Payment done with ReceiptId"+status[1]); } else {
-				  JOptionPane.showMessageDialog(manage, "Payment could not be done"); }
-				  } catch(Exception e) { JOptionPane.showMessageDialog(ret,
-				  "Please enter valid details"); 
-				  }
-			  }
-		 
 
 		if (ae.getActionCommand() == "Cancel Reservation") 
 		{
@@ -608,22 +622,29 @@ public class ClerkController implements ActionListener {
 
 		if (ae.getActionCommand() == "Pay With points") 
 		{
+			try
+			{
 			if (ret.getTextField().getText().equals("")) 
 			{
-				JOptionPane
-						.showMessageDialog(ret,
-								"Please provide a rental Agreement Number and check the details first");
+				JOptionPane.showMessageDialog(ret,"Please provide a rental Agreement Number and check the details first");
 			} 
-			else if(ret.textField_17.getText().isEmpty())
+			else if(ret.textField_17.getText().equals(0.0))
 			{
-				JOptionPane.showMessageDialog(ret, "Check the points first");
+				JOptionPane.showMessageDialog(ret, "Points are zero, you cannoy pay with zero points");
 			}
 			else
 			{
 				int agreementNo =Integer.parseInt(ret.getTextField().getText());
 				Double points=Double.parseDouble(ret.textField_17.getText());
 				Double cost= dao.DisplayDiscountedCost(agreementNo,points);
-				ret.getTextField_18().setText(String.valueOf(cost));
+				Double totalcost=Double.parseDouble(ret.textField_11.getText()) - Double.parseDouble(ret.getTextField_7().getText());
+				Double discountedcost=totalcost+cost;
+				ret.getTextField_18().setText(String.valueOf(discountedcost));
+			}
+			}
+			catch(Exception e)
+			{
+				JOptionPane.showMessageDialog(ret, "You cannot pay with the points ");
 			}
 		}
 		
@@ -638,16 +659,10 @@ public class ClerkController implements ActionListener {
 				{
 					JOptionPane.showMessageDialog(ret, "Calculate total cost first");
 				}
-				bill=Double.parseDouble(ret.textField_11.getText())+Double.parseDouble(ret.getTextField_7().getText());
+				else
+				bill=Double.parseDouble(ret.textField_11.getText());
 			}
-			
-			else if(ret.textField_11.getText().isEmpty())
-			{
-				JOptionPane.showMessageDialog(ret, "Calculate total cot first");
-			}
-			else
-			{
-			bill=Double.parseDouble(ret.textField_11.getText())+Double.parseDouble(ret.getTextField_18().getText());
+			bill=Double.parseDouble(ret.getTextField_18().getText());
 			String AgreementNum = ret.getTextField().getText();
 			paypal.getTextField_8().setText(String.valueOf(bill));
 			paypal.getTextField_9().setText(AgreementNum);
@@ -655,7 +670,6 @@ public class ClerkController implements ActionListener {
 			this.clerkFrame.setCenterPanel(paypal);
 			this.clerkFrame.revalidate();
 			this.clerkFrame.repaint();
-			}
 			}
 			catch(Exception e)
 			{
@@ -667,13 +681,9 @@ public class ClerkController implements ActionListener {
 		{
 			try
 			{
-				int agreementNo = Integer.parseInt(paypal.getTextField_9()
-						.getText());
-				Double totalCost = Double.valueOf(paypal.getTextField_8()
-						.getText());
-				System.out.println(totalCost);
+				int agreementNo = Integer.parseInt(paypal.getTextField_9().getText());
+				Double totalCost = Double.valueOf(paypal.getTextField_8().getText());
 				String description = ret.textArea_1.getText();
-				int[] status = null;
 
 				Payment createdPayment = null;
 
@@ -751,9 +761,16 @@ public class ClerkController implements ActionListener {
 											.getLastResponse()));
 					
 					
+					int status=dao.processPayment(agreementNo, description, totalCost);
+					if(status==0)
+					{
+						JOptionPane.showMessageDialog(paypal, "Payment Successfull");
+					}
+					else
+					{
+						JOptionPane.showMessageDialog(paypal, "Payment Unsuccessfull");
+					}
 					
-					status = dao.createPayment(agreementNo, description,
-							totalCost);
 				} catch (PayPalRESTException et)
 				{ //
 					paypal.getPaymentMessage().setText(et.getMessage());
@@ -761,14 +778,7 @@ public class ClerkController implements ActionListener {
 				}
 				System.out.println("Getting here - after transaction");
 
-				// Ifeanyi`s code ends here
-				if (status[0] == 1) {
-					JOptionPane.showMessageDialog(ret,
-							"Payment done with ReceiptId" + status[1]);
-				} else {
-					JOptionPane.showMessageDialog(manage,
-							"Payment could not be done");
-				}
+				
 				}
 				catch (Exception e) 
 				{
@@ -785,6 +795,8 @@ public class ClerkController implements ActionListener {
 		
 		if(ae.getActionCommand()=="comboBoxChanged")
 		{
+			try
+			{
 			int index=this.clerkFrame.getComboBox().getSelectedIndex();
 			if(index==1)
 			{
@@ -800,7 +812,6 @@ public class ClerkController implements ActionListener {
 				this.clerkFrame.revalidate();
 				this.clerkFrame.repaint();
 				searchdao.showOverdueVehicles(overdue);
-				//overdue.getTable().setModel(DbUtils.resultSetToTableModel(rs));*/
 			}
 			else if(index==3)
 			{
@@ -809,31 +820,115 @@ public class ClerkController implements ActionListener {
 				this.clerkFrame.revalidate();
 				this.clerkFrame.repaint();
 			}
+			}
+			catch(Exception e)
+			{
+				JOptionPane.showMessageDialog(clerkFrame, "No selection made");
+			}
 		}
 		
 		if(ae.getActionCommand()=="ConfirmPassword")
 		{
+			try
+			{
+			ChangePasswordDAO checkPassword = new ChangePasswordDAO();
+			String currentPassword=change.getPasswordField().getText();
+			String newPassword=change.getPasswordField_1().getText();
+			String confirmPassword=change.getPasswordField_2().getText();
 			
+			Boolean inDatabase = false;
+			Boolean updateSucess = false;
+			// checkOldPassword method to check password in DB
+			inDatabase = checkPassword.checkOldPassword(currentPassword);
+			if(inDatabase)
+			{
+				if(newPassword.equals(confirmPassword))
+				{
+					ChangePasswordDAO setPassword = new ChangePasswordDAO();
+					if(setPassword.setNewPassword(newPassword))
+					{
+						JOptionPane.showMessageDialog(change, "Password changed");
+					}
+					else
+					{	
+						JOptionPane.showMessageDialog(change, "Could not Update Password");
+					}
+				}
+				else
+				{
+					JOptionPane.showMessageDialog(change, "New Password doesnot match with the Confirm Password");
+				}
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(change, "The current password doent match");
+			}
+			}
+			catch(Exception e)
+			{
+				JOptionPane.showMessageDialog(change, "Pleasee enter valid values");
+			}
 		}
 		
 		if(ae.getActionCommand()=="Update Account Details")
 		{
+			try
+			{
+			String name=profile.getTextField().getText();
+			String phonenumber=profile.getTextField_1().getText();
+			String email=profile.getTextField_2().getText();
+			String address=profile.getTextArea().getText();
 			
+			UpdateProfileDAO DAOname = new UpdateProfileDAO();
+			UpdateProfileDAO DAOphone = new UpdateProfileDAO();
+			UpdateProfileDAO DAOemail = new UpdateProfileDAO();
+			UpdateProfileDAO DAOaddress = new UpdateProfileDAO();
+			
+			boolean Uname=DAOname.updateName(name);
+			boolean UPhone=DAOphone.updatePhoneNumber(phonenumber);
+			boolean Uemail=DAOemail.updatemail(email);
+			boolean Uaddress=DAOaddress.updateAddress(address);
+			
+			if(Uname && UPhone && Uemail && Uaddress)
+			{
+				JOptionPane.showMessageDialog(profile, "Details Updated");
+			}
+			else
+				JOptionPane.showMessageDialog(profile, "Could not Update details");
+			}
+			catch(Exception e)
+			{
+				JOptionPane.showMessageDialog(profile, "Please enter valid values");
+			}
 		}
 		
 		if(ae.getActionCommand()=="Search")
 		{
+			try
+			{
 			String category=(String) search.comboBox.getSelectedItem();
 			String type=(String) search.comboBox_1.getSelectedItem();
 			Date pickdate=search.calendar1.getDate();
 			Date dropdate=search.calendar2.getDate();
 			searchdao.showAvailableVehicles(pickdate, dropdate, type, category,search);
+			}
+			catch(Exception e)
+			{
+				JOptionPane.showMessageDialog(search, "No selection Made");
+			}
 		}
 		
 		if(ae.getActionCommand()=="Category")
 		{
+			try
+			{
 			String category=(String) vehicle.getComboBox().getSelectedItem();
 			searchdao.getForSaleVehicles(category,vehicle);
+			}
+			catch(Exception e)
+			{
+				JOptionPane.showMessageDialog(vehicle, "No Selection Made");
+			}
 		}
 	}
 

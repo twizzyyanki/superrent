@@ -65,7 +65,6 @@ public class ClerkHome extends JFrame
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 		
-		
 		contentPane.add(panel, BorderLayout.WEST);
 		panel.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
@@ -137,7 +136,7 @@ public class ClerkHome extends JFrame
 				RowSpec.decode("56px"),}));
 		panel_1.add(btnHome, "1, 2, fill, top");
 		
-		String[] search={"Search","Show Vehicle","OverDue Vehicles","Show Vehicles for Rent and sale"};
+		String[] search={"SEARCH","SHOW VEHICLES","OVERDUE VEHICLES","SHOW VEHICLES FOR SALE"};
 		comboBox.setModel(new DefaultComboBoxModel<String>(search));
 				
 		panel_1.add(getComboBox(), "12, 2, center, default");

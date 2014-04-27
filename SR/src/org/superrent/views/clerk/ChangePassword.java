@@ -12,12 +12,13 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 
 import org.superrent.controllers.ClerkController;
+import javax.swing.JPasswordField;
 
 public class ChangePassword extends JPanel {
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
 	private JButton btnConfirmPassword = new JButton("ConfirmPassword");
+	private JPasswordField passwordField;
+	private JPasswordField passwordField_1;
+	private JPasswordField passwordField_2;
 
 	/**
 	 * Create the panel.
@@ -59,28 +60,49 @@ public class ChangePassword extends JPanel {
 		JLabel lblCurrentPassword = new JLabel("Current Password");
 		add(lblCurrentPassword, "8, 6");
 		
-		textField = new JTextField();
-		add(textField, "12, 6, fill, default");
-		textField.setColumns(10);
+		setPasswordField(new JPasswordField());
+		add(getPasswordField(), "12, 6, fill, default");
 		
 		JLabel lblNewPassword = new JLabel("New Password ");
 		add(lblNewPassword, "8, 8");
 		
-		textField_1 = new JTextField();
-		add(textField_1, "12, 8, fill, default");
-		textField_1.setColumns(10);
+		setPasswordField_1(new JPasswordField());
+		add(getPasswordField_1(), "12, 8, fill, default");
 		
 		JLabel lblConfirmNewPassword = new JLabel("Confirm New Password");
 		add(lblConfirmNewPassword, "8, 10");
 		
-		textField_2 = new JTextField();
-		add(textField_2, "12, 10, fill, default");
-		textField_2.setColumns(10);
+		setPasswordField_2(new JPasswordField());
+		add(getPasswordField_2(), "12, 10, fill, default");
 		add(btnConfirmPassword, "12, 14");
 	}
 	
 	public void changePasswordActionListener(ClerkController clerk)
 	{
 		btnConfirmPassword.addActionListener(clerk);
+	}
+
+	public JPasswordField getPasswordField() {
+		return passwordField;
+	}
+
+	public void setPasswordField(JPasswordField passwordField) {
+		this.passwordField = passwordField;
+	}
+
+	public JPasswordField getPasswordField_1() {
+		return passwordField_1;
+	}
+
+	public void setPasswordField_1(JPasswordField passwordField_1) {
+		this.passwordField_1 = passwordField_1;
+	}
+
+	public JPasswordField getPasswordField_2() {
+		return passwordField_2;
+	}
+
+	public void setPasswordField_2(JPasswordField passwordField_2) {
+		this.passwordField_2 = passwordField_2;
 	}
 }

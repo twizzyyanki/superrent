@@ -26,7 +26,7 @@ public class UpdateProfile extends JPanel
 	
 	private JTextArea textArea;
 	
-	JButton btnUpdate;
+	JButton btnUpdate = new JButton("Update Account Details");
 	/**
 	 * Create the panel.
 	 */
@@ -52,8 +52,6 @@ public class UpdateProfile extends JPanel
 		lblAdress = new JLabel("Address");
 		
 		setTextArea(new JTextArea());
-		
-		btnUpdate = new JButton(" Update Account Details");
 		
 		GroupLayout groupLayout = new GroupLayout(this);
 		groupLayout.setHorizontalGroup(
@@ -129,5 +127,10 @@ public class UpdateProfile extends JPanel
 	}
 	public void setTextField_2(JTextField textField_2) {
 		this.textField_2 = textField_2;
+	}
+	
+	public void updateDetailsActionListener(ClerkController clerk)
+	{
+		btnUpdate.addActionListener(clerk);
 	}
 }

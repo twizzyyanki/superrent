@@ -1,13 +1,12 @@
 package org.superrent.views.clerk;
 
-import java.text.SimpleDateFormat;
-
 import javax.swing.JPanel;
 
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
+import com.toedter.calendar.JDateChooser;
 
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
@@ -24,9 +23,10 @@ public class ManageReservation extends JPanel {
 	public JTextField textField_1;
 	JButton btnCancelReservation = new JButton("Cancel Reservation");
 	JButton btnUpdate;
-	public JFormattedTextField dateField = new JFormattedTextField(new SimpleDateFormat("yyy/MM/dd"));
 	public JTextField textField_2;
 	private JLabel lblConfirmationno;
+	public JDateChooser calendar = new JDateChooser();
+	
 	/**
 	 * Create the panel.
 	 */
@@ -73,8 +73,7 @@ public class ManageReservation extends JPanel {
 		JLabel lblChangeDropDate = new JLabel("Change Drop Date");
 		add(lblChangeDropDate, "6, 6, center, default");
 		
-		dateField.setValue(new java.util.Date());
-		add(dateField,"8, 6, fill, default");
+		add(calendar,"8, 6, fill, default");
 		
 		btnUpdate = new JButton("Extend");
 		add(btnUpdate, "10, 6, center, default");
@@ -88,7 +87,6 @@ public class ManageReservation extends JPanel {
 		
 		
 		add(btnCancelReservation, "10, 8, center, default");
-		
 		
 		
 	}
@@ -120,4 +118,10 @@ public class ManageReservation extends JPanel {
 	public void setTextField_2(JTextField textField_2) {
 		this.textField_2 = textField_2;
 	}
+	
+	public JDateChooser getCalendar1() 
+	{
+		return calendar;
+	}
+	
 }

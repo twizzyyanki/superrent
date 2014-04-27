@@ -155,8 +155,7 @@ public class ClerkSearchVehicle extends JPanel
 		scrollPane.setViewportView(getTable());
 		
 	}
-	
-	
+
 	
 	public JDateChooser getCalendar1() 
 	{

@@ -24,7 +24,8 @@ public class UpdateProfileDAO {
 	/**
 	 * This is constructor of this class. It initializes the current uid.
 	 */
-	public UpdateProfileDAO(){
+	public UpdateProfileDAO()
+	{
 		this.lc = new LoggedInUser();
 		try {
 			String uidString;
@@ -48,7 +49,8 @@ public class UpdateProfileDAO {
 	 * @param newName is the new name that the user wants to update
 	 * @return true if update success
 	 */
-	public boolean updateName(String newName){
+	public boolean updateName(String newName)
+	{
 		boolean success = false;
 		PreparedStatement  ps;
 		
@@ -84,24 +86,24 @@ public class UpdateProfileDAO {
 	 * @param newPhoneNumber is the new phone number that the user wants to update
 	 * @return true if update success
 	 */
-	public boolean updatePhoneNumber(String phoneNumber){
+	public boolean updatePhoneNumber(String phoneNumber)
+	{
 		boolean success = false;
 		PreparedStatement  ps;
 		try{
-			int newPhoneNumber = Integer.parseInt(phoneNumber);
+			Long newPhoneNumber = new Long(phoneNumber);
 			String query = "UPDATE User SET phoneNumber = ? WHERE uid = ?";
 			ps = (PreparedStatement) connection.prepareStatement(query);
 			ps.setInt(2, uid);
-			ps.setLong(1, (long)newPhoneNumber);
+			ps.setLong(1,newPhoneNumber);
 			int rowCount = ps.executeUpdate();
-			  if (rowCount == 1){
+			  if (rowCount == 1)
+			  {
 				  success = true ;
 				  
 			  }
 			  else {
-				  success = false;
-				  
-				  
+				  success = false;		  
 			  }
 			
 			
@@ -113,7 +115,8 @@ public class UpdateProfileDAO {
 		catch (Exception e) {
 			DatabaseConnection.rollback(connection);
 			e.printStackTrace();
-		} finally {
+		} finally 
+		{
 			
 			DatabaseConnection.close(connection);
 			
@@ -302,10 +305,6 @@ public class UpdateProfileDAO {
 			DatabaseConnection.close(connection);
 			return email;
 		}
-		
-		
-		
-		
 	}
 	
 }

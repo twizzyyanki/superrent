@@ -175,9 +175,10 @@ public class ClerkDao
 			carddetails.setString(3,expiry);	
 			values[2]=carddetails.executeUpdate();
 			values[3]=number;	
-			PreparedStatement ps=con.prepareStatement("UPDATE MakeReservation SET status=? WHERE confirmationNo=?");
+			PreparedStatement ps=con.prepareStatement("UPDATE MakeReservation SET status=?,date=? WHERE confirmationNo=?");
 			ps.setString(1, "1");
-			ps.setInt(2,confirmNo);	
+			ps.setTimestamp(2,current_timestamp);
+			ps.setInt(3,confirmNo);	
 		}
 		catch(Exception e)
 		{
@@ -446,9 +447,11 @@ public class ClerkDao
 			ps.setString(1,"1");
 			ps.setInt(2, confirmationNo);
 			status[0]=ps.executeUpdate();
-			PreparedStatement ps1=con.prepareStatement("UPDATE MakeReservation SET status=? WHERE confirmationNo=?");
+			PreparedStatement ps1=con.prepareStatement("UPDATE MakeReservation SET status=?,date=? WHERE confirmationNo=?");
 			ps1.setInt(1,3);
-			ps1.setInt(2,confirmationNo);
+			java.sql.Timestamp current_timestamp =new java.sql.Timestamp(new java.util.Date().getTime());
+			ps1.setTimestamp(2,current_timestamp);
+			ps1.setInt(3,confirmationNo);
 			status[1]=ps.executeUpdate();
 		}
 		catch(Exception e)
@@ -604,44 +607,43 @@ public class ClerkDao
 			pickdate=rs.getTimestamp("pickDate");
 			dropdate=rs.getTimestamp("dropDate");
 		}
-		
-		System.out.println(pickdate);
-		System.out.println(dropdate);
+	
 		
 		long difference= (dropdate.getTime()-pickdate.getTime());
 		long seconds=TimeUnit.SECONDS.convert(difference, TimeUnit.MILLISECONDS);    
 		hours = TimeUnit.SECONDS.toHours(seconds) - TimeUnit.SECONDS.toHours(TimeUnit.SECONDS.toDays(seconds));
 		
-		System.out.println(points+"  "+minimum);
+		PreparedStatement ps2=con.prepareStatement("Select type,category from Vehicle where regno="
+				+ "(select regNo from MakeReservation where confirmationNo="
+				+ "(select confirmationNo from GeneratedAgreements where agreementNo=?))");
 		
+		ps2.setInt(1, agreementNo);
+		ResultSet rs2=ps2.executeQuery();
+		while(rs2.next())
+		{
+			type=rs2.getString(1);
+			category=rs2.getString(2);
+		}
+		
+		PreparedStatement ps3=con.prepareStatement("select hourlyRate,dailyRate,weeklyRate from SuperRentRentalRate where type=? and category=?");
+		ps3.setString(1, type);
+		ps3.setString(2, category);
+		ResultSet rs3=ps3.executeQuery();
+		
+		while(rs3.next())
+		{
+			hourlyrate=rs3.getDouble("hourlyRate");
+			dailyrate=rs3.getDouble("dailyRate");
+			weeklyrate=rs3.getDouble("weeklyRate");
+		}
 		
 		if(points>=minimum)
 		{
 			bonusdays=Integer.valueOf((int) (points/minimum));
 			
-			PreparedStatement ps2=con.prepareStatement("Select type,category from Vehicle where regno="
-					+ "(select regNo from MakeReservation where confirmationNo="
-					+ "(select confirmationNo from GeneratedAgreements where agreementNo=?))");
-			
-			ps2.setInt(1, agreementNo);
-			ResultSet rs2=ps2.executeQuery();
-			while(rs2.next())
-			{
-				type=rs2.getString(1);
-				category=rs2.getString(2);
-			}
-			
-			PreparedStatement ps3=con.prepareStatement("select hourlyRate,dailyRate,weeklyRate from SuperRentRentalRate where type=? and category=?");
-			ps3.setString(1, type);
-			ps3.setString(2, category);
-			ResultSet rs3=ps3.executeQuery();
-			while(rs3.next())
-			{
-				hourlyrate=rs3.getDouble("hourlyRate");
-				dailyrate=rs3.getDouble("dailyRate");
-				weeklyrate=rs3.getDouble("weeklyRate");
-			}
-			
+			System.out.println(hourlyrate);
+			System.out.println(dailyrate);
+			System.out.println(weeklyrate);
 			if(hours<=24)
 			{
 				charges=0.0;
@@ -653,6 +655,7 @@ public class ClerkDao
 				if(days<=5)
 				{
 					charges=days*dailyrate;
+					
 				}
 				else
 				{
@@ -660,7 +663,7 @@ public class ClerkDao
 				}
 			}
 		}
-		else
+		else if(points < minimum)
 		{
 			if(hours<=24)
 			{
@@ -669,6 +672,7 @@ public class ClerkDao
 			else
 			{
 				int days = (int) (Math.ceil(hours/24));
+				System.out.println(days);
 				if(days<=5)
 				{
 					charges=days*dailyrate;
@@ -676,6 +680,7 @@ public class ClerkDao
 				else
 				{
 					charges=days*weeklyrate;
+					System.out.println(charges+"--"+hours+"--"+weeklyrate);
 				}
 			}
 		}
@@ -738,15 +743,13 @@ public class ClerkDao
 		return status;
 	}
 
-	public int extendRental(JFormattedTextField date,int confirmationNo) 
+	public int extendRental(java.util.Date date,int confirmationNo) 
 	{
 		int status=0;
 		try
 		{
-			System.out.println(date.getValue());
-			java.util.Date theDate = (java.util.Date)date.getValue();
 			PreparedStatement ps = con.prepareStatement("update Reservation set dropDate=?,extendedDate=? where confirmationNo=?");
-			ps.setDate(1, new java.sql.Date(theDate.getTime()));
+			ps.setDate(1, new java.sql.Date(date.getTime()));
 			java.sql.Timestamp current_timestamp =new java.sql.Timestamp(new java.util.Date().getTime());
 			ps.setTimestamp(2,current_timestamp);
 			ps.setInt(3, confirmationNo);
@@ -783,9 +786,9 @@ public class ClerkDao
 		long seconds=TimeUnit.SECONDS.convert(difference, TimeUnit.MILLISECONDS);    
 		long hours = TimeUnit.SECONDS.toHours(seconds) - TimeUnit.SECONDS.toHours(TimeUnit.SECONDS.toDays(seconds));
 		
-		
 		PreparedStatement ps2=con.prepareStatement("Select type,category from Vehicle where regno="
-				+ "(select regNo from MakeReservation where confirmationNo=(select confirmationNo from Reservation where confirmationNo=?))");
+				+ "(select regNo from MakeReservation where confirmationNo="
+				+ "(select confirmationNo from Reservation where confirmationNo=?))");
 		
 		ps2.setInt(1, confirmationNo);
 		ResultSet rs2=ps2.executeQuery();
@@ -836,44 +839,63 @@ public class ClerkDao
 		return i;
 	}
 
-	public int[] createPayment(int agreementNo, String description, Double totalCost) 
+	public int processPayment(int agreementNo, String description, Double totalCost) 
 	{
-		int[] status=new int[2];
-		String uid=null;
+		int status=0;
 		try
 		{
-		PreparedStatement ps=con.prepareStatement("select uid from MakeReservation where confirmationNo="
-				+ "(select confirmationNo from GeneratedAgreements where agreementNo=?)");
-		ps.setInt(1,agreementNo);
-		ResultSet rs=ps.executeQuery();
-		while(rs.next())
-		{
-			uid=rs.getString("uid");
-		}
-		
-		PreparedStatement ps1=con.prepareStatement("insert into Payments values(?,?,?,?,?,?) ");
-		ps1.setString(1, "321");
-		ps1.setString(2, uid);
-		ps1.setString(3,description);
+		PreparedStatement ps=con.prepareStatement("update MakeReservation set status=2,date=? where confirmationno="
+				+ "(select confirmationNo from RentAgreement where agreementNo=?)");
 		java.sql.Timestamp current_timestamp =new java.sql.Timestamp(new java.util.Date().getTime());
-		ps1.setTimestamp(4, current_timestamp);
-		ps1.setDouble(5, totalCost);
-		ps1.setString(6,"0");		
-		status[0]= ps1.executeUpdate();
-		
-		PreparedStatement ps2=con.prepareStatement("select receiptID from Payments where uid=?");
-		ps2.setString(1,uid);
-		ResultSet rs2=ps2.executeQuery();
-		
-		while(rs2.next())
-		{
-			status[1]= rs2.getInt("receiptID");
-		}
+		ps.setTimestamp(1,current_timestamp);
+		ps.setInt(2,agreementNo);
+		status=ps.executeUpdate();
 		}
 		catch(Exception e)
 		{
 			System.out.println(e);
 		}
 		return status;
+	}
+
+	public String addClubMember(int uid, int membershipNumber) 
+	{
+		int status=0;
+		String name=null;
+		boolean isUser=false;
+		try
+		{
+			PreparedStatement ps1=con.prepareStatement("select 1 from User where uid=? and type=1");
+			ps1.setInt(1,uid);
+			ResultSet rs=ps1.executeQuery();
+			isUser=rs.next();
+			if(isUser)
+			{
+			PreparedStatement ps=con.prepareStatement("insert into ClubMember values(?,?,?,?)");
+			ps.setInt(1, uid);
+			ps.setInt(2, membershipNumber);
+			ps.setDouble(3,140.0);
+			java.sql.Timestamp current_timestamp=new java.sql.Timestamp(new java.util.Date().getTime());
+			ps.setTimestamp(4, current_timestamp);
+			status=ps.executeUpdate();
+			System.out.println(status);
+			if(status==1)
+			{
+			PreparedStatement ps2=con.prepareCall("select name from User where uid="
+					+ "(select uid from ClubMember where uid=?)");
+			ps2.setInt(1, uid);
+			ResultSet rs2=ps2.executeQuery();
+			while(rs2.next())
+			{
+				name=rs2.getString(1);
+			}
+			}
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+		}
+		return name;
 	}
 }
