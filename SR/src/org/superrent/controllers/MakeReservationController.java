@@ -3,12 +3,14 @@ package org.superrent.controllers;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 
 import javax.swing.JDialog;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+
+
 
 
 
@@ -21,6 +23,7 @@ import javax.swing.event.ListSelectionListener;
 import org.superrent.daos.ReservationDao;
 import org.superrent.entities.MakeReservation;
 import org.superrent.entities.Reservation;
+import org.superrent.entities.User;
 import org.superrent.views.general.Login;
 import org.superrent.views.general.MakeReservationPage;
 import org.superrent.views.general.ReservationPanel;
@@ -44,6 +47,7 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 	private MakeReservation makeReservation;
 	private java.util.Date pickupDate;
 	private java.util.Date dropDate;
+	private String regNo;
 	public MakeReservationController(MakeReservationPage reservationPage){
 		this.reservationPage = reservationPage;
 		
@@ -81,11 +85,10 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 			//"INSERT INTO Reservation (pickDate, dropDate, creationDate,charges,status)
 			reservation = new Reservation();
 			makeReservation = new MakeReservation();
-			
 			reservation.setPickDate(pickupDate);
 			reservation.setDropDate(dropDate);
-			reservation.setCharges(charge);;
-			
+			reservation.setCharges(charge);
+			makeReservation.setRegNo(regNo);
 		}
 		
 		// Search the vehicle
@@ -125,21 +128,40 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 		if(e.getActionCommand().equals("Clubmember Reserve")){
 			reservationPanel.getLblClubInfo().setForeground(Color.black);
 			reservationPanel.getLblClubInfo().setText("");
+			String username = reservationPanel.getUserIDTextField().getText();
+			String password = reservationPanel.getPasswordField().getText();
 			
-			if(reservationPanel.getUserIDTextField().getText().trim().length()!=0 &&
-			   reservationPanel.getPasswordField().getText().trim().length()!=0){
-				//Need DAO TO CHECK IF USER ID EXIST IF YES clubExist set to TRUE
+			if(username.trim().length()!=0 &&
+			   password.trim().length()!=0){
+				
+				password = org.apache.commons.codec.digest.DigestUtils.md5Hex(password);
+				
+				ReservationDao checkClubMemberDao = new ReservationDao();
 				boolean clubExist = false;
+				Integer uid;
+				//Need DAO TO CHECK IF USER ID EXIST IF YES clubExist set to TRUE
+				if((uid=checkClubMemberDao.getUid(username, password))!=null){
+					clubExist = true;
+				}
+				
 				if(clubExist){
-					//Need DAO to store this reservation as clubmember
+					//Need DAO to store this reservation as club Member
+					makeReservation.setUid(uid);
+					ReservationDao makeReservationDao = new ReservationDao();
+					ReservationDao getCinfrmationNoDao = new ReservationDao();
 					
+					makeReservationDao.makeReservation(reservation);
+					makeReservation.setConfirmationNo((int)getCinfrmationNoDao.getConfirmationFromReservation());
+					makeReservationDao.makeReservation(makeReservation);
+					
+					//open ReservationSuccess Dialog
 					dialog = new ReservationSuccessDialog(this);
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
 					reservationPage.dispose();
 					
 					//Need DAO to get confirmation No.
-					String confirmaionNo = "123";
+					String confirmaionNo = makeReservation.getConfirmationNo().toString();
 					dialog.getLblGetCoNo().setText(confirmaionNo);
 					
 					//Need DAO to get location
@@ -147,11 +169,11 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 					dialog.getLblGetLocation().setText(location);
 					
 					//Need DAO to get pickUpDate
-					String pickUpDate = "2014/05/18";
+					String pickUpDate = reservation.getPickDate().toString();
 					dialog.getLblGetPickUpDate().setText(pickUpDate);
 					
 					//Need DAO to get ReturnDate
-					String returnDate = "2014/05/18";
+					String returnDate = reservation.getDropDate().toString();
 					dialog.getLblGetReturnDate().setText(returnDate);
 					
 				}
@@ -172,37 +194,58 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 		if(e.getActionCommand().equals("Guest Reserve")){
 			reservationPanel.getLblGuestInfo().setForeground(Color.black);
 			reservationPanel.getLblGuestInfo().setText("");
+			String name = reservationPanel.getNameTextField().getText();
+			String phone =  reservationPanel.getPhoneTextField().getText();
+			String address = reservationPanel.getAddressTextArea().getText();
+			String email =  reservationPanel.getEmailTextField().getText();
 			
-			if(reservationPanel.getNameTextField().getText().trim().length()!=0 && 
-			   reservationPanel.getPhoneTextField().getText().trim().length()!=0 &&
-			   reservationPanel.getAddressTextArea().getText().trim().length()!=0 &&
-			   reservationPanel.getEmailTextField().getText().trim().length()!=0){
+			if(name.trim().length()!=0 && 
+			   phone.trim().length()!=0 &&
+			   address.trim().length()!=0 &&
+			   email.trim().length()!=0){
 				
 				//Validate all fields
 				boolean valid = false;
-				valid = ValidateFields(reservationPanel.getPhoneTextField().getText());				
+				valid = ValidateFields(phone);				
 				
 				// Need to DAO to store user's information and this reservation
 				if(valid){
+					User guestUser = new User();
+					guestUser.setName(name);
+					guestUser.setPhoneNumber(Integer.parseInt(phone));
+					guestUser.setEmail(email);
+					guestUser.setAddress(address);
+					
+					
+					ReservationDao getUID = new ReservationDao();
+					int uid = getUID.getUid(guestUser);
+					makeReservation.setUid(uid);
+					ReservationDao makeReservationDao = new ReservationDao();
+					ReservationDao getCinfrmationNoDao = new ReservationDao();
+					
+					makeReservationDao.makeReservation(reservation);
+					makeReservation.setConfirmationNo((int)getCinfrmationNoDao.getConfirmationFromReservation());
+					makeReservationDao.makeReservation(makeReservation);
+					
 					dialog = new ReservationSuccessDialog(this);
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 					dialog.setVisible(true);
 					reservationPage.dispose();
 					
 					//Need DAO to get confirmation No.
-					String confirmaionNo = "123";
-					dialog.getLblGetCoNo().setText(confirmaionNo);
+					long confirmaionNo = makeReservation.getConfirmationNo();
+					dialog.getLblGetCoNo().setText(String.valueOf(confirmaionNo));
 					
 					//Need DAO to get location
 					String location = "Vancouver";
 					dialog.getLblGetLocation().setText(location);
 					
 					//Need DAO to get pickUpDate
-					String pickUpDate = "2014/05/18";
+					String pickUpDate = reservation.getPickDate().toString();
 					dialog.getLblGetPickUpDate().setText(pickUpDate);
 					
 					//Need DAO to get ReturnDate
-					String returnDate = "2014/05/18";
+					String returnDate = reservation.getDropDate().toString();
 					dialog.getLblGetReturnDate().setText(returnDate);
 					
 				}
@@ -236,11 +279,22 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 		if(e.getActionCommand().equals("Confirm to cancel")){
 			cancelReservationPanel.getLblCancelInfo().setForeground(Color.black);
 			cancelReservationPanel.getLblCancelInfo().setText("");
+			String confirmationNo = cancelReservationPanel.getConfirmationNoTextField().getText();
 			
-			if(cancelReservationPanel.getConfirmationNoTextField().getText().trim().length()!=0){
-				String confirmationNo = cancelReservationPanel.getConfirmationNoTextField().getText();
-				//Need DAO to cancel reservation
+			
+			if(confirmationNo.trim().length()!=0){
 				Boolean successCancel = false;
+				//check to see if confirmationNo is int
+				successCancel = ValidateFields(confirmationNo);
+				ReservationDao checkExistConf = new ReservationDao();
+				//Need DAO to cancel reservation
+				if(successCancel && checkExistConf.checkExistConfirmatioNo(Integer.parseInt(confirmationNo))){
+					ReservationDao cancelReservationDao = new ReservationDao();
+					successCancel = cancelReservationDao.cancelReservation(Integer.parseInt(confirmationNo));
+				}else{
+					successCancel = false;
+				}
+				
 				if(successCancel){
 					cancelReservationPanel.getLblCancelInfo().setText("You success cancel the reservation");
 				}
@@ -267,8 +321,9 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 	public void valueChanged(ListSelectionEvent e) {
 		if(!e.getValueIsAdjusting()){
 			sVRPanel.getBtnReserve().setEnabled(true);
-			int i = sVRPanel.getSearchTable().getSelectedRow();
-			System.out.println(sVRPanel.getSearchTable().getValueAt(i, 0));
+			int i = sVRPanel.getSearchTable().getSelectedRow();	
+			regNo = sVRPanel.getSearchTable().getValueAt(i, 3).toString();
+			System.out.println(regNo);
 			sVRPanel.getEquipComboBox().setEnabled(true);
 			
 			//NEED DAO to calculate estimated cost and return to charge
@@ -281,10 +336,10 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 		
 	}
 
-	public boolean ValidateFields(String phone){
+	public boolean ValidateFields(String anyIntegerType){
 		boolean valid = false;
 		try{
-			Integer.parseInt(phone);
+			Integer.parseInt(anyIntegerType);
 			valid = true;
 		}
 		catch(NumberFormatException e){

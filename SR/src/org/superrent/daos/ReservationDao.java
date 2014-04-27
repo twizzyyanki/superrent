@@ -1,6 +1,7 @@
 package org.superrent.daos;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -94,17 +95,18 @@ public class ReservationDao {
 
 	private void addUser(User user) throws SQLException {
 
+		Date date = new Date();
 		Statement st = con.createStatement();
 		String query = "INSERT INTO User (name,email,phoneNumber,dateCreated,type,address) VALUES ('"
 				+ user.getName()
 				+ " ', '"
 				+ user.getEmail()
-				+ " ',"
+				+ " ','"
 				+ user.getPhoneNumber()
 				+ " ', '"
-				+ new java.sql.Date(user.getDateCreated().getTime())
-				+ " ', "
-				+ user.getType() + " , '" + user.getAddress() + "')";
+				+ new java.sql.Date(date.getTime())
+				+ " ', '"
+				+ user.getType() + "' , '" + user.getAddress() + "')";
 		System.out.println(query);
 		st.executeUpdate(query);
 
@@ -125,8 +127,8 @@ public class ReservationDao {
 		return uid;
 	}
 
-	public boolean makeReservation(Reservation reservation,
-			MakeReservation makeReservation) {
+	// for reservation
+	public boolean makeReservation(Reservation reservation) {
 		boolean result = true;
 		try {
 			con = DatabaseConnection.createConnection();
@@ -134,10 +136,33 @@ public class ReservationDao {
 
 			Date date = new Date();
 			reservation.setCreatedDate(new java.sql.Date(date.getTime()));
+			
+			insertIntoReservation(con, reservation);
+			con.commit();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			result = false;
+			e.printStackTrace();
+		} finally {
+			DatabaseConnection.close(con);
+		}
+		return result;
+
+	}
+	
+	//for make reservation
+	public boolean makeReservation(MakeReservation makeReservation) {
+		boolean result = true;
+		try {
+			con = DatabaseConnection.createConnection();
+			con.setAutoCommit(false);
+
+			Date date = new Date();
 			makeReservation
 					.setLastUpdatedDate(new java.sql.Date(date.getTime()));
-			makeReservation.setConfirmationNo(getConfirmationFromReservation(con));
-			insertIntoReservation(con, reservation);
+			
 			insertIntoMakeReservation(con, makeReservation);
 			con.commit();
 		} catch (ClassNotFoundException e) {
@@ -220,6 +245,32 @@ public class ReservationDao {
 
 	}
 
+	public boolean checkExistConfirmatioNo(int confirmatioNo){
+		boolean exist = false;
+		try {
+			con = DatabaseConnection.createConnection();
+			con.setAutoCommit(false);
+			Statement st = con.createStatement();
+			String query = "select confirmationNo from Reservation WHERE confirmationNo ='"
+					+ confirmatioNo+"'";	 
+			resultSet = st.executeQuery(query);
+			if(resultSet.next()){
+				exist = true;
+
+			}
+
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DatabaseConnection.close(con);
+		}
+		
+		return exist;
+	}
+	
 	public boolean cancelReservation(String phoneNumber,
 			java.util.Date reservedDate) {
 
@@ -269,8 +320,8 @@ public class ReservationDao {
 			Integer confirmationNo) throws ClassNotFoundException, SQLException {
 
 		Statement st = con.createStatement();
-		String query1 = "UPDATE Reservation SET  MakeReservation =" + 3
-				+ " where confirmationNo = '" + confirmationNo;
+		String query1 = "UPDATE MakeReservation SET  status = '" + 3
+				+ "' where confirmationNo = '" + confirmationNo + "'";
 		System.out.println(query1);
 		st.executeUpdate(query1);
 
@@ -280,24 +331,42 @@ public class ReservationDao {
 			throws ClassNotFoundException, SQLException {
 
 		Statement st = con.createStatement();
-		String query = "UPDATE Reservation SET  status =" + 1
-				+ " where confirmationNo = " + confirmationNo;
+		String query = "UPDATE Reservation SET  status = '" + 1
+				+ "' where confirmationNo = '" + confirmationNo+"'";
 		System.out.println(query);
 		st.executeUpdate(query);
 
 	}
 
-	private Integer getConfirmationFromReservation(Connection con)throws ClassNotFoundException, SQLException {
-		Integer confirmationNo = null;
+	public long getConfirmationFromReservation(){
+		Long confirmationNo = null;
+		try {
 
-		Statement st = con.createStatement();
-		String query = "SELECT MAX(confirmationNo) FROM Reservation";	 
-		resultSet = st.executeQuery(query);
-		if(resultSet.next()){
-			confirmationNo = resultSet.getInt("confirmationNo");
+			con = DatabaseConnection.createConnection();
+			String sql="SELECT confirmationNo FROM Reservation";
+			PreparedStatement maxcon=con.prepareStatement(sql);
+			ResultSet rs =maxcon.executeQuery(); 
+			long max = 0;
+			while(rs.next()){
+				confirmationNo = rs.getLong("confirmationNo");
+				if(confirmationNo > max){
+					max = confirmationNo;
+				}
+				
+			}
+			confirmationNo = max;
+		}catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}catch (SQLException e) {
+			e.printStackTrace();
 
+
+		} finally {
+			DatabaseConnection.close(con);
 		}
-		return confirmationNo;
+
+	return confirmationNo;
 	}
 	
 	public Integer getUid(String username, String password){
@@ -325,4 +394,7 @@ public class ReservationDao {
 		}
 		return uid;
 	}
+	
+
 }
+
