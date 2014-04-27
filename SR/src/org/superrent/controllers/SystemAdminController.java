@@ -97,18 +97,23 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 			sa.getMainPanel().add(sa.getPanelCenter(), BorderLayout.CENTER);
 			sa.revalidate();
 			sa.repaint();
-			
+
 			UpdateProfileDAO nameDAO = new UpdateProfileDAO();
 			UpdateProfileDAO phoneDAO = new UpdateProfileDAO();
 			UpdateProfileDAO addressDAO = new UpdateProfileDAO();
+			UpdateProfileDAO emailDao = new UpdateProfileDAO();
 			String name = nameDAO.getName();
 			String phone = String.valueOf(phoneDAO.getPhoneNumber());
 			String address = addressDAO.getAddress();
+			String email = emailDao.getEmail();
 			
 			updateProfile.getTextName().setText(name);
 			updateProfile.getTextPhone().setText(phone);
-			updateProfile.getTextAddress().setText(address);;
+			updateProfile.getTextAddress().setText(address);
+			updateProfile.getTxtEmail().setText(email);
+			
 		}
+		
 		
 	    
 	    if(e.getActionCommand().equals("comboBoxChanged")) {
@@ -232,7 +237,7 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 			Boolean inDatabase = false;
 			Boolean updateSucess = false;
 			// checkOldPassword method to check password in DB
-			inDatabase = checkPassword.checkOldPassword(org.apache.commons.codec.digest.DigestUtils.md5Hex(oldPass));
+			inDatabase = checkPassword.checkOldPassword(oldPass);
 			
 			if(inDatabase){
 				char[] newPassword = cpp.getNewPass().getPassword();
@@ -293,17 +298,27 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 			final BorderLayout layout = (BorderLayout)sa.getContentPane().getLayout();
 			final UpdateProfile updateProfile = (UpdateProfile) layout.getLayoutComponent(BorderLayout.CENTER);
 			// check if user enters text in name text area
+			int nameSuccess = 1;
+			int phoneSuccess = 1;
+			int addressSucess = 1;
+			int emailSuccess = 1;
+			String updateInfosString="";
+			updateProfile.getTextPhone().setForeground(Color.black);
+			updateProfile.getUpdateInfo().setText("");
+			
+			// check if user enters text in name text area
 			if(updateProfile.getTextName().getText()!=null && 
 					updateProfile.getTextName().getText().trim().length()!=0){
 				// check if text area is "Update Success" to prevent updating 
 				if(!updateProfile.getTextName().getText().equals("Update Success")){
 					UpdateProfileDAO updateNameDAO = new UpdateProfileDAO();
 					if(updateNameDAO.updateName(updateProfile.getTextName().getText())){
-						updateProfile.getTextName().setText("Update Success");
+						nameSuccess = 1;
+						updateInfosString = updateInfosString + "Update name success<br>";
 					}
-					else{
-						updateProfile.getTextName().setForeground(Color.RED);
-						updateProfile.getTextName().setText("Update fail");
+					else {
+						nameSuccess = 0;
+						updateInfosString = updateInfosString + "Update name fail<br>";
 					}
 					
 				}
@@ -316,18 +331,20 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 			
 			// check if user enters text in phone text area
 			if(updateProfile.getTextPhone().getText()!=null && 
-				updateProfile.getTextPhone().getText().trim().length()!=0){		
+					updateProfile.getTextPhone().getText().trim().length()!=0){		
 				
 				// check if text area is "Update Success" to prevent updating 
 				if(!updateProfile.getTextPhone().getText().equals("Update Success")){
 					UpdateProfileDAO updatePhoneDAO = new UpdateProfileDAO();
 					String newPhoneNumber = updateProfile.getTextPhone().getText();
 					if(updatePhoneDAO.updatePhoneNumber(newPhoneNumber)){
-						updateProfile.getTextPhone().setText("Update Success");
+						phoneSuccess = 1;
+						updateInfosString = updateInfosString + "Update phone number success<br>";
+						
 					}
 					else{
-						updateProfile.getTextPhone().setForeground(Color.RED);
-						updateProfile.getTextPhone().setText("Update fail");
+						phoneSuccess = 0;
+						updateInfosString = updateInfosString + "phone number is not vaild<br>";
 					}
 				}
 				else{
@@ -339,18 +356,19 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 				
 			// check if user enters text in address text area
 			if(updateProfile.getTextAddress().getText()!=null &&				
-				updateProfile.getTextAddress().getText().trim().length()!=0){		
+					updateProfile.getTextAddress().getText().trim().length()!=0){		
 				
 					// check if text area is "Update Success" to prevent updating 
 					if(!updateProfile.getTextAddress().getText().equals("Update Success")){
 						UpdateProfileDAO updateAddressDAO = new UpdateProfileDAO();
 						String newAddress = updateProfile.getTextAddress().getText();
 						if(updateAddressDAO.updateAddress(newAddress)){
-							updateProfile.getTextAddress().setText("Update Success");
+							addressSucess = 1;
+							updateInfosString = updateInfosString + "Update address success<br>";
 						}
 						else{
-							updateProfile.getTextAddress().setForeground(Color.RED);
-							updateProfile.getTextAddress().setText("Update fail");
+							addressSucess = 0;
+							updateInfosString = updateInfosString + "Address is not valid<br>";
 						}
 					}
 					else{
@@ -358,9 +376,43 @@ public class SystemAdminController implements ActionListener, DocumentListener {
 						updateProfile.getTextAddress().setText("");
 					}
 			}
-
+			
+			// check if user enters text in email text area
+			if(updateProfile.getTxtEmail().getText()!=null &&				
+					updateProfile.getTxtEmail().getText().trim().length()!=0){		
+				
+					// check if text area is "Update Success" to prevent updating 
+					if(!updateProfile.getTxtEmail().getText().equals("Update Success")){
+						UpdateProfileDAO updateEmailDAO = new UpdateProfileDAO();
+						String email = updateProfile.getTxtEmail().getText();
+						if(updateEmailDAO.updatemail(email)){
+							emailSuccess = 1;
+							updateInfosString = updateInfosString + "Update email success<br>";
+						}
+						else{
+							addressSucess = 0;
+							updateInfosString = updateInfosString + "Email is not valid<br>";
+						}
+					}
+					else{
+						updateProfile.getTextAddress().setForeground(Color.black);
+						updateProfile.getTextAddress().setText("");
+					}
+			}
+			
+			if(nameSuccess+phoneSuccess+addressSucess!=4){
+				
+				updateInfosString = "<html>"+ updateInfosString + "</html>";
+				updateProfile.getUpdateInfo().setText(updateInfosString);
+			}
+			else
+			{
+				updateInfosString = "<html>"+ updateInfosString + "</html>";
+				updateProfile.getUpdateInfo().setText(updateInfosString);
+			}
 		}
 	}
+		
 	
 	public SystemAdminController(SystemAdmin sa) {	
 		this.sa = sa;		

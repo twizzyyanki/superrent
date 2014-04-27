@@ -25,7 +25,9 @@ public class UpdateProfile extends JPanel {
 	private final SystemAdminController sac;
 	private JTextField textPhone;
 	private JTextField textName;
+	private JTextField textEmail;
 	private JTextArea textAddress;
+	private JLabel updateInfo;
 
 	/**
 	 * Create the panel.
@@ -35,50 +37,69 @@ public class UpdateProfile extends JPanel {
 		setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(20dlu;pref)"),
-				FormFactory.RELATED_GAP_COLSPEC, FormFactory.BUTTON_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.BUTTON_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(80dlu;default):grow"),
-				FormFactory.RELATED_GAP_COLSPEC, FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("default:grow"), }, new RowSpec[] {
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),},
+			new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("max(18dlu;pref)"),
-				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("default:grow"),
-				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
-				FormFactory.RELATED_GAP_ROWSPEC, FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("default:grow"), }));
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("default:grow"),}));
 
 		JLabel name = new JLabel("Name");
-		add(name, "4, 4, center, default");
+		add(name, "4, 4, right, default");
 
 		textName = new JTextField();
 		add(textName, "6, 4, fill, default");
 		textName.setColumns(10);
 
 		JLabel phoneNumber = new JLabel("Phone Number");
-		add(phoneNumber, "4, 6, center, default");
+		add(phoneNumber, "4, 6, right, default");
 
 		textPhone = new JTextField();
 		add(textPhone, "6, 6, fill, default");
 		textPhone.setColumns(10);
 
+		JLabel email = new JLabel("E-mail");
+		add(email, "4, 8, right, default");
+		
+		textEmail = new JTextField();
+		add(textEmail, "6, 8, fill, default");
+		textEmail.setColumns(10);
+		
 		JLabel address = new JLabel("Address");
-		add(address, "4, 8, center, default");
+		add(address, "4, 10, right, default");
+		
+		JScrollPane scrollPane = new JScrollPane();
+		add(scrollPane, "6, 10, fill, fill");
+		
+		textAddress = new JTextArea();
+		scrollPane.setViewportView(textAddress);
 
 		JButton Update = new JButton("Update");
 		Update.addActionListener(sac);
+		add(Update, "6, 12, left, default");
+		
+		updateInfo = new JLabel("");
+		add(updateInfo, "4, 14, 3, 1");
 
-		JScrollPane scrollPane = new JScrollPane();
-		add(scrollPane, "6, 8, fill, fill");
-
-		textAddress = new JTextArea();
-		scrollPane.setViewportView(textAddress);
-		add(Update, "4, 14");
 
 		this.setVisible(true);
 
@@ -94,5 +115,12 @@ public class UpdateProfile extends JPanel {
 
 	public JTextArea getTextAddress() {
 		return textAddress;
+	}
+	
+	public JLabel getUpdateInfo() {
+		return updateInfo;
+	}
+	public JTextField getTxtEmail() {
+		return textEmail;
 	}
 }
