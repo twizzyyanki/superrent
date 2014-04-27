@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Map;
 
-import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -15,7 +14,6 @@ import org.netbeans.validation.api.Problem;
 import org.superrent.application.LoggedInUser;
 import org.superrent.application.SendMail;
 import org.superrent.daos.UserDAO;
-import org.superrent.entities.MakeReservation;
 import org.superrent.entities.User;
 import org.superrent.views.clerk.ClerkHome;
 import org.superrent.views.clubmember.ClubMember;
@@ -37,8 +35,7 @@ public class LoginController implements ActionListener, DocumentListener {
 	private ManagerHome m;
 	RetrieveLoginDetails jd;
 	private ClerkHome k;
-	//static JPanel oldpanel;
-
+	
 	/**
 	 * Returns the privilege of the user that wants to login if the login is
 	 * successful
@@ -248,10 +245,9 @@ public class LoginController implements ActionListener, DocumentListener {
 					e.printStackTrace();
 				}
 			}
-		});
-
+		});		
 	}
-
+	
 	// @Override
 	public void changedUpdate(DocumentEvent de) {
 		checkValidation();
