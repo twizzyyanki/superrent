@@ -36,7 +36,7 @@ public class SendMail {
 			message.setSubject(subject);
 			message.setFrom(from);
 			message.addRecipients(Message.RecipientType.TO,
-					InternetAddress.parse("ifepet2002@yahoo.com"));
+					InternetAddress.parse(to));
 
 			// Create a multi-part to combine the parts
 			Multipart multipart = new MimeMultipart("alternative");

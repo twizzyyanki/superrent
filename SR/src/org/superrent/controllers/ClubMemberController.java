@@ -3,7 +3,10 @@ package org.superrent.controllers;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
+
 import javax.swing.JLabel;
+
 import org.superrent.views.clubmember.*;
 import org.superrent.daos.ChangePasswordDAO;
 import org.superrent.daos.ClubMemberDAO;
@@ -107,14 +110,22 @@ public class ClubMemberController implements ActionListener
 			jCheckReservation.getErrorInfo().setText("");
 			
 			if(jCheckReservation.getFromDate().getDate() != null && jCheckReservation.getToDate().getDate() != null ){
-				java.util.Date utilFromDate = jCheckReservation.getFromDate().getDate();
-				java.sql.Date dateFromDate = new java.sql.Date(utilFromDate.getTime());
-				java.util.Date utilToDate = jCheckReservation.getToDate().getDate();
-				java.sql.Date dateToDate = new java.sql.Date(utilToDate.getTime());
 				
-				ClubMemberDAO reocrdsDAO = new ClubMemberDAO();
-				reocrdsDAO.getReservation(dateFromDate, dateToDate, jCheckReservation.getTable(), 
-										  jCheckReservation.getScrollPane());
+				if(validateTime(jCheckReservation.getFromDate().getDate(), jCheckReservation.getToDate().getDate())){
+					java.util.Date utilFromDate = jCheckReservation.getFromDate().getDate();
+					java.sql.Date dateFromDate = new java.sql.Date(utilFromDate.getTime());
+					java.util.Date utilToDate = jCheckReservation.getToDate().getDate();
+					java.sql.Date dateToDate = new java.sql.Date(utilToDate.getTime());
+					
+					ClubMemberDAO reocrdsDAO = new ClubMemberDAO();
+					reocrdsDAO.getReservation(dateFromDate, dateToDate, jCheckReservation.getTable(), 
+											  jCheckReservation.getScrollPane());
+				}
+				else{
+					jCheckReservation.getErrorInfo().setForeground(Color.RED);
+					jCheckReservation.getErrorInfo().setText("date fields are invalid");
+				}
+
 				
 			}
 			else{
@@ -290,5 +301,28 @@ public class ClubMemberController implements ActionListener
 	public ClubMemberController (ClubMember clubMemberView)
 	{	
 		this.clubMemberView = clubMemberView;
+	}
+
+	/**
+	 * To check if pick up time is earlier then drop time
+	 * @param pick
+	 * @param drop
+	 * @return true if valid
+	 */
+	public boolean validateTime(Date pick, Date drop){
+		boolean valid = false;
+		Date date = new Date();
+		System.out.println(date);
+		if(pick.compareTo(date)==-1 || drop.compareTo(date)==-1){
+			valid = false;
+			
+		}
+		else if(pick.compareTo(drop)==1){
+			valid = false;
+		}
+		else{
+			valid = true;
+		}
+		return valid;
 	}
 }

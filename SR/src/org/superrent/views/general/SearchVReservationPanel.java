@@ -44,6 +44,7 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 	private JSpinner spinnerPickUp;
 	private JSpinner spinnerDrop;
 	private JButton btnEquip;
+	private JLabel lblCad;
 	
 	/**
 	 * Create the Reservation panel.
@@ -58,6 +59,8 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 				ColumnSpec.decode("max(37dlu;default):grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.GROWING_BUTTON_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -108,7 +111,7 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 		spinnerPickUp.setModel(model);
 		spinnerPickUp.setEditor(new JSpinner.DateEditor(spinnerPickUp, "HH:00"));
 		
-		add(spinnerPickUp, "12, 4");
+		add(spinnerPickUp, "14, 4");
 		
 		dateChooserReturn = new JDateChooser();
 		dateChooserReturn.setMinSelectableDate(new Date());
@@ -122,7 +125,7 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 		spinnerDrop.setEditor(new JSpinner.DateEditor(spinnerDrop, "HH:00"));
 		Calendar time  = Calendar.getInstance();
 		
-		add(spinnerDrop, "12, 6");
+		add(spinnerDrop, "14, 6");
 		
 		JLabel lblReturnDate = new JLabel("Return Date and Time");
 		add(lblReturnDate, "4, 6, center, default");
@@ -136,12 +139,12 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 		add(categoryCombox_1, "6, 8, fill, default");
 		
 		JLabel lblType = new JLabel("Type");
-		add(lblType, "10, 8, center, default");
+		add(lblType, "12, 8, center, default");
 		
 		typeCombox_1 = new JComboBox<String>();
 		typeCombox_1.setModel(new DefaultComboBoxModel(new String[] {"ALL", "ECONOMY", "COMPACT", "MID-SIZE", "STANDARD", "FULL-SIZE", "PREMIUM", "LUXURY", "SUV", "VAN", "24-FOOT", "15-FOOT", "12-FOOT", "BOX TRUCK", "CARGO VAN"}));
 		typeCombox_1.addActionListener(this.mrc);
-		add(typeCombox_1, "12, 8, fill, default");
+		add(typeCombox_1, "14, 8, fill, default");
 		
 		JLabel lblLocation = new JLabel("Location");
 		add(lblLocation, "4, 10, center, default");
@@ -153,13 +156,13 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 		
 		btnSearch = new JButton("Search");
 		btnSearch.addActionListener(this.mrc);
-		add(btnSearch, "12, 10");
+		add(btnSearch, "14, 10");
 		
 		lblSearchInfo = new JLabel("");
 		add(lblSearchInfo, "4, 12, 3, 1");
 		
 		scrollPane = new JScrollPane();
-		add(scrollPane, "4, 14, 13, 1, fill, fill");
+		add(scrollPane, "4, 14, 15, 1, fill, fill");
 		
 		searchTable = new JTable();
 		searchTable.setToolTipText("");
@@ -191,8 +194,11 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 		
 		lblAmount = new JLabel("0");
 		add(lblAmount, "6, 18");
+		
+		lblCad = new JLabel("CAD");
+		add(lblCad, "8, 18");
 
-		add(btnReserve, "12, 20, center, default");
+		add(btnReserve, "14, 20, center, default");
 
 	}
 

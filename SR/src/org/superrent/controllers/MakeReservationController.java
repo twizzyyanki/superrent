@@ -3,6 +3,7 @@ package org.superrent.controllers;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Vector;
@@ -166,7 +167,7 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 		}
 		
 		//Reserve as club member
-		if(e.getActionCommand().equals("Clubmember Reserve")){
+		if(e.getActionCommand().equals("Club Member Reserve")){
 			reservationPanel.getLblClubInfo().setForeground(Color.black);
 			reservationPanel.getLblClubInfo().setText("");
 			String username = reservationPanel.getUserIDTextField().getText();
@@ -430,13 +431,13 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 			equip1 =  equipDialog.getTable().getValueAt(0, 0).toString();
 			equip2 =  equipDialog.getTable().getValueAt(1, 0).toString();
 			if(!quantity1.equals("0")){
-				System.out.println(quantity1);
+
 				reEquipEntity = new RequireAdditionalEquipment();
 				reEquipEntity.setEquipmentName(equip1);
 				reEquipEntity.setQuantity(Integer.parseInt(quantity1));
 				reEquipEntity.setCategory(categoryForEquip);
 				reEquipEntity.setBranchID(1);
-				charge = charge + 10;
+				charge = charge + 10*reEquipEntity.getQuantity();
 			}
 			if(!quantity2.equals("0")){
 				reEquipEntity2 = new RequireAdditionalEquipment();
@@ -444,7 +445,7 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 				reEquipEntity2.setQuantity(Integer.parseInt(quantity2));
 				reEquipEntity2.setCategory(categoryForEquip);
 				reEquipEntity2.setBranchID(1);
-				charge = charge + 10;
+				charge = charge + 10*reEquipEntity2.getQuantity();
 			}
 			
 			String scharge = String.format("%.2f", charge);  
@@ -475,8 +476,12 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 				ReservationDao calculatePriceDao = new ReservationDao();	
 				charge = calculatePriceDao.calculateCharges(regNo, 
 															pickupDate, dropDate);
-				String scharge = String.format("%.2f", charge);  
-				sVRPanel.getLblAmount().setText(scharge);
+				charge = Math.round(charge * 100.0) / 100.0;
+				
+				//DecimalFormat df = new DecimalFormat("#,###,##0.00");
+				//String scharge = df.format(charge);
+				//String scharge = String.format("%.2f", charge);  
+				sVRPanel.getLblAmount().setText(String.valueOf(charge));
 				
 				if(sVRPanel.getSearchTable().getValueAt(i, 0).toString().equals("Car")){
 					
