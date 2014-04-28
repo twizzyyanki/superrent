@@ -312,7 +312,7 @@ public class ClubMemberController implements ActionListener
 	public boolean validateTime(Date pick, Date drop){
 		boolean valid = false;
 		Date date = new Date();
-		System.out.println(date);
+		
 		if(pick.compareTo(date)==-1 || drop.compareTo(date)==-1){
 			valid = false;
 			

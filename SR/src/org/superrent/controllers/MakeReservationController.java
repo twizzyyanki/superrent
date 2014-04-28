@@ -134,6 +134,7 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 				Date dropHour = (Date)sVRPanel.getSpinnerDrop().getValue();
 
 				pickupDate = dateCombine(pickupDate, pickHour);
+				System.out.println(pickupDate);
 				dropDate = dateCombine(dropDate, dropHour);
 				
 				

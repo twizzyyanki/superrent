@@ -54,14 +54,14 @@ public class ReservationDao {
 						+ type.toUpperCase() + "'"))
 				+ " and regNo not in (select regNo from MakeReservation where confirmationNo in (select confirmationNo from"
 				+ " Reservation where status = 0 and pickDate between '"
-				+ new java.sql.Date(pickupDate.getTime())
+				+ new java.sql.Timestamp(pickupDate.getTime())
 				+ "'"
 				+ " and '"
-				+ new java.sql.Date(dropDate.getTime())
+				+ new java.sql.Timestamp(dropDate.getTime())
 				+ " '  or dropDate between ' "
-				+ new java.sql.Date(pickupDate.getTime())
+				+ new java.sql.Timestamp(pickupDate.getTime())
 				+ "' and ' "
-				+ new java.sql.Date(dropDate.getTime()) + "'))";
+				+ new java.sql.Timestamp(dropDate.getTime()) + "'))";
 		
 		resultSet = st.executeQuery(query);
 		//Map the resultset to the search table
@@ -130,7 +130,7 @@ public class ReservationDao {
 				+ " ','"
 				+ user.getPhoneNumber()
 				+ " ', '"
-				+ new java.sql.Date(date.getTime())
+				+ new java.sql.Timestamp(date.getTime())
 				+ " ', '"
 				+ user.getType() + "' , '" + user.getAddress() + "')";
 		System.out.println(query);
@@ -172,8 +172,7 @@ public class ReservationDao {
 			con.setAutoCommit(false);
 
 			Date date = new Date();
-			reservation.setCreatedDate(new java.sql.Date(date.getTime()));
-			
+			reservation.setCreatedDate(new java.sql.Timestamp(date.getTime()));
 			insertIntoReservation(con, reservation);
 			con.commit();
 		} catch (ClassNotFoundException e) {
@@ -203,9 +202,11 @@ public class ReservationDao {
 
 			Date date = new Date();
 			makeReservation
-					.setLastUpdatedDate(new java.sql.Date(date.getTime()));
+					.setLastUpdatedDate(new java.sql.Timestamp(date.getTime()));
+			
 			
 			insertIntoMakeReservation(con, makeReservation);
+			
 			con.commit();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -249,10 +250,10 @@ public class ReservationDao {
 		// change status in reservation table and make reservation table
 		String query = "INSERT INTO Reservation (pickDate, dropDate, creationDate,charges,status) values "
 				+ "('"
-				+ new java.sql.Date(reservation.getPickDate().getTime())
+				+ new java.sql.Timestamp(reservation.getPickDate().getTime())
 				+ "',"
 				+ "'"
-				+ new java.sql.Date(reservation.getDropDate().getTime())
+				+ new java.sql.Timestamp(reservation.getDropDate().getTime())
 				+ "',"
 				+ "'"
 				+ reservation.getCreatedDate()
@@ -371,7 +372,7 @@ public class ReservationDao {
 
 		Statement st = con.createStatement();
 		String query = "select confirmationNo from MakeReservation where status = 0 and date = '"
-				+ new java.sql.Date(reservedDate.getTime())
+				+ new java.sql.Timestamp(reservedDate.getTime())
 				+ "' and uid = (select uid from User where phoneNumber = "
 				+ phoneNumber + ")";
 		System.out.println(query);
@@ -800,6 +801,6 @@ public class ReservationDao {
 		}
 		
 
-
+	
 }
 
