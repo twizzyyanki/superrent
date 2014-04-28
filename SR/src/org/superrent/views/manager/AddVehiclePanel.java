@@ -14,6 +14,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.netbeans.validation.api.builtin.stringvalidation.StringValidators;
+import org.netbeans.validation.api.ui.ValidationGroup;
+import org.netbeans.validation.api.ui.swing.ValidationPanel;
 import org.superrent.controllers.ManagerController;
 
 import com.jgoodies.forms.factories.FormFactory;
@@ -21,7 +24,9 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 import com.toedter.calendar.JCalendar;
+
 import java.awt.Component;
+
 import com.toedter.calendar.JDateChooser;
 
 public class AddVehiclePanel extends JPanel implements ActionListener {
@@ -37,6 +42,8 @@ public class AddVehiclePanel extends JPanel implements ActionListener {
 	JComboBox<String> typeCombox = new JComboBox<String>();
 	ManagerController managerController;
 	JButton btnAdd = new JButton("Save");
+	private ValidationGroup group;
+	private ValidationPanel xpanel;
 
 
 	private final JLabel lblPurchaseDate = new JLabel("Purchase Date");
@@ -103,12 +110,13 @@ public class AddVehiclePanel extends JPanel implements ActionListener {
 		
 		add(regNumberTxt, "14, 6, left, center");
 		regNumberTxt.setColumns(10);
+		regNumberTxt.getDocument().addDocumentListener(managerController);
 		
 		JLabel lblCategory = new JLabel("Category");
 		add(lblCategory, "10, 8");
 		
 		
-		categoryCombox.setModel(new DefaultComboBoxModel<String>(new String[] {"SELECT", "Car", "Truck"}));
+		categoryCombox.setModel(new DefaultComboBoxModel<String>(new String[] {"Car", "Truck"}));
 		add(categoryCombox, "14, 8, left, default");
 		
 		//  prevent action events from being fired when the up/down arrow keys are used
@@ -121,7 +129,8 @@ public class AddVehiclePanel extends JPanel implements ActionListener {
 		
 		
 		add(typeCombox, "14, 10, left, default");
-		typeCombox.setEnabled(false);
+		typeCombox.setEnabled(true);
+		
 		
 		JLabel lblBrand = new JLabel("Brand");
 		add(lblBrand, "10, 12");
@@ -129,14 +138,32 @@ public class AddVehiclePanel extends JPanel implements ActionListener {
 		
 		add(brandTxt, "14, 12, left, default");
 		brandTxt.setColumns(10);
+		brandTxt.getDocument().addDocumentListener(managerController);
 		
 		add(lblPurchaseDate, "10, 14");
-		
+		calendar.getCalendarButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		calendar.setMaxSelectableDate( new java.util.Date(System.currentTimeMillis()));
+		calendar.setDate( new java.util.Date(System.currentTimeMillis()));
+		calendar.getDateEditor().setEnabled(false);
 		add(calendar, "14, 14, fill, fill");
 		
+		typeCombox.setModel(new DefaultComboBoxModel<String>(new String[] {"ECONOMY","COMPACT","MID-SIZE",
+				   "STANDARD", "FULL-SIZE", "PREMIUM","LUXURY", "SUV",
+				   "VAN"}));
 		
 		add(btnAdd, "12, 16");
+		btnAdd.setEnabled(false);
 		btnAdd.addActionListener(managerController);
+		
+		xpanel = new ValidationPanel();
+		xpanel.setInnerComponent(this);
+		group = xpanel.getValidationGroup();
+		group.add(this.regNumberTxt, StringValidators.REQUIRE_NON_EMPTY_STRING);
+		group.add(this.brandTxt, StringValidators.REQUIRE_NON_EMPTY_STRING);
+		//group.add(this.calendar, StringValidators.REQUIRE_NON_EMPTY_STRING);
 		
 	}
 
@@ -160,13 +187,13 @@ public class AddVehiclePanel extends JPanel implements ActionListener {
 		String item = (String)categoryCombox.getSelectedItem();
 		if(item.equalsIgnoreCase("CAR")){
 			typeCombox.setEnabled(true);
-			typeCombox.setModel(new DefaultComboBoxModel<String>(new String[] {"SELECT","ECONOMY","COMPACT","MID-SIZE",
+			typeCombox.setModel(new DefaultComboBoxModel<String>(new String[] {"ECONOMY","COMPACT","MID-SIZE",
 					  												   "STANDARD", "FULL-SIZE", "PREMIUM","LUXURY", "SUV",
 					  												   "VAN"}));
 		}
 		else if(item.equalsIgnoreCase("TRUCK")){
 			typeCombox.setEnabled(true);
-			typeCombox.setModel(new DefaultComboBoxModel<String>(new String[] {"SELECT","24-FOOT", "15-FOOT", "12-FOOT", "BOX TRUCK", 
+			typeCombox.setModel(new DefaultComboBoxModel<String>(new String[] {"24-FOOT", "15-FOOT", "12-FOOT", "BOX TRUCK", 
 					   "CARGO VAN"}));
 		}
 		
@@ -219,6 +246,22 @@ public class AddVehiclePanel extends JPanel implements ActionListener {
 
 	public JLabel getLblAddVehicle() {
 		return lblAddVehicle;
+	}
+
+	public ValidationGroup getGroup() {
+		return group;
+	}
+
+	public void setGroup(ValidationGroup group) {
+		this.group = group;
+	}
+
+	public ValidationPanel getXpanel() {
+		return xpanel;
+	}
+
+	public void setXpanel(ValidationPanel xpanel) {
+		this.xpanel = xpanel;
 	}
 
 	public void setLblAddVehicle(JLabel lblAddVehicle) {
