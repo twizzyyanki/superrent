@@ -263,13 +263,19 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 				
 				//Validate all fields
 				boolean valid = false;
-				valid = ValidateFields(phone);				
-				
+				valid = ValidateFields(phone);	
+				System.out.println(phone.length());
+				if(valid){
+					
+					if(phone.length()!=10){
+						valid = false;
+					}
+				}
 				// Need to DAO to store user's information and this reservation
 				if(valid){
 					User guestUser = new User();
 					guestUser.setName(name);
-					guestUser.setPhoneNumber(Integer.parseInt(phone));
+					guestUser.setPhoneNumber(Long.parseLong(phone));
 					guestUser.setEmail(email);
 					guestUser.setAddress(address);
 					
@@ -501,7 +507,7 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 	public boolean ValidateFields(String anyIntegerType){
 		boolean valid = false;
 		try{
-			Integer.parseInt(anyIntegerType);
+			Long.parseLong(anyIntegerType);
 			valid = true;
 		}
 		catch(NumberFormatException e){

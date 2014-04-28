@@ -39,9 +39,15 @@ public class ReservationPanel extends JPanel {
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(89dlu;default):grow"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(100dlu;default):grow"),
+				ColumnSpec.decode("max(89dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(19dlu;default):grow"),},
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("max(19dlu;default)"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),},
 			new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("default:grow"),
@@ -76,20 +82,21 @@ public class ReservationPanel extends JPanel {
 		
 		userIDTextField = new JTextField();
 		add(userIDTextField, "6, 6, fill, default");
-		userIDTextField.setColumns(10);
+		userIDTextField.setColumns(20);
 		
 		JLabel lblPassword = new JLabel("Password:");
 		add(lblPassword, "4, 8, center, default");
 		
 		passwordField = new JPasswordField();
+		passwordField.setColumns(20);
 		add(passwordField, "6, 8, fill, default");
-		
-		btnClubmember = new JButton("Clubmember Reserve");
-		btnClubmember.addActionListener(mrc);
 		
 		lblClubInfo = new JLabel("");
 		add(lblClubInfo, "4, 10");
-		add(btnClubmember, "6, 10, fill, default");
+		
+		btnClubmember = new JButton("Clubmember Reserve");
+		btnClubmember.addActionListener(mrc);
+		add(btnClubmember, "8, 10, fill, default");
 		
 		
 		JLabel lblInformation = new JLabel("Please enter the following information to reserve as a guest");
@@ -100,7 +107,7 @@ public class ReservationPanel extends JPanel {
 		
 		nameTextField = new JTextField();
 		add(nameTextField, "6, 14");
-		nameTextField.setColumns(10);
+		nameTextField.setColumns(20);
 		
 		
 		JLabel lblAddress = new JLabel("Address:");
@@ -110,13 +117,14 @@ public class ReservationPanel extends JPanel {
 		add(scrollPane, "6, 16, fill, fill");
 		
 		addressTextArea = new JTextArea();
-		scrollPane.setViewportView(addressTextArea);
+		addressTextArea.setColumns(30);
+		scrollPane.setRowHeaderView(addressTextArea);
 		
 		JLabel lblPhoneNo = new JLabel("Phone No.");
 		add(lblPhoneNo, "4, 18, center, default");
 		
 		phoneTextField = new JTextField();
-		phoneTextField.setColumns(10);
+		phoneTextField.setColumns(11);
 		add(phoneTextField, "6, 18, fill, default");
 		
 		JLabel lblEmail = new JLabel("E-mail:");
@@ -124,14 +132,14 @@ public class ReservationPanel extends JPanel {
 		
 		emailTextField = new JTextField();
 		add(emailTextField, "6, 20, fill, default");
-		emailTextField.setColumns(10);
-		
-		btnGuest = new JButton("Guest Reserve");
-		btnGuest.addActionListener(mrc);
+		emailTextField.setColumns(20);
 		
 		lblGuestInfo = new JLabel("");
 		add(lblGuestInfo, "4, 22");
-		add(btnGuest, "6, 22, fill, default");
+		
+		btnGuest = new JButton("Guest Reserve");
+		btnGuest.addActionListener(mrc);
+		add(btnGuest, "8, 22, fill, default");
 
 	}
 
