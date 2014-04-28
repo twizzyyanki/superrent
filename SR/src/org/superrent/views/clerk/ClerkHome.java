@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 
 import org.superrent.controllers.ClerkController;
+import org.superrent.controllers.LoginController;
 
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
@@ -45,20 +46,23 @@ public class ClerkHome extends JFrame
 	private final JButton btnHome = new JButton("Home");
 	private final JButton btnUpdateProfile = new JButton("Update Profile");
 	private final JButton btnChangePassword = new JButton("Change Password");
-	private final JButton btnLogout = new JButton("Logout");
+	private JButton btnLogout = new JButton("Logout");
 	private final JButton btnSearchReservation = new JButton("Search Reservation");
 	private JTextField textField;
 	public JButton btnRefresh = new JButton("Refresh");
-	private JComboBox<String> comboBox = new JComboBox<String>();;
+	private JComboBox<String> comboBox = new JComboBox<String>();
 	ClerkController c;
+	private final LoginController lc;
+	
 	/**
 	 * Create the frame.
 	 */
 	public ClerkHome() 
 	{
 		c=new ClerkController(this);
+		lc = new LoginController(this);
 		setTitle("ClerkHome");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 828, 600);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -138,8 +142,11 @@ public class ClerkHome extends JFrame
 		
 		String[] search={"SEARCH","SHOW VEHICLES","OVERDUE VEHICLES","SHOW VEHICLES FOR SALE"};
 		comboBox.setModel(new DefaultComboBoxModel<String>(search));
-				
-		panel_1.add(getComboBox(), "12, 2, center, default");
+		
+		btnLogout.setActionCommand("Log Out");
+		btnLogout.addActionListener(lc);
+		
+		panel_1.add(getComboBox(), "12, 2, center, top");
 		
 		panel_1.add(btnUpdateProfile, "16, 2, center, top");
 		
@@ -294,12 +301,23 @@ public class ClerkHome extends JFrame
 	}
 
 
-	public JComboBox getComboBox() {
+	public JComboBox<String> getComboBox() 
+	{
 		return comboBox;
 	}
 
 
-	public void setComboBox(JComboBox comboBox) {
+	public void setComboBox(JComboBox<String> comboBox) {
 		this.comboBox = comboBox;
+	}
+	
+	public JButton getbtnLogout()
+	{
+		return btnLogout;
+	}
+	
+	public void setbtnLogout(JButton newButton)
+	{
+		this.btnLogout=newButton;
 	}
 }

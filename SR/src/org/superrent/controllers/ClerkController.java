@@ -94,6 +94,7 @@ public class ClerkController implements ActionListener {
 		ret.redeemAdctionListener(this);
 		ret.addPointsActionListener(this);
 		ret.paymentActionListener(this);
+		ret.payByCashAddActionListener(this);
 		paypal.processPaymentActionListener(this);
 		search.searchActionListener(this);
 		vehicle.searchvehicleActionListener(this);
@@ -189,7 +190,7 @@ public class ClerkController implements ActionListener {
 		if (ae.getActionCommand() == "Submit") 
 		{
 			try {
-				String[] values = new String[5];
+				String[] values;
 				if (rent.getTextField().getText().isEmpty()) {
 					if (rent.getTextField_1().getText().isEmpty()) {
 						JOptionPane
@@ -214,7 +215,9 @@ public class ClerkController implements ActionListener {
 								rent.getTextField_3().setText(values[1]);
 								rent.getTextField_4().setText(values[2]);
 								rent.getTextField_10().setText(values[3]);
-								rent.getTextField_12().setText(values[4]);
+								System.out.println(values[9]);
+								for(int i=4;i<Integer.parseInt(values[10]);i=i+2)
+								rent.textArea_1.setText(values[i]+" - "+values[i+1]+",");
 							}
 						}
 					}
@@ -231,7 +234,8 @@ public class ClerkController implements ActionListener {
 						rent.getTextField_3().setText(values[1]);
 						rent.getTextField_4().setText(values[2]);
 						rent.getTextField_10().setText(values[3]);
-						rent.getTextField_12().setText(values[4]);
+						for(int i=4;i<Integer.parseInt(values[9]);i=i+2)
+							rent.textArea_1.setText(values[i]+" , "+values[i+1]);
 					}
 				}
 			} catch (Exception e)
@@ -339,27 +343,44 @@ public class ClerkController implements ActionListener {
 				String Description = rent.textArea.getText();
 				int ConfirmNo = Integer.parseInt(rent.getTextField_10()
 						.getText());
-
 				if (Expiry.equals("0000")) 
 				{
 					JOptionPane.showMessageDialog(rent,
-							"Invalid Month and year, Valid Pattern: 04/16");
-				} else 
+							"Expiry date cannot be "+"0000"+"");
+				}
+				else if(Long.toString(Creditcard).length()<16)
 				{
-					values = dao.createRentalAgreement(LicenseNo, Creditcard,
+					JOptionPane.showMessageDialog(rent, "Credit card cannot be less than 16 digits");
+				}
+				else 
+				{
+					//tentative method of storing only last digits, we will use this at the worst case only. i am trying to encrypt it.
+					String digits=Creditcard.toString().substring(12);
+					System.out.println(digits);
+					String first=Creditcard.toString().substring(0, 11);
+					String encrypt="************";
+					String cardno=encrypt+digits;
+		
+					values = dao.createRentalAgreement(LicenseNo, cardno,
 							Expiry, Odometer, Fuel, roadstar, Description,
 							ConfirmNo);
 				}
-				if (values[0] == 1 && values[1] == 1 && values[2] == 1) {
+				if (values[0] == 1 && values[1] == 1 && values[2] == 1)
+				{
 					JOptionPane
 							.showMessageDialog(
 									rent,
-									"Rental agreement created...and the remianing tables updated...!! with rental agreement Number"
+									"Rental agreement created...rental agreement Number"
 											+ values[3] + "");
+				}
+				else if(values[0]==20)
+				{
+					JOptionPane.showMessageDialog(rent, "Rental agreement already exists with the corresponding Confirmation");
 				}
 			} catch (Exception e) {
 				rent.getLblInvalidEntries().setVisible(true);
-				JOptionPane.showMessageDialog(rent, "Invalid Entries present, cannot creat a rental agreement");
+				System.out.println(e);
+				JOptionPane.showMessageDialog(rent, "Invalid Entries present, cannot create a rental agreement");
 			}
 		}
 
@@ -453,16 +474,24 @@ public class ClerkController implements ActionListener {
 		{
 			try
 			{
-			int confirmationNo = Integer
-					.valueOf((manage.textField_2.getText()));
-			int status = dao.extendRental(manage.calendar.getDate(), confirmationNo);
-			int status1= dao.updateCharges(confirmationNo);
-			if (status == 1 && status1==1) {
-				JOptionPane.showMessageDialog(manage, "Date Updated...!!");
-			} else {
-				JOptionPane.showMessageDialog(manage,
-						"Date could not be Updated...!!");
-			}
+				if(manage.textField_2.getText().isEmpty())
+				{
+					JOptionPane.showMessageDialog(manage, "Please provide a confirmation Number");
+				}
+				else
+				{
+					int confirmationNo = Integer.valueOf((manage.textField_2.getText()));
+					int status = dao.extendRental(manage.calendar.getDate(), confirmationNo);
+					int status1= dao.updateCharges(confirmationNo);
+					if (status == 1 && status1==1) 
+					{
+						JOptionPane.showMessageDialog(manage, "Date Updated...!!");
+					} else
+					{
+						JOptionPane.showMessageDialog(manage,
+								"Date could not be Updated...!!");
+					}
+				}
 			}
 			catch(Exception e)
 			{
@@ -476,8 +505,9 @@ public class ClerkController implements ActionListener {
 					JOptionPane
 							.showMessageDialog(rent,
 									"Please enter a rental agreement and check the details");
-				} else {
-					String[] values;
+				} else 
+				{
+					String[] values=new String[5];
 					String agreementNo = ret.getTextField().getText();
 					values = dao.displayInsuranceCost(agreementNo);
 					Double cost = 0.0;
@@ -485,6 +515,10 @@ public class ClerkController implements ActionListener {
 					Double hourlyrate = Double.parseDouble(values[0]);
 					Double dailyrate = Double.parseDouble(values[1]);
 					Double weeklyrate = Double.parseDouble(values[2]);
+					int roadstar=Integer.parseInt(values[4]);
+					
+					System.out.println(values[0]+""+values[1]+""+values[3]+""+values[4]);
+					
 					System.out.println(hours);
 					if (hours < 24) {
 						cost = hours * hourlyrate;
@@ -496,6 +530,10 @@ public class ClerkController implements ActionListener {
 						} else {
 							cost = days * weeklyrate;
 						}
+					}
+					if(roadstar==1)
+					{
+						cost=cost/2;
 					}
 					String finalCost = String.valueOf(cost);
 					ret.getTextField_20().setText(finalCost);
@@ -655,16 +693,18 @@ public class ClerkController implements ActionListener {
 			double bill=0.0;
 			try
 			{
-			if(ret.getTextField_18().getText().equals("0"))
+			if(ret.getTextField_18().getText().equals("0") && ret.textField_11.getText().isEmpty())
 			{
-				if(ret.textField_11.getText().isEmpty())
-				{
 					JOptionPane.showMessageDialog(ret, "Calculate total cost first");
-				}
-				else
-				bill=Double.parseDouble(ret.textField_11.getText());
 			}
+			else if(ret.getTextField_18().getText().equals("0"))
+			{
+			bill=Double.parseDouble(ret.textField_11.getText());
+			}
+			else
+			{
 			bill=Double.parseDouble(ret.getTextField_18().getText());
+			}
 			String AgreementNum = ret.getTextField().getText();
 			paypal.getTextField_8().setText(String.valueOf(bill));
 			paypal.getTextField_9().setText(AgreementNum);
@@ -679,6 +719,40 @@ public class ClerkController implements ActionListener {
 			}
 		}
 			
+		if(ae.getActionCommand()=="Pay By Cash")
+		{
+			double bill=0.0;
+			int[] status;
+			if(ret.getTextField_18().getText().equals("0") && ret.textField_11.getText().isEmpty())
+			{
+					JOptionPane.showMessageDialog(ret, "Calculate total cost first");
+			}
+			else if(ret.getTextField_18().getText().equals("0"))
+			{
+			bill=Double.parseDouble(ret.textField_11.getText());
+			}
+			else
+			{
+			bill=Double.parseDouble(ret.getTextField_18().getText());
+			}
+			String AgreementNum = ret.getTextField().getText();
+			String description=ret.textArea_1.getText();
+			status=dao.processPayment(AgreementNum, description,bill);
+			if(status[0]==1 && status[1]==0)
+			{
+				JOptionPane.showMessageDialog(paypal, "Payment Successfull");
+				int isadded=dao.UpdatePoints(AgreementNum, bill);
+				if(isadded==1)
+				{
+					JOptionPane.showMessageDialog(paypal, "Points updated");
+				}
+			}
+			else
+			{
+				JOptionPane.showMessageDialog(paypal, "Payment Unsuccessfull");
+			}
+		}
+		
 		if(ae.getActionCommand()=="Process Payment")
 		{
 			Double totalCost=0.0;
@@ -764,21 +838,6 @@ public class ClerkController implements ActionListener {
 											.getLastResponse()));
 					
 					
-					int status=dao.processPayment(agreementNo, description, totalCost);
-					if(status==0)
-					{
-						JOptionPane.showMessageDialog(paypal, "Payment Successfull");
-					}
-					else
-					{
-						JOptionPane.showMessageDialog(paypal, "Payment Unsuccessfull");
-					}
-					
-					int isadded=dao.UpdatePoints(agreementNo, totalCost);
-					if(isadded==1)
-					{
-						JOptionPane.showMessageDialog(paypal, "Points updated");
-					}
 				} catch (PayPalRESTException et)
 				{ //
 					paypal.getPaymentMessage().setText(et.getMessage());

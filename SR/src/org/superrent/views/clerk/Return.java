@@ -77,6 +77,7 @@ public class Return extends JPanel
 	public JTextArea textArea;
 	private JScrollPane scrollPane;
 	private JScrollPane scrollPane_1;
+	private JButton btnPayByCash;
 	/**
 	 * Create the panel.
 	 */
@@ -336,17 +337,26 @@ public class Return extends JPanel
 		add(btnPayWithPoints, "17, 20, 3, 1, left, top");
 		add(textField_11, "4, 22, 3, 1, left, top");
 		add(btnCheckDetails, "15, 2, 3, 1, left, top");
-		add(panel, "2, 4, 22, 1, fill, top");
+		add(panel, "2, 4, 21, 1, fill, top");
 		add(btnTaxCost, "2, 22, left, top");
 		add(btnIncCost, "2, 16, left, top");
 		add(textField_20, "4, 16, left, center");
 		
+		btnPayByCash = new JButton("Pay By Cash");
+		btnPayByCash.setBackground(Color.GRAY);
+		add(btnPayByCash, "10, 22, default, center");
 		
 		
-		btnProceedToPayment = new JButton("Proceed To PayPal");
+		
+		btnProceedToPayment = new JButton("Pay By PayPal");
 		btnProceedToPayment.setBackground(Color.GRAY);
 		add(btnProceedToPayment, "15, 22, 3, 1, left, center");
 		
+	}
+	
+	public void payByCashAddActionListener(ClerkController clerk)
+	{
+		btnPayByCash.addActionListener(clerk);
 	}
 
 	public void rdbtnActionListener(ClerkController clerk)
