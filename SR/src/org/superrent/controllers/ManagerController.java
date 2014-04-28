@@ -146,7 +146,7 @@ public class ManagerController implements ActionListener, DocumentListener {
 			
 			managerFrame.getClerkHome().setEnabled(true);
 			managerFrame.getClerkHome().setVisible(true);
-			managerFrame.getClerkHome().getBtnLogout().setVisible(false);
+			managerFrame.getClerkHome().getbtnLogout().setVisible(false);
 			managerFrame.getClerkHome().setLocation(
 					(Toolkit.getDefaultToolkit().getScreenSize().width) / 2
 							- managerFrame.getClerkHome().getWidth() / 2, (Toolkit

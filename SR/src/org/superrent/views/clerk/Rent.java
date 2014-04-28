@@ -210,7 +210,7 @@ public class Rent extends JPanel
 		panel_1.add(lblExpiryDate, "9, 5, right, center");
 		
 		
-		panel_1.add(getComboBox(), "10, 5, 2, 1, fill, default");
+		panel_1.add(getComboBox(), "10, 5, 3, 1, fill, default");
 		
 		JLabel label_1 = new JLabel("/");
 		panel_1.add(label_1, "13, 5, center, center");

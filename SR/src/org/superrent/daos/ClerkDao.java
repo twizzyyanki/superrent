@@ -958,7 +958,6 @@ public class ClerkDao
 		{
 			System.out.println(e);
 			DatabaseConnection.rollback(con);
-			DatabaseConnection.close(con);
 		}
 		return status;
 	}
