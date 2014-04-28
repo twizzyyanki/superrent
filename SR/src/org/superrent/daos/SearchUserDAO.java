@@ -62,6 +62,7 @@ public class SearchUserDAO {
 			table.setModel(DbUtils.resultSetToTableModel(rs));
 			scrollPane.setVisible(true);
 			table.setVisible(true);
+			sup.getBtnRemove().setVisible(true);
 			
 			if (table.getModel().getRowCount()!= 0){
 				System.out.println("Successful");
@@ -73,6 +74,7 @@ public class SearchUserDAO {
 				sup.getSearchUserMessage().setText(
 						"Search failed, wrong user name or phone number");
 				scrollPane.setVisible(false);
+				sup.getBtnRemove().setVisible(false);
 				table.setVisible(false);
 			}
 			
