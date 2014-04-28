@@ -307,4 +307,34 @@ public class UpdateProfileDAO {
 		}
 	}
 	
+	public String getEmail(int uid){
+		String email="";
+		
+		
+		try{
+			
+			connection.setAutoCommit(false);
+			ResultSet rs;
+			Statement st = connection.createStatement();
+			String query = "SELECT email FROM User WHERE uid='" + uid+ "'";
+			
+			rs = st.executeQuery(query);
+			if(rs.next()){
+				email = rs.getString("email");
+				System.out.println("email"+email);
+			}
+			
+			connection.commit(); 
+		}
+
+		catch (Exception e) {
+			DatabaseConnection.rollback(connection);
+			e.printStackTrace();
+		} finally {
+			
+			DatabaseConnection.close(connection);
+			return email;
+		}
+	}
+	
 }
