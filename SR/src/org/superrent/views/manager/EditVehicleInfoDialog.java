@@ -18,6 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import java.awt.Component;
 import javax.swing.ScrollPaneConstants;
+import java.awt.Font;
 
 
 public class EditVehicleInfoDialog extends JDialog {
@@ -72,6 +73,10 @@ public class EditVehicleInfoDialog extends JDialog {
 			new RowSpec[] {
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("228px"),
 				RowSpec.decode("33px"),
 				FormFactory.RELATED_GAP_ROWSPEC,
@@ -98,29 +103,30 @@ public class EditVehicleInfoDialog extends JDialog {
 				FormFactory.DEFAULT_ROWSPEC,}));
 		contentPanel.setLayout(new FlowLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-		scrollPane.setAlignmentY(Component.BOTTOM_ALIGNMENT);
-		scrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
-		contentPanel.add(scrollPane);
 		addVehiclePanel = new AddVehiclePanel(managerController);
+		contentPanel.add(addVehiclePanel);
 		addVehiclePanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		addVehiclePanel.setAlignmentY(Component.BOTTOM_ALIGNMENT);
-		scrollPane.setViewportView(addVehiclePanel);
 		addVehiclePanel.getLblAddVehicle().setVisible(false);
 		addVehiclePanel.disableRegNoTxt();
 		addVehiclePanel.getBtnAdd().setVisible(false);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollPane.setAlignmentY(Component.BOTTOM_ALIGNMENT);
+		scrollPane.setAlignmentX(Component.LEFT_ALIGNMENT);
+		contentPanel.add(scrollPane);
 		{
 			JLabel lblEditVehicleDetails = new JLabel("                                        Edit Vehicle Details");
-			getContentPane().add(lblEditVehicleDetails, "3, 1, center, center");
+			lblEditVehicleDetails.setFont(new Font("Tahoma", Font.BOLD, 15));
+			getContentPane().add(lblEditVehicleDetails, "3, 3, center, center");
 		}
-		getContentPane().add(contentPanel, "1, 3, 23, 20, fill, fill");
+		getContentPane().add(contentPanel, "1, 7, 23, 20, fill, fill");
 		
 		JButton btnUpdateVehicle = new JButton("Update");
 		btnUpdateVehicle.addActionListener(managerController);
-		getContentPane().add(btnUpdateVehicle, "3, 26, right, default");
+		getContentPane().add(btnUpdateVehicle, "3, 30, right, default");
 	}
 
 }

@@ -71,7 +71,8 @@ public class ManagerDaoImpl implements IManagerDao{
 
 		
 	}
-		
+	
+	@Override
 	public void getVehiclesForSelling(ManagerHome managerFrame) {
 		
 		try {
@@ -79,7 +80,19 @@ public class ManagerDaoImpl implements IManagerDao{
 			con.setAutoCommit(false);
 			Statement st = con.createStatement();
 			System.out.println( "------" + managerFrame.getComboBox_1().getSelectedItem());
-			String query = "SELECT regNo as RegisterNumber, price as Price, dateMadeAvailableForSale as ForSaleFrom FROM ForSaleVehicles where soldDate is null";
+			String query = "SELECT" 
+							+ " f.regNo as RegisterNumber"
+							+ ", f.price as Price_in_cad"
+							+ ", f.dateMadeAvailableForSale as ForSaleFrom" 
+							+ ", v.category as Category"
+							+ ", v.type as Type"
+							+ ", v.brand as Brand"
+							+ " FROM"
+							+ " ForSaleVehicles f"
+							+ " INNER JOIN Vehicle v"
+								+ " on v.regNo = f.regNo"
+								+ " where soldDate is null";
+			
 			resultSet = st.executeQuery(query);
 			System.out.println("In here");
 			managerFrame.getSellVehicleListPanel().getSellTable().setModel(DbUtils.resultSetToTableModel(resultSet));
@@ -99,7 +112,7 @@ public class ManagerDaoImpl implements IManagerDao{
 		
 	}
 
-	// @Override
+	@Override
 	public boolean addVehicle(VehicleVO vehicleVO) {
 		boolean result = true;
 		try {
@@ -107,7 +120,7 @@ public class ManagerDaoImpl implements IManagerDao{
 			con.setAutoCommit(false);
 			Statement st = con.createStatement();
 			
-			String query = "INSERT INTO Vehicle values (" + vehicleVO.getRegNo() +",'" + vehicleVO.getCategory() + "','"
+			String query = "INSERT INTO Vehicle values ('" + vehicleVO.getRegNo() +"','" + vehicleVO.getCategory() + "','"
 													+ vehicleVO.getType() +"','"+ vehicleVO.getBrand()+"','"+
 													vehicleVO.getPurchaseDate() + "'," + "0)";
 			System.out.println(query);
@@ -116,7 +129,7 @@ public class ManagerDaoImpl implements IManagerDao{
 			System.out.println("In here");
 			
 			System.out.println("Working");
-			//result = DatabaseConnection.map(resultSet);
+			
 
 		}  catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -132,7 +145,7 @@ public class ManagerDaoImpl implements IManagerDao{
 		return result;
 	}
 
-	// @Override
+	@Override
 	public boolean updateVehicle(VehicleVO vehicleVO) {
 		boolean result = true;
 		try {
@@ -142,7 +155,7 @@ public class ManagerDaoImpl implements IManagerDao{
 			
 			String query = "UPDATE Vehicle SET category = '" + vehicleVO.getCategory() + "', type ='"
 													+ vehicleVO.getType() +"',brand = '"+ vehicleVO.getBrand()+"', purchaseDate= '"+
-													vehicleVO.getPurchaseDate() + "' WHERE regNo = " + vehicleVO.getRegNo();
+													vehicleVO.getPurchaseDate() + "' WHERE regNo = '" + vehicleVO.getRegNo() + "'";
 			System.out.println(query);
 			st.executeUpdate(query);
 			con.commit();
@@ -166,7 +179,7 @@ public class ManagerDaoImpl implements IManagerDao{
 		
 	}
 
-	// @Override
+	@Override
 	public boolean sellVehicle(SellVehicleVO sellVehicleVO) {
 		boolean result = true;
 		try {
@@ -174,12 +187,12 @@ public class ManagerDaoImpl implements IManagerDao{
 			con.setAutoCommit(false);
 			Statement st = con.createStatement();
 			
-			String query = "INSERT INTO ForSaleVehicles values (" + sellVehicleVO.getRegNo() +"," + sellVehicleVO.getPrice() + ","
+			String query = "INSERT INTO ForSaleVehicles values ('" + sellVehicleVO.getRegNo() +"'," + sellVehicleVO.getPrice() + ","
 													+ null +",'"+
 													sellVehicleVO.getForSaleFrom()+ "')";
 			System.out.println(query);
 			st.executeUpdate(query);
-			String changeStatus = "UPDATE Vehicle SET status = 1 where regNo =" + sellVehicleVO.getRegNo();
+			String changeStatus = "UPDATE Vehicle SET status = 1 where regNo = '" + sellVehicleVO.getRegNo() + "'";
 			st.executeUpdate(changeStatus);
 			con.commit();
 			System.out.println("In here");
@@ -201,7 +214,7 @@ public class ManagerDaoImpl implements IManagerDao{
 		return result;
 	}
 
-	// @Override
+	@Override
 	public boolean vehicleSold(SellVehicleVO sellVehicleVO) {
 		boolean result = true;
 		try {
@@ -209,10 +222,10 @@ public class ManagerDaoImpl implements IManagerDao{
 			con.setAutoCommit(false);
 			Statement st = con.createStatement();
 			
-			String query = "UPDATE ForSaleVehicles SET soldDate = CURDATE() where regNo =" + sellVehicleVO.getRegNo();
+			String query = "UPDATE ForSaleVehicles SET soldDate = CURDATE() where regNo ='" + sellVehicleVO.getRegNo() + "'";
 			System.out.println(query);
 			st.executeUpdate(query);
-			String changeStatus = "UPDATE Vehicle SET status = 2 where regNo =" + sellVehicleVO.getRegNo();
+			String changeStatus = "UPDATE Vehicle SET status = 2 where regNo ='" + sellVehicleVO.getRegNo() + "'";
 			st.executeUpdate(changeStatus);
 			con.commit();
 			
@@ -232,7 +245,7 @@ public class ManagerDaoImpl implements IManagerDao{
 		return result;
 	}
 
-	// @Override
+	@Override
 	public boolean updateSellingPrice(SellVehicleVO sellVehicleVO) {
 		boolean result = true;
 		try {
@@ -240,7 +253,7 @@ public class ManagerDaoImpl implements IManagerDao{
 			con.setAutoCommit(false);
 			Statement st = con.createStatement();
 			
-			String query = "UPDATE ForSaleVehicles SET price = " + sellVehicleVO.getPrice() + " where regNo =" + sellVehicleVO.getRegNo();
+			String query = "UPDATE ForSaleVehicles SET price = " + sellVehicleVO.getPrice() + " where regNo ='" + sellVehicleVO.getRegNo() +"'";
 			System.out.println(query);
 			
 			st.executeUpdate(query);
@@ -261,7 +274,7 @@ public class ManagerDaoImpl implements IManagerDao{
 	
 	}
 	
-	// @Override
+	@Override
 	public boolean moveForRent(SellVehicleVO sellVehicleVO) {
 		boolean result = true;
 		try {
@@ -269,10 +282,10 @@ public class ManagerDaoImpl implements IManagerDao{
 			con.setAutoCommit(false);
 			Statement st = con.createStatement();
 			
-			String query = "DELETE FROM ForSaleVehicles where regNo =" + sellVehicleVO.getRegNo();
+			String query = "DELETE FROM ForSaleVehicles where regNo ='" + sellVehicleVO.getRegNo() + "'";
 			System.out.println(query);
 			st.executeUpdate(query);
-			String changeStatus = "UPDATE Vehicle SET status = 0 where regNo =" + sellVehicleVO.getRegNo();
+			String changeStatus = "UPDATE Vehicle SET status = 0 where regNo ='" + sellVehicleVO.getRegNo() + "'";
 			st.executeUpdate(changeStatus);
 			con.commit();
 
@@ -291,7 +304,7 @@ public class ManagerDaoImpl implements IManagerDao{
 	
 	}
 
-	// @Override
+	@Override
 	public void getRentalRate(ManagerHome managerFrame) {
 		// TODO Auto-generated method stub
 	try{	
@@ -320,7 +333,7 @@ public class ManagerDaoImpl implements IManagerDao{
 		
 	}
 
-	// @Override
+	@Override
 	public void getInsuranceRates(ManagerHome managerFrame) {
 		
 		try{	
@@ -348,13 +361,13 @@ public class ManagerDaoImpl implements IManagerDao{
 		
 	}
 
-	// @Override
+	@Override
 	public boolean otherRates() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	// @Override
+	@Override
 	public SuperRent getOtherRates() {
 		// TODO Auto-generated method stub
 		SuperRent superRent = new SuperRent();
@@ -396,7 +409,7 @@ public class ManagerDaoImpl implements IManagerDao{
 		
 	}
 
-	// @Override
+	@Override
 	public boolean saveOtherRates(SuperRent superRent) {
 		boolean result = true;
 		try {
@@ -430,7 +443,7 @@ public class ManagerDaoImpl implements IManagerDao{
 
 	}
 
-	// @Override
+	@Override
 	public boolean updateRentalRate(SuperRentRentalRate superRentRentalRate) {
 		boolean result = true;
 		Date date = new Date();
@@ -466,7 +479,7 @@ public class ManagerDaoImpl implements IManagerDao{
 		return result;
 	}
 
-	// @Override
+	@Override
 	public boolean updateInsuranceRate(
 			SuperRentInsuranceRate superRentInsuranceRate) {
 		boolean result = true;
@@ -501,7 +514,7 @@ public class ManagerDaoImpl implements IManagerDao{
 		return result;
 	}
 
-	// @Override
+	@Override
 	public void getAddnEquipRates(ManagerHome managerFrame) {
 		// TODO Auto-generated method stub
 		
@@ -531,7 +544,7 @@ public class ManagerDaoImpl implements IManagerDao{
 		
 	}
 
-	// @Override
+	 @Override
 	public boolean updateAddnEquipRate(AdditionalEquipment additionalEquipment) {
 		boolean result = true;
 		Date date = new Date();

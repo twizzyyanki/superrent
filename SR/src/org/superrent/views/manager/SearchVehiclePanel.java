@@ -21,7 +21,10 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
 import com.toedter.calendar.JYearChooser;
+
 import javax.swing.ListSelectionModel;
+
+import java.awt.Font;
 
 public class SearchVehiclePanel extends JPanel implements ActionListener{
 	/**
@@ -48,7 +51,7 @@ public class SearchVehiclePanel extends JPanel implements ActionListener{
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,
+				ColumnSpec.decode("max(51dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("center:max(40dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -56,11 +59,13 @@ public class SearchVehiclePanel extends JPanel implements ActionListener{
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(24dlu;default)"),
+				ColumnSpec.decode("max(47dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(45dlu;default)"),
+				ColumnSpec.decode("max(32dlu;default)"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("max(1dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -73,6 +78,10 @@ public class SearchVehiclePanel extends JPanel implements ActionListener{
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("default:grow"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("default:grow"),
@@ -82,17 +91,22 @@ public class SearchVehiclePanel extends JPanel implements ActionListener{
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
 		JLabel lblLocation = new JLabel("Location");
+		lblLocation.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		add(lblLocation, "2, 4, right, default");
 		
 		JComboBox<String> locationCombox = new JComboBox<String>();
-		locationCombox.setModel(new DefaultComboBoxModel(new String[] {"All", "Vancouver"}));
-		add(locationCombox, "4, 4, left, center");
+		locationCombox.setFont(new Font("Tahoma", Font.PLAIN, 9));
+		locationCombox.setEnabled(false);
+		locationCombox.setModel(new DefaultComboBoxModel<String>(new String[] {"Vancouver"}));
+		add(locationCombox, "4, 4, fill, center");
 		
 		JLabel lblCategory = new JLabel("Category");
+		lblCategory.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		add(lblCategory, "6, 4, center, default");
+		categoryCombox.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		
 		
-		categoryCombox.setModel(new DefaultComboBoxModel(new String[] {"All", "Car", "Truck"}));
+		categoryCombox.setModel(new DefaultComboBoxModel<String>(new String[] {"ALL", "Car", "Truck"}));
 		add(categoryCombox, "8, 4, left, default");
 		
 	    //  prevent action events from being fired when the up/down arrow keys are used
@@ -100,7 +114,9 @@ public class SearchVehiclePanel extends JPanel implements ActionListener{
 		categoryCombox.addActionListener( this );
 		
 		JLabel lblType = new JLabel("Type");
+		lblType.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		add(lblType, "10, 4, fill, default");
+		typeCombox.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		
 		typeCombox.setModel(new DefaultComboBoxModel<String>(new String[] {"ALL", "ECONOMY","COMPACT","MID-SIZE",
 																		  "STANDARD", "FULL-SIZE", "PREMIUM","LUXURY", "SUV",
@@ -112,24 +128,28 @@ public class SearchVehiclePanel extends JPanel implements ActionListener{
 		JSpinner spinner = (JSpinner) yearChooser.getSpinner();
 		((javax.swing.JTextField)spinner.getEditor()).setEditable(false);
 		
-		JLabel lblPurchasedyear = new JLabel("Year Purchased");
+		JLabel lblPurchasedyear = new JLabel("Purchased Before");
+		lblPurchasedyear.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		add(lblPurchasedyear, "14, 4, right, default");
+		yearChooser.getSpinner().setFont(new Font("Tahoma", Font.BOLD, 9));
 		
-		add(yearChooser, "16, 4, left, fill");
+		add(yearChooser, "16, 4, 3, 1, left, fill");
 		
 		JLabel lblStatus = new JLabel("Status");
-		add(lblStatus, "18, 4, right, default");
+		lblStatus.setFont(new Font("Tahoma", Font.PLAIN, 11));
+		add(lblStatus, "20, 4, right, default");
+		statusCombox.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		
 		
-		statusCombox.setModel(new DefaultComboBoxModel(new String[] {"ALL", "FOR-RENT", "FOR-SALE", "SOLD"}));
-		add(statusCombox, "20, 4, fill, default");
+		statusCombox.setModel(new DefaultComboBoxModel<String>(new String[] {"ALL", "FOR-RENT", "FOR-SALE", "SOLD"}));
+		add(statusCombox, "22, 4, fill, default");
 		
 		JButton btnSearch = new JButton("Search");
-		add(btnSearch, "22, 4, right, default");
+		add(btnSearch, "22, 8, fill, default");
 		btnSearch.addActionListener(managerController);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		add(scrollPane, "2, 8, 20, 1, fill, fill");
+		add(scrollPane, "2, 12, 22, 1, fill, fill");
 		
 		searchtable = new JTable();
 		searchtable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -149,10 +169,10 @@ public class SearchVehiclePanel extends JPanel implements ActionListener{
 		
 		JButton btnEdit = new JButton("Edit");
 		btnEdit.addActionListener(managerController);
-		add(btnEdit, "14, 10, center, fill");
+		add(btnEdit, "14, 14, center, fill");
 		
 		JButton btnAddForSale = new JButton("Add For Sale");
-		add(btnAddForSale, "16, 10, center, default");
+		add(btnAddForSale, "16, 14, 3, 1, center, default");
 		btnAddForSale.addActionListener(managerController);
 
 	}

@@ -3,6 +3,8 @@ package org.superrent.controllers;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Date;
 
 import javax.swing.JDialog;
@@ -45,7 +47,41 @@ public class ManagerController implements ActionListener {
 			managerFrame.getAddVehiclePanel().setVisible(true);
 
 		}
-		if (e.getActionCommand().equals("Add")) {
+		else if(e.getActionCommand().equals("Reports")){
+			
+				
+				disablePanels();
+
+				managerFrame.getReportsPanel().setEnabled(true);
+				managerFrame.getReportsPanel().setVisible(true);
+
+			
+		}
+		else if (e.getActionCommand().equals("Clerk View")){
+			
+			//disablePanels();
+			managerFrame.setEnabled(false);
+			managerFrame.setVisible(false);
+			
+			managerFrame.getClerkHome().setEnabled(true);
+			managerFrame.getClerkHome().setVisible(true);
+			managerFrame.getClerkHome().getBtnLogout().setVisible(false);
+			managerFrame.getClerkHome().setLocation(
+					(Toolkit.getDefaultToolkit().getScreenSize().width) / 2
+							- managerFrame.getClerkHome().getWidth() / 2, (Toolkit
+							.getDefaultToolkit().getScreenSize().height)
+							/ 2 - managerFrame.getClerkHome().getHeight() / 2);
+			
+			managerFrame.getClerkHome().addWindowListener(new WindowAdapter(){
+                public void windowClosing(WindowEvent e){
+                	managerFrame.setEnabled(true);
+        			managerFrame.setVisible(true);
+                    
+                }
+            });
+		}
+		
+		else if (e.getActionCommand().equals("Save")) {
 			System.out.println("Getting here");
 
 			VehicleVO vehicleVO = new VehicleVO();
@@ -64,7 +100,7 @@ public class ManagerController implements ActionListener {
 
 			if (result) {
 
-				VehicleExistsDialog dialog = new VehicleExistsDialog();
+				SuccessDialog dialog = new SuccessDialog();
 				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 				dialog.setLocation(
 						(Toolkit.getDefaultToolkit().getScreenSize().width) / 2
@@ -76,7 +112,7 @@ public class ManagerController implements ActionListener {
 
 			} else {
 
-				FailureDialog dialog = new FailureDialog();
+				VehicleExistsDialog dialog = new VehicleExistsDialog();
 				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 				dialog.setLocation(
 						(Toolkit.getDefaultToolkit().getScreenSize().width) / 2
@@ -283,6 +319,12 @@ public class ManagerController implements ActionListener {
 						.getSearchVehicleListPanel().getSearchtable().getModel()
 						.getValueAt(row, 4).toString());
 				
+				managerFrame.getEditVehicleInfoDialog().setLocation(
+						(Toolkit.getDefaultToolkit().getScreenSize().width) / 2
+								- managerFrame.getEditVehicleInfoDialog().getWidth() / 2, (Toolkit
+								.getDefaultToolkit().getScreenSize().height)
+								/ 2 - managerFrame.getEditVehicleInfoDialog().getHeight() / 2);
+				
 				managerFrame.getEditVehicleInfoDialog().setVisible(true);
 				
 			}
@@ -291,9 +333,6 @@ public class ManagerController implements ActionListener {
 		
 		else if (e.getActionCommand().equals("Change Price")) {
 			
-			
-			
-			//EditVehicleInfoDialog.getAddVehiclePanel().setRegNumberTxt(managerFrame.getSearchVehicleListPanel().getSearchtable().getSelectedRow());
 			int row =managerFrame.getSellVehicleListPanel().getSellTable().getSelectedRow();
 			if (row != -1) {
 				managerFrame.getEditForSalePriceDialog().setRegisterNumber((String) managerFrame
@@ -302,6 +341,11 @@ public class ManagerController implements ActionListener {
 				managerFrame.getEditForSalePriceDialog().setPrice((String) managerFrame
 						.getSellVehicleListPanel().getSellTable().getModel()
 						.getValueAt(row, 1).toString());
+				managerFrame.getEditForSalePriceDialog().setLocation(
+						(Toolkit.getDefaultToolkit().getScreenSize().width) / 2
+								- managerFrame.getEditForSalePriceDialog().getWidth() / 2, (Toolkit
+								.getDefaultToolkit().getScreenSize().height)
+								/ 2 - managerFrame.getEditForSalePriceDialog().getHeight() / 2);
 				managerFrame.getEditForSalePriceDialog().setVisible(true);
 				
 			}
@@ -623,6 +667,8 @@ public class ManagerController implements ActionListener {
 		managerFrame.getSearchVehicleListPanel().setVisible(false);
 		managerFrame.getManageRatesPanel().setEnabled(false);
 		managerFrame.getManageRatesPanel().setVisible(false);
+		managerFrame.getReportsPanel().setEnabled(false);
+		managerFrame.getReportsPanel().setVisible(false);
 
 	}
 

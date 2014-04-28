@@ -4,6 +4,7 @@ package org.superrent.views.general;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.JPanel;
 
@@ -33,7 +34,6 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 	private MakeReservationController mrc;
 	private JComboBox<String> categoryCombox_1;
 	private JComboBox<String> typeCombox_1;
-	private JComboBox<String> equipComboBox_1;
 	private JButton btnSearch;
 	private JDateChooser dateChooserPick;
 	private JDateChooser dateChooserReturn;
@@ -43,6 +43,7 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 	private JScrollPane scrollPane;
 	private JSpinner spinnerPickUp;
 	private JSpinner spinnerDrop;
+	private JButton btnEquip;
 	
 	/**
 	 * Create the panel.
@@ -97,6 +98,8 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 		add(lblPickUpDate, "4, 4, center, default");
 		
 		dateChooserPick = new JDateChooser();
+		dateChooserPick.setMinSelectableDate(new Date());
+		dateChooserPick.setDate(new Date());
 		add(dateChooserPick, "6, 4, fill, fill");
 		
 		SpinnerDateModel model = new SpinnerDateModel();
@@ -104,9 +107,12 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 		spinnerPickUp = new JSpinner();
 		spinnerPickUp.setModel(model);
 		spinnerPickUp.setEditor(new JSpinner.DateEditor(spinnerPickUp, "HH:00"));
+		
 		add(spinnerPickUp, "12, 4");
 		
 		dateChooserReturn = new JDateChooser();
+		dateChooserReturn.setMinSelectableDate(new Date());
+		dateChooserReturn.setDate(new Date());
 		add(dateChooserReturn, "6, 6, fill, fill");
 		
 		SpinnerDateModel model2 = new SpinnerDateModel();
@@ -114,6 +120,8 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 		spinnerDrop = new JSpinner();
 		spinnerDrop.setModel(model2);
 		spinnerDrop.setEditor(new JSpinner.DateEditor(spinnerDrop, "HH:00"));
+		Calendar time  = Calendar.getInstance();
+		
 		add(spinnerDrop, "12, 6");
 		
 		JLabel lblReturnDate = new JLabel("Return Date and Time");
@@ -173,12 +181,10 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 		
 		add(lblEquip, "4, 16");
 		
-		equipComboBox_1 = new JComboBox();
-		equipComboBox_1.setToolTipText("Please select vehicle first");
-		equipComboBox_1.setModel(new DefaultComboBoxModel(new String[] {"None"}));
-		equipComboBox_1.addActionListener(this.mrc);
-		add(equipComboBox_1, "6, 16, fill, default");
-		equipComboBox_1.setEnabled(false);
+		btnEquip = new JButton("choose equipment");
+		btnEquip.addActionListener(this.mrc);
+		btnEquip.setEnabled(false);
+		add(btnEquip, "6, 16");
 		
 		JLabel lblEstamited = new JLabel("Estimated cost:");
 		add(lblEstamited, "4, 18");
@@ -217,9 +223,7 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 	public JTable getSearchTable() {
 		return searchTable;
 	}
-	public JComboBox getEquipComboBox() {
-		return equipComboBox_1;
-	}
+
 	public JLabel getLblAmount() {
 		return lblAmount;
 	}
@@ -237,6 +241,9 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 	}
 	public JSpinner getSpinnerDrop() {
 		return spinnerDrop;
+	}
+	public JButton getBtnEquip() {
+		return btnEquip;
 	}
 }
 

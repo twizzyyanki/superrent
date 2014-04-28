@@ -9,11 +9,15 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Vector;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 import net.proteanit.sql.DbUtils;
 
+import org.apache.commons.collections.functors.WhileClosure;
 import org.superrent.application.DatabaseConnection;
 import org.superrent.entities.MakeReservation;
 import org.superrent.entities.RequireAdditionalEquipment;
@@ -374,7 +378,7 @@ public class ReservationDao {
 	
 	public Integer getUid(String username, String password){
 		Integer uid = null;
-
+		password = org.apache.commons.codec.digest.DigestUtils.md5Hex(password);
 		try {
 			con = DatabaseConnection.createConnection();
 			con.setAutoCommit(false);
@@ -435,6 +439,8 @@ public class ReservationDao {
 		}		catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally{
+			DatabaseConnection.close(con);
 		}
 		/*
 		 * computation
@@ -481,23 +487,23 @@ public class ReservationDao {
 		return total;
 	}
 	
-	public Vector searchCarType(){
-		Vector type = null;
+	public DefaultComboBoxModel searchCarType(){
+		DefaultComboBoxModel model=null;
 		try {
 			con = DatabaseConnection.createConnection();
 			con.setAutoCommit(false);
 			Statement st = con.createStatement();
 		
 
-		String query = "SELECT DISTINCT type from Vehicle WHERE category = 'Car'";
-		System.out.println(query);
-		resultSet = st.executeQuery(query);
-		
-		while(resultSet.next()){
-			//System.out.println(query);
-			type.add(resultSet.getString("type"));
-		}
-		
+			String query = "SELECT DISTINCT type from Vehicle WHERE category = 'Car'";
+			ResultSet rs = st.executeQuery(query);
+			model = new DefaultComboBoxModel();
+			model.addElement("ALL");
+			while(rs.next()){
+				
+				model.addElement(rs.getString("type"));
+			}
+			
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -507,14 +513,14 @@ public class ReservationDao {
 		}
 		finally {
 			DatabaseConnection.close(con);
-			return type;
+			return model;
 		}
 		
 		
 	}
 	
-	public Vector searchTruckType(){
-		Vector type = null;
+	public DefaultComboBoxModel searchTruckType(){
+		DefaultComboBoxModel model = null;
 		try {
 			con = DatabaseConnection.createConnection();
 			con.setAutoCommit(false);
@@ -524,10 +530,13 @@ public class ReservationDao {
 		String query = "SELECT DISTINCT type from Vehicle WHERE category = 'Truck'";
 		
 		resultSet = st.executeQuery(query);
-		
+		model = new DefaultComboBoxModel();
+		model.addElement("ALL");
 		while(resultSet.next()){
-			type.add(resultSet.getString("type"));
+			
+			model.addElement(resultSet.getString("type"));
 		}
+		
 		
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -538,13 +547,46 @@ public class ReservationDao {
 		}
 		finally {
 			DatabaseConnection.close(con);
-			return type;
+			return model;
 		}
 		
 		
 	}
 	
+	public DefaultComboBoxModel searchAllType(){
+		DefaultComboBoxModel model = null;
+		try {
+			con = DatabaseConnection.createConnection();
+			con.setAutoCommit(false);
+			Statement st = con.createStatement();
+		
 
+		String query = "SELECT DISTINCT type from Vehicle";
+		
+		resultSet = st.executeQuery(query);
+		model = new DefaultComboBoxModel();
+		model.addElement("ALL");
+		while(resultSet.next()){
+			
+			model.addElement(resultSet.getString("type"));
+		}
+		
+		
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+			DatabaseConnection.close(con);
+			return model;
+		}
+		
+		
+	}
+	
 	
 	public boolean makeReservation(RequireAdditionalEquipment requireAdditionalEquipment) {
 
@@ -591,9 +633,10 @@ public class ReservationDao {
 
 		Statement st = con.createStatement();
 
-		String query = "insert into AdditionalEquipment (confirmationNo, branchID, equipmentName category, quantity) "
+		String query = "insert into AdditionalEquipment (confirmationNo, branchID, equipmentName, category, quantity) "
 
-		+ "values (" + requireAdditionalEquipment.getConfirmationNo()
+		+ "values (" + 50
+		//requireAdditionalEquipment.getConfirmationNo()
 
 		+ ", 1"
 
@@ -601,7 +644,7 @@ public class ReservationDao {
 
 		+ ",'" + requireAdditionalEquipment.getCategory() + "'"
 
-		+ ", " + requireAdditionalEquipment.getQuantity();
+		+ ", " + requireAdditionalEquipment.getQuantity()+")";
 
 		System.out.println(query);
 
@@ -610,11 +653,47 @@ public class ReservationDao {
 		}
 		
 		
-/*		public static void main(String[] args){
-			Vector test;
-			ReservationDao ddd = new ReservationDao();
-			test = ddd.searchCarType();
-			System.out.println(test);
-		}*/
+		public void searchEquipCar(int branchID, String category, JTable table, JScrollPane scrollPane){
+			
+			DefaultTableModel model = (DefaultTableModel) table.getModel();
+			model.setRowCount(0);
+			try {
+				con = DatabaseConnection.createConnection();
+				con.setAutoCommit(false);
+				Statement st = con.createStatement();
+				
+				
+				String query = "SELECT equipmentName from AdditionalEquipment WHERE category= '"
+							 	+ category.toUpperCase()
+								+"' AND branchID = '"
+							 	+ branchID +"'";
+				
+				resultSet = st.executeQuery(query);
+				
+				while(resultSet.next()){
+					 model.addRow(new Object[] { resultSet.getString("equipmentName"), "0" });
+				}
+/*				table.setModel(DbUtils.resultSetToTableModel(resultSet));*/
+				scrollPane.setVisible(true);
+				table.setVisible(true);
+					
+			}
+			catch (ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			finally {
+				DatabaseConnection.close(con);
+				
+			}
+			
+			
+		}
+		
+
+
 }
 

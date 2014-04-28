@@ -139,7 +139,7 @@ public class SellingVehicleDialog extends JDialog implements ActionListener{
 				
 				okButton.addActionListener(managerController);
 					
-				okButton.setActionCommand("Done");
+				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
@@ -153,7 +153,7 @@ public class SellingVehicleDialog extends JDialog implements ActionListener{
 	}
 
 
-	// @Override
+	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		this.dispose();
 	}

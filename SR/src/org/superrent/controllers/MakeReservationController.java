@@ -18,8 +18,11 @@ import javax.swing.event.ListSelectionListener;
 
 import javax.swing.table.DefaultTableModel;
 
+import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.superrent.daos.ReservationDao;
+import org.superrent.entities.AdditionalEquipment;
 import org.superrent.entities.MakeReservation;
+import org.superrent.entities.RequireAdditionalEquipment;
 import org.superrent.entities.Reservation;
 import org.superrent.entities.User;
 import org.superrent.views.general.Login;
@@ -27,6 +30,7 @@ import org.superrent.views.general.MakeReservationPage;
 import org.superrent.views.general.ReservationPanel;
 import org.superrent.views.general.ReservationSuccessDialog;
 import org.superrent.views.general.SearchVReservationPanel;
+import org.superrent.views.general.addtionalEqDialog;
 import org.superrent.views.general.cancelReservationPanel;
 
 
@@ -39,24 +43,30 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 	private ReservationPanel reservationPanel;
 	private cancelReservationPanel cancelReservationPanel;
 	private ReservationSuccessDialog dialog;
-	// charge for the reservation
+	private addtionalEqDialog equipDialog;
+	private RequireAdditionalEquipment reEquipEntity = null;
+	private RequireAdditionalEquipment reEquipEntity2 = null ;
 	private double charge;
 	private Reservation reservation;
 	private MakeReservation makeReservation;
 	private java.util.Date pickupDate;
 	private java.util.Date dropDate;
 	private String regNo;
-	private Vector carTypeList;
-	private Vector truckTypeList;
+	//used to determine which equipment should display
+	private String categoryForEquip;
+	private DefaultComboBoxModel modelForCarType;
+	private DefaultComboBoxModel modelForTruckType;
+	private DefaultComboBoxModel modelForAllType;
 	
 	
 	public MakeReservationController(MakeReservationPage reservationPage){
 		this.reservationPage = reservationPage;
 		ReservationDao carTypeDao = new ReservationDao();
-		carTypeList = carTypeDao.searchCarType();
-		System.out.println(carTypeList);
+		modelForCarType = carTypeDao.searchCarType();
 		ReservationDao truckTypeDao = new ReservationDao();
-		truckTypeList = truckTypeDao.searchTruckType();
+		modelForTruckType = truckTypeDao.searchTruckType();
+		ReservationDao allTypeDao = new ReservationDao();
+		modelForAllType = allTypeDao.searchAllType();
 	}
 
 
@@ -126,7 +136,7 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 					ReservationDao searchVehicle = new ReservationDao();
 					searchVehicle.searchVehiclesForReservation(pickupDate, dropDate, type, 
 							                                   category, sVRPanel.getSearchTable(), sVRPanel.getScrollPane() );
-					//String equipment = (String)sVRPanel.getEquipComboBox().getSelectedItem();		
+					
 				}
 				else{
 					sVRPanel.getLblSearchInfo().setForeground(Color.RED);
@@ -156,7 +166,7 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 			if(username.trim().length()!=0 &&
 			   password.trim().length()!=0){
 				
-				password = org.apache.commons.codec.digest.DigestUtils.md5Hex(password);
+				
 				
 				ReservationDao checkClubMemberDao = new ReservationDao();
 				boolean clubExist = false;
@@ -175,6 +185,16 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 					makeReservationDao.makeReservation(reservation);
 					makeReservation.setConfirmationNo((int)getCinfrmationNoDao.getConfirmationFromReservation());
 					makeReservationDao.makeReservation(makeReservation);
+					
+					//additional equipment
+					if(reEquipEntity!=null){
+						ReservationDao requirEqipDao = new ReservationDao();
+						
+						reEquipEntity.setConfirmationNo(makeReservation.getConfirmationNo());
+						System.out.println("recon: "+reEquipEntity.getConfirmationNo());
+						requirEqipDao.makeReservation(reEquipEntity);
+					}
+					
 					
 					//open ReservationSuccess Dialog
 					dialog = new ReservationSuccessDialog(this);
@@ -339,29 +359,63 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 			sVRPanel.getSearchTable().clearSelection();
 			String item = (String)sVRPanel.getCategoryCombox().getSelectedItem();
 			if(item.equalsIgnoreCase("CAR")){
-				sVRPanel.getTypeCombox().setModel(new DefaultComboBoxModel(carTypeList));
+				sVRPanel.getTypeCombox().setModel(modelForCarType);
 				
-				sVRPanel.getEquipComboBox().setModel(new DefaultComboBoxModel<String>(new String[] { "None","Child seat"}));
+				
 				
 			}
 			else if(item.equalsIgnoreCase("TRUCK")){
-				sVRPanel.getTypeCombox().setModel(new DefaultComboBoxModel(truckTypeList));
+				sVRPanel.getTypeCombox().setModel(modelForTruckType);
 				
 			}
 			else if(item.equalsIgnoreCase("ALL")){
-				sVRPanel.getTypeCombox().setModel(new DefaultComboBoxModel<String>(new String[] {"ALL", "ECONOMY","COMPACT","MID-SIZE",
-						  													"STANDARD", "FULL-SIZE", "PREMIUM","LUXURY", "SUV",
-						  													"VAN", "24-FOOT", "15-FOOT", "12-FOOT", "BOX TRUCK", 
-						  													"CARGO VAN"}));
+				sVRPanel.getTypeCombox().setModel(modelForAllType);
 				
 			
 			}
 		}
 		
-		//calculated estimated cost for vehicle and equipment
-/*		if(e.getSource() == sVRPanel.getEquipComboBox()){
+		if(e.getActionCommand().equals("choose equipment")){
+			equipDialog = new addtionalEqDialog(this);
+			equipDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+			equipDialog.setLocationRelativeTo(null);
+			equipDialog.setVisible(true);
 			
-		}*/
+			int quantity = 0;
+			ReservationDao seachEquipDao  = new ReservationDao();
+			seachEquipDao.searchEquipCar(1, categoryForEquip, equipDialog.getTable(), equipDialog.getScrollPane());
+		}
+		
+		if(e.getActionCommand().equals("OKequip")){
+			String quantity1;
+			String quantity2 ;
+			String equip1,equip2;
+			quantity1 =  equipDialog.getTable().getValueAt(0, 1).toString();
+			quantity2 =  equipDialog.getTable().getValueAt(1, 1).toString();
+			equip1 =  equipDialog.getTable().getValueAt(0, 0).toString();
+			equip2 =  equipDialog.getTable().getValueAt(1, 0).toString();
+			if(!quantity1.equals("0")){
+				System.out.println(quantity1);
+				reEquipEntity = new RequireAdditionalEquipment();
+				reEquipEntity.setEquipmentName(equip1);
+				reEquipEntity.setQuantity(Integer.parseInt(quantity1));
+				reEquipEntity.setCategory(categoryForEquip);
+				reEquipEntity.setBranchID(1);
+			}
+			if(!quantity2.equals("0")){
+				reEquipEntity2 = new RequireAdditionalEquipment();
+				reEquipEntity2.setEquipmentName(equip1);
+				reEquipEntity2.setQuantity(Integer.parseInt(quantity2));
+				reEquipEntity2.setCategory(categoryForEquip);
+				reEquipEntity2.setBranchID(1);
+			}
+			
+			
+			equipDialog.dispose();
+			
+		}
+		
+
 		
 	}
 
@@ -375,7 +429,7 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 				sVRPanel.getBtnReserve().setEnabled(true);
 				int i = sVRPanel.getSearchTable().getSelectedRow();	
 				regNo = sVRPanel.getSearchTable().getValueAt(i, 3).toString();
-				sVRPanel.getEquipComboBox().setEnabled(true);
+
 				//NEED DAO to calculate estimated cost and return to charge
 				ReservationDao calculatePriceDao = new ReservationDao();	
 				charge = calculatePriceDao.calculateCharges(regNo, 
@@ -384,11 +438,13 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 				sVRPanel.getLblAmount().setText(scharge);
 				
 				if(sVRPanel.getSearchTable().getValueAt(i, 0).toString().equals("Car")){
-					sVRPanel.getEquipComboBox().setModel(new DefaultComboBoxModel<String>(new String[] { "None","Child seat"}));
+					
+					categoryForEquip = "CAR";
 				}
 				else if(sVRPanel.getSearchTable().getValueAt(i, 0).toString().equals("Truck")){
-					sVRPanel.getEquipComboBox().setModel(new DefaultComboBoxModel<String>(new String[] { "None"}));
+					categoryForEquip = "TRUCK";
 				}
+				sVRPanel.getBtnEquip().setEnabled(true);
 				
 			}else{
 				charge = 0;
@@ -419,17 +475,25 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 
 	public boolean validateTime(Date pick, Date drop){
 		boolean valid = false;
-		if(pick.compareTo(drop)==1){
+		Date date = new Date();
+		System.out.println(date);
+		if(pick.compareTo(date)==-1 || drop.compareTo(date)==-1){
+			valid = false;
+			
+		}
+		else if(pick.compareTo(drop)==1){
 			valid = false;
 		}
 		else{
 			valid = true;
 		}
 		
+
+		
 		return  valid;
 	}
 
-	public static Date dateCombine(Date date, Date hour){ 
+	public Date dateCombine(Date date, Date hour){ 
 		  Calendar cal = Calendar.getInstance();
 		  cal.setTime(date);
 		  cal.set(Calendar.HOUR_OF_DAY, hour.getHours());
