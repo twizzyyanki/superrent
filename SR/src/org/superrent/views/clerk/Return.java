@@ -78,6 +78,15 @@ public class Return extends JPanel
 	private JScrollPane scrollPane;
 	private JScrollPane scrollPane_1;
 	private JButton btnPayByCash;
+	private JLabel lblCad;
+	private JLabel lblCad_1;
+	private JLabel lblCad_2;
+	private JLabel lblCad_4;
+	private JLabel lblCad_3;
+	private JLabel lblCad_5;
+	private JLabel lblCad_6;
+	private JLabel lblCAD;
+	private JLabel lblCad_7;
 	/**
 	 * Create the panel.
 	 */
@@ -124,7 +133,9 @@ public class Return extends JPanel
 				FormFactory.UNRELATED_GAP_COLSPEC,
 				ColumnSpec.decode("59px"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(76dlu;default)"),},
+				ColumnSpec.decode("max(76dlu;default)"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,},
 			new RowSpec[] {
 				FormFactory.UNRELATED_GAP_ROWSPEC,
 				RowSpec.decode("23px"),
@@ -196,6 +207,9 @@ public class Return extends JPanel
 		panel.add(Customername, "2, 2, right, center");
 		panel.add(textField_1, "4, 2, fill, center");
 		
+		lblCad = new JLabel("CAD");
+		panel.add(lblCad, "17, 4");
+		
 		JLabel label_3 = new JLabel("Vehicle Description");
 		panel.add(label_3, "2, 5, right, top");
 		
@@ -225,9 +239,9 @@ public class Return extends JPanel
 				ColumnSpec.decode("13px"),
 				ColumnSpec.decode("79px"),
 				FormFactory.UNRELATED_GAP_COLSPEC,
-				ColumnSpec.decode("103px"),
+				ColumnSpec.decode("50px"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("12px"),
+				ColumnSpec.decode("76px"),
 				FormFactory.UNRELATED_GAP_COLSPEC,
 				ColumnSpec.decode("101px"),
 				FormFactory.RELATED_GAP_COLSPEC,
@@ -276,7 +290,10 @@ public class Return extends JPanel
 		
 		setTextField_8(new JTextField());
 		getTextField_8().setColumns(10);
-		add(textField_8, "10, 6, 3, 1, left, center");
+		add(textField_8, "10, 6, 2, 1, fill, center");
+		
+		lblCad_1 = new JLabel("CAD");
+		add(lblCad_1, "12, 6");
 		
 		JLabel lblFuelPercentage = new JLabel("Fuel Percentage");
 		add(lblFuelPercentage, "2, 8, right, center");
@@ -288,7 +305,10 @@ public class Return extends JPanel
 		
 		setTextField_19(new JTextField());
 		getTextField_19().setColumns(10);
-		add(textField_19, "10, 8, 3, 1, left, center");
+		add(textField_19, "10, 8, 2, 1, fill, center");
+		
+		lblCad_2 = new JLabel("CAD");
+		add(lblCad_2, "12, 8");
 		
 		JLabel lblVehicleDescription = new JLabel("Vehicle Description");
 		add(lblVehicleDescription, "2, 10, right, center");
@@ -307,12 +327,21 @@ public class Return extends JPanel
 		textField_12.setColumns(10);
 		add(textField_12, "4, 12, right, center");
 		
+		lblCad_3 = new JLabel("CAD");
+		add(lblCad_3, "6, 12");
+		
 		JLabel lblNewLabel = new JLabel("OverDue Cost");
 		add(lblNewLabel, "2, 14, left, center");
 		
 		textField_13 = new JTextField();
 		textField_13.setColumns(10);
 		add(textField_13, "4, 14, right, center");
+		
+		lblCad_5 = new JLabel("CAD");
+		add(lblCad_5, "6, 14");
+		
+		lblCad_6 = new JLabel("CAD");
+		add(lblCad_6, "6, 16");
 		add(btnCalculateTotalCost, "2, 18, 3, 1, left, bottom");
 		
 		JLabel lblRedeemPoints = new JLabel("Club Points");
@@ -322,9 +351,12 @@ public class Return extends JPanel
 		textField_17.setText("0");
 		textField_17.setColumns(10);
 		add(textField_17, "15, 18, center, center");
-		add(btnRedeem, "17, 18, fill, top");
+		add(btnRedeem, "18, 18, 3, 1, fill, top");
 		add(lblTotalCost, "2, 20, left, center");
-		add(textField_15, "4, 20, 3, 1, left, bottom");
+		add(textField_15, "4, 20, left, bottom");
+		
+		lblCAD = new JLabel("CAD");
+		add(lblCAD, "6, 20");
 		add(lblCostAfterRedeeming, "12, 20, 2, 1, left, center");
 		
 		
@@ -333,14 +365,20 @@ public class Return extends JPanel
 		getTextField_18().setColumns(10);
 		add(textField_18, "15, 20, left, top");
 		
+		lblCad_4 = new JLabel("CAD");
+		add(lblCad_4, "17, 20");
+		
 		btnPayWithPoints = new JButton("Pay With points");
-		add(btnPayWithPoints, "17, 20, 3, 1, left, top");
-		add(textField_11, "4, 22, 3, 1, left, top");
+		add(btnPayWithPoints, "18, 20, 3, 1, left, top");
+		add(textField_11, "4, 22, left, top");
 		add(btnCheckDetails, "15, 2, 3, 1, left, top");
 		add(panel, "2, 4, 21, 1, fill, top");
 		add(btnTaxCost, "2, 22, left, top");
 		add(btnIncCost, "2, 16, left, top");
 		add(textField_20, "4, 16, left, center");
+		
+		lblCad_7 = new JLabel("CAD");
+		add(lblCad_7, "6, 22");
 		
 		btnPayByCash = new JButton("Pay By Cash");
 		btnPayByCash.setBackground(Color.GRAY);

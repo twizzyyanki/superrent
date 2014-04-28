@@ -107,51 +107,6 @@ public class Rent extends JPanel
 		getLblInvalidEntries().setVisible(false);
 		
 		btnCreateRentalAgreement = new JButton("Create Rental Agreement");
-		
-		GroupLayout groupLayout = new GroupLayout(this);
-		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(20)
-							.addGroup(groupLayout.createParallelGroup(Alignment.CENTER)
-								.addComponent(panel, GroupLayout.PREFERRED_SIZE, 842, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblOr)
-								.addComponent(btnCreateRentalAgreement)
-								.addComponent(btnSubmit)
-								.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 844, GroupLayout.PREFERRED_SIZE)))
-						.addGroup(groupLayout.createSequentialGroup()
-							.addGap(97)
-							.addComponent(label, GroupLayout.PREFERRED_SIZE, 101, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(textField, GroupLayout.PREFERRED_SIZE, 146, GroupLayout.PREFERRED_SIZE)
-							.addGap(119)
-							.addComponent(lblPhoneNumber)
-							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 135, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(35, Short.MAX_VALUE))
-		);
-		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.CENTER)
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(16)
-					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(label)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblPhoneNumber)
-						.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblOr))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnSubmit)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 101, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 233, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnCreateRentalAgreement)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-		);
 		panel_1.setLayout(new FormLayout(new ColumnSpec[] {
 				ColumnSpec.decode("114px"),
 				ColumnSpec.decode("12px"),
@@ -260,6 +215,28 @@ public class Rent extends JPanel
 		textArea.setRows(2);
 		textArea.setColumns(1);
 		panel_1.add(lblInvalidEntries, "11, 18, 7, 1, left, top");
+		setLayout(new FormLayout(new ColumnSpec[] {
+				ColumnSpec.decode("20px"),
+				ColumnSpec.decode("178px"),
+				FormFactory.UNRELATED_GAP_COLSPEC,
+				ColumnSpec.decode("146px"),
+				FormFactory.UNRELATED_GAP_COLSPEC,
+				ColumnSpec.decode("85px"),
+				ColumnSpec.decode("24px"),
+				ColumnSpec.decode("70px"),
+				FormFactory.UNRELATED_GAP_COLSPEC,
+				ColumnSpec.decode("311px"),},
+			new RowSpec[] {
+				FormFactory.PARAGRAPH_GAP_ROWSPEC,
+				RowSpec.decode("20px"),
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("23px"),
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("101px"),
+				FormFactory.PARAGRAPH_GAP_ROWSPEC,
+				RowSpec.decode("233px"),
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("23px"),}));
 		
 		JLabel lblPickupDate = new JLabel("PickUp Date");
 		
@@ -324,7 +301,18 @@ public class Rent extends JPanel
 		setTextField_4(new JTextField());
 		getTextField_4().setColumns(10);
 		panel.add(textField_4, "10, 6, fill, center");
-		setLayout(groupLayout);
+		
+		JLabel lblCad = new JLabel("CAD");
+		panel.add(lblCad, "11, 6");
+		add(panel, "2, 6, 9, 1, fill, fill");
+		add(lblOr, "6, 2, right, center");
+		add(btnCreateRentalAgreement, "6, 10, 3, 1, left, top");
+		add(btnSubmit, "6, 4, 3, 1, center, top");
+		add(panel_1, "2, 8, 9, 1, fill, fill");
+		add(label, "2, 2, right, center");
+		add(textField, "4, 2, fill, top");
+		add(lblPhoneNumber, "8, 2, left, center");
+		add(textField_1, "10, 2, left, top");
 		
 	}
 
