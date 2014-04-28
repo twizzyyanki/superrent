@@ -167,7 +167,7 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 		}
 		
 		//Reserve as club member
-		if(e.getActionCommand().equals("Clubmember Reserve")){
+		if(e.getActionCommand().equals("Club Member Reserve")){
 			reservationPanel.getLblClubInfo().setForeground(Color.black);
 			reservationPanel.getLblClubInfo().setText("");
 			String username = reservationPanel.getUserIDTextField().getText();
