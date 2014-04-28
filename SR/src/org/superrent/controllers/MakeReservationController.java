@@ -430,13 +430,13 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 			equip1 =  equipDialog.getTable().getValueAt(0, 0).toString();
 			equip2 =  equipDialog.getTable().getValueAt(1, 0).toString();
 			if(!quantity1.equals("0")){
-				System.out.println(quantity1);
+
 				reEquipEntity = new RequireAdditionalEquipment();
 				reEquipEntity.setEquipmentName(equip1);
 				reEquipEntity.setQuantity(Integer.parseInt(quantity1));
 				reEquipEntity.setCategory(categoryForEquip);
 				reEquipEntity.setBranchID(1);
-				charge = charge + 10;
+				charge = charge + 10*reEquipEntity.getQuantity();
 			}
 			if(!quantity2.equals("0")){
 				reEquipEntity2 = new RequireAdditionalEquipment();
@@ -444,7 +444,7 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 				reEquipEntity2.setQuantity(Integer.parseInt(quantity2));
 				reEquipEntity2.setCategory(categoryForEquip);
 				reEquipEntity2.setBranchID(1);
-				charge = charge + 10;
+				charge = charge + 10*reEquipEntity2.getQuantity();
 			}
 			
 			String scharge = String.format("%.2f", charge);  
