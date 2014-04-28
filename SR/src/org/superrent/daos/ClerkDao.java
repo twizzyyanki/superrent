@@ -272,10 +272,15 @@ public class ClerkDao
 		ps3.setInt(1,ConfNo);
 		ps3.setString(2, "0");
 		rs3=ps3.executeQuery();
+		if(rs3.next())
+		{
 		while(rs3.next())
 		{
 			values[9]=rs3.getString("equipmentName");
 		}
+		}
+		else
+			values[9]="";
 		}
 		}
 		catch(Exception e)
@@ -591,11 +596,11 @@ public class ClerkDao
 		return values;
 	}
 
-	public String DisplayPoints(String agreementNo) 
+	public double DisplayPoints(String agreementNo) 
 	{
 		ResultSet rs=null;
 		ResultSet rs1=null;
-		String points=null;
+		Double points=null;
 		String uid=null;
 		try
 		{
@@ -613,7 +618,7 @@ public class ClerkDao
 			rs1=ps1.executeQuery();
 			while(rs1.next())
 			{
-				points=rs1.getString("points");
+				points=rs1.getDouble("points");
 			}
 		}
 		catch(Exception e)

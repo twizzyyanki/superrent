@@ -647,8 +647,8 @@ public class ClerkController implements ActionListener {
 			} else 
 			{
 				String agreementNo = ret.getTextField().getText();
-				Double points = Double.valueOf(dao.DisplayPoints(agreementNo));
-				if(points==null)
+				Double points = dao.DisplayPoints(agreementNo);
+				if(points==0)
 				{
 					JOptionPane.showMessageDialog(ret, "Customer is not a club member");
 				}
@@ -668,9 +668,9 @@ public class ClerkController implements ActionListener {
 			{
 				JOptionPane.showMessageDialog(ret,"Please provide a rental Agreement Number and check the details first");
 			} 
-			else if(ret.textField_17.getText().equals(0.0))
+			else if(ret.textField_17.getText().equals("0.0") || ret.textField_17.getText().equals("0"))
 			{
-				JOptionPane.showMessageDialog(ret, "Points are zero, you cannoy pay with zero points");
+				JOptionPane.showMessageDialog(ret, "Points are zero, you cannot pay with zero points");
 			}
 			else
 			{
@@ -688,7 +688,8 @@ public class ClerkController implements ActionListener {
 			}
 		}
 		
-		if (ae.getActionCommand() == "Proceed To PayPal")
+		
+		if (ae.getActionCommand() == "Pay By PayPal")
 		{
 			double bill=0.0;
 			try
