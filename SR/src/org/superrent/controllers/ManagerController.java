@@ -1,7 +1,7 @@
 package org.superrent.controllers;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,7 +11,10 @@ import java.util.Arrays;
 import java.util.Date;
 
 import javax.swing.JDialog;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
+import org.netbeans.validation.api.Problem;
 import org.superrent.daos.ChangePasswordDAO;
 import org.superrent.daos.IManagerDao;
 import org.superrent.daos.ManagerDaoImpl;
@@ -25,11 +28,9 @@ import org.superrent.entities.VehicleVO;
 import org.superrent.views.manager.FailureDialog;
 import org.superrent.views.manager.ManagerHome;
 import org.superrent.views.manager.SuccessDialog;
-import org.superrent.views.manager.UpdateProfileForManager;
 import org.superrent.views.manager.VehicleExistsDialog;
-import org.superrent.views.superadmin.UpdateProfile;
 
-public class ManagerController implements ActionListener {
+public class ManagerController implements ActionListener, DocumentListener {
 
 	private final ManagerHome managerFrame;
 	IManagerDao managerDao = new ManagerDaoImpl();
@@ -145,7 +146,7 @@ public class ManagerController implements ActionListener {
 			
 			managerFrame.getClerkHome().setEnabled(true);
 			managerFrame.getClerkHome().setVisible(true);
-			managerFrame.getClerkHome().getBtnLogout().setVisible(false);
+			managerFrame.getClerkHome().getbtnLogout().setVisible(false);
 			managerFrame.getClerkHome().setLocation(
 					(Toolkit.getDefaultToolkit().getScreenSize().width) / 2
 							- managerFrame.getClerkHome().getWidth() / 2, (Toolkit
@@ -656,7 +657,7 @@ public class ManagerController implements ActionListener {
 				int nameSuccess = 1;
 				int phoneSuccess = 1;
 				int addressSucess = 1;
-				int emailSuccess = 1;
+				int emailSuccess;
 				String updateInfosString="";
 				managerFrame.getUpdateProfileForManager().getTextPhone().setForeground(Color.black);
 				managerFrame.getUpdateProfileForManager().getUpdateInfo().setText("");
@@ -899,6 +900,45 @@ public class ManagerController implements ActionListener {
 
 		managerDao.getAllVehicles(managerFrame);
 
+	}
+
+	@Override
+	public void changedUpdate(DocumentEvent arg0) {
+		checkValidation();
+		
+	}
+
+	@Override
+	public void insertUpdate(DocumentEvent arg0) {
+		checkValidation();
+		
+	}
+
+	@Override
+	public void removeUpdate(DocumentEvent arg0) {
+		checkValidation();
+		
+	}
+	private void checkValidation() {
+		
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				System.out.println(managerFrame.getAddVehiclePanel().getGroup());
+				Problem validateAll = managerFrame.getAddVehiclePanel().getGroup().performValidation();
+				// System.out.println("validate all is  " + validateAll);
+				if (validateAll == null) {
+					managerFrame.getAddVehiclePanel().getBtnAdd().setEnabled(true);
+					managerFrame.getAddVehiclePanel().revalidate();
+					managerFrame.getAddVehiclePanel().repaint();
+					// System.out.println("Getting here");
+				} else {
+					if (validateAll.isFatal()) {
+						managerFrame.getAddVehiclePanel().getBtnAdd().setEnabled(false);
+					}
+				}
+
+			}
+		});
 	}
 
 }
