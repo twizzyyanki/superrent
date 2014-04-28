@@ -19,7 +19,9 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 
 import org.superrent.controllers.ClubMemberController;
+
 import java.awt.Color;
+import java.util.Date;
 /*test*/
 public class JCheckReservation extends JPanel {
 	private JTable table;
@@ -59,12 +61,16 @@ public class JCheckReservation extends JPanel {
 		add(lblFrom, "2, 2");
 		
 		fromDate = new JDateChooser();
+		fromDate.setMinSelectableDate(new Date());
+		fromDate.setDate(new Date());
 		add(fromDate, "4, 2, fill, fill");
 		
 		JLabel lblTo = new JLabel("To:");
 		add(lblTo, "6, 2");
 		
 		toDate = new JDateChooser();
+		toDate.setMinSelectableDate(new Date());
+		toDate.setDate(new Date());
 		add(toDate, "8, 2, fill, fill");
 		
 		JButton searchButton = new JButton("Search");

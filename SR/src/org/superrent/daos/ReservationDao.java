@@ -722,8 +722,6 @@ public class ReservationDao {
 		}
 
 
-
-
 	
 	/**
 	 * Insert into AdditionEquip table
