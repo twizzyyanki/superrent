@@ -94,7 +94,7 @@ public class ReservationPanel extends JPanel {
 		lblClubInfo = new JLabel("");
 		add(lblClubInfo, "4, 10");
 		
-		btnClubmember = new JButton("Clubmember Reserve");
+		btnClubmember = new JButton("Club Member Reserve");
 		btnClubmember.addActionListener(mrc);
 		add(btnClubmember, "8, 10, fill, default");
 		
