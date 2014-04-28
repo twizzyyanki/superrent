@@ -771,9 +771,9 @@ public class ReservationDao {
 				Statement st = con.createStatement();
 				
 				
-				String query = "SELECT equipmentName from AdditionalEquipment WHERE category= '"
-							 	+ category.toUpperCase()
-								+"' AND branchID = '"
+				String query = "SELECT equipmentName from AdditionalEquipment WHERE UPPER(category) = UPPER('"
+							 	+ category+"')"
+								+" AND branchID = '"
 							 	+ branchID +"'";
 				
 				resultSet = st.executeQuery(query);
