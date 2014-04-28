@@ -3,6 +3,7 @@ package org.superrent.controllers;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Vector;
@@ -475,8 +476,12 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 				ReservationDao calculatePriceDao = new ReservationDao();	
 				charge = calculatePriceDao.calculateCharges(regNo, 
 															pickupDate, dropDate);
-				String scharge = String.format("%.2f", charge);  
-				sVRPanel.getLblAmount().setText(scharge);
+				charge = Math.round(charge * 100.0) / 100.0;
+				
+				//DecimalFormat df = new DecimalFormat("#,###,##0.00");
+				//String scharge = df.format(charge);
+				//String scharge = String.format("%.2f", charge);  
+				sVRPanel.getLblAmount().setText(String.valueOf(charge));
 				
 				if(sVRPanel.getSearchTable().getValueAt(i, 0).toString().equals("Car")){
 					
