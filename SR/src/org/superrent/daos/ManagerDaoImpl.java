@@ -48,8 +48,8 @@ public class ManagerDaoImpl implements IManagerDao{
 			System.out.println("inputStatus " + inputStatus + "status " + status);
 			String query = "SELECT regNo as RegisterNumber, category as Category, type as Type, brand as Brand,purchaseDate as PurchasedDate, CASE "
 								+ " WHEN status = 0 THEN 'FOR-RENT' WHEN status = 1 THEN 'FOR-SALE' WHEN status = 2 THEN 'SOLD'	END AS Status FROM Vehicle Where year(purchaseDate) <= " 
-								+ year + " "+ (category.equalsIgnoreCase("All") ?(""):("and category = " + "'" + category.toUpperCase() + 
-								"'"))	+ (type.equalsIgnoreCase("All") ?(""):("and type = " + "'" + type.toUpperCase() + "'" + status.equalsIgnoreCase("All"))) + (inputStatus == 3 ? "" : " and status = " + inputStatus);  
+								+ year + " "+ (category.equalsIgnoreCase("All") ?(""):("and upper(category) = " + "'" + category.toUpperCase() + 
+								"'"))	+ (type.equalsIgnoreCase("All") ?(""):("and upper(type) = " + "'" + type.toUpperCase() + "'")) + (inputStatus == 3 ? "" : (" and status = " + inputStatus));  
 			System.out.println(query);
 			
 			resultSet = st.executeQuery(query);

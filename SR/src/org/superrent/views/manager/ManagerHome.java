@@ -23,6 +23,7 @@ import org.superrent.controllers.LoginController;
 import org.superrent.controllers.ManagerController;
 import org.superrent.views.clerk.ClerkHome;
 import org.superrent.views.clerk.Reports;
+
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Dimension;
@@ -58,8 +59,10 @@ public class ManagerHome extends JFrame {
 	EditVehicleInfoDialog editVehicleInfoDialog = new EditVehicleInfoDialog(managerController);
 	SellingVehicleDialog sellingVehicleDialog = new SellingVehicleDialog(managerController);
 	EditForSalePrice editForSalePriceDialog = new EditForSalePrice(managerController);
+	UpdateProfileForManager updateProfileForManager = new UpdateProfileForManager(managerController);
 	Reports reportsPanel = new Reports();
 	ClerkHome clerkHome = new ClerkHome();
+	ChangePasswordManagerPanel changePasswordPanel = new ChangePasswordManagerPanel(managerController);
 
 	public EditVehicleInfoDialog getEditVehicleInfoDialog() {
 		return editVehicleInfoDialog;
@@ -92,9 +95,12 @@ public class ManagerHome extends JFrame {
 		menuBar.add(mnProfile);
 
 		JMenuItem mntmEdit = new JMenuItem("Edit");
+		mntmEdit.setActionCommand("Edit Profile Details");
+		mntmEdit.addActionListener(managerController);
 		mnProfile.add(mntmEdit);
 
 		JMenuItem mntmChangePassword = new JMenuItem("change Password");
+		mntmChangePassword.addActionListener(managerController);
 		mnProfile.add(mntmChangePassword);
 
 		mntmLogout = new JMenuItem("Logout");
@@ -154,10 +160,11 @@ public class ManagerHome extends JFrame {
 		groupLayout.setHorizontalGroup(groupLayout
 				.createParallelGroup(GroupLayout.Alignment.LEADING)
 				.addComponent(searchVehicleListPanel).addComponent(addVehiclePanel).addComponent(sellVehicleListPanel).
-								addComponent(manageRatesPanel).addComponent(reportsPanel));
+								addComponent(manageRatesPanel).addComponent(reportsPanel).addComponent(changePasswordPanel).addComponent(updateProfileForManager));
 		groupLayout.setVerticalGroup(groupLayout
 				.createParallelGroup(GroupLayout.Alignment.LEADING)
-				.addComponent(searchVehicleListPanel).addComponent(addVehiclePanel).addComponent(sellVehicleListPanel).addComponent(manageRatesPanel).addComponent(reportsPanel));
+				.addComponent(searchVehicleListPanel).addComponent(addVehiclePanel).addComponent(sellVehicleListPanel).addComponent(manageRatesPanel)
+					.addComponent(reportsPanel).addComponent(changePasswordPanel).addComponent(updateProfileForManager));
 		
 		
 		managerController.getVehicle(this);
@@ -170,9 +177,10 @@ public class ManagerHome extends JFrame {
 		manageRatesPanel.setVisible(false);
 		reportsPanel.setVisible(false);
 		clerkHome.setVisible(false);
-
+		changePasswordPanel.setVisible(false);
+		updateProfileForManager.setVisible(false);
 	}	
-	
+
 	public SellingVehicleDialog getSellingVehicleDialog() {
 		return sellingVehicleDialog;
 	}
@@ -278,6 +286,24 @@ public class ManagerHome extends JFrame {
 		return reportsPanel;
 	}
 
+	public ChangePasswordManagerPanel getChangePasswordPanel() {
+		return changePasswordPanel;
+	}
+
+	public UpdateProfileForManager getUpdateProfileForManager() {
+		return updateProfileForManager;
+	}
+
+	public void setUpdateProfileForManager(
+			UpdateProfileForManager updateProfileForManager) {
+		this.updateProfileForManager = updateProfileForManager;
+	}
+
+	public void setChangePasswordPanel(
+			ChangePasswordManagerPanel changePasswordPanel) {
+		this.changePasswordPanel = changePasswordPanel;
+	}
+
 	public ClerkHome getClerkHome() {
 		return clerkHome;
 	}
@@ -293,13 +319,5 @@ public class ManagerHome extends JFrame {
 	public void setEditForSalePriceDialog(EditForSalePrice editForSalePriceDialog) {
 		this.editForSalePriceDialog = editForSalePriceDialog;
 	}
-
-	
-
-	
-
-	
-
-
 
 }

@@ -19,6 +19,7 @@ import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
+import javax.swing.DefaultComboBoxModel;
 
 public class SellingVehicleDialog extends JDialog implements ActionListener{
 
@@ -99,7 +100,7 @@ public class SellingVehicleDialog extends JDialog implements ActionListener{
 			contentPanel.add(lblCategory, "1, 10, right, default");
 		}
 		{
-			
+			categoryCombox.setModel(new DefaultComboBoxModel(new String[] {"Truck"}));
 			categoryCombox.setEnabled(false);
 			contentPanel.add(categoryCombox, "4, 10, fill, default");
 		}
@@ -108,7 +109,7 @@ public class SellingVehicleDialog extends JDialog implements ActionListener{
 			contentPanel.add(lblType, "1, 12, right, default");
 		}
 		{
-			
+			typeCombox.setModel(new DefaultComboBoxModel(new String[] {"ECONOMY", "COMPACT", "MID-SIZE", "STANDARD", "FULL-SIZE", "PREMIUM", "LUXURY", "SUV", "VAN", "24-FOOT", "15-FOOT", "12-FOOT", "BOX TRUCK", "CARGO VAN"}));
 			typeCombox.setEnabled(false);
 			contentPanel.add(typeCombox, "4, 12, fill, default");
 		}

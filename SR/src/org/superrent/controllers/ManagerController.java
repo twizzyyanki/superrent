@@ -1,16 +1,21 @@
 package org.superrent.controllers;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Arrays;
 import java.util.Date;
 
 import javax.swing.JDialog;
 
+import org.superrent.daos.ChangePasswordDAO;
 import org.superrent.daos.IManagerDao;
 import org.superrent.daos.ManagerDaoImpl;
+import org.superrent.daos.UpdateProfileDAO;
 import org.superrent.entities.AdditionalEquipment;
 import org.superrent.entities.SellVehicleVO;
 import org.superrent.entities.SuperRent;
@@ -20,7 +25,9 @@ import org.superrent.entities.VehicleVO;
 import org.superrent.views.manager.FailureDialog;
 import org.superrent.views.manager.ManagerHome;
 import org.superrent.views.manager.SuccessDialog;
+import org.superrent.views.manager.UpdateProfileForManager;
 import org.superrent.views.manager.VehicleExistsDialog;
+import org.superrent.views.superadmin.UpdateProfile;
 
 public class ManagerController implements ActionListener {
 
@@ -35,6 +42,9 @@ public class ManagerController implements ActionListener {
 	}
 
 	// @Override
+	/* (non-Javadoc)
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
 		System.out.println(e.getActionCommand());
@@ -47,16 +57,86 @@ public class ManagerController implements ActionListener {
 			managerFrame.getAddVehiclePanel().setVisible(true);
 
 		}
-		else if(e.getActionCommand().equals("Reports")){
+		else if(e.getActionCommand().equals("change Password")){
 			
+			disablePanels();
+			managerFrame.getChangePasswordPanel().setEnabled(true);
+			managerFrame.getChangePasswordPanel().setVisible(true);
+			
+		}
+		else if(e.getActionCommand().equals("ConfirmPassword")){
+			ChangePasswordDAO checkPassword = new ChangePasswordDAO();
+			managerFrame.getChangePasswordPanel().getWrongInput().setText("");
+			char[] oldPassword = managerFrame.getChangePasswordPanel().getCurrentPass().getPassword();
+			String oldPass = new String (oldPassword);
+			Boolean inDatabase = false;
+			//Boolean updateSucess = false;
+			// checkOldPassword method to check password in DB
+			inDatabase = checkPassword.checkOldPassword(oldPass);
+			
+			if(inDatabase){
+				char[] newPassword = managerFrame.getChangePasswordPanel().getNewPass().getPassword();
+				String newPass = new String (newPassword);
+				char[] confirmPassword = managerFrame.getChangePasswordPanel().getConfirmNewPass().getPassword();
+				//String confirmPass = new String (confirmPassword);
+				if(Arrays.equals(newPassword, confirmPassword)){
+					ChangePasswordDAO setPassword = new ChangePasswordDAO();
+					if(setPassword.setNewPassword(newPass)){
+						managerFrame.getChangePasswordPanel().getWrongInput().setForeground(Color.BLACK);
+						managerFrame.getChangePasswordPanel().getWrongInput().setText("Update success");
+					}
+					else{
+						
+						managerFrame.getChangePasswordPanel().getWrongInput().setForeground(Color.RED);
+						managerFrame.getChangePasswordPanel().getWrongInput().setText("Update fail");
+					}
+					
+				}
+				else{
+					
+					managerFrame.getChangePasswordPanel().getWrongInput().setForeground(Color.RED);
+					managerFrame.getChangePasswordPanel().getWrongInput().setText("Confirm password does not match with new Password");			
+				}
 				
-				disablePanels();
-
-				managerFrame.getReportsPanel().setEnabled(true);
-				managerFrame.getReportsPanel().setVisible(true);
+			}
+			else{
+				managerFrame.getChangePasswordPanel().getWrongInput().setForeground(Color.RED);
+				managerFrame.getChangePasswordPanel().getWrongInput().setText("Current password does not match");
+			}
+			
 
 			
 		}
+		else if(e.getActionCommand().equals("Reports")){			
+				
+				disablePanels();
+				managerFrame.getReportsPanel().setEnabled(true);
+				managerFrame.getReportsPanel().setVisible(true);
+			
+		}
+		else if(e.getActionCommand().equals("Edit Profile Details")){			
+			
+			disablePanels();
+			
+			UpdateProfileDAO nameDAO = new UpdateProfileDAO();
+			UpdateProfileDAO phoneDAO = new UpdateProfileDAO();
+			UpdateProfileDAO addressDAO = new UpdateProfileDAO();
+			UpdateProfileDAO emailDao = new UpdateProfileDAO();
+			String name = nameDAO.getName();
+			String phone = String.valueOf(phoneDAO.getPhoneNumber());
+			String address = addressDAO.getAddress();
+			String email = emailDao.getEmail();
+			
+			managerFrame.getUpdateProfileForManager().getTextName().setText(name);
+			managerFrame.getUpdateProfileForManager().getTextPhone().setText(phone);
+			managerFrame.getUpdateProfileForManager().getTextAddress().setText(address);
+			managerFrame.getUpdateProfileForManager().getTxtEmail().setText(email);
+			
+			managerFrame.getUpdateProfileForManager().setEnabled(true);
+			managerFrame.getUpdateProfileForManager().setVisible(true);
+
+		
+	}
 		else if (e.getActionCommand().equals("Clerk View")){
 			
 			//disablePanels();
@@ -163,9 +243,11 @@ public class ManagerController implements ActionListener {
 					.getSelectedRow();
 			if (row != -1) {
 				managerFrame.getSellingVehicleDialog().setRegNumberTxt(managerFrame.getSearchVehicleListPanel().getSearchtable().getModel().getValueAt(row, 0).toString());
-				managerFrame.getSellingVehicleDialog().setCategoryCombox(managerFrame.getSearchVehicleListPanel().getSearchtable().getModel()
+				managerFrame.getSellingVehicleDialog().setCategoryCombox(managerFrame
+						.getSearchVehicleListPanel().getSearchtable().getModel()
 						.getValueAt(row, 1).toString());
-				managerFrame.getSellingVehicleDialog().setTypeCombox(managerFrame.getSearchVehicleListPanel().getSearchtable().getModel()
+				managerFrame.getSellingVehicleDialog().setTypeCombox(managerFrame
+						.getSearchVehicleListPanel().getSearchtable().getModel()
 						.getValueAt(row, 2).toString());
 				managerFrame.getSellingVehicleDialog().setBrandTxt((managerFrame.getSearchVehicleListPanel().getSearchtable().getModel()
 						.getValueAt(row, 3).toString()));
@@ -280,6 +362,7 @@ public class ManagerController implements ActionListener {
 								/ 2 - dialog.getHeight() / 2);
 				getVehicle(managerFrame);
 				dialog.setVisible(true);
+				managerFrame.getEditVehicleInfoDialog().dispose();
 				
 				
 
@@ -566,7 +649,126 @@ public class ManagerController implements ActionListener {
 				}
 				
 			}
+		 	else if (e.getActionCommand().equals("Update")){
+
+				
+				// check if user enters text in name text area
+				int nameSuccess = 1;
+				int phoneSuccess = 1;
+				int addressSucess = 1;
+				int emailSuccess = 1;
+				String updateInfosString="";
+				managerFrame.getUpdateProfileForManager().getTextPhone().setForeground(Color.black);
+				managerFrame.getUpdateProfileForManager().getUpdateInfo().setText("");
+				
+				// check if user enters text in name text area
+				if(managerFrame.getUpdateProfileForManager().getTextName().getText()!=null && 
+						managerFrame.getUpdateProfileForManager().getTextName().getText().trim().length()!=0){
+					// check if text area is "Update Success" to prevent updating 
+					if(!managerFrame.getUpdateProfileForManager().getTextName().getText().equals("Update Success")){
+						UpdateProfileDAO updateNameDAO = new UpdateProfileDAO();
+						if(updateNameDAO.updateName(managerFrame.getUpdateProfileForManager().getTextName().getText())){
+							nameSuccess = 1;
+							updateInfosString = updateInfosString + "Update name success<br>";
+						}
+						else {
+							nameSuccess = 0;
+							updateInfosString = updateInfosString + "Update name fail<br>";
+						}
+						
+					}
+					else{
+						managerFrame.getUpdateProfileForManager().getTextName().setForeground(Color.black);
+						managerFrame.getUpdateProfileForManager().getTextName().setText("");
+					}
+
+				}
+				
+				// check if user enters text in phone text area
+				if(managerFrame.getUpdateProfileForManager().getTextPhone().getText()!=null && 
+						managerFrame.getUpdateProfileForManager().getTextPhone().getText().trim().length()!=0){		
+					
+					// check if text area is "Update Success" to prevent updating 
+					if(!managerFrame.getUpdateProfileForManager().getTextPhone().getText().equals("Update Success")){
+						UpdateProfileDAO updatePhoneDAO = new UpdateProfileDAO();
+						String newPhoneNumber = managerFrame.getUpdateProfileForManager().getTextPhone().getText();
+						if(updatePhoneDAO.updatePhoneNumber(newPhoneNumber)){
+							phoneSuccess = 1;
+							updateInfosString = updateInfosString + "Update phone number success<br>";
+							
+						}
+						else{
+							phoneSuccess = 0;
+							updateInfosString = updateInfosString + "phone number is not vaild<br>";
+						}
+					}
+					else{
+						managerFrame.getUpdateProfileForManager().getTextPhone().setForeground(Color.black);
+						managerFrame.getUpdateProfileForManager().getTextPhone().setText("");
+					}
+				}
+				
+					
+				// check if user enters text in address text area
+				if(managerFrame.getUpdateProfileForManager().getTextAddress().getText()!=null &&				
+						managerFrame.getUpdateProfileForManager().getTextAddress().getText().trim().length()!=0){		
+					
+						// check if text area is "Update Success" to prevent updating 
+						if(!managerFrame.getUpdateProfileForManager().getTextAddress().getText().equals("Update Success")){
+							UpdateProfileDAO updateAddressDAO = new UpdateProfileDAO();
+							String newAddress = managerFrame.getUpdateProfileForManager().getTextAddress().getText();
+							if(updateAddressDAO.updateAddress(newAddress)){
+								addressSucess = 1;
+								updateInfosString = updateInfosString + "Update address success<br>";
+							}
+							else{
+								addressSucess = 0;
+								updateInfosString = updateInfosString + "Address is not valid<br>";
+							}
+						}
+						else{
+							managerFrame.getUpdateProfileForManager().getTextAddress().setForeground(Color.black);
+							managerFrame.getUpdateProfileForManager().getTextAddress().setText("");
+						}
+				}
+				
+				// check if user enters text in email text area
+				if(managerFrame.getUpdateProfileForManager().getTxtEmail().getText()!=null &&				
+						managerFrame.getUpdateProfileForManager().getTxtEmail().getText().trim().length()!=0){		
+					
+						// check if text area is "Update Success" to prevent updating 
+						if(!managerFrame.getUpdateProfileForManager().getTxtEmail().getText().equals("Update Success")){
+							UpdateProfileDAO updateEmailDAO = new UpdateProfileDAO();
+							String email = managerFrame.getUpdateProfileForManager().getTxtEmail().getText();
+							if(updateEmailDAO.updatemail(email)){
+								emailSuccess = 1;
+								updateInfosString = updateInfosString + "Update email success<br>";
+							}
+							else{
+								addressSucess = 0;
+								updateInfosString = updateInfosString + "Email is not valid<br>";
+							}
+						}
+						else{
+							managerFrame.getUpdateProfileForManager().getTextAddress().setForeground(Color.black);
+							managerFrame.getUpdateProfileForManager().getTextAddress().setText("");
+						}
+				}
+				
+				if(nameSuccess+phoneSuccess+addressSucess!=4){
+					
+					updateInfosString = "<html>"+ updateInfosString + "</html>";
+					managerFrame.getUpdateProfileForManager().getUpdateInfo().setText(updateInfosString);
+				}
+				else
+				{
+					updateInfosString = "<html>"+ updateInfosString + "</html>";
+					managerFrame.getUpdateProfileForManager().getUpdateInfo().setText(updateInfosString);
+				}
+			
+			}
 	}
+	
 	public void getInsuranceRates() {
 		
 		
@@ -605,6 +807,9 @@ public class ManagerController implements ActionListener {
 		
 	}
 	
+	/**
+	 * @param superRent
+	 */
 	private void saveOtherRates(SuperRent superRent) {
 		
 		if(!managerFrame.getManageRatesPanel().getMembershipTxtField().equalsIgnoreCase(null)){
@@ -657,6 +862,9 @@ public class ManagerController implements ActionListener {
 	
 	}
 
+	/**
+	 * 
+	 */
 	private void disablePanels() {
 
 		managerFrame.getAddVehiclePanel().setEnabled(false);
@@ -669,15 +877,24 @@ public class ManagerController implements ActionListener {
 		managerFrame.getManageRatesPanel().setVisible(false);
 		managerFrame.getReportsPanel().setEnabled(false);
 		managerFrame.getReportsPanel().setVisible(false);
-
+		managerFrame.getChangePasswordPanel().setEnabled(false);
+		managerFrame.getChangePasswordPanel().setVisible(false);
+		managerFrame.getUpdateProfileForManager().setEnabled(false);
+		managerFrame.getUpdateProfileForManager().setVisible(false);
 	}
 
+	/**
+	 * @param managerFrame2
+	 */
 	public void getVehicleForSelling(ManagerHome managerFrame2) {
 		// TODO Auto-generated method stub
 		managerDao.getVehiclesForSelling(managerFrame);
 
 	}
 
+	/**
+	 * @param managerFrame
+	 */
 	public void getVehicle(ManagerHome managerFrame) {
 
 		managerDao.getAllVehicles(managerFrame);
