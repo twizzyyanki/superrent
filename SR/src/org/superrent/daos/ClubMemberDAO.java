@@ -98,20 +98,7 @@ public class ClubMemberDAO {
 		
 		
 	}
-	/**
-	 * test main
-	 * @param args
-	 */
-/*	public static void main(String[] args){
-		ClubMemberDAO cDao = new ClubMemberDAO();
-		ArrayList testV = cDao.getReservation();
-		System.out.println("size"+testV.size());
-	
-			System.out.println(testV.get(0));
 
-
-		
-	}*/
 
 
 }

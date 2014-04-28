@@ -29,6 +29,15 @@ public class ReservationDao {
 	Connection con;
 	private static ResultSet resultSet = null;
 
+	/**
+	 * Search available vehicle
+	 * @param pickupDate
+	 * @param dropDate
+	 * @param type
+	 * @param category
+	 * @param table
+	 * @param scrollPane
+	 */
 	public void searchVehiclesForReservation(Date pickupDate, Date dropDate,
 			String type, String category, JTable table, JScrollPane scrollPane) {
 		
@@ -73,6 +82,11 @@ public class ReservationDao {
 		}
 	}
 
+	/**
+	 * Get user's UID
+	 * @param user
+	 * @return
+	 */
 	public Integer getUid(User user) {
 
 		Integer uid = null;
@@ -100,6 +114,11 @@ public class ReservationDao {
 		return uid;
 	}
 
+	/**
+	 * add user if not exist
+	 * @param user
+	 * @throws SQLException
+	 */
 	private void addUser(User user) throws SQLException {
 
 		Date date = new Date();
@@ -119,6 +138,12 @@ public class ReservationDao {
 
 	}
 
+	/**
+	 * Check if user exist
+	 * @param user
+	 * @return
+	 * @throws SQLException
+	 */
 	private Integer userExists(User user) throws SQLException {
 		Integer uid = null;
 		Statement st = con.createStatement();
@@ -134,7 +159,12 @@ public class ReservationDao {
 		return uid;
 	}
 
-	// for reservation
+
+	/**
+	 * Insert into reservation table in the database
+	 * @param reservation
+	 * @return
+	 */
 	public boolean makeReservation(Reservation reservation) {
 		boolean result = true;
 		try {
@@ -159,7 +189,12 @@ public class ReservationDao {
 
 	}
 	
-	//for make reservation
+	
+	/**
+	 * Insert into makeReservation table in the database
+	 * @param makeReservation
+	 * @return
+	 */
 	public boolean makeReservation(MakeReservation makeReservation) {
 		boolean result = true;
 		try {
@@ -228,6 +263,11 @@ public class ReservationDao {
 
 	}
 
+	/**
+	 * Delete reservation from the database
+	 * @param confirmationNo
+	 * @return
+	 */
 	public boolean cancelReservation(Integer confirmationNo) {
 
 		boolean result = true;
@@ -252,6 +292,11 @@ public class ReservationDao {
 
 	}
 
+	/**
+	 * check if confirmation No. exist
+	 * @param confirmatioNo
+	 * @return
+	 */
 	public boolean checkExistConfirmatioNo(int confirmatioNo){
 		boolean exist = false;
 		try {
@@ -278,6 +323,12 @@ public class ReservationDao {
 		return exist;
 	}
 	
+	/**
+	 * Delete reservation from the database
+	 * @param phoneNumber
+	 * @param reservedDate
+	 * @return
+	 */
 	public boolean cancelReservation(String phoneNumber,
 			java.util.Date reservedDate) {
 
@@ -306,6 +357,14 @@ public class ReservationDao {
 
 	}
 
+	/**
+	 * Get confirmation number
+	 * @param con
+	 * @param phoneNumber
+	 * @param reservedDate
+	 * @return
+	 * @throws SQLException
+	 */
 	private Integer getConfirmationNumber(Connection con, String phoneNumber,
 			Date reservedDate) throws SQLException {
 		Integer confirmationNo = null;
@@ -323,6 +382,13 @@ public class ReservationDao {
 		return confirmationNo;
 	}
 
+	/**
+	 * change reservation status to be cancel in makeReservation table
+	 * @param con
+	 * @param confirmationNo
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	private void changeMakeReservationStatus(Connection con,
 			Integer confirmationNo) throws ClassNotFoundException, SQLException {
 
@@ -334,6 +400,13 @@ public class ReservationDao {
 
 	}
 
+	/**
+	 * change reservation status to be cancel in Reservation table
+	 * @param con
+	 * @param confirmationNo
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	private void changeReservationStatus(Connection con, Integer confirmationNo)
 			throws ClassNotFoundException, SQLException {
 
@@ -402,6 +475,13 @@ public class ReservationDao {
 		return uid;
 	}
 	
+	/**
+	 * Calculate the charge for the vehicle
+	 * @param regNo
+	 * @param pick
+	 * @param drop
+	 * @return
+	 */
 	public double calculateCharges(String regNo, Date pick, Date drop){
 		int d_month = drop.getMonth(), p_month = pick.getMonth(); //return 0 to 11
 		int d_date = drop.getDate(), p_date = pick.getDate();//return 1 to 31
@@ -487,6 +567,10 @@ public class ReservationDao {
 		return total;
 	}
 	
+	/**
+	 * Search the type for the car
+	 * @return
+	 */
 	public DefaultComboBoxModel searchCarType(){
 		DefaultComboBoxModel model=null;
 		try {
@@ -519,6 +603,10 @@ public class ReservationDao {
 		
 	}
 	
+	/**
+	 * Search the type for the truck
+	 * @return
+	 */
 	public DefaultComboBoxModel searchTruckType(){
 		DefaultComboBoxModel model = null;
 		try {
@@ -553,6 +641,10 @@ public class ReservationDao {
 		
 	}
 	
+	/**
+	 * Search the type for all the vehicle
+	 * @return
+	 */
 	public DefaultComboBoxModel searchAllType(){
 		DefaultComboBoxModel model = null;
 		try {
@@ -588,6 +680,11 @@ public class ReservationDao {
 	}
 	
 	
+	/**
+	 * Insert requireAdditionalEquipment table into database t
+	 * @param requireAdditionalEquipment
+	 * @return
+	 */
 	public boolean makeReservation(RequireAdditionalEquipment requireAdditionalEquipment) {
 
 		boolean result = true;
@@ -627,9 +724,14 @@ public class ReservationDao {
 
 
 
-		//Inserting into additional equipment table
-
-		public void insertIntoAdditionEquip(Connection con, RequireAdditionalEquipment requireAdditionalEquipment) throws SQLException{
+	
+	/**
+	 * Insert into AdditionEquip table
+	 * @param con
+	 * @param requireAdditionalEquipment
+	 * @throws SQLException
+	 */
+	public void insertIntoAdditionEquip(Connection con, RequireAdditionalEquipment requireAdditionalEquipment) throws SQLException{
 
 		Statement st = con.createStatement();
 
@@ -652,7 +754,14 @@ public class ReservationDao {
 		}
 		
 		
-		public void searchEquipCar(int branchID, String category, JTable table, JScrollPane scrollPane){
+	/**
+	 * Search additional equipment for the vehicle
+	 * @param branchID
+	 * @param category
+	 * @param table
+	 * @param scrollPane
+	 */
+	public void searchEquipCar(int branchID, String category, JTable table, JScrollPane scrollPane){
 			
 			DefaultTableModel model = (DefaultTableModel) table.getModel();
 			model.setRowCount(0);

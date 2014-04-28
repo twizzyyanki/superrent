@@ -27,8 +27,10 @@ public class ReservationSuccessDialog extends JDialog{
 	private JLabel lblGetReturnDate;
 
 
+
 	/**
-	 * Create the dialog.
+	 * Create Reservation Success the dialog.
+	 * @param mrc, controller for this class
 	 */
 	public ReservationSuccessDialog(MakeReservationController mrc) {
 		setTitle("Reservation confirmation");

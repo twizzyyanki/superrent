@@ -52,6 +52,8 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 	private java.util.Date pickupDate;
 	private java.util.Date dropDate;
 	private String regNo;
+	private String quantity1="0";
+	private String quantity2="0" ;
 	//used to determine which equipment should display
 	private String categoryForEquip;
 	private DefaultComboBoxModel modelForCarType;
@@ -59,6 +61,10 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 	private DefaultComboBoxModel modelForAllType;
 	
 	
+	/**
+	 * Constructor of this class
+	 * @param reservationPage to initialize reservation page
+	 */
 	public MakeReservationController(MakeReservationPage reservationPage){
 		this.reservationPage = reservationPage;
 		ReservationDao carTypeDao = new ReservationDao();
@@ -71,6 +77,9 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 
 
 	// @Override
+	/* Actions to perform when changes happened in UI
+	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
+	 */
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand().equals("Home Page")){
 			sVRPanel = new SearchVReservationPanel(this);
@@ -190,8 +199,14 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 						ReservationDao requirEqipDao = new ReservationDao();
 						
 						reEquipEntity.setConfirmationNo(makeReservation.getConfirmationNo());
-						System.out.println("recon: "+reEquipEntity.getConfirmationNo());
+						
 						requirEqipDao.makeReservation(reEquipEntity);
+					}
+					
+					if(reEquipEntity2!=null){
+						ReservationDao requirEqipDao2 = new ReservationDao();		
+						reEquipEntity2.setConfirmationNo(makeReservation.getConfirmationNo());	
+						requirEqipDao2.makeReservation(reEquipEntity2);
 					}
 					
 					
@@ -268,6 +283,22 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 					makeReservationDao.makeReservation(reservation);
 					makeReservation.setConfirmationNo((int)getCinfrmationNoDao.getConfirmationFromReservation());
 					makeReservationDao.makeReservation(makeReservation);
+					
+
+					//additional equipment
+					if(reEquipEntity!=null){
+						ReservationDao requirEqipDao = new ReservationDao();
+						
+						reEquipEntity.setConfirmationNo(makeReservation.getConfirmationNo());
+						
+						requirEqipDao.makeReservation(reEquipEntity);
+					}
+					
+					if(reEquipEntity2!=null){
+						ReservationDao requirEqipDao2 = new ReservationDao();		
+						reEquipEntity2.setConfirmationNo(makeReservation.getConfirmationNo());	
+						requirEqipDao2.makeReservation(reEquipEntity2);
+					}
 					
 					dialog = new ReservationSuccessDialog(this);
 					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -386,8 +417,7 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 		}
 		
 		if(e.getActionCommand().equals("OKequip")){
-			String quantity1;
-			String quantity2 ;
+
 			String equip1,equip2;
 			quantity1 =  equipDialog.getTable().getValueAt(0, 1).toString();
 			quantity2 =  equipDialog.getTable().getValueAt(1, 1).toString();
@@ -400,16 +430,19 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 				reEquipEntity.setQuantity(Integer.parseInt(quantity1));
 				reEquipEntity.setCategory(categoryForEquip);
 				reEquipEntity.setBranchID(1);
+				charge = charge + 10;
 			}
 			if(!quantity2.equals("0")){
 				reEquipEntity2 = new RequireAdditionalEquipment();
-				reEquipEntity2.setEquipmentName(equip1);
+				reEquipEntity2.setEquipmentName(equip2);
 				reEquipEntity2.setQuantity(Integer.parseInt(quantity2));
 				reEquipEntity2.setCategory(categoryForEquip);
 				reEquipEntity2.setBranchID(1);
+				charge = charge + 10;
 			}
 			
-			
+			String scharge = String.format("%.2f", charge);  
+			sVRPanel.getLblAmount().setText(scharge);
 			equipDialog.dispose();
 			
 		}
@@ -420,6 +453,9 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 
 
 	// @Override
+	/* Actions to perform when user click the Jtable
+	 * @see javax.swing.event.ListSelectionListener#valueChanged(javax.swing.event.ListSelectionEvent)
+	 */
 	public void valueChanged(ListSelectionEvent e) {
 		
 		if(!e.getValueIsAdjusting()){
@@ -457,6 +493,11 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 		
 	}
 
+	/**
+	 * To check if the  anyIntegerType is an int type
+	 * @param anyIntegerType
+	 * @return true if it is valid
+	 */
 	public boolean ValidateFields(String anyIntegerType){
 		boolean valid = false;
 		try{
@@ -472,6 +513,12 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 		
 	}
 
+	/**
+	 * To check if pick up time is earlier then drop time
+	 * @param pick
+	 * @param drop
+	 * @return true if valid
+	 */
 	public boolean validateTime(Date pick, Date drop){
 		boolean valid = false;
 		Date date = new Date();
@@ -492,6 +539,12 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 		return  valid;
 	}
 
+	/**
+	 * Combine the date and time
+	 * @param date
+	 * @param hour
+	 * @return
+	 */
 	public Date dateCombine(Date date, Date hour){ 
 		  Calendar cal = Calendar.getInstance();
 		  cal.setTime(date);

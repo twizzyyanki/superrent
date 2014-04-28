@@ -46,7 +46,7 @@ public class SearchVReservationPanel extends JPanel implements ActionListener{
 	private JButton btnEquip;
 	
 	/**
-	 * Create the panel.
+	 * Create the Reservation panel.
 	 */
 	public SearchVReservationPanel(MakeReservationController mrc) {
 		
