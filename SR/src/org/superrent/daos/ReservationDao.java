@@ -633,10 +633,9 @@ public class ReservationDao {
 
 		Statement st = con.createStatement();
 
-		String query = "insert into AdditionalEquipment (confirmationNo, branchID, equipmentName, category, quantity) "
+		String query = "Insert into RequireAdditionalEquipment (confirmationNo, branchID, equipmentName, category, quantity) "
 
-		+ "values (" + 50
-		//requireAdditionalEquipment.getConfirmationNo()
+		+ "values (" + requireAdditionalEquipment.getConfirmationNo()
 
 		+ ", 1"
 

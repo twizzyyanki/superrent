@@ -166,8 +166,7 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 			if(username.trim().length()!=0 &&
 			   password.trim().length()!=0){
 				
-				
-				
+
 				ReservationDao checkClubMemberDao = new ReservationDao();
 				boolean clubExist = false;
 				Integer uid;
