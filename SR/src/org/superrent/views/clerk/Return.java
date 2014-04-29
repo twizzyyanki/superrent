@@ -175,18 +175,18 @@ public class Return extends JPanel
 		JLabel lblPickupdate = new JLabel("PickUpdate");
 		panel.add(lblPickupdate, "2, 4, right, center");
 		
-		setTextField_3(new JTextField());
-		getTextField_3().setColumns(10);
-		panel.add(textField_3, "4, 4, 3, 1, fill, fill");
+		setTextField_4(new JTextField());
+		getTextField_4().setColumns(10);
+		panel.add(textField_4, "4, 4, 3, 1, fill, center");
 		
 		JLabel label_5 = new JLabel("DropDate");
 		panel.add(label_5, "9, 4, 5, 1, right, center");
-		
-		setTextField_4(new JTextField());
-		getTextField_4().setColumns(10);
-		panel.add(textField_4, "15, 4, 11, 1, fill, center");
 		panel.add(Customername, "2, 2, right, center");
 		panel.add(textField_1, "4, 2, 3, 1, fill, fill");
+			
+			setTextField_3(new JTextField());
+			getTextField_3().setColumns(10);
+			panel.add(textField_3, "15, 4, 11, 1, fill, fill");
 			
 			JLabel label_2 = new JLabel("Charges");
 			panel.add(label_2, "2, 5, right, center");

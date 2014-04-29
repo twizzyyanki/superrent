@@ -31,6 +31,7 @@ import com.jgoodies.forms.layout.RowSpec;
 
 import javax.swing.JComboBox;
 import javax.swing.JScrollPane;
+import java.awt.Font;
 
 public class Rent extends JPanel
 {
@@ -94,9 +95,9 @@ public class Rent extends JPanel
 		setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("178px"),
+				ColumnSpec.decode("129px"),
 				FormFactory.UNRELATED_GAP_COLSPEC,
-				ColumnSpec.decode("146px"),
+				ColumnSpec.decode("109px"),
 				FormFactory.UNRELATED_GAP_COLSPEC,
 				ColumnSpec.decode("85px"),
 				ColumnSpec.decode("70px"),
@@ -109,16 +110,18 @@ public class Rent extends JPanel
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,},
 			new RowSpec[] {
 				FormFactory.PARAGRAPH_GAP_ROWSPEC,
-				RowSpec.decode("20px"),
+				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("23px"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("30px"),
 				FormFactory.PARAGRAPH_GAP_ROWSPEC,
-				FormFactory.DEFAULT_ROWSPEC,
+				RowSpec.decode("max(35dlu;default)"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
@@ -128,12 +131,30 @@ public class Rent extends JPanel
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("max(89dlu;default)"),
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("max(22dlu;default)"),
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("max(25dlu;default)"),
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("max(41dlu;default)"),
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("49px"),}));
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
-		add(scrollPane_2, "3, 6, 14, 10, fill, fill");
+		add(scrollPane_2, "3, 6, 16, 11, fill, fill");
 		
 		JPanel panel = new JPanel();
 		scrollPane_2.setViewportView(panel);
@@ -159,8 +180,8 @@ public class Rent extends JPanel
 				FormFactory.UNRELATED_GAP_COLSPEC,
 				ColumnSpec.decode("95px"),
 				ColumnSpec.decode("116px"),
-				ColumnSpec.decode("138px"),
-				ColumnSpec.decode("71px"),},
+				ColumnSpec.decode("67px"),
+				ColumnSpec.decode("left:71px"),},
 			new RowSpec[] {
 				FormFactory.UNRELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
@@ -170,20 +191,21 @@ public class Rent extends JPanel
 				FormFactory.DEFAULT_ROWSPEC,}));
 		
 		JLabel lblReservationDetails = new JLabel("Reservation Details");
-		panel.add(lblReservationDetails, "10, 2, left, top");
+		lblReservationDetails.setFont(new Font("Tahoma", Font.BOLD, 11));
+		panel.add(lblReservationDetails, "7, 2, 4, 1, center, top");
 		
 		JLabel lblConfirmationNumber = new JLabel("Confirmation Number");
 		panel.add(lblConfirmationNumber, "3, 4, 2, 1, left, center");
 		
 		setTextField_10(new JTextField());
 		getTextField_10().setColumns(10);
-		panel.add(textField_10, "6, 4, 4, 1, fill, center");
+		panel.add(textField_10, "6, 4, 2, 1, fill, center");
 		
 		JLabel lblAdditionalEquipment = new JLabel("Additional Equipment");
-		panel.add(lblAdditionalEquipment, "10, 4, right, center");
+		panel.add(lblAdditionalEquipment, "9, 4, right, center");
 		
 		JScrollPane scrollPane = new JScrollPane();
-		panel.add(scrollPane, "11, 4, 2, 1, fill, fill");
+		panel.add(scrollPane, "10, 4, fill, fill");
 		textArea_1.setLineWrap(true);
 		
 		textArea_1.setRows(2);
@@ -204,7 +226,7 @@ public class Rent extends JPanel
 		add(lblOr, "7, 2, center, center");
 		
 		JScrollPane scrollPane_3 = new JScrollPane();
-		add(scrollPane_3, "3, 18, 14, 1, fill, fill");
+		add(scrollPane_3, "3, 20, 16, 17, fill, fill");
 		
 		JPanel panel_1 = new JPanel();
 		scrollPane_3.setViewportView(panel_1);
@@ -327,7 +349,7 @@ public class Rent extends JPanel
 		textArea.setRows(2);
 		textArea.setColumns(1);
 		panel_1.add(lblInvalidEntries, "13, 18, 7, 1, left, top");
-		add(btnCreateRentalAgreement, "7, 20, 2, 1, left, top");
+		add(btnCreateRentalAgreement, "7, 38, 2, 1, left, top");
 		add(btnSubmit, "7, 4, 2, 1, center, top");
 		add(label, "3, 2, right, center");
 		add(textField, "5, 2, fill, top");
