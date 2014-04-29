@@ -77,6 +77,7 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 		modelForTruckType = truckTypeDao.searchTruckType();
 		ReservationDao allTypeDao = new ReservationDao();
 		modelForAllType = allTypeDao.searchAllType();
+		
 	}
 
 
@@ -91,6 +92,7 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 			reservationPage.setCenterPanel(sVRPanel);
 			reservationPage.revalidate();
 			reservationPage.repaint();
+			sVRPanel.getTypeCombox().setModel(modelForAllType);
 			
 		}
 		
