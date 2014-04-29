@@ -850,6 +850,8 @@ public class ReservationDao {
 		
 		if(((d_date - p_date) == 0)&&((d_hour - p_hour)<=24)){ //for same day return
 			//System.out.println("hourly entry");
+			//System.out.println(d_hour);
+			//System.out.println(p_hour);
 				//impose hourly rates
 				total = (d_hour - p_hour) * hourlyR;
 		}else {	//1

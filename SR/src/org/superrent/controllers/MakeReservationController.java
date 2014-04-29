@@ -464,7 +464,7 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 				reEquipEntity.setBranchID(1);
 				ReservationDao calEquip1 = new ReservationDao();
 				double tempCharge = calEquip1.calculateEquip(reEquipEntity.getEquipmentName(), reEquipEntity.getCategory(), 
-						sVRPanel.getDateChooserPick().getDate(), sVRPanel.getDateChooserReturn().getDate());
+						pickupDate, dropDate);
 				charge = charge + tempCharge*reEquipEntity.getQuantity();
 			}
 			if(!quantity2.equals("0")){
@@ -476,7 +476,7 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 				//charge = charge + 10*reEquipEntity2.getQuantity();
 				ReservationDao calEquip2 = new ReservationDao();
 				double tempCharge = calEquip2.calculateEquip(reEquipEntity2.getEquipmentName(), reEquipEntity2.getCategory(), 
-						sVRPanel.getDateChooserPick().getDate(), sVRPanel.getDateChooserReturn().getDate());
+						pickupDate, dropDate);
 				charge = charge + tempCharge*reEquipEntity2.getQuantity();
 			}
 			
