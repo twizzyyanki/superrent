@@ -446,12 +446,11 @@ public class ClerkController implements ActionListener {
 							.getText());
 					String cost = dao.calculateOdometerCost(currentReading,
 							agreementNo);
-					if (cost.length() > 10) {
-						JOptionPane.showMessageDialog(ret, cost);
-					} else {
-						ret.textField_8.setText(cost);
+					Double cost1=Double.valueOf(cost);
+					
+						ret.textField_8.setText(String.valueOf((new DecimalFormat(
+								"#.##").format(cost1))));
 					}
-				}
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(ret, "enter valid values please");
 			}
@@ -818,7 +817,7 @@ public class ClerkController implements ActionListener {
 			String AgreementNum = ret.getTextField().getText();
 			String description=ret.textArea_1.getText();
 			status=dao.processPayment(AgreementNum, description,bill);
-			if(status[0]==1 && status[1]==0)
+			if(status[0]==1 && status[1]==1)
 			{
 				JOptionPane.showMessageDialog(paypal, "Payment Successfull");
 				int isadded=dao.UpdatePoints(AgreementNum, bill);

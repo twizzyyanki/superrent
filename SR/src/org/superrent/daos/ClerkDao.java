@@ -748,7 +748,7 @@ public class ClerkDao
 		int ispayed=0;
 		try
 		{
-			PreparedStatement paymentstatus=con.prepareStatement("select status from Reservation where confirmationNo="
+			PreparedStatement paymentstatus=con.prepareStatement("select status from MakeReservation where confirmationNo="
 					+ "(select confirmationNo from RentAgreement where agreementNo=?)");
 			paymentstatus.setString(1,agreementNum);
 			ResultSet stat=paymentstatus.executeQuery();
@@ -764,11 +764,12 @@ public class ClerkDao
 				ps.setTimestamp(1,current_timestamp);
 				ps.setString(2,agreementNum);
 				status[0]=ps.executeUpdate();
-				
+				System.out.println(status[0]);
 				PreparedStatement ps1=con.prepareStatement("update Reservation set status=2 where confirmationNo="
 						+ "(select confirmationNo from RentAgreement where agreementNo=?)");
-				ps1.setString(2,agreementNum);
+				ps1.setString(1,agreementNum);
 				status[1]=ps1.executeUpdate();
+				System.out.println(status[1]);
 			}
 		}
 		catch(Exception e)
