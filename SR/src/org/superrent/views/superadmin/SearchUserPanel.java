@@ -35,7 +35,7 @@ public class SearchUserPanel extends JPanel {
 	private ValidationPanel xpanel;
 	private JButton btnConfirm;
 	private JLabel searchUserMessage;
-	private JButton btnRemove;
+	
 
 
 	/**
@@ -130,10 +130,7 @@ public class SearchUserPanel extends JPanel {
 		table.getColumnModel().getColumn(4).setPreferredWidth(261);
 		scrollPane.setViewportView(table);
 		
-		btnRemove = new JButton("Remove");
-		add(btnRemove, "5, 11, left, fill");
-		btnRemove.setVisible(false);
-		btnRemove.addActionListener(sac);
+
 		
 		JPanel SearchUserPanel = new JPanel(); 
 		SearchUserPanel.setLayout(new FormLayout(new ColumnSpec[] {
@@ -188,7 +185,5 @@ public class SearchUserPanel extends JPanel {
 	public JLabel getSearchUserMessage() {
 		return searchUserMessage;
 	}
-	public JButton getBtnRemove() {
-		return btnRemove;
-	}
+
 }

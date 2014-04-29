@@ -56,25 +56,26 @@ public class SearchUserDAO {
 		try{
 			ResultSet rs;
 			Statement st = connection.createStatement();
-			String query = "SELECT name,email,phoneNumber,type,address FROM User WHERE name='" + name +"'" + " AND phoneNumber='" + phone + "'";
+			String query = "SELECT name,email,phoneNumber,CASE "
+								+ " WHEN type = 0 THEN 'Customer' WHEN type = 1 THEN 'ClubMember' WHEN type = 2 THEN 'Clerk' WHEN type = 3 THEN 'Manager' WHEN type = 4 THEN 'SystemAdmin'	END as type,address FROM User WHERE name='" + name +"'" + " AND phoneNumber='" + phone + "'";
 			System.out.println("query is: " + query);
 			rs = st.executeQuery(query);
 			table.setModel(DbUtils.resultSetToTableModel(rs));
 			scrollPane.setVisible(true);
 			table.setVisible(true);
-			sup.getBtnRemove().setVisible(true);
+	
 			
 			if (table.getModel().getRowCount()!= 0){
 				System.out.println("Successful");
 				sup.getSearchUserMessage().setText(
-						"User information is shown below:");
+						"User information is shown below:\n"
+						);
 			}
 			else {
 				System.out.println("The user does not exist");
 				sup.getSearchUserMessage().setText(
 						"Search failed, wrong user name or phone number");
 				scrollPane.setVisible(false);
-				sup.getBtnRemove().setVisible(false);
 				table.setVisible(false);
 			}
 			
@@ -86,6 +87,8 @@ public class SearchUserDAO {
 			DatabaseConnection.close(connection);
 		}
 	}
+	
+	
 	
 	public static boolean isInteger(String s) {
 	    try { 
