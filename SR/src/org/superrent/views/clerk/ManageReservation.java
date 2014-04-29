@@ -72,7 +72,6 @@ public class ManageReservation extends JPanel {
 		
 		JLabel lblChangeDropDate = new JLabel("Change Drop Date");
 		add(lblChangeDropDate, "6, 6, center, default");
-		
 		add(calendar,"8, 6, fill, default");
 		
 		btnUpdate = new JButton("Extend");

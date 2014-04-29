@@ -403,15 +403,15 @@ public class ClerkDao
 		ResultSet rs1=null;
 		ResultSet rs2=null;
 		String values[]=new String[5];
-		String type=null;
+		String type = null;
 		String category=null;
 		Timestamp pickdate=null;
-		Timestamp dropdate=null;
+		Timestamp dropdate = null;
 		try
 		{
 		PreparedStatement ps=con.prepareStatement("Select type,category from Vehicle where regno="
 				+ "(select regNo from MakeReservation where confirmationNo="
-				+ "(select confirmationNo from GeneratedAgreements where agreementNo=?))");	
+				+ "(select confirmationNo from RentAgreement where agreementNo=?))");	
 		ps.setString(1, agreementNo);
 		rs=ps.executeQuery();
 		while(rs.next())
@@ -419,11 +419,13 @@ public class ClerkDao
 			type=rs.getString(1);
 			category=rs.getString(2);
 		}
-		
+		System.out.println(type+""+category);
 		PreparedStatement ps1=con.prepareStatement("select hourlyRate,dailyRate,weeklyRate from SuperRentInsuranceRate where type=? and category=?");
+		
 		ps1.setString(1, type);
 		ps1.setString(2, category);
 		rs1=ps1.executeQuery();
+		
 		while(rs1.next())
 		{
 			values[0]=rs1.getString("hourlyRate");
@@ -431,6 +433,7 @@ public class ClerkDao
 			values[2]=rs1.getString("weeklyRate");
 		}
 		
+		System.out.println(values[0]+""+values[1]+""+values[2]);
 		
 		PreparedStatement ps2=con.prepareStatement("select pickDate,dropDate from Reservation where confirmationNo="
 				+ "(select confirmationNo from RentAgreement where agreementNo=?)");
@@ -448,15 +451,15 @@ public class ClerkDao
         
 		values[3]=String.valueOf(hours);
 		
-		
 		PreparedStatement roadstar=con.prepareStatement("select roadstar from RentAgreement where agreementNo=?");
 		roadstar.setString(1, agreementNo);
-		ResultSet isroadstar=roadstar.executeQuery();
 		
+		ResultSet isroadstar=roadstar.executeQuery();
 		while(isroadstar.next())
 		{
 			values[4]=isroadstar.getString("roadstar");
 		}
+		
 		}
 		catch(Exception e)
 		{
@@ -630,144 +633,6 @@ public class ClerkDao
 		return points;
 	}
 
-	public Double DisplayDiscountedCost(int agreementNo, Double points) 
-	{
-		double charges=0.0;
-		int bonusdays=0;
-		ResultSet rs=null;
-		Timestamp pickdate=null;
-		Timestamp dropdate=null;
-		String type=null,category=null;
-		double hourlyrate=0.0,dailyrate=0.0,weeklyrate=0.0;
-		double minimum=0.0;
-		long hours=0;
-		String equipname=null;
-		double ehourlyrate=0.0,edailyrate=0.0;
-		try
-		{
-		PreparedStatement ps1=con.prepareStatement("select minRedeemablePoints from SuperRent");
-		ResultSet rs1=ps1.executeQuery();
-		while(rs1.next())
-		{
-			minimum=rs1.getDouble(1);
-		}
-		
-		PreparedStatement ps=con.prepareStatement("select pickDate,dropDate from Reservation where confirmationNo="
-				+ "(select confirmationNo from GeneratedAgreements where agreementNo=?)");
-		ps.setInt(1,agreementNo);
-		rs=ps.executeQuery();
-		while(rs.next())
-		{
-			pickdate=rs.getTimestamp("pickDate");
-			dropdate=rs.getTimestamp("dropDate");
-		}
-	
-		
-		long difference= (dropdate.getTime()-pickdate.getTime());
-		long seconds=TimeUnit.SECONDS.convert(difference, TimeUnit.MILLISECONDS);    
-		hours = TimeUnit.SECONDS.toHours(seconds) - TimeUnit.SECONDS.toHours(TimeUnit.SECONDS.toDays(seconds));
-		
-		PreparedStatement ps2=con.prepareStatement("Select type,category from Vehicle where regno="
-				+ "(select regNo from MakeReservation where confirmationNo="
-				+ "(select confirmationNo from GeneratedAgreements where agreementNo=?))");
-		
-		ps2.setInt(1, agreementNo);
-		ResultSet rs2=ps2.executeQuery();
-		while(rs2.next())
-		{
-			type=rs2.getString(1);
-			category=rs2.getString(2);
-		}
-		
-		PreparedStatement ps3=con.prepareStatement("select hourlyRate,dailyRate,weeklyRate from SuperRentRentalRate where type=? and category=?");
-		ps3.setString(1, type);
-		ps3.setString(2, category);
-		ResultSet rs3=ps3.executeQuery();
-		
-		while(rs3.next())
-		{
-			hourlyrate=rs3.getDouble("hourlyRate");
-			dailyrate=rs3.getDouble("dailyRate");
-			weeklyrate=rs3.getDouble("weeklyRate");
-		}
-		
-		PreparedStatement equipment=con.prepareStatement("select equipmentName from RequireAdditionalEquipment where confirmationNo="
-				+ "(select confirmationNo from RentAgreement where agreementNo=? )");
-		equipment.setInt(1, agreementNo);	
-		ResultSet require=equipment.executeQuery();
-	
-		while(require.next())
-		{
-			equipname=require.getString("equipmentName");
-		}
-		
-		if(equipname!=null)
-		{
-			PreparedStatement equipmentrate=con.prepareStatement("select hourlyrate,dailyrate from AdditionalEquipment where equipmentName=?");
-			equipmentrate.setString(1,equipname);
-			ResultSet rates=equipmentrate.executeQuery();
-			while(rates.next())
-			{
-				ehourlyrate=rates.getDouble("hourlyrate");
-				edailyrate=rates.getDouble("dailyrate");
-			}
-		}
-		
-		if(points>=minimum)
-		{
-			bonusdays=Integer.valueOf((int) (points/minimum));
-			
-			System.out.println(hourlyrate);
-			System.out.println(dailyrate);
-			System.out.println(weeklyrate);
-			if(hours<=24)
-			{
-				charges=0.0+hours*ehourlyrate;
-			}
-			else
-			{
-				int days = (int) (Math.ceil(hours/24));
-				days=days-bonusdays;
-				if(days<=5)
-				{
-					charges=days*dailyrate+days*edailyrate;
-					
-				}
-				else
-				{
-					charges=days*weeklyrate + days*edailyrate;
-				}
-			}
-		}
-		else if(points < minimum)
-		{
-			if(hours<=24)
-			{
-				charges=hours*hourlyrate +hours*ehourlyrate;
-			}
-			else
-			{
-				int days = (int) (Math.ceil(hours/24));
-				System.out.println(days);
-				if(days<=5)
-				{
-					charges=days*dailyrate + days*edailyrate;
-				}
-				else
-				{
-					charges=days*weeklyrate + days*edailyrate;
-				}
-			}
-		}
-		}
-		catch(Exception e)
-		{
-			System.out.println(e);
-			DatabaseConnection.rollback(con);
-		}
-		return charges;
-	}
-
 	public int UpdatePoints(String agreementNum,Double totalCost) 
 	{
 		int status=0;
@@ -806,6 +671,7 @@ public class ClerkDao
 				Double discount1=Double.valueOf(disc);
 				Double newpoints=Math.floor(totalCost/discount1);
 				double addedpoints=points+newpoints;
+				
 				PreparedStatement ps1=con.prepareStatement("Update ClubMember set points=? where uid=?");
 				ps1.setDouble(1,addedpoints);
 				ps1.setString(2, uid);
@@ -840,124 +706,70 @@ public class ClerkDao
 		return status;
 	}
 	
-	public int updateCharges(int confirmationNo)
+	public String requireAdditionalEquipment(int confirmationNo)
 	{
-		Timestamp pickdate=null,dropdate=null;
-		String type=null,category=null;
-		Double hourlyrate=0.0;
-		Double dailyrate=0.0;
-		Double weeklyrate=0.0;
-		double cost=0.0;
-		int i=0;
 		String equipname=null;
-		double ehourlyrate=0.0,edailyrate=0.0;
 		try
 		{
-		PreparedStatement ps=con.prepareStatement("select pickDate,dropDate from Reservation where confirmationNo=?");
-		ps.setInt(1, confirmationNo);
-		ResultSet rs=ps.executeQuery();
-		while(rs.next())
-		{
-			pickdate=rs.getTimestamp("pickDate");
-			dropdate=rs.getTimestamp("dropDate");
-		}
-		
-		long difference= (dropdate.getTime()-pickdate.getTime());
-		long seconds=TimeUnit.SECONDS.convert(difference, TimeUnit.MILLISECONDS);    
-		long hours = TimeUnit.SECONDS.toHours(seconds) - TimeUnit.SECONDS.toHours(TimeUnit.SECONDS.toDays(seconds));
-		
-		PreparedStatement ps2=con.prepareStatement("Select type,category from Vehicle where regno="
-				+ "(select regNo from MakeReservation where confirmationNo="
-				+ "(select confirmationNo from Reservation where confirmationNo=?))");
-		
-		ps2.setInt(1, confirmationNo);
-		ResultSet rs2=ps2.executeQuery();
-		while(rs2.next())
-		{
-			type=rs2.getString("type");
-			category=rs2.getString("category");
-		}
-		
-		PreparedStatement ps3=con.prepareStatement("select hourlyRate,dailyRate,weeklyRate from SuperRentRentalRate where type=? and category=?");
-		ps3.setString(1, type);
-		ps3.setString(2, category);
-		ResultSet rs3=ps3.executeQuery();
-		while(rs3.next())
-		{
-			hourlyrate=rs3.getDouble("hourlyRate");
-			dailyrate=rs3.getDouble("dailyRate");
-			weeklyrate=rs3.getDouble("weeklyRate");
-		}
-		
 		PreparedStatement equipment=con.prepareStatement("select equipmentName from RequireAdditionalEquipment where confirmationNo=?");
 		equipment.setInt(1, confirmationNo);	
 		ResultSet require=equipment.executeQuery();
-	
 		while(require.next())
 		{
 			equipname=require.getString("equipmentName");
 		}
-		
-		if(equipname!=null)
-		{
-			PreparedStatement equipmentrate=con.prepareStatement("select hourlyrate,dailyrate from AdditionalEquipment where equipmentName=?");
-			equipmentrate.setString(1,equipname);
-			ResultSet rates=equipmentrate.executeQuery();
-			while(rates.next())
-			{
-				ehourlyrate=rates.getDouble("hourlyrate");
-				edailyrate=rates.getDouble("dailyrate");
-			}
-		}
-	
-		if(hours<24)
-		{
-			cost=hours * hourlyrate + hours*ehourlyrate;
-		}
-		else
-		{
-			int days = (int) (Math.ceil(hours/24));
-			if(days<5 || days==5)
-			{
-				cost=days*dailyrate + days*edailyrate;
-			}
-			else
-			{
-				cost=days*weeklyrate + days*edailyrate;
-			}
-		}
-		
-		System.out.println(cost);
-		PreparedStatement ps4=con.prepareStatement("update Reservation set charges=? where confirmationNo=?");
-		ps4.setDouble(1,cost);
-		ps4.setInt(2,confirmationNo);
-		i=ps4.executeUpdate();
 		}
 		catch(Exception e)
 		{
 			System.out.println(e);
-			DatabaseConnection.rollback(con);
 		}
-		return i;
+		return equipname;
+	}
+	public int updateCharges(int confirmationNo,double cost)
+	{
+		int status=0;
+		try
+		{
+		PreparedStatement ps=con.prepareStatement("update Reservation set charges=? where confirmationNo=?");
+		ps.setDouble(1,cost);
+		ps.setInt(2, confirmationNo);
+		status=ps.executeUpdate();
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+		}
+		return status;
 	}
 
 	public int[] processPayment(String agreementNum, String description, Double totalCost) 
 	{
 		int[] status=new int[2];
+		int ispayed=0;
 		try
 		{
-		PreparedStatement ps=con.prepareStatement("update MakeReservation set status=2,date=? where confirmationno="
-				+ "(select confirmationNo from RentAgreement where agreementNo=?)");
-		java.sql.Timestamp current_timestamp =new java.sql.Timestamp(new java.util.Date().getTime());
-		ps.setTimestamp(1,current_timestamp);
-		ps.setString(2,agreementNum);
-		status[0]=ps.executeUpdate();
-		
-		PreparedStatement ps1=con.prepareStatement("update Reservation set status=2 where confirmationno="
-				+ "(select confirmationNo from RentAgreement where agreementNo=?)");
-		ps1.setString(2,agreementNum);
-		status[1]=ps1.executeUpdate();
-		
+			PreparedStatement paymentstatus=con.prepareStatement("select status from Reservation where confirmationNo="
+					+ "(select confirmationNo from RentAgreement where agreementNo=?)");
+			paymentstatus.setString(1,agreementNum);
+			ResultSet stat=paymentstatus.executeQuery();
+			while(stat.next())
+			{
+				ispayed=stat.getInt("status");
+			}
+			if(ispayed==1)
+			{
+				PreparedStatement ps=con.prepareStatement("update MakeReservation set status=2,date=? where confirmationNo="
+						+ "(select confirmationNo from RentAgreement where agreementNo=?)");
+				java.sql.Timestamp current_timestamp =new java.sql.Timestamp(new java.util.Date().getTime());
+				ps.setTimestamp(1,current_timestamp);
+				ps.setString(2,agreementNum);
+				status[0]=ps.executeUpdate();
+				
+				PreparedStatement ps1=con.prepareStatement("update Reservation set status=2 where confirmationNo="
+						+ "(select confirmationNo from RentAgreement where agreementNo=?)");
+				ps1.setString(2,agreementNum);
+				status[1]=ps1.executeUpdate();
+			}
 		}
 		catch(Exception e)
 		{
@@ -983,7 +795,7 @@ public class ClerkDao
 			PreparedStatement ps=con.prepareStatement("insert into ClubMember values(?,?,?,?)");
 			ps.setInt(1, uid);
 			ps.setInt(2, membershipNumber);
-			ps.setDouble(3,140.0);
+			ps.setDouble(3,500);
 			java.sql.Timestamp current_timestamp=new java.sql.Timestamp(new java.util.Date().getTime());
 			ps.setTimestamp(4, current_timestamp);
 			status=ps.executeUpdate();
@@ -1007,5 +819,127 @@ public class ClerkDao
 			DatabaseConnection.rollback(con);
 		}
 		return name;
+	}
+
+	public java.util.Date getPickUpdate(int confirmationNo)
+	{
+		Date pickdate = null;
+		try
+		{
+		PreparedStatement ps=con.prepareStatement("select pickDate from Reservation where confirmationNo=?");
+		ps.setInt(1, confirmationNo);
+		ResultSet rs=ps.executeQuery();
+		while(rs.next())
+		{
+			pickdate=rs.getDate("pickDate");
+		}
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+		}
+		return pickdate;
+	}
+
+	public String getRegNo(int confirmationNo) 
+	{
+		String regNo=null;
+		try
+		{
+			PreparedStatement ps=con.prepareStatement("select regNo from MakeReservation where confirmationNo=?");
+			ps.setInt(1, confirmationNo);
+			ResultSet rs=ps.executeQuery();
+			while(rs.next())
+			{
+				regNo=rs.getString("regNo");
+			}
+		}
+		catch(Exception e)
+		{
+			
+		}
+		return regNo;
+	}
+
+
+	public java.util.Date getDropwithAgreement(int agreementNo) 
+	{
+		Date dropdate = null;
+		try
+		{
+		PreparedStatement ps=con.prepareStatement("select dropDate from Reservation where confirmationNo="
+				+ "(select confirmationNo from RentAgreement where agreementNo=?)");
+		ps.setInt(1, agreementNo);
+		ResultSet rs=ps.executeQuery();
+		while(rs.next())
+		{
+			dropdate=rs.getDate("dropDate");
+		}
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+		}
+		return dropdate;
+	}
+
+	public double getMinimumpoints() 
+	{
+	double minimum=0.0;
+	try
+	{
+		PreparedStatement ps1=con.prepareStatement("select minRedeemablePoints from SuperRent");
+		ResultSet rs1=ps1.executeQuery();
+		while(rs1.next())
+		{
+			minimum=rs1.getDouble(1);
+		}
+	}
+	catch(Exception e)
+	{
+		System.out.println(e);
+	}
+	return minimum;
+}
+
+	public int getConfirmationNo(int agreementNo) 
+	{
+		int confirmationNo=0;
+		try
+		{
+			PreparedStatement ps1=con.prepareStatement("select confirmationNo from RentAgreement where agreementNo=?");
+			ps1.setInt(1, agreementNo);
+			ResultSet rs1=ps1.executeQuery();
+			while(rs1.next())
+			{
+				confirmationNo=rs1.getInt(1);
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+		}
+		return confirmationNo;
+	}
+
+	public String getCategory(int confirmationNo) 
+	{
+		String category=null;
+		try
+		{
+			PreparedStatement ps=con.prepareStatement("select category from Vehicle where regNo="
+					+ "(select regNo from MakeReservation where confirmationNo=?)");
+			ps.setInt(1, confirmationNo);
+			ResultSet rs=ps.executeQuery();
+			while(rs.next())
+			{
+				category=rs.getString("category");
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println(e);
+		}
+		return category;
 	}
 }

@@ -7,8 +7,10 @@ import java.sql.ResultSet;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -54,7 +56,7 @@ public class ClerkController implements ActionListener {
 	private final PayPal paypal = new PayPal();
 	private ClerkDao dao = new ClerkDao();
 	private ClerkSearchDao searchdao=new ClerkSearchDao();
-	private ReservationDao reservdao=new ReservationDao();
+	private ReservationDao reservedao=new ReservationDao();
 	private RentalAgreement rental = new RentalAgreement();
 	private ManageReservation manage = new ManageReservation();
 	private ClerkSearchVehicle search=new ClerkSearchVehicle();
@@ -215,7 +217,9 @@ public class ClerkController implements ActionListener {
 							} else {
 								rent.getTextField_2().setText(values[0]);
 								rent.getTextField_3().setText(values[1]);
-								rent.getTextField_4().setText(values[2]);
+								Double charges=Double.valueOf(values[2]);
+								rent.getTextField_4().setText(String.valueOf((new DecimalFormat(
+										"#.##").format(charges))));
 								rent.getTextField_10().setText(values[3]);
 								System.out.println(values[9]);
 								for(int i=4;i<Integer.parseInt(values[10]);i=i+2)
@@ -234,7 +238,9 @@ public class ClerkController implements ActionListener {
 					} else {
 						rent.getTextField_2().setText(values[0]);
 						rent.getTextField_3().setText(values[1]);
-						rent.getTextField_4().setText(values[2]);
+						Double charges=Double.valueOf(values[2]);
+						rent.getTextField_4().setText(String.valueOf((new DecimalFormat(
+								"#.##").format(charges))));
 						rent.getTextField_10().setText(values[3]);
 						for(int i=4;i<Integer.parseInt(values[9]);i=i+2)
 							rent.textArea_1.setText(values[i]+" , "+values[i+1]);
@@ -353,6 +359,10 @@ public class ClerkController implements ActionListener {
 				else if(Long.toString(Creditcard).length()<16)
 				{
 					JOptionPane.showMessageDialog(rent, "Credit card cannot be less than 16 digits");
+				}
+				else if(Long.toString(Creditcard).length()>16)
+				{
+					JOptionPane.showMessageDialog(rent, "Credit card cannot be more than 16 digits");
 				}
 				else 
 				{
@@ -484,7 +494,28 @@ public class ClerkController implements ActionListener {
 				{
 					int confirmationNo = Integer.valueOf((manage.textField_2.getText()));
 					int status = dao.extendRental(manage.calendar.getDate(), confirmationNo);
-					int status1= dao.updateCharges(confirmationNo);
+					java.util.Date pickup=dao.getPickUpdate(confirmationNo);
+					
+					Calendar cal = Calendar.getInstance();
+					cal.setTime(pickup);
+					  
+					  cal.set(Calendar.HOUR, 0);
+					  Date pickup2 = cal.getTime();
+					
+					System.out.println(pickup);
+					String regNo=dao.getRegNo(confirmationNo);
+					Date dropdate=manage.calendar.getDate();
+					System.out.println(dropdate);
+					Double cost=reservedao.calculateCharges(regNo,pickup2, dropdate);
+					System.out.println(cost);
+					String equipname=dao.requireAdditionalEquipment(confirmationNo);
+					String category=dao.getCategory(confirmationNo);
+					if(equipname!=null)
+					{
+						Double equipcost=reservedao.calculateEquip(equipname,category, pickup, manage.calendar.getDate());
+						cost=cost + equipcost;
+					}
+					int status1=dao.updateCharges(confirmationNo, cost);
 					if (status == 1 && status1==1) 
 					{
 						JOptionPane.showMessageDialog(manage, "Date Updated...!!");
@@ -497,6 +528,7 @@ public class ClerkController implements ActionListener {
 			}
 			catch(Exception e)
 			{
+				System.out.println(e);
 				JOptionPane.showMessageDialog(manage, "Date should be later than the pickupdate");
 			}
 		}
@@ -512,14 +544,15 @@ public class ClerkController implements ActionListener {
 					String[] values=new String[5];
 					String agreementNo = ret.getTextField().getText();
 					values = dao.displayInsuranceCost(agreementNo);
+					
+					System.out.println(values[0]+""+values[1]+""+values[2]+""+values[3]+""+values[4]);
 					Double cost = 0.0;
 					long hours = Long.parseLong(values[3]);
 					Double hourlyrate = Double.parseDouble(values[0]);
 					Double dailyrate = Double.parseDouble(values[1]);
 					Double weeklyrate = Double.parseDouble(values[2]);
 					int roadstar=Integer.parseInt(values[4]);
-					
-					System.out.println(values[0]+""+values[1]+""+values[3]+""+values[4]);
+				
 					
 					System.out.println(hours);
 					if (hours < 24) {
@@ -540,7 +573,8 @@ public class ClerkController implements ActionListener {
 					String finalCost = String.valueOf(cost);
 					ret.getTextField_20().setText(finalCost);
 				}
-			} catch (Exception e) {
+			} catch (Exception e) 
+			{
 				System.out.println(e);
 			}
 		}
@@ -664,6 +698,8 @@ public class ClerkController implements ActionListener {
 
 		if (ae.getActionCommand() == "Pay With Points") 
 		{
+			long hours=0;
+			double cost=0.0;
 			try
 			{
 			if (ret.getTextField().getText().equals("")) 
@@ -678,10 +714,52 @@ public class ClerkController implements ActionListener {
 			{
 				int agreementNo =Integer.parseInt(ret.getTextField().getText());
 				Double points=Double.parseDouble(ret.textField_17.getText());
-				Double cost= dao.DisplayDiscountedCost(agreementNo,points);
-				Double totalcost=Double.parseDouble(ret.textField_11.getText()) - Double.parseDouble(ret.getTextField_7().getText());
-				Double discountedcost=totalcost+cost;
-				ret.getTextField_18().setText(String.valueOf(discountedcost));
+				Date dropdate= dao.getDropwithAgreement(agreementNo);
+				int confirmationNo=dao.getConfirmationNo(agreementNo);
+				Date pickdate= dao.getPickUpdate(confirmationNo);
+				double minimum=dao.getMinimumpoints();
+				String regNo=dao.getRegNo(confirmationNo);
+				if(points>=minimum)
+				{
+					int bonusdays=Integer.valueOf((int) (points/minimum));
+					long difference= (dropdate.getTime()-pickdate.getTime());
+					long seconds=TimeUnit.SECONDS.convert(difference, TimeUnit.MILLISECONDS);    
+					hours = TimeUnit.SECONDS.toHours(seconds) - TimeUnit.SECONDS.toHours(TimeUnit.SECONDS.toDays(seconds));
+					
+					System.out.println(hours);
+					long days=hours/24;
+					days=days-bonusdays;
+					 Calendar cal = Calendar.getInstance();
+					  cal.setTime(pickdate);
+					  cal.set(Calendar.DATE,1);
+					  cal.set(Calendar.HOUR, 0);
+					  cal.set(Calendar.MINUTE, 0);
+					  cal.set(Calendar.SECOND,0);
+					  Calendar cal2 = Calendar.getInstance();
+					  cal.setTime(pickdate);
+					  cal.set(Calendar.DATE,(int) (1+days));
+					  cal.set(Calendar.HOUR, 0);
+					  cal.set(Calendar.MINUTE, 0);
+					  cal.set(Calendar.SECOND,0);
+					  Date dayfirst = cal.getTime();
+					  System.out.println(dayfirst);
+					  Date daySecond = cal2.getTime();
+					  System.out.println(daySecond);
+					  cost=reservedao.calculateCharges(regNo, dayfirst, daySecond);
+					  Double totalcost=Double.parseDouble(ret.textField_11.getText()) - Double.parseDouble(ret.getTextField_7().getText());
+					  Double discountedcost=totalcost+cost;
+					  String equipname=dao.requireAdditionalEquipment(confirmationNo);
+						String category=dao.getCategory(confirmationNo);
+						System.out.println(discountedcost);
+						if(equipname!=null)
+						{
+							Double equipcost=reservedao.calculateEquip(equipname,category, dayfirst, daySecond);
+							discountedcost=discountedcost + equipcost;
+						} 
+					  ret.getTextField_18().setText(String.valueOf(discountedcost));
+				}
+				else
+					ret.getTextField_18().setText(ret.textField_11.getText());
 			}
 			}
 			catch(Exception e)
@@ -689,8 +767,7 @@ public class ClerkController implements ActionListener {
 				JOptionPane.showMessageDialog(ret, "You cannot pay with the points ");
 			}
 		}
-		
-		
+	
 		if (ae.getActionCommand() == "Pay By PayPal")
 		{
 			double bill=0.0;
@@ -759,9 +836,10 @@ public class ClerkController implements ActionListener {
 		if(ae.getActionCommand()=="Process Payment")
 		{
 			Double totalCost=0.0;
+			int[] status=new int[2];
 			try
 			{
-				int agreementNo = Integer.parseInt(paypal.getTextField_9().getText());
+				String agreementNo = paypal.getTextField_9().getText();
 				totalCost = Double.valueOf(paypal.getTextField_8().getText());
 				String description = ret.textArea_1.getText();
 
@@ -841,14 +919,18 @@ public class ClerkController implements ActionListener {
 											.getLastResponse()));
 					
 					
+					status=dao.processPayment(agreementNo, description,totalCost);
+					if(status[0]==1 && status[1]==1)
+					{
+						JOptionPane.showMessageDialog(paypal, "Payment successfull");
+					}
+					
 				} catch (PayPalRESTException et)
 				{ //
 					paypal.getPaymentMessage().setText(et.getMessage());
 					System.out.println(Payment.getLastResponse());
 				}
 				System.out.println("Getting here - after transaction");
-
-				
 				}
 				catch (Exception e) 
 				{
