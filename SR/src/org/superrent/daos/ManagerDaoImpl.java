@@ -72,7 +72,7 @@ public class ManagerDaoImpl implements IManagerDao{
 		
 	}
 	
-	@Override
+	// @Override
 	public void getVehiclesForSelling(ManagerHome managerFrame) {
 		
 		try {
@@ -112,7 +112,7 @@ public class ManagerDaoImpl implements IManagerDao{
 		
 	}
 
-	@Override
+	// @Override
 	public boolean addVehicle(VehicleVO vehicleVO) {
 		boolean result = true;
 		try {
@@ -145,7 +145,7 @@ public class ManagerDaoImpl implements IManagerDao{
 		return result;
 	}
 
-	@Override
+	// @Override
 	public boolean updateVehicle(VehicleVO vehicleVO) {
 		boolean result = true;
 		try {
@@ -179,7 +179,7 @@ public class ManagerDaoImpl implements IManagerDao{
 		
 	}
 
-	@Override
+	// @Override
 	public boolean sellVehicle(SellVehicleVO sellVehicleVO) {
 		boolean result = true;
 		try {
@@ -214,7 +214,7 @@ public class ManagerDaoImpl implements IManagerDao{
 		return result;
 	}
 
-	@Override
+	// @Override
 	public boolean vehicleSold(SellVehicleVO sellVehicleVO) {
 		boolean result = true;
 		try {
@@ -245,7 +245,7 @@ public class ManagerDaoImpl implements IManagerDao{
 		return result;
 	}
 
-	@Override
+	// @Override
 	public boolean updateSellingPrice(SellVehicleVO sellVehicleVO) {
 		boolean result = true;
 		try {
@@ -274,7 +274,7 @@ public class ManagerDaoImpl implements IManagerDao{
 	
 	}
 	
-	@Override
+	// @Override
 	public boolean moveForRent(SellVehicleVO sellVehicleVO) {
 		boolean result = true;
 		try {
@@ -304,7 +304,7 @@ public class ManagerDaoImpl implements IManagerDao{
 	
 	}
 
-	@Override
+	// @Override
 	public void getRentalRate(ManagerHome managerFrame) {
 		// TODO Auto-generated method stub
 	try{	
@@ -333,7 +333,7 @@ public class ManagerDaoImpl implements IManagerDao{
 		
 	}
 
-	@Override
+	// @Override
 	public void getInsuranceRates(ManagerHome managerFrame) {
 		
 		try{	
@@ -361,13 +361,13 @@ public class ManagerDaoImpl implements IManagerDao{
 		
 	}
 
-	@Override
+	// @Override
 	public boolean otherRates() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	@Override
+	// @Override
 	public SuperRent getOtherRates() {
 		// TODO Auto-generated method stub
 		SuperRent superRent = new SuperRent();

@@ -121,7 +121,7 @@ public class addtionalEqDialog extends JDialog implements ActionListener {
 
 
 
-	@Override
+	// @Override
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand().equals("Cancel")){
 			this.dispose();
