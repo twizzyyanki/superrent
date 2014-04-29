@@ -291,7 +291,7 @@ public class UpdateProfileDAO {
 			rs = st.executeQuery(query);
 			if(rs.next()){
 				email = rs.getString("email");
-				System.out.println("email"+email);
+				//System.out.println("email"+email);
 			}
 			
 			connection.commit(); 
@@ -321,7 +321,7 @@ public class UpdateProfileDAO {
 			rs = st.executeQuery(query);
 			if(rs.next()){
 				email = rs.getString("email");
-				System.out.println("email"+email);
+				//System.out.println("email"+email);
 			}
 			
 			connection.commit(); 

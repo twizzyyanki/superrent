@@ -239,14 +239,14 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 					String returnDate = reservation.getDropDate().toString();
 					dialog.getLblGetReturnDate().setText(returnDate);
 					
-					/*//send email
+					//send email
 					int UID = makeReservation.getUid();
 					String email;
 					ReservationDao emaildao = new ReservationDao();
 					email = emaildao.getEmail(UID);					
 				
 					SendMail sendemail = new SendMail(email, "Confirmation number", "Your confirmation number is: "
-							+makeReservation.getConfirmationNo().toString());*/
+							+makeReservation.getConfirmationNo().toString());
 					
 				}
 				else{
@@ -343,14 +343,14 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 					String returnDate = reservation.getDropDate().toString();
 					dialog.getLblGetReturnDate().setText(returnDate);
 					
-					/*//send email
+					//send email
 					int UID = makeReservation.getUid();
-					String email;
+					String email2;
 					ReservationDao emaildao2 = new ReservationDao();
-					email = emaildao2.getEmail(UID);					
+					email2 = emaildao2.getEmail(UID);					
 				
-					SendMail sendemail = new SendMail(email, "Confirmation number", "Your confirmation number is: "
-							+makeReservation.getConfirmationNo().toString());*/
+					SendMail sendemail = new SendMail(email2, "Confirmation number", "Your confirmation number is: "
+							+makeReservation.getConfirmationNo().toString());
 					
 				}
 				else{
