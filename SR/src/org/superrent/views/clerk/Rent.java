@@ -81,12 +81,133 @@ public class Rent extends JPanel
 		setTextField_1(new JTextField());
 		getTextField_1().setColumns(10);
 		
-		JPanel panel = new JPanel();
-		panel.setBackground(Color.LIGHT_GRAY);
-		
 		btnSubmit = new JButton("Submit");
 		
+		bG = new ButtonGroup();
+		
+		btnCreateRentalAgreement = new JButton("Create Rental Agreement");
+		
+		String[] Month={"00","01","02","03","04","05","06","07","08","09","10","11","12"};
+		
+		String[] year={"00","16","17","18","19","20","21","22","23","24","25","26","28","29","30","31",
+				"32","33","34","35","36"};
+		setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("178px"),
+				FormFactory.UNRELATED_GAP_COLSPEC,
+				ColumnSpec.decode("146px"),
+				FormFactory.UNRELATED_GAP_COLSPEC,
+				ColumnSpec.decode("85px"),
+				ColumnSpec.decode("70px"),
+				FormFactory.UNRELATED_GAP_COLSPEC,
+				ColumnSpec.decode("127px"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,},
+			new RowSpec[] {
+				FormFactory.PARAGRAPH_GAP_ROWSPEC,
+				RowSpec.decode("20px"),
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("23px"),
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("30px"),
+				FormFactory.PARAGRAPH_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("max(89dlu;default)"),
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("49px"),}));
+		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		add(scrollPane_2, "3, 6, 14, 10, fill, fill");
+		
+		JPanel panel = new JPanel();
+		scrollPane_2.setViewportView(panel);
+		panel.setBackground(Color.LIGHT_GRAY);
+		
+		JLabel lblPickupDate = new JLabel("PickUp Date");
+		
+		setTextField_2(new JTextField());
+		getTextField_2().setColumns(10);
+		
+		JLabel lblDropDate = new JLabel("Drop Date");
+		
+		setTextField_3(new JTextField());
+		getTextField_3().setColumns(10);
+		panel.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("58px"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("55px"),
+				ColumnSpec.decode("26px"),
+				ColumnSpec.decode("61px"),
+				FormFactory.UNRELATED_GAP_COLSPEC,
+				ColumnSpec.decode("95px"),
+				ColumnSpec.decode("116px"),
+				ColumnSpec.decode("138px"),
+				ColumnSpec.decode("71px"),},
+			new RowSpec[] {
+				FormFactory.UNRELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,}));
+		
+		JLabel lblReservationDetails = new JLabel("Reservation Details");
+		panel.add(lblReservationDetails, "10, 2, left, top");
+		
+		JLabel lblConfirmationNumber = new JLabel("Confirmation Number");
+		panel.add(lblConfirmationNumber, "3, 4, 2, 1, left, center");
+		
+		setTextField_10(new JTextField());
+		getTextField_10().setColumns(10);
+		panel.add(textField_10, "6, 4, 4, 1, fill, center");
+		
+		JLabel lblAdditionalEquipment = new JLabel("Additional Equipment");
+		panel.add(lblAdditionalEquipment, "10, 4, right, center");
+		
+		JScrollPane scrollPane = new JScrollPane();
+		panel.add(scrollPane, "11, 4, 2, 1, fill, fill");
+		textArea_1.setLineWrap(true);
+		
+		textArea_1.setRows(2);
+		textArea_1.setColumns(1);
+		
+		scrollPane.setViewportView(textArea_1);
+		panel.add(lblPickupDate, "3, 6, 2, 1, fill, center");
+		panel.add(textField_2, "5, 6, 4, 1, fill, center");
+		panel.add(lblDropDate, "9, 6, right, center");
+		panel.add(textField_3, "10, 6, fill, center");
+		
+		JLabel lblCharges = new JLabel("Charges");
+		panel.add(lblCharges, "11, 6, right, center");
+		
+		setTextField_4(new JTextField());
+		getTextField_4().setColumns(10);
+		panel.add(textField_4, "12, 6, fill, center");
+		add(lblOr, "7, 2, center, center");
+		
+		JScrollPane scrollPane_3 = new JScrollPane();
+		add(scrollPane_3, "3, 18, 14, 1, fill, fill");
+		
 		JPanel panel_1 = new JPanel();
+		scrollPane_3.setViewportView(panel_1);
 		panel_1.setBackground(Color.LIGHT_GRAY);
 		
 		JLabel lblNewLabel = new JLabel("Driver's License Number");
@@ -98,16 +219,14 @@ public class Rent extends JPanel
 		setTextField_8(new JTextField());
 		getTextField_8().setColumns(10);
 		
-		bG = new ButtonGroup();
-		
 		JLabel lblMonthyear = new JLabel("Month/year");
 		
 		setLblInvalidEntries(new JLabel("Invalid Entries"));
 		getLblInvalidEntries().setForeground(Color.RED);
 		getLblInvalidEntries().setVisible(false);
-		
-		btnCreateRentalAgreement = new JButton("Create Rental Agreement");
 		panel_1.setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("114px"),
 				ColumnSpec.decode("12px"),
 				ColumnSpec.decode("31px"),
@@ -124,9 +243,7 @@ public class Rent extends JPanel
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(15dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(17dlu;default):grow"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(67dlu;default)"),},
+				ColumnSpec.decode("max(17dlu;default):grow"),},
 			new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
@@ -148,171 +265,74 @@ public class Rent extends JPanel
 				RowSpec.decode("14px"),}));
 		
 		JLabel lblEnterCurrentDetails = new JLabel("Enter Current Details");
-		panel_1.add(lblEnterCurrentDetails, "1, 3, left, top");
+		panel_1.add(lblEnterCurrentDetails, "3, 3, left, top");
 		
 		setTextField_5(new JTextField());
 		getTextField_5().setColumns(10);
-		panel_1.add(textField_5, "2, 5, 4, 1, fill, fill");
+		panel_1.add(textField_5, "4, 5, 4, 1, fill, fill");
 		
 		JLabel lblCreditCardNumber = new JLabel("Credit Card Number");
-		panel_1.add(lblCreditCardNumber, "6, 5, right, center");
+		panel_1.add(lblCreditCardNumber, "8, 5, right, center");
 		
 		setTextField_6(new JTextField());
 		getTextField_6().setColumns(10);
-		panel_1.add(textField_6, "7, 5, fill, fill");
+		panel_1.add(textField_6, "9, 5, fill, fill");
 		
 		JLabel lblExpiryDate = new JLabel("Expiry Date");
-		panel_1.add(lblExpiryDate, "9, 5, right, center");
+		panel_1.add(lblExpiryDate, "11, 5, right, center");
 		
 		
-		panel_1.add(getComboBox(), "10, 5, 3, 1, fill, default");
+		panel_1.add(getComboBox(), "12, 5, 3, 1, fill, default");
 		
 		JLabel label_1 = new JLabel("/");
-		panel_1.add(label_1, "13, 5, center, center");
+		panel_1.add(label_1, "15, 5, center, center");
 		
 		
-		panel_1.add(getComboBox_1(), "15, 5, fill, default");
+		panel_1.add(getComboBox_1(), "17, 5, fill, default");
 		
-		panel_1.add(lblVehicleCondition, "1, 9, left, top");
-		panel_1.add(lblOdometerReading, "1, 11, left, center");
-		
-		String[] Month={"00","01","02","03","04","05","06","07","08","09","10","11","12"};
+		panel_1.add(lblVehicleCondition, "3, 9, left, top");
+		panel_1.add(lblOdometerReading, "3, 11, left, center");
 		getComboBox().setModel(new DefaultComboBoxModel<String>(Month));
-		
-		String[] year={"00","16","17","18","19","20","21","22","23","24","25","26","28","29","30","31",
-				"32","33","34","35","36"};
 		getComboBox_1().setModel(new DefaultComboBoxModel<String>(year));
 		JLabel lblFuelPercentage = new JLabel("Fuel Percentage");
-		panel_1.add(lblFuelPercentage, "6, 11, right, center");
+		panel_1.add(lblFuelPercentage, "8, 11, right, center");
 		
 		setTextField_9(new JTextField());
 		getTextField_9().setColumns(10);
-		panel_1.add(textField_9, "7, 11, fill, fill");
+		panel_1.add(textField_9, "9, 11, fill, fill");
 		
 		JLabel lblRoadStar = new JLabel("Road Star");
-		panel_1.add(lblRoadStar, "9, 11, right, center");
+		panel_1.add(lblRoadStar, "11, 11, right, center");
 		
 		rdbtnYes = new JRadioButton("yes");
 		bG.add(rdbtnYes);
-		panel_1.add(rdbtnYes, "11, 11, 3, 1, left, top");
-		panel_1.add(textField_8, "2, 11, 4, 1, fill, fill");
+		panel_1.add(rdbtnYes, "13, 11, 3, 1, left, top");
+		panel_1.add(textField_8, "4, 11, 4, 1, fill, fill");
 		
 		rdbtnNo = new JRadioButton("No");
 		bG.add(rdbtnNo);
-		panel_1.add(rdbtnNo, "15, 11, default, top");
+		panel_1.add(rdbtnNo, "17, 11, default, top");
 		
 		JLabel lblVehicleDescription = new JLabel("Vehicle Description");
-		panel_1.add(lblVehicleDescription, "1, 15, left, bottom");
-		panel_1.add(lblNewLabel, "1, 5, left, center");
-		panel_1.add(lblMonthyear, "11, 7, 5, 1, center, top");
+		panel_1.add(lblVehicleDescription, "3, 15, left, bottom");
+		panel_1.add(lblNewLabel, "3, 5, left, center");
+		panel_1.add(lblMonthyear, "13, 7, 5, 1, center, top");
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		panel_1.add(scrollPane_1, "3, 15, 4, 2, fill, fill");
+		panel_1.add(scrollPane_1, "5, 15, 4, 2, fill, fill");
 		
 		textArea = new JTextArea();
 		scrollPane_1.setViewportView(textArea);
 		
 		textArea.setRows(2);
 		textArea.setColumns(1);
-		panel_1.add(lblInvalidEntries, "11, 18, 7, 1, left, top");
-		setLayout(new FormLayout(new ColumnSpec[] {
-				ColumnSpec.decode("20px"),
-				ColumnSpec.decode("178px"),
-				FormFactory.UNRELATED_GAP_COLSPEC,
-				ColumnSpec.decode("146px"),
-				FormFactory.UNRELATED_GAP_COLSPEC,
-				ColumnSpec.decode("85px"),
-				ColumnSpec.decode("24px"),
-				ColumnSpec.decode("70px"),
-				FormFactory.UNRELATED_GAP_COLSPEC,
-				ColumnSpec.decode("311px"),},
-			new RowSpec[] {
-				FormFactory.PARAGRAPH_GAP_ROWSPEC,
-				RowSpec.decode("20px"),
-				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("23px"),
-				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("101px"),
-				FormFactory.PARAGRAPH_GAP_ROWSPEC,
-				RowSpec.decode("233px"),
-				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("23px"),}));
-		
-		JLabel lblPickupDate = new JLabel("PickUp Date");
-		
-		setTextField_2(new JTextField());
-		getTextField_2().setColumns(10);
-		
-		JLabel lblDropDate = new JLabel("Drop Date");
-		
-		setTextField_3(new JTextField());
-		getTextField_3().setColumns(10);
-		panel.setLayout(new FormLayout(new ColumnSpec[] {
-				ColumnSpec.decode("58px"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("55px"),
-				ColumnSpec.decode("26px"),
-				ColumnSpec.decode("61px"),
-				FormFactory.UNRELATED_GAP_COLSPEC,
-				ColumnSpec.decode("95px"),
-				ColumnSpec.decode("206px"),
-				ColumnSpec.decode("138px:grow"),
-				ColumnSpec.decode("71px"),
-				ColumnSpec.decode("68px"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				FormFactory.DEFAULT_COLSPEC,},
-			new RowSpec[] {
-				FormFactory.UNRELATED_GAP_ROWSPEC,
-				RowSpec.decode("14px"),
-				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("31px:grow"),
-				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("29px"),}));
-		
-		JLabel lblReservationDetails = new JLabel("Reservation Details");
-		panel.add(lblReservationDetails, "8, 2, left, top");
-		
-		JLabel lblConfirmationNumber = new JLabel("Confirmation Number");
-		panel.add(lblConfirmationNumber, "1, 4, 2, 1, left, center");
-		
-		setTextField_10(new JTextField());
-		getTextField_10().setColumns(10);
-		panel.add(textField_10, "4, 4, 4, 1, fill, center");
-		
-		JLabel lblAdditionalEquipment = new JLabel("Additional Equipment");
-		panel.add(lblAdditionalEquipment, "8, 4, right, center");
-		
-		JScrollPane scrollPane = new JScrollPane();
-		panel.add(scrollPane, "9, 4, 2, 1, fill, fill");
-		textArea_1.setLineWrap(true);
-		
-		textArea_1.setRows(2);
-		textArea_1.setColumns(1);
-		
-		scrollPane.setViewportView(textArea_1);
-		panel.add(lblPickupDate, "1, 6, 2, 1, fill, center");
-		panel.add(textField_2, "3, 6, 4, 1, fill, center");
-		panel.add(lblDropDate, "7, 6, right, center");
-		panel.add(textField_3, "8, 6, fill, center");
-		
-		JLabel lblCharges = new JLabel("Charges");
-		panel.add(lblCharges, "9, 6, right, center");
-		
-		setTextField_4(new JTextField());
-		getTextField_4().setColumns(10);
-		panel.add(textField_4, "10, 6, fill, center");
-		
-		JLabel lblCad = new JLabel("CAD");
-		panel.add(lblCad, "11, 6");
-		add(panel, "2, 6, 9, 1, fill, fill");
-		add(lblOr, "6, 2, right, center");
-		add(btnCreateRentalAgreement, "6, 10, 3, 1, left, top");
-		add(btnSubmit, "6, 4, 3, 1, center, top");
-		add(panel_1, "2, 8, 9, 1, fill, fill");
-		add(label, "2, 2, right, center");
-		add(textField, "4, 2, fill, top");
+		panel_1.add(lblInvalidEntries, "13, 18, 7, 1, left, top");
+		add(btnCreateRentalAgreement, "7, 20, 2, 1, left, top");
+		add(btnSubmit, "7, 4, 2, 1, center, top");
+		add(label, "3, 2, right, center");
+		add(textField, "5, 2, fill, top");
 		add(lblPhoneNumber, "8, 2, left, center");
-		add(textField_1, "10, 2, left, top");
+		add(textField_1, "10, 2, fill, top");
 		
 	}
 

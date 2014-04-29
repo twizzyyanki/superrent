@@ -23,6 +23,8 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.RowSpec;
+import javax.swing.JComboBox;
+import java.awt.Font;
 
 public class Return extends JPanel 
 {
@@ -60,13 +62,9 @@ public class Return extends JPanel
 	
 	JButton btnTaxCost = new JButton("Add Tax Cost");
 	
-	JButton btnRedeem = new JButton("Show Points");
-	
 	JLabel lblCostAfterRedeeming = new JLabel("Cost After Redeeming");
 	
 	JButton btnCalculateTotalCost = new JButton("Calculate Total Cost");
-	
-	JButton btnPayWithPoints;
 	
 	JButton btnProceedToPayment;
 	
@@ -87,13 +85,30 @@ public class Return extends JPanel
 	private JLabel lblCad_6;
 	private JLabel lblCAD;
 	private JLabel lblCad_7;
+	private JScrollPane scrollPane_2;
+	private JButton btnShowPoints;
+	private JButton btnPayWithPoints;
+	private JPanel panel_1;
+	private JScrollPane scrollPane_3;
 	/**
 	 * Create the panel.
 	 */
 	public Return()
 	{
 		
+		ButtonGroup bG=new ButtonGroup();
+		
+		JLabel lblRentalAgreementNumber = new JLabel("Rental Agreement Number");
+		
+		setTextField(new JTextField());
+		getTextField().setColumns(10);
+		
+		btnCheckDetails = new JButton("Check Details");
+		
+		scrollPane_2 = new JScrollPane();
+		
 		JPanel panel = new JPanel();
+		scrollPane_2.setViewportView(panel);
 		panel.setForeground(Color.BLACK);
 		panel.setBackground(new Color(169, 169, 169));
 		
@@ -101,294 +116,328 @@ public class Return extends JPanel
 		
 		setTextField_1(new JTextField());
 		getTextField_1().setColumns(10);
-		
-		ButtonGroup bG=new ButtonGroup();
-		
-		JLabel lblTotalCost = new JLabel("Total Cost");
-		
-		setTextField_15(new JTextField());
-		getTextField_15().setColumns(10);
-		
-		btnCalculateTotalCost = new JButton("Calculate Total Cost");
-		
-		btnCheckDetails = new JButton("Check Details");
-		
-		setTextField_20(new JTextField());
-		getTextField_20().setColumns(10);
-		
-		setTextField_11(new JTextField());
-		getTextField_11().setColumns(10);
 		panel.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.UNRELATED_GAP_COLSPEC,
-				ColumnSpec.decode("98px"),
+				ColumnSpec.decode("81px"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
-				ColumnSpec.decode("106px"),
+				ColumnSpec.decode("48px"),
 				FormFactory.UNRELATED_GAP_COLSPEC,
-				ColumnSpec.decode("106px"),
+				ColumnSpec.decode("68px"),
 				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
-				ColumnSpec.decode("163px"),
-				ColumnSpec.decode("max(31dlu;default)"),
+				ColumnSpec.decode("86px"),
+				FormFactory.MIN_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("max(13dlu;default)"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("max(10dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.UNRELATED_GAP_COLSPEC,
-				ColumnSpec.decode("59px"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("max(76dlu;default)"),
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("default:grow"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,},
+			new RowSpec[] {
+				FormFactory.UNRELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,}));
+		
+		JLabel Phonenum = new JLabel("Phone Number");
+		panel.add(Phonenum, "8, 2, 7, 1, right, center");
+		
+		setTextField_2(new JTextField());
+		getTextField_2().setColumns(10);
+		panel.add(textField_2, "15, 2, 11, 1, fill, fill");
+		
+		JLabel RoadStar = new JLabel("Roadstar");
+		panel.add(RoadStar, "2, 3, right, center");
+		
+		rdbtnYes = new JRadioButton("Yes");
+		bG.add(rdbtnYes);
+		panel.add(rdbtnYes, "4, 3, left, top");
+		
+		rdbtnNo = new JRadioButton("No");
+		bG.add(rdbtnNo);
+		panel.add(rdbtnNo, "6, 3, left, top");
+		
+		JLabel lblPickupdate = new JLabel("PickUpdate");
+		panel.add(lblPickupdate, "2, 4, right, center");
+		
+		setTextField_3(new JTextField());
+		getTextField_3().setColumns(10);
+		panel.add(textField_3, "4, 4, 3, 1, fill, fill");
+		
+		JLabel label_5 = new JLabel("DropDate");
+		panel.add(label_5, "9, 4, 5, 1, right, center");
+		
+		setTextField_4(new JTextField());
+		getTextField_4().setColumns(10);
+		panel.add(textField_4, "15, 4, 11, 1, fill, center");
+		panel.add(Customername, "2, 2, right, center");
+		panel.add(textField_1, "4, 2, 3, 1, fill, fill");
+			
+			JLabel label_2 = new JLabel("Charges");
+			panel.add(label_2, "2, 5, right, center");
+			
+			setTextField_7(new JTextField());
+			getTextField_7().setColumns(10);
+			panel.add(textField_7, "4, 5, 3, 1, default, center");
+			
+			lblCad = new JLabel("CAD");
+			panel.add(lblCad, "8, 5");
+			
+			JLabel label_4 = new JLabel("Odometer Reading");
+			panel.add(label_4, "9, 5, 6, 1, right, center");
+			
+			setTextField_5(new JTextField());
+			getTextField_5().setColumns(10);
+			panel.add(textField_5, "15, 5, 11, 1, fill, center");
+			
+			lblAdditionEquipement = new JLabel("Addition Equipement");
+			panel.add(lblAdditionEquipement, "2, 6, left, center");
+			
+			setTextField_14(new JTextField());
+			getTextField_14().setEditable(false);
+			getTextField_14().setColumns(10);
+			panel.add(textField_14, "4, 6, 3, 1, fill, center");
+			
+			JLabel label_7 = new JLabel("Fuel Percentage");
+			panel.add(label_7, "9, 6, 5, 1, right, center");
+			
+			setTextField_6(new JTextField());
+			getTextField_6().setColumns(10);
+			panel.add(textField_6, "15, 6, 11, 1, fill, fill");
+			
+			JLabel label_3 = new JLabel("Vehicle Description");
+			panel.add(label_3, "2, 8, right, top");
+			
+			scrollPane_1 = new JScrollPane();
+			panel.add(scrollPane_1, "4, 8, 3, 1");
+			
+			textArea = new JTextArea(2,30);
+			scrollPane_1.setViewportView(textArea);
+			textArea.setRows(2);
+			textArea.setColumns(30);
+			
+				textArea.setLineWrap(true);
+		setLayout(new FormLayout(new ColumnSpec[] {
+				FormFactory.LABEL_COMPONENT_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("276px:grow"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("128px"),
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,},
 			new RowSpec[] {
 				FormFactory.UNRELATED_GAP_ROWSPEC,
 				RowSpec.decode("23px"),
-				RowSpec.decode("23px"),
-				RowSpec.decode("29px"),
-				RowSpec.decode("37px"),
-				RowSpec.decode("19px"),}));
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("150px"),
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				RowSpec.decode("default:grow"),}));
+		add(lblRentalAgreementNumber, "4, 2, right, center");
+		add(textField, "6, 2, fill, fill");
+		add(btnCheckDetails, "8, 2, left, fill");
+		add(scrollPane_2, "4, 4, 19, 1, fill, fill");
 		
-		JLabel Phonenum = new JLabel("Phone Number");
-		panel.add(Phonenum, "6, 2, right, center");
+		scrollPane_3 = new JScrollPane();
+		add(scrollPane_3, "4, 6, 19, 2, fill, fill");
 		
-		setTextField_2(new JTextField());
-		getTextField_2().setColumns(10);
-		panel.add(textField_2, "8, 2, fill, center");
-		
-		JLabel RoadStar = new JLabel("Roadstar");
-		panel.add(RoadStar, "11, 2, right, center");
-		
-		rdbtnYes = new JRadioButton("Yes");
-		bG.add(rdbtnYes);
-		panel.add(rdbtnYes, "13, 2, left, top");
-		
-		rdbtnNo = new JRadioButton("No");
-		bG.add(rdbtnNo);
-		panel.add(rdbtnNo, "15, 2, left, top");
-		
-		lblAdditionEquipement = new JLabel("Addition Equipement");
-		panel.add(lblAdditionEquipement, "2, 3, left, center");
-		
-		setTextField_14(new JTextField());
-		getTextField_14().setEditable(false);
-		getTextField_14().setColumns(10);
-		panel.add(textField_14, "4, 3, fill, center");
-		
-		JLabel label_5 = new JLabel("DropDate");
-		panel.add(label_5, "6, 3, right, center");
-		
-		setTextField_4(new JTextField());
-		getTextField_4().setColumns(10);
-		panel.add(textField_4, "8, 3, fill, center");
-		
-		JLabel lblPickupdate = new JLabel("PickUpdate");
-		panel.add(lblPickupdate, "11, 3, right, center");
-		
-		setTextField_3(new JTextField());
-		getTextField_3().setColumns(10);
-		panel.add(textField_3, "13, 3, 3, 1, fill, center");
-		
-		JLabel label_4 = new JLabel("Odometer Reading");
-		panel.add(label_4, "2, 4, right, center");
-		
-		setTextField_5(new JTextField());
-		getTextField_5().setColumns(10);
-		panel.add(textField_5, "4, 4, fill, center");
-		
-		JLabel label_7 = new JLabel("Fuel Percentage");
-		panel.add(label_7, "6, 4, right, center");
-		
-		setTextField_6(new JTextField());
-		getTextField_6().setColumns(10);
-		panel.add(textField_6, "8, 4, fill, center");
-		
-		JLabel label_2 = new JLabel("Charges");
-		panel.add(label_2, "11, 4, right, center");
-		
-		setTextField_7(new JTextField());
-		getTextField_7().setColumns(10);
-		panel.add(textField_7, "13, 4, 3, 1, default, center");
-		panel.add(Customername, "2, 2, right, center");
-		panel.add(textField_1, "4, 2, fill, center");
-		
-		lblCad = new JLabel("CAD");
-		panel.add(lblCad, "17, 4");
-		
-		JLabel label_3 = new JLabel("Vehicle Description");
-		panel.add(label_3, "2, 5, right, top");
-		
-		scrollPane_1 = new JScrollPane();
-		panel.add(scrollPane_1, "4, 5, 3, 1, fill, fill");
-		
-		textArea = new JTextArea(2,30);
-		scrollPane_1.setViewportView(textArea);
-		textArea.setRows(2);
-		textArea.setColumns(30);
-		
-			textArea.setLineWrap(true);
-		setLayout(new FormLayout(new ColumnSpec[] {
-				FormFactory.UNRELATED_GAP_COLSPEC,
-				ColumnSpec.decode("101px"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("69px"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("109px"),
-				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("12px"),
+		panel_1 = new JPanel();
+		scrollPane_3.setViewportView(panel_1);
+		panel_1.setLayout(new FormLayout(new ColumnSpec[] {
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
-				FormFactory.UNRELATED_GAP_COLSPEC,
-				ColumnSpec.decode("64px"),
-				ColumnSpec.decode("43px"),
-				ColumnSpec.decode("13px"),
-				ColumnSpec.decode("79px"),
-				FormFactory.UNRELATED_GAP_COLSPEC,
-				ColumnSpec.decode("50px"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("76px"),
-				FormFactory.UNRELATED_GAP_COLSPEC,
-				ColumnSpec.decode("101px"),
+				ColumnSpec.decode("max(45dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
-				ColumnSpec.decode("79px"),},
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("max(25dlu;default)"),},
 			new RowSpec[] {
-				FormFactory.UNRELATED_GAP_ROWSPEC,
-				RowSpec.decode("23px"),
 				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("161px"),
-				RowSpec.decode("32px"),
-				RowSpec.decode("32px"),
+				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("max(19dlu;default)"),
-				FormFactory.PARAGRAPH_GAP_ROWSPEC,
-				RowSpec.decode("36px"),
-				RowSpec.decode("13px"),
-				RowSpec.decode("27px"),
-				FormFactory.PARAGRAPH_GAP_ROWSPEC,
-				RowSpec.decode("29px"),
-				RowSpec.decode("9px"),
-				RowSpec.decode("23px"),
-				FormFactory.UNRELATED_GAP_ROWSPEC,
-				RowSpec.decode("31px"),
+				FormFactory.DEFAULT_ROWSPEC,
 				FormFactory.RELATED_GAP_ROWSPEC,
-				RowSpec.decode("24px"),
-				RowSpec.decode("25px"),
-				RowSpec.decode("38px"),}));
-		
-		JLabel lblRentalAgreementNumber = new JLabel("Rental Agreement Number");
-		add(lblRentalAgreementNumber, "4, 2, 3, 1, left, center");
-		
-		setTextField(new JTextField());
-		getTextField().setColumns(10);
-		add(textField, "8, 2, 5, 1, fill, center");
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,}));
 		
 		JLabel lblEnterCurrentDetails = new JLabel("Enter Current Details");
-		add(lblEnterCurrentDetails, "2, 5, left, center");
+		lblEnterCurrentDetails.setFont(new Font("SansSerif", Font.BOLD, 14));
+		panel_1.add(lblEnterCurrentDetails, "2, 2");
 		
 		JLabel lblOdometerReading = new JLabel("Odometer Reading");
-		add(lblOdometerReading, "2, 6, right, center");
+		panel_1.add(lblOdometerReading, "2, 4");
 		
 		setTextField_9(new JTextField());
 		getTextField_9().setColumns(10);
-		add(textField_9, "4, 6, fill, center");
-		add(btnCost, "6, 6, 3, 1, fill, center");
+		panel_1.add(btnCost, "6, 4");
 		
 		setTextField_8(new JTextField());
 		getTextField_8().setColumns(10);
-		add(textField_8, "10, 6, 2, 1, fill, center");
 		
 		lblCad_1 = new JLabel("CAD");
-		add(lblCad_1, "12, 6");
+		panel_1.add(lblCad_1, "10, 4");
 		
 		JLabel lblFuelPercentage = new JLabel("Fuel Percentage");
-		add(lblFuelPercentage, "2, 8, right, center");
+		panel_1.add(lblFuelPercentage, "2, 6");
 		
 		setTextField_10(new JTextField());
 		getTextField_10().setColumns(10);
-		add(textField_10, "4, 8, right, center");
-		add(btnCost_1, "6, 8, 3, 1, fill, center");
+		panel_1.add(btnCost_1, "6, 6");
 		
 		setTextField_19(new JTextField());
 		getTextField_19().setColumns(10);
-		add(textField_19, "10, 8, 2, 1, fill, center");
 		
 		lblCad_2 = new JLabel("CAD");
-		add(lblCad_2, "12, 8");
+		panel_1.add(lblCad_2, "10, 6");
 		
 		JLabel lblVehicleDescription = new JLabel("Vehicle Description");
-		add(lblVehicleDescription, "2, 10, right, center");
+		panel_1.add(lblVehicleDescription, "2, 8");
 		
 		textArea_1 = new JTextArea(2,30);
 		textArea_1.setLineWrap(true);
 		
 		scrollPane = new JScrollPane(textArea_1);
+		panel_1.add(scrollPane, "4, 8, 3, 1");
 		scrollPane.setViewportView(textArea_1);
-		add(scrollPane, "4, 10, 3, 1, fill, fill");
 		
 		JLabel lblDamgeCost = new JLabel("Damge Cost");
-		add(lblDamgeCost, "2, 12, right, center");
+		panel_1.add(lblDamgeCost, "2, 10");
 		
 		textField_12 = new JTextField();
+		panel_1.add(textField_12, "4, 10");
 		textField_12.setColumns(10);
-		add(textField_12, "4, 12, right, center");
 		
 		lblCad_3 = new JLabel("CAD");
-		add(lblCad_3, "6, 12");
+		panel_1.add(lblCad_3, "6, 10");
 		
 		JLabel lblNewLabel = new JLabel("OverDue Cost");
-		add(lblNewLabel, "2, 14, left, center");
+		panel_1.add(lblNewLabel, "2, 12");
 		
 		textField_13 = new JTextField();
+		panel_1.add(textField_13, "4, 12");
 		textField_13.setColumns(10);
-		add(textField_13, "4, 14, right, center");
 		
 		lblCad_5 = new JLabel("CAD");
-		add(lblCad_5, "6, 14");
+		panel_1.add(lblCad_5, "6, 12");
+		panel_1.add(btnIncCost, "2, 14");
+		
+		setTextField_20(new JTextField());
+		getTextField_20().setColumns(10);
 		
 		lblCad_6 = new JLabel("CAD");
-		add(lblCad_6, "6, 16");
-		add(btnCalculateTotalCost, "2, 18, 3, 1, left, bottom");
+		panel_1.add(lblCad_6, "6, 14");
 		
-		JLabel lblRedeemPoints = new JLabel("Club Points");
-		add(lblRedeemPoints, "12, 18, 2, 1, left, top");
+		btnCalculateTotalCost = new JButton("Calculate Total Cost");
+		panel_1.add(btnCalculateTotalCost, "2, 18");
 		
-		textField_17 = new JTextField();
-		textField_17.setText("0");
-		textField_17.setColumns(10);
-		add(textField_17, "15, 18, center, center");
-		add(btnRedeem, "18, 18, 3, 1, fill, top");
-		add(lblTotalCost, "2, 20, left, center");
-		add(textField_15, "4, 20, left, bottom");
+		setTextField_15(new JTextField());
+		getTextField_15().setColumns(10);
 		
 		lblCAD = new JLabel("CAD");
-		add(lblCAD, "6, 20");
-		add(lblCostAfterRedeeming, "12, 20, 2, 1, left, center");
+		panel_1.add(lblCAD, "6, 20");
+		panel_1.add(btnTaxCost, "2, 22");
+		
+		setTextField_11(new JTextField());
+		getTextField_11().setColumns(10);
+		
+		lblCad_7 = new JLabel("CAD");
+		panel_1.add(lblCad_7, "6, 22");
+		
+		btnShowPoints = new JButton("Show Points");
+		panel_1.add(btnShowPoints, "2, 24");
+		
+		JLabel lblRedeemPoints = new JLabel("Club Points");
+		panel_1.add(lblRedeemPoints, "4, 24");
+		
+		JLabel lblTotalCost = new JLabel("Total Cost");
+		panel_1.add(lblTotalCost, "2, 20");
+		
+		textField_17 = new JTextField();
+		panel_1.add(textField_17, "6, 24");
+		textField_17.setText("0");
+		textField_17.setColumns(10);
+		
+		btnPayWithPoints = new JButton("Pay With Points");
+		panel_1.add(btnPayWithPoints, "2, 26");
+		panel_1.add(lblCostAfterRedeeming, "4, 26");
 		
 		
 		
 		setTextField_18(new JTextField());
 		getTextField_18().setColumns(10);
-		add(textField_18, "15, 20, left, top");
 		
 		lblCad_4 = new JLabel("CAD");
-		add(lblCad_4, "17, 20");
-		
-		btnPayWithPoints = new JButton("Pay With points");
-		add(btnPayWithPoints, "18, 20, 3, 1, left, top");
-		add(textField_11, "4, 22, left, top");
-		add(btnCheckDetails, "15, 2, 3, 1, left, top");
-		add(panel, "2, 4, 21, 1, fill, top");
-		add(btnTaxCost, "2, 22, left, top");
-		add(btnIncCost, "2, 16, left, top");
-		add(textField_20, "4, 16, left, center");
-		
-		lblCad_7 = new JLabel("CAD");
-		add(lblCad_7, "6, 22");
+		panel_1.add(lblCad_4, "8, 26");
 		
 		btnPayByCash = new JButton("Pay By Cash");
+		panel_1.add(btnPayByCash, "4, 28");
 		btnPayByCash.setBackground(Color.GRAY);
-		add(btnPayByCash, "10, 22, default, center");
 		
 		
 		
 		btnProceedToPayment = new JButton("Pay By PayPal");
+		panel_1.add(btnProceedToPayment, "6, 28");
 		btnProceedToPayment.setBackground(Color.GRAY);
-		add(btnProceedToPayment, "15, 22, 3, 1, left, center");
 		
 	}
 	
@@ -480,7 +529,7 @@ public class Return extends JPanel
 	
 	public void redeemAdctionListener(ClerkController clerk)
 	{
-		btnRedeem.addActionListener(clerk);
+		btnShowPoints.addActionListener(clerk);
 	}
 	
 	public JTextField getTextField_3() {
@@ -507,6 +556,7 @@ public class Return extends JPanel
 
 	public void setTextField_10(JTextField textField_10) {
 		this.textField_10 = textField_10;
+		panel_1.add(textField_10, "4, 6");
 	}
 
 	public JTextField getTextField_1() {
@@ -533,6 +583,7 @@ public class Return extends JPanel
 
 	public void setTextField_8(JTextField textField_8) {
 		this.textField_8 = textField_8;
+		panel_1.add(textField_8, "8, 4");
 	}
 
 	public JTextField getTextField_9() {
@@ -541,6 +592,7 @@ public class Return extends JPanel
 
 	public void setTextField_9(JTextField textField_9) {
 		this.textField_9 = textField_9;
+		panel_1.add(textField_9, "4, 4");
 	}
 
 	public void setTextField_16(JTextField textField_16) {
@@ -552,6 +604,7 @@ public class Return extends JPanel
 
 	public void setTextField_19(JTextField textField_19) {
 		this.textField_19 = textField_19;
+		panel_1.add(textField_19, "8, 6");
 	}
 
 	public JTextField getTextField_20() {
@@ -560,6 +613,7 @@ public class Return extends JPanel
 
 	public void setTextField_20(JTextField textField_20) {
 		this.textField_20 = textField_20;
+		panel_1.add(textField_20, "4, 14");
 	}
 
 	public JTextField getTextField_11() {
@@ -568,6 +622,7 @@ public class Return extends JPanel
 
 	public void setTextField_11(JTextField textField_11) {
 		this.textField_11 = textField_11;
+		panel_1.add(textField_11, "4, 22");
 	}
 
 	public JTextField getTextField_15() {
@@ -576,6 +631,7 @@ public class Return extends JPanel
 
 	public void setTextField_15(JTextField textField_15) {
 		this.textField_15 = textField_15;
+		panel_1.add(textField_15, "4, 20");
 	}
 
 	public JTextField getTextField_14() {
@@ -592,6 +648,7 @@ public class Return extends JPanel
 
 	public void setTextField_18(JTextField textField_18) {
 		this.textField_18 = textField_18;
+		panel_1.add(textField_18, "6, 26");
 		textField_18.setText("0");
 	}
 }

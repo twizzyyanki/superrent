@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import org.superrent.daos.ChangePasswordDAO;
 import org.superrent.daos.ClerkDao;
 import org.superrent.daos.ClerkSearchDao;
+import org.superrent.daos.ReservationDao;
 import org.superrent.daos.UpdateProfileDAO;
 import org.superrent.views.clerk.AddCM;
 import org.superrent.views.clerk.ChangePassword;
@@ -53,6 +54,7 @@ public class ClerkController implements ActionListener {
 	private final PayPal paypal = new PayPal();
 	private ClerkDao dao = new ClerkDao();
 	private ClerkSearchDao searchdao=new ClerkSearchDao();
+	private ReservationDao reservdao=new ReservationDao();
 	private RentalAgreement rental = new RentalAgreement();
 	private ManageReservation manage = new ManageReservation();
 	private ClerkSearchVehicle search=new ClerkSearchVehicle();
@@ -660,7 +662,7 @@ public class ClerkController implements ActionListener {
 		}
 		
 
-		if (ae.getActionCommand() == "Pay With points") 
+		if (ae.getActionCommand() == "Pay With Points") 
 		{
 			try
 			{
