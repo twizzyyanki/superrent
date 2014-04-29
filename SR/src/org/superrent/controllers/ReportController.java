@@ -65,7 +65,7 @@ public class ReportController implements ActionListener {
 					+ "MR.confirmationNo=R.confirmationNo AND R.dropDate >= '"
 					+ startDate
 					+ "' AND "
-					+ "R.dropDate < '"
+					+ "R.dropDate <= '"
 					+ endDate
 					+ "' AND MR.status = 2";
 
@@ -90,7 +90,7 @@ public class ReportController implements ActionListener {
 		
 		if (reportType == 3) {
 			destFileName = System.getProperty("user.home") + "/Desktop"
-					+ "/rented.xls";
+					+ "/cancelled.xls";
 			query = "SELECT U.name, U.email, U.address, MR.confirmationNo, R.pickDate, R.dropDate, "
 					+ "R.charges, V.regNo, V.category, V.brand FROM User U, MakeReservation MR, "
 					+ "Vehicle V, Reservation R WHERE U.uid=MR.uid AND V.regNo = MR.regNo AND "
@@ -99,7 +99,7 @@ public class ReportController implements ActionListener {
 					+ "' AND "
 					+ "MR.date <= '"
 					+ endDate
-					+ "' AND MR.status = 2";
+					+ "' AND MR.status = 3";
 
 			System.out.println(query);
 		}
