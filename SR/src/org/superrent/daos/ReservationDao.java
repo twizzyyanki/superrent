@@ -800,7 +800,87 @@ public class ReservationDao {
 			
 		}
 		
-
+	public double calculateEquip(String equipName, String category, Date pick, Date drop){
+		int d_month = drop.getMonth(), p_month = pick.getMonth(); //return 0 to 11
+		int d_date = drop.getDate(), p_date = pick.getDate();//return 1 to 31
+		int d_year = drop.getYear()+1900, p_year = pick.getYear()+1900;
+		int d_hour = drop.getHours(), p_hour = pick.getHours();
+		Calendar calendar = Calendar.getInstance();
+		calendar.set(Calendar.YEAR, p_year);
+		calendar.set(Calendar.MONTH, p_month);
+		int numDays = calendar.getActualMaximum(Calendar.DATE);
+		double total = 0.0;
+		double dailyR =0.0, weeklyR=0.0, hourlyR=0.0;
+		/*
+		 * retrieve the rental rates from database
+		 */
+		String sql;
+		sql = "SELECT dailyRate, hourlyRate FROM AdditionalEquipment "
+				+ "WHERE UPPER(equipmentName) =?"
+				+ " AND UPPER(category)=?";
+		try {
+			con = DatabaseConnection.createConnection();
+			PreparedStatement preparedStatement = con.prepareStatement(sql);
+			preparedStatement.setString(1, equipName.toUpperCase());
+			preparedStatement.setString(2, category.toUpperCase());
+			ResultSet rs = preparedStatement.executeQuery();
+		
+			//put the rates in local variable
+			while(rs != null && rs.next()){
+				dailyR = rs.getDouble("dailyRate");
+				hourlyR = rs.getDouble("hourlyRate");
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			DatabaseConnection.close(con);
+		}
+		/*
+		 * computation
+		 */
+		
+		if (drop.compareTo(pick)<=0){
+			System.out.println("Conflict in pickup and drop dates");
+			return -1;
+		}
+		
+		if(((d_date - p_date) == 0)&&((d_hour - p_hour)<=24)){ //for same day return
+			System.out.println("hourly entry");
+				//impose hourly rates
+				total = (d_hour - p_hour) * hourlyR;
+		}else {	//1
+				if(d_month == p_month){	//2 for same month
+					
+							System.out.println("3.daily entry");
+							total = ((d_date - p_date)) * dailyR;
+						
+				}//2
+				else{ //for different months
+						
+							
+							System.out.println("L.daily entry");
+							total = (d_date + (numDays-p_date)) * dailyR;
+						
+					}
+				}//1
+		System.out.println("d_date|month|year:"+d_date+"/"+d_month+"/"+d_year);
+		System.out.println("p_date|month|year:"+p_date+"/"+p_month+"/"+p_year);
+		System.out.println("rates_daily|weekly|hourly:"+dailyR+"/"+"/"+hourlyR);
+		
+		System.out.println("total="+total);
+		return total;
+	}
 	
+	public static void main(String[] args){
+		ReservationDao reservationDao = new ReservationDao();
+		Date pick = new Date(2014, 03, 30, 7,10,0);
+		Date drop = new Date(2014, 04, 01, 9,10,0);
+		double total = reservationDao.calculateEquip("Car Tow", "Truck", pick, drop);
+		System.out.println(total);
+	}
 }
 
