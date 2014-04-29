@@ -12,13 +12,14 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import org.netbeans.validation.api.builtin.stringvalidation.StringValidators;
+import org.netbeans.validation.api.ui.swing.SwingValidationGroup;
 import org.superrent.controllers.ManagerController;
 
 import com.jgoodies.forms.factories.FormFactory;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
-import com.toedter.calendar.JDateChooser;
 
 public class EditForSalePrice extends JDialog implements ActionListener{
 
@@ -26,10 +27,13 @@ public class EditForSalePrice extends JDialog implements ActionListener{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private final JPanel contentPanel = new JPanel();
+	private JPanel contentPanel = new JPanel();
 	private JTextField registerNumber;
 	private JTextField price;
 	ManagerController managerController;
+	JButton okButton = new JButton("OK");
+	SwingValidationGroup group =  SwingValidationGroup.create();
+	
 
 	/**
 	 * Launch the application.
@@ -71,6 +75,8 @@ public class EditForSalePrice extends JDialog implements ActionListener{
 				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,
 				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("default:grow"),},
 			new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
@@ -105,16 +111,28 @@ public class EditForSalePrice extends JDialog implements ActionListener{
 		}
 		{
 			price = new JTextField();
+			EditForSalePriceListener EditForSalePriceListener = new EditForSalePriceListener(this); 
+			price.getDocument().addDocumentListener(EditForSalePriceListener);
 			contentPanel.add(price, "16, 10, left, default");
 			price.setColumns(10);
+			 			    
+			
+			group.add(price, StringValidators.REQUIRE_NON_EMPTY_STRING,
+					StringValidators.NO_WHITESPACE,StringValidators.REQUIRE_NON_NEGATIVE_NUMBER, 
+					StringValidators.REQUIRE_VALID_NUMBER);
+		}
+		{
+			JLabel lblCad = new JLabel("CAD");
+			contentPanel.add(lblCad, "18, 10");
 		}
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("OK");
+				
 				okButton.setActionCommand("Confirm Change");
+				okButton.setEnabled(false);
 				buttonPane.add(okButton);
 				okButton.addActionListener(managerController);
 				getRootPane().setDefaultButton(okButton);
@@ -146,8 +164,24 @@ public class EditForSalePrice extends JDialog implements ActionListener{
 		return price.getText();
 	}
 
+	public JButton getOkButton() {
+		return okButton;
+	}
+
+	public void setOkButton(JButton okButton) {
+		this.okButton = okButton;
+	}
+
 	public void setPrice(String price) {
 		this.price.setText(price);
+	}
+
+	public SwingValidationGroup getGroup() {
+		return group;
+	}
+
+	public void setGroup(SwingValidationGroup group) {
+		this.group = group;
 	}
 
 }

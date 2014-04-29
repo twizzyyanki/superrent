@@ -386,6 +386,8 @@ public class ManageRatesPanel extends JPanel implements ActionListener{
 				FormFactory.RELATED_GAP_COLSPEC,
 				ColumnSpec.decode("max(100dlu;default)"),
 				FormFactory.RELATED_GAP_COLSPEC,
+				FormFactory.DEFAULT_COLSPEC,
+				FormFactory.RELATED_GAP_COLSPEC,
 				FormFactory.DEFAULT_COLSPEC,},
 			new RowSpec[] {
 				FormFactory.RELATED_GAP_ROWSPEC,
@@ -411,6 +413,7 @@ public class ManageRatesPanel extends JPanel implements ActionListener{
 		panel_3.add(lblNewLabel, "16, 4");
 		
 		JComboBox<String> comboBox = new JComboBox<String>();
+		comboBox.setEditable(true);
 		comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {"Vancouver"}));
 		comboBox.setEnabled(false);
 		panel_3.add(comboBox, "20, 4, fill, center");
@@ -426,7 +429,10 @@ public class ManageRatesPanel extends JPanel implements ActionListener{
 		JButton btnMemberShipEdit = new JButton("Edit");
 		btnMemberShipEdit.setActionCommand("EditMembershipFees");
 		btnMemberShipEdit.addActionListener(this);
-		panel_3.add(btnMemberShipEdit, "22, 6");
+		
+		JLabel lblCad = new JLabel("CAD");
+		panel_3.add(lblCad, "22, 6");
+		panel_3.add(btnMemberShipEdit, "24, 6");
 		
 		JLabel lblNewLabel_1 = new JLabel("Minimum Redeemable Points");
 		panel_3.add(lblNewLabel_1, "16, 8");
@@ -439,7 +445,7 @@ public class ManageRatesPanel extends JPanel implements ActionListener{
 		JButton btnReemablePointsEdit = new JButton("Edit");
 		btnReemablePointsEdit.addActionListener(this);
 		btnReemablePointsEdit.setActionCommand("Reedemable Points Button");
-		panel_3.add(btnReemablePointsEdit, "22, 8");
+		panel_3.add(btnReemablePointsEdit, "24, 8");
 		
 		JLabel lblClubpointsPerDollar = new JLabel("ClubPoints per dollar");
 		panel_3.add(lblClubpointsPerDollar, "16, 10, left, center");
@@ -453,7 +459,7 @@ public class ManageRatesPanel extends JPanel implements ActionListener{
 		JButton clubPointsPerDollarBtn = new JButton("Edit");
 		clubPointsPerDollarBtn.addActionListener(this);
 		clubPointsPerDollarBtn.setActionCommand("ClubPoints Per Dollar Button");
-		panel_3.add(clubPointsPerDollarBtn, "22, 10");
+		panel_3.add(clubPointsPerDollarBtn, "24, 10");
 		
 		JLabel lblTax = new JLabel("Tax");
 		panel_3.add(lblTax, "16, 12");
@@ -466,7 +472,10 @@ public class ManageRatesPanel extends JPanel implements ActionListener{
 		JButton btnEditTax = new JButton("Edit");
 		btnEditTax.setActionCommand("EditTax");	
 		btnEditTax.addActionListener(this);
-		panel_3.add(btnEditTax, "22, 12");
+		
+		JLabel lblCad_1 = new JLabel("CAD");
+		panel_3.add(lblCad_1, "22, 12");
+		panel_3.add(btnEditTax, "24, 12");
 		
 		JLabel lblMembershipRentalPoints = new JLabel("Membership Points");
 		panel_3.add(lblMembershipRentalPoints, "16, 14");
@@ -479,7 +488,7 @@ public class ManageRatesPanel extends JPanel implements ActionListener{
 		JButton btnMemPoints = new JButton("Edit");
 		btnMemPoints.setActionCommand("EditMemPoints");
 		btnMemPoints.addActionListener(this);
-		panel_3.add(btnMemPoints, "22, 14");
+		panel_3.add(btnMemPoints, "24, 14");
 		
 		JLabel lblFuelRatesTank = new JLabel("Fuel Rates(10% tank)");
 		panel_3.add(lblFuelRatesTank, "16, 16");
@@ -492,7 +501,10 @@ public class ManageRatesPanel extends JPanel implements ActionListener{
 		JButton btnFuelRate = new JButton("Edit");
 		btnFuelRate.setActionCommand("EditFuelRates");
 		btnFuelRate.addActionListener(this);
-		panel_3.add(btnFuelRate, "22, 16");
+		
+		JLabel lblCad_2 = new JLabel("CAD");
+		panel_3.add(lblCad_2, "22, 16");
+		panel_3.add(btnFuelRate, "24, 16");
 		
 		
 		btnSave.setActionCommand("Save Other Rates");
