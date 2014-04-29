@@ -495,26 +495,32 @@ public class ClerkController implements ActionListener {
 					int status = dao.extendRental(manage.calendar.getDate(), confirmationNo);
 					java.util.Date pickup=dao.getPickUpdate(confirmationNo);
 					
-					Calendar cal = Calendar.getInstance();
-					cal.setTime(pickup);
+					Calendar cal3 = Calendar.getInstance();
+					cal3.setTime(pickup);
 					  
-					  cal.set(Calendar.HOUR, 0);
-					  Date pickup2 = cal.getTime();
-					
-					System.out.println(pickup);
+					  cal3.set(Calendar.HOUR, 0);
+					  Date pickup2 = cal3.getTime();
+					  
+					System.out.println(pickup2);
 					String regNo=dao.getRegNo(confirmationNo);
 					Date dropdate=manage.calendar.getDate();
 					System.out.println(dropdate);
 					Double cost=reservedao.calculateCharges(regNo,pickup2, dropdate);
 					System.out.println(cost);
 					String equipname=dao.requireAdditionalEquipment(confirmationNo);
-					String category=dao.getCategory(confirmationNo);
+					
 					if(equipname!=null)
 					{
-						Double equipcost=reservedao.calculateEquip(equipname,category, pickup, manage.calendar.getDate());
+						
+						String category=dao.getCategory(confirmationNo);
+						Double equipcost=reservedao.calculateEquip(equipname,category, pickup2, manage.calendar.getDate());
+						System.out.println("--------------");
 						cost=cost + equipcost;
+						System.out.println(cost);
+						
 					}
 					int status1=dao.updateCharges(confirmationNo, cost);
+					System.out.println(status1);
 					if (status == 1 && status1==1) 
 					{
 						JOptionPane.showMessageDialog(manage, "Date Updated...!!");
@@ -527,7 +533,6 @@ public class ClerkController implements ActionListener {
 			}
 			catch(Exception e)
 			{
-				System.out.println(e);
 				JOptionPane.showMessageDialog(manage, "Date should be later than the pickupdate");
 			}
 		}
