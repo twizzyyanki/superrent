@@ -133,7 +133,7 @@ public class ReservationDao {
 				+ new java.sql.Timestamp(date.getTime())
 				+ " ', '"
 				+ user.getType() + "' , '" + user.getAddress() + "')";
-		System.out.println(query);
+		//System.out.println(query);
 		st.executeUpdate(query);
 
 	}
@@ -150,7 +150,7 @@ public class ReservationDao {
 
 		String query = "select uid from User where phoneNumber = "
 				+ user.getPhoneNumber();
-		System.out.println(query);
+		//System.out.println(query);
 		resultSet = st.executeQuery(query);
 		while (resultSet.next()) {
 			uid = resultSet.getInt("uid");
@@ -238,7 +238,7 @@ public class ReservationDao {
 				+ "',"
 				+ "'"
 				+ makeReservation.getRegNo() + "'," + 0 + ")";
-		System.out.println(query);
+		//System.out.println(query);
 		st.executeUpdate(query);
 
 	}
@@ -259,7 +259,7 @@ public class ReservationDao {
 				+ reservation.getCreatedDate()
 				+ "',"
 				+ reservation.getCharges() + "," + 0 + ")";
-		System.out.println(query);
+		//System.out.println(query);
 		st.executeUpdate(query);
 
 	}
@@ -375,7 +375,7 @@ public class ReservationDao {
 				+ new java.sql.Timestamp(reservedDate.getTime())
 				+ "' and uid = (select uid from User where phoneNumber = "
 				+ phoneNumber + ")";
-		System.out.println(query);
+		//System.out.println(query);
 		resultSet = st.executeQuery(query);
 		while (resultSet.next()) {
 			confirmationNo = resultSet.getInt("confirmationNo");
@@ -396,7 +396,7 @@ public class ReservationDao {
 		Statement st = con.createStatement();
 		String query1 = "UPDATE MakeReservation SET  status = '" + 3
 				+ "' where confirmationNo = '" + confirmationNo + "'";
-		System.out.println(query1);
+		//System.out.println(query1);
 		st.executeUpdate(query1);
 
 	}
@@ -414,7 +414,7 @@ public class ReservationDao {
 		Statement st = con.createStatement();
 		String query = "UPDATE Reservation SET  status = '" + 1
 				+ "' where confirmationNo = '" + confirmationNo+"'";
-		System.out.println(query);
+		//System.out.println(query);
 		st.executeUpdate(query);
 
 	}
@@ -528,43 +528,43 @@ public class ReservationDao {
 		 */
 		
 		if (drop.compareTo(pick)<=0){
-			System.out.println("Conflict in pickup and drop dates");
+			//System.out.println("Conflict in pickup and drop dates");
 			return -1;
 		}
 		
 		if(((d_date - p_date) == 0)&&((d_hour - p_hour)<=24)){ //for same day return
-			System.out.println("hourly entry");
+			//System.out.println("hourly entry");
 				//impose hourly rates
 				total = (d_hour - p_hour) * hourlyR;
 		}else {	//1
 				if(d_month == p_month){	//2 for same month
 					if((d_date - p_date) > 5){ //3 
 						//impose weekly rates
-						System.out.println("3.weekly entry");
+						//System.out.println("3.weekly entry");
 						total = ((d_date - p_date)) * weeklyR;
 						}else if((d_date - p_date) < 7){
 							//impose daily rates
-							System.out.println("3.daily entry");
+							//System.out.println("3.daily entry");
 							total = ((d_date - p_date)) * dailyR;
 						}//3
 					}//2
 					else{ //for different months
 						if((d_date + (numDays-p_date)) > 5){
 							//impose weekly rates
-							System.out.println("L.weekly entry");
+							//System.out.println("L.weekly entry");
 							total = (d_date + (numDays-p_date)) * weeklyR;
 						}else if((d_date + (numDays-p_date)) < 7){
 							//impose daily rates
-							System.out.println("L.daily entry");
+							//System.out.println("L.daily entry");
 							total = (d_date + (numDays-p_date)) * dailyR;
 						}
 					}
 				}//1
-		System.out.println("d_date|month|year:"+d_date+"/"+d_month+"/"+d_year);
-		System.out.println("p_date|month|year:"+p_date+"/"+p_month+"/"+p_year);
-		System.out.println("rates_daily|weekly|hourly:"+dailyR+"/"+weeklyR+"/"+hourlyR);
-		System.out.println("regno="+regNo);
-		System.out.println("total="+total);
+		//System.out.println("d_date|month|year:"+d_date+"/"+d_month+"/"+d_year);
+		//System.out.println("p_date|month|year:"+p_date+"/"+p_month+"/"+p_year);
+		//System.out.println("rates_daily|weekly|hourly:"+dailyR+"/"+weeklyR+"/"+hourlyR);
+		//System.out.println("regno="+regNo);
+		//System.out.println("total="+total);
 		return total;
 	}
 	
@@ -746,7 +746,7 @@ public class ReservationDao {
 
 		+ ", " + requireAdditionalEquipment.getQuantity()+")";
 
-		System.out.println(query);
+		//System.out.println(query);
 
 		st.executeUpdate(query);
 
@@ -844,43 +844,65 @@ public class ReservationDao {
 		 */
 		
 		if (drop.compareTo(pick)<=0){
-			System.out.println("Conflict in pickup and drop dates");
+			//System.out.println("Conflict in pickup and drop dates");
 			return -1;
 		}
 		
 		if(((d_date - p_date) == 0)&&((d_hour - p_hour)<=24)){ //for same day return
-			System.out.println("hourly entry");
+			//System.out.println("hourly entry");
 				//impose hourly rates
 				total = (d_hour - p_hour) * hourlyR;
 		}else {	//1
 				if(d_month == p_month){	//2 for same month
 					
-							System.out.println("3.daily entry");
+							//System.out.println("3.daily entry");
 							total = ((d_date - p_date)) * dailyR;
 						
 				}//2
 				else{ //for different months
 						
 							
-							System.out.println("L.daily entry");
+							//System.out.println("L.daily entry");
 							total = (d_date + (numDays-p_date)) * dailyR;
 						
 					}
 				}//1
-		System.out.println("d_date|month|year:"+d_date+"/"+d_month+"/"+d_year);
-		System.out.println("p_date|month|year:"+p_date+"/"+p_month+"/"+p_year);
-		System.out.println("rates_daily|weekly|hourly:"+dailyR+"/"+"/"+hourlyR);
+		//System.out.println("d_date|month|year:"+d_date+"/"+d_month+"/"+d_year);
+		//System.out.println("p_date|month|year:"+p_date+"/"+p_month+"/"+p_year);
+		//System.out.println("rates_daily|weekly|hourly:"+dailyR+"/"+"/"+hourlyR);
 		
-		System.out.println("total="+total);
+		//System.out.println("total="+total);
 		return total;
 	}
 	
-	public static void main(String[] args){
-		ReservationDao reservationDao = new ReservationDao();
-		Date pick = new Date(2014, 03, 30, 7,10,0);
-		Date drop = new Date(2014, 04, 01, 9,10,0);
-		double total = reservationDao.calculateEquip("Car Tow", "Truck", pick, drop);
-		System.out.println(total);
+	public String getEmail(int uid){
+		String email="";
+		
+		
+		try{
+			con = DatabaseConnection.createConnection();
+			con.setAutoCommit(false);
+			ResultSet rs;
+			Statement st = con.createStatement();
+			String query = "SELECT email FROM User WHERE uid='" + uid+ "'";
+			
+			rs = st.executeQuery(query);
+			if(rs.next()){
+				email = rs.getString("email");
+				//System.out.println("email"+email);
+			}
+			
+			con.commit(); 
+		}
+
+		catch (Exception e) {
+			DatabaseConnection.rollback(con);
+			e.printStackTrace();
+		} finally {
+			
+			DatabaseConnection.close(con);
+			return email;
+		}
 	}
 }
 

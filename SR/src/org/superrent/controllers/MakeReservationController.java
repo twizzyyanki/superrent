@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Vector;
 
+import javax.security.auth.callback.ConfirmationCallback;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JDialog;
 import javax.swing.event.ListSelectionEvent;
@@ -20,7 +21,9 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import org.apache.xmlbeans.impl.xb.xsdschema.Public;
+import org.superrent.application.SendMail;
 import org.superrent.daos.ReservationDao;
+import org.superrent.daos.UpdateProfileDAO;
 import org.superrent.entities.AdditionalEquipment;
 import org.superrent.entities.MakeReservation;
 import org.superrent.entities.RequireAdditionalEquipment;
@@ -114,6 +117,7 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 			reservation.setPickDate(pickupDate);
 			reservation.setDropDate(dropDate);
 			reservation.setCharges(charge);
+			//System.out.println("charges"+reservation.getCharges());
 			makeReservation.setRegNo(regNo);
 		}
 		
@@ -134,7 +138,7 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 				Date dropHour = (Date)sVRPanel.getSpinnerDrop().getValue();
 
 				pickupDate = dateCombine(pickupDate, pickHour);
-				System.out.println(pickupDate);
+				//System.out.println(pickupDate);
 				dropDate = dateCombine(dropDate, dropHour);
 				
 				
@@ -235,6 +239,15 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 					String returnDate = reservation.getDropDate().toString();
 					dialog.getLblGetReturnDate().setText(returnDate);
 					
+					/*//send email
+					int UID = makeReservation.getUid();
+					String email;
+					ReservationDao emaildao = new ReservationDao();
+					email = emaildao.getEmail(UID);					
+				
+					SendMail sendemail = new SendMail(email, "Confirmation number", "Your confirmation number is: "
+							+makeReservation.getConfirmationNo().toString());*/
+					
 				}
 				else{
 					reservationPanel.getLblClubInfo().setForeground(Color.RED);
@@ -266,7 +279,7 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 				//Validate all fields
 				boolean valid = false;
 				valid = ValidateFields(phone);	
-				System.out.println(phone.length());
+				//System.out.println(phone.length());
 				if(valid){
 					
 					if(phone.length()!=10){
@@ -329,6 +342,15 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 					//Need DAO to get ReturnDate
 					String returnDate = reservation.getDropDate().toString();
 					dialog.getLblGetReturnDate().setText(returnDate);
+					
+					/*//send email
+					int UID = makeReservation.getUid();
+					String email;
+					ReservationDao emaildao2 = new ReservationDao();
+					email = emaildao2.getEmail(UID);					
+				
+					SendMail sendemail = new SendMail(email, "Confirmation number", "Your confirmation number is: "
+							+makeReservation.getConfirmationNo().toString());*/
 					
 				}
 				else{
@@ -541,7 +563,7 @@ public class MakeReservationController implements ActionListener,ListSelectionLi
 	public boolean validateTime(Date pick, Date drop){
 		boolean valid = false;
 		Date date = new Date();
-		System.out.println(date);
+		//System.out.println(date);
 		if(pick.compareTo(date)==-1 || drop.compareTo(date)==-1){
 			valid = false;
 			
