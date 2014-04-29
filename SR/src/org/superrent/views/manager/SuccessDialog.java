@@ -46,6 +46,8 @@ public class SuccessDialog extends JDialog {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("max(24dlu;default)"),
 				FormFactory.RELATED_GAP_ROWSPEC,
+				FormFactory.DEFAULT_ROWSPEC,
+				FormFactory.RELATED_GAP_ROWSPEC,
 				RowSpec.decode("max(20dlu;default)"),
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,
@@ -54,9 +56,9 @@ public class SuccessDialog extends JDialog {
 				FormFactory.RELATED_GAP_ROWSPEC,
 				FormFactory.DEFAULT_ROWSPEC,}));
 		{
-			JLabel lblNewLabel = new JLabel("SUCCESS!!!");
-			lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 17));
-			contentPanel.add(lblNewLabel, "4, 6, fill, fill");
+			JLabel lblNewLabel = new JLabel("Transaction Successful!!!");
+			lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 15));
+			contentPanel.add(lblNewLabel, "3, 6, 4, 1, center, fill");
 		}
 	}
 
