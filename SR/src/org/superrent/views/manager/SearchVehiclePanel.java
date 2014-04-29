@@ -145,6 +145,7 @@ public class SearchVehiclePanel extends JPanel implements ActionListener{
 		add(statusCombox, "22, 4, fill, default");
 		
 		JButton btnSearch = new JButton("Search");
+		btnSearch.setFont(new Font("Tahoma", Font.PLAIN, 9));
 		add(btnSearch, "22, 8, fill, default");
 		btnSearch.addActionListener(managerController);
 		

@@ -141,10 +141,11 @@ public class AddVehiclePanel extends JPanel implements ActionListener {
 		brandTxt.getDocument().addDocumentListener(managerController);
 		
 		add(lblPurchaseDate, "10, 14");
-		calendar.getCalendarButton().addActionListener(new ActionListener() {
+		/*calendar.getCalendarButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				calendar.setDate(calendar.getS)
 			}
-		});
+		});*/
 		calendar.setMaxSelectableDate( new java.util.Date(System.currentTimeMillis()));
 		calendar.setDate( new java.util.Date(System.currentTimeMillis()));
 		calendar.getDateEditor().setEnabled(false);
@@ -161,8 +162,8 @@ public class AddVehiclePanel extends JPanel implements ActionListener {
 		xpanel = new ValidationPanel();
 		xpanel.setInnerComponent(this);
 		group = xpanel.getValidationGroup();
-		group.add(this.regNumberTxt, StringValidators.REQUIRE_NON_EMPTY_STRING);
-		group.add(this.brandTxt, StringValidators.REQUIRE_NON_EMPTY_STRING);
+		group.add(this.regNumberTxt, StringValidators.REQUIRE_NON_EMPTY_STRING, StringValidators.maxLength(7),StringValidators.minLength(7));
+		group.add(this.brandTxt, StringValidators.REQUIRE_NON_EMPTY_STRING, StringValidators.maxLength(20),StringValidators.minLength(3));
 		//group.add(this.calendar, StringValidators.REQUIRE_NON_EMPTY_STRING);
 		
 	}
@@ -205,7 +206,7 @@ public class AddVehiclePanel extends JPanel implements ActionListener {
 		brandTxt.setText("");		
 		categoryCombox.setSelectedIndex(0);
 		typeCombox.setSelectedIndex(0);
-		calendar = new JDateChooser();
+		calendar.setDate( new java.util.Date(System.currentTimeMillis()));
 	}
 	
 	public String getRegNumberTxt() {
